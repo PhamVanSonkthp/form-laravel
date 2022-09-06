@@ -30,7 +30,7 @@ class AdminRoleController extends Controller
     public function __construct(Role $model, Permission $premission)
     {
         $this->model = $model;
-        $this->roles = Role::all();
+        $this->models = Role::all();
         $this->premission = $premission;
 
         $this->prefixView = "role";
@@ -38,12 +38,14 @@ class AdminRoleController extends Controller
         $this->title = "Vai trò";
 
         View::share('title', $this->title);
-        View::share('roles', $this->roles);
+        View::share('roles', $this->models);
     }
 
     public function index(Request $request){
         $items = $this->model->searchByQuery($request);
-        return view('administrator.'.$this->prefixView.'.index', compact('items'));
+        $premissionsParent = $this->premission->where('parent_id' , 0)->orderBy('display_name')->get();
+
+        return view('administrator.'.$this->prefixView.'.index', compact('items','premissionsParent'));
     }
 
     public function create(){
@@ -52,7 +54,7 @@ class AdminRoleController extends Controller
     }
 
     public function store(RoleAddRequest $request){
-        $role = $this->role->create([
+        $role = $this->model->create([
             'name' => $request->name,
             'display_name' => $request->display_name,
         ]);
@@ -60,26 +62,26 @@ class AdminRoleController extends Controller
         return redirect()->route('administrator.roles.index');
     }
 
-//    public function edit($id){
-//        $premissionsParent = $this->premission->where('parent_id' , 0)->orderBy('display_name')->get();
-//        $role = $this->role->find($id);
-//        $permissionsChecked = $role->permissions;
-//        return view('administrator.role.edit' , compact('premissionsParent'  , 'role' , 'permissionsChecked'));
-//    }
+    public function edit($id){
+        $premissionsParent = $this->premission->where('parent_id' , 0)->orderBy('display_name')->get();
+        $role = $this->model->find($id);
+        $permissionsChecked = $role->permissions;
+        return view('administrator.role.edit' , compact('premissionsParent'  , 'role' , 'permissionsChecked'));
+    }
 
     public function update($id , RoleEditRequest $request){
-        $this->role->find($id)->update([
+        $this->model->find($id)->update([
             'name' => $request->name,
             'display_name' => $request->display_name,
         ]);
 
-        $role = $this->role->find($id);
+        $role = $this->model->find($id);
 
         $role->permissions()->sync($request->permission_id);
         return back();
     }
 
     public function delete($id){
-        return $this->deleteModelTrait($id, $this->role);
+        return $this->deleteModelTrait($id, $this->model);
     }
 }
