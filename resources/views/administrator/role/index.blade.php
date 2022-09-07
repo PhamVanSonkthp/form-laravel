@@ -48,7 +48,7 @@
                                 <table class="display table-users" id="basic-1" data-order='[[ 0, "desc" ]]'>
                                     <thead>
                                     <tr>
-                                        <th>STT</th>
+                                        <th>#</th>
                                         <th>Tên</th>
                                         <th>Mô tả</th>
                                         <th style="min-width: 200px;">Hành động</th>
@@ -58,7 +58,7 @@
 
                                     @foreach($items as $index => $item)
                                         <tr>
-                                            <td>{{$index + 1}}</td>
+                                            <td>{{$item->id}}</td>
                                             <td>{{$item->name}}</td>
                                             <td>{{$item->display_name}}</td>
                                             <td>

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateLogoSeeder::class);
         $this->call(CreateGenderUserSeeder::class);
         $this->call(CreateProductSeeder::class);
+        $this->call(CreateSliderSeeder::class);
 
     }
 }

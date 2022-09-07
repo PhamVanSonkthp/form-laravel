@@ -54,63 +54,122 @@
                 </li>
             @endcan
 
-            @can('employee-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav @yield('employee')" href="/administrator/employees">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <g>
-                                <g>
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
-                                          stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
-                                          stroke-linejoin="round"></path>
-                                    <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
-                                          stroke-width="1.5" stroke-linecap="round"
-                                          stroke-linejoin="round"></path>
-                                </g>
-                            </g>
-                        </svg>
-                        <span>Nhân viên</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
-
-            @can('role-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav @yield('role')" href="/administrator/roles">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <g>
-                                <g>
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
-                                          stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
-                                          stroke-linejoin="round"></path>
-                                    <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
-                                          stroke-width="1.5" stroke-linecap="round"
-                                          stroke-linejoin="round"></path>
-                                </g>
-                            </g>
-                        </svg>
-                        <span>Vai trò</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
-
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="#" data-bs-original-title="" title="">
-                    <span class="lan-3">Dashboards</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <g>
+                            <g>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
+                                      stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                                <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
+                                      stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="">Phân quyền</span>
                     <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
-                    <li>
-                        <a class="lan-4" href="index.html" data-bs-original-title="" title="">6416464614</a>
-                    </li>
+                    @can('employee-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav @yield('employee')"
+                                href="/administrator/employees">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <g>
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
+                                                  stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                            <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
+                                                  stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                <span>Nhân viên</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('role-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav @yield('role')" href="/administrator/roles">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <g>
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
+                                                  stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                            <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
+                                                  stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                <span>Vai trò</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                </ul>
+            </li>
+
+            <li class="sidebar-list">
+                <a class="sidebar-link sidebar-title" href="#" data-bs-original-title="" title="">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <g>
+                            <g>
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
+                                      stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                                <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
+                                      stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"></path>
+                            </g>
+                        </g>
+                    </svg>
+                    <span class="">Nội dung</span>
+                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                </a>
+                <ul class="sidebar-submenu" style="display: none;">
+
+                    @can('slider-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav @yield('role')" href="/administrator/slider">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <g>
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
+                                                  stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                            <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
+                                                  stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                        </g>
+                                    </g>
+                                </svg>
+                                <span>Slider</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
 
                 </ul>
             </li>

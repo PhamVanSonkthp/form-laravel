@@ -348,7 +348,7 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:slider-edit',
         ]);
 
-        Route::get('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             'as' => 'administrator.slider.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminSliderController@delete',
             'middleware' => 'can:slider-delete',

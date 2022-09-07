@@ -50,7 +50,7 @@ class AdminRoleController extends Controller
 
     public function create(){
         $premissionsParent = $this->premission->where('parent_id' , 0)->orderBy('display_name')->get();
-        return view('administrator.role.add' , compact('premissionsParent'));
+        return view('administrator.'.$this->prefixView.'.add' , compact('premissionsParent'));
     }
 
     public function store(RoleAddRequest $request){
@@ -66,7 +66,7 @@ class AdminRoleController extends Controller
         $premissionsParent = $this->premission->where('parent_id' , 0)->orderBy('display_name')->get();
         $role = $this->model->find($id);
         $permissionsChecked = $role->permissions;
-        return view('administrator.role.edit' , compact('premissionsParent'  , 'role' , 'permissionsChecked'));
+        return view('administrator.'.$this->prefixView.'.edit' , compact('premissionsParent'  , 'role' , 'permissionsChecked'));
     }
 
     public function update($id , RoleEditRequest $request){

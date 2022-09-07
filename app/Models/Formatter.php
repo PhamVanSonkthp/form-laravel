@@ -118,4 +118,8 @@ class Formatter extends Model
         }
         return $input;
     }
+
+    public static function getThumbnailImage($input, $format = "100x100"){
+        return str_replace("original",$format,$input);
+    }
 }
