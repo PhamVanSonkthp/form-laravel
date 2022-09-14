@@ -1,76 +1,93 @@
 @extends('administrator.layouts.master')
 
-@section('title')
-    <title>Home page</title>
-@endsection
-
-@section('name')
-    <h4 class="page-title">Email</h4>
-@endsection
+@include('administrator.notification.header')
 
 @section('css')
-    <link href="{{asset('admins/products/index/list.css')}}" rel="stylesheet"/>
+
 @endsection
 
-@include('administrator.notification.active_slidebar')
-
 @section('content')
-    <div class="col-12">
 
-        <div class="card">
-            <div class="card-body">
-                <div class="col-md-12">
-                    <a href="{{route('administrator.notification.edit')}}" class="btn btn-success float-end m-2">Thay
-                        đổi nội dung email</a>
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <h3>{{$title}}</h3>
+                    </div>
                 </div>
-                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid list-products">
+            <div class="row">
+                <!-- Individual column searching (text inputs) Starts-->
+                <div class="col-12">
 
-                <div class="table-responsive">
-                    <table class="table table-editable table-nowrap align-middle table-edits">
-                        <thead>
-                        <tr>
-                            <th>Tiêu đề</th>
-                            <th>Nội dung</th>
-                            <th>Khách hàng</th>
-                            <th>Email</th>
-                            <th>Thời gian</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($notifications as $notificationItem)
-                            <tr>
-                                <td>
-                                    @if(isset($notificationItem->data) && isset(json_decode($notificationItem->data , true)['body']))
-                                        {{ json_decode($notificationItem->data, true)['body'] }}
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($notificationItem->data) && isset(json_decode($notificationItem->data , true)['text']))
-                                        {{ json_decode($notificationItem->data, true)['text'] }}
-                                    @endif
-                                </td>
-                                <td>{{ optional( $notificationItem->user)->name }}</td>
-                                <td>{{ optional($notificationItem->user)->email }}</td>
-                                <td>{{ $notificationItem->created_at }}</td>
-                            </tr>
-                        @endforeach
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive product-table">
+                                <table class="display table-users" id="basic-1">
+                                    <thead>
+                                    <tr>
+                                        <th>Tiêu đề</th>
+                                        <th>Nội dung</th>
+                                        <th></th>
+                                        <th>Email</th>
+                                        <th>Thời gian</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($items as $notificationItem)
+                                        <tr>
+                                            <td>
+                                                @if(isset($notificationItem->data) && isset(json_decode($notificationItem->data , true)['body']))
+                                                    {{ json_decode($notificationItem->data, true)['body'] }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(isset($notificationItem->data) && isset(json_decode($notificationItem->data , true)['text']))
+                                                    {{ json_decode($notificationItem->data, true)['text'] }}
+                                                @endif
+                                            </td>
+                                            <td>{{ optional( $notificationItem->user)->name }}</td>
+                                            <td>{{ optional($notificationItem->user)->email }}</td>
+                                            <td>{{ $notificationItem->created_at }}</td>
+                                        </tr>
+                                    @endforeach
 
-                        </tbody>
-                    </table>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
         </div>
-
-    </div>
-
-    <div class="col-md-12">
-        {{ $notifications->links('pagination::bootstrap-4') }}
+        <!-- Individual column searching (text inputs) Ends-->
+        <!-- Container-fluid Ends-->
     </div>
 
 @endsection
 
 @section('js')
-    <script src="{{asset('vendor/sweet-alert-2/sweetalert2@11.js')}}"></script>
-    <script src="{{asset('admins/products/index/list.js')}}"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $(".table-users").dataTable().fnDestroy();
+
+            var table = $('.table-users').DataTable({
+                scrollX: true,
+            });
+            $('.table-users tbody').on('click', 'a.delete', function (e) {
+                event.preventDefault()
+                actionDelete(e, $(this).data('url'), table, $(this).parents('tr'))
+            });
+
+        });
+    </script>
 @endsection

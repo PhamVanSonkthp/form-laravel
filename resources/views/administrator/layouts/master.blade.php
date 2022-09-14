@@ -81,15 +81,15 @@
         <!-- Page Sidebar Start-->
         <div class="sidebar-wrapper">
             <div>
-                <div class="logo-wrapper"><a href="index.html"><img class="img-fluid for-light"
-                                                                    src="../assets/images/logo/small-logo.png"
+                <div class="logo-wrapper"><a href="{{route('administrator.dashboard.index')}}"><img class="img-fluid for-light"
+                                                                    src="/assets/images/logo/original/Infinity-Logo-min.png"
                                                                     alt=""><img class="img-fluid for-dark"
                                                                                 src="../assets/images/logo/small-white-logo.png"
                                                                                 alt=""></a>
                     <div class="back-btn"><i class="fa fa-angle-left"></i></div>
                 </div>
-                <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid"
-                                                                         src="../assets/images/logo-icon.png"
+                <div class="logo-icon-wrapper"><a href="{{route('administrator.dashboard.index')}}"><img class="img-fluid"
+                                                                         src="/assets/images/logo/original/Infinity-Logo-min.png"
                                                                          alt=""></a></div>
                 @include('administrator.components.slidebars')
             </div>
@@ -140,11 +140,13 @@
 <script src="/assets/administrator/js/general-widget.js"></script>
 <script src="/assets/administrator/js/tooltip-init.js"></script>
 <script src="/vendor/datatable/datatables.min.js"></script>
+<script src="{{asset('vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{asset('vendor/sweet-alert-2/sweetalert2@11.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/daterangepicker.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/helper/helper.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
+
 <!-- Plugins JS Ends-->
 
 <!-- Plugin used-->

@@ -4,67 +4,41 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
-use App\Models\NotificationContent;
-use App\Models\PaymentStripe;
-use App\Models\Source;
-use App\Models\Topic;
 use App\Traits\DeleteModelTrait;
+use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use function redirect;
+use Illuminate\Support\Facades\View;
 use function view;
 
 class AdminNotificationController extends Controller
 {
     use DeleteModelTrait;
-    private $notification;
-    private $notificationContent;
+    use StorageImageTrait;
 
-    public function __construct(Notification $notification, NotificationContent $notificationContent)
+    private $model;
+
+    private $prefixView;
+    private $prefixExport;
+    private $title;
+
+    public function __construct(Notification $model)
     {
-        $this->notification = $notification;
-        $this->notificationContent = $notificationContent;
+        $this->model = $model;
+
+        $this->prefixView = "notification";
+        $this->prefixExport = "Notification_" . date('Y-m-d H:i:s');
+        $this->title = "Notification";
+        View::share('title', $this->title);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $notifications = $this->notification->latest()->paginate(10)->appends(request()->query());
-        return view('administrator.notification.index' , compact('notifications'));
-    }
-
-    public function edit()
-    {
-        $notificationContent = $this->notificationContent->first();
-
-        if(empty($notificationContent)){
-            $notificationContent = $this->notificationContent->create([
-                "thankyou"=> "Cảm ơn bạn đã sử dụng dịch vụ!"
-            ]);
-        }
-
-        return view('administrator.notification.edit' , compact('notificationContent'));
-    }
-
-    public function update(Request $request)
-    {
-        $notificationContent = $this->notificationContent->first();
-
-        if(empty($notificationContent)){
-            $notificationContent = $this->notificationContent->create([
-                "thankyou"=> "Cảm ơn bạn đã sử dụng dịch vụ!"
-            ]);
-        }
-
-        $notificationContent->update([
-            "thankyou" => $request->thankyou
-        ]);
-
-        return back();
+        $items = $this->model->searchByQuery($request);
+        return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 
     public function delete($id)
     {
-        return $this->deleteModelTrait($id, $this->notification);
+        return $this->deleteModelTrait($id, $this->model);
     }
 }
