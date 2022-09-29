@@ -1,21 +1,11 @@
 @extends('administrator.layouts.master')
 
-@section('title')
-    <title>Home page</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-@endsection
-
-@section('name')
-    <h4 class="page-title">Chat</h4>
-@endsection
+@include('administrator.chat.header')
 
 @section('css')
-    <link href="{{asset('admins/products/index/list.css')}}" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" media="all" href="{{asset('assets/administrator/css/chat.css')}}"/>
 
 @endsection
-
-@include('administrator.chat.active_slidebar')
 
 @section('content')
     @php
@@ -25,6 +15,20 @@
         }
         $isHaveUserId = false;
     @endphp
+
+    <div class="page-body">
+        <div class="container-fluid">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <h3>{{$title}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid starts-->
+        <div class="container-fluid list-products">
+            <div class="row">
     <div class="col-md-4">
 
         <div class="card">
@@ -55,7 +59,7 @@
                                         $isHaveUserId = true;
                                     }
                                 @endphp
-                                <td>
+                                <td style="{{$item->chat_group_id == $chatGroupIdWithUser ? 'color: red;' : ''}}">
                                     @foreach(\App\Models\ParticipantChat::where('chat_group_id', $item->chat_group_id)->get() as $itemParticipantChat)
                                         @if(auth()->id() != optional($itemParticipantChat->user)->id)
                                             <div data-userid="{{optional($itemParticipantChat->user)->id}}"
@@ -94,7 +98,7 @@
                         @foreach(\App\Models\User::where('is_admin' , '!=' , 1)->get() as $item)
 
                             <tr style="cursor: pointer;{{$item->id == request('user_id') ? 'color: red;' : ''}}">
-                                <td>
+                                <td style="{{$item->id == request('user_id') ? 'color: red;' : ''}}">
                                     <div>
                                         {{ $item->display_name}}
                                     </div>
@@ -127,15 +131,8 @@
                     {{--                    </div>--}}
                 </div>
                 <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
-                    <input type="text" class="form-control form-control-lg" placeholder="Nhập nội dung"
-                           id="input_message">
-                    <div>
-                        <input class="form-control form-control-sm" id="file_images" type="file" multiple
-                               accept="image/*">
-                    </div>
-
-                    <div class="btn-group dropup">
-                        <button type="button" class="btn btn-outline dropdown-toggle ms-3 me-3"
+                    <div class="btn-group dropup" id="container_icon">
+                        <button type="button" class="btn btn-outline dropdown-toggle pe-2 ps-2"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-smile"></i>
                         </button>
@@ -1656,7 +1653,17 @@
                         </ul>
                     </div>
 
-                    <button onclick="sendMessage()" class="btn-primary btn"><i class="fas fa-paper-plane"></i></button>
+                    <input class="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Type a message......" id="input_message">
+
+{{--                    <input type="text" class="form-control form-control-lg" placeholder="Nhập nội dung" id="input_message">--}}
+                    <div>
+                        <input class="form-control form-control-sm" id="file_images" type="file" multiple
+                               accept="image/*">
+                    </div>
+
+
+                    <button onclick="sendMessage()" class="btn btn-outline-info-2x" type="button" data-bs-original-title="" title="" data-original-title="btn btn-outline-info-2x">Gửi</button>
+{{--                    <button onclick="sendMessage()" class="btn-primary btn"><i class="fas fa-paper-plane"></i></button>--}}
 
                 </div>
             </div>
@@ -1664,29 +1671,18 @@
         </div>
     </div>
 
-{{--    <div class="col-md-3">--}}
-{{--        <div class="text-center">--}}
-{{--            <a href="#" onclick="viewProfile()" class="border-search ps-5 pe-5 pt-3 pb-3">--}}
-{{--                Xem hồ sơ--}}
-{{--            </a>--}}
-{{--        </div>--}}
-
-{{--        <div class="mt-3">--}}
-{{--            <label>Ghi chú</label>--}}
-
-{{--            <div>--}}
-{{--                <textarea data-field="note_chat" id="txa_note_chat" rows="8" style="width: 100%"></textarea>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
     @if(!$isHaveUserId)
         <style>
-            .container-participant > tr:first-child {
+            .container-participant > tr:first-child > td {
                 color: red;
             }
         </style>
     @endif
+            </div>
+        </div>
+        <!-- Individual column searching (text inputs) Ends-->
+        <!-- Container-fluid Ends-->
+    </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -1768,7 +1764,7 @@
 
             for (let i = 0; i < images.length; i++) {
                 data_image += `<div class="col-4 pe-0">
-                                    <img data-src="${images[i].image_path}" onclick="showImage(this)" class="image-chat" src="${images[i].image_path}">
+                                    <img data-src="${images[i].image_path}" onclick="showImage(this)" class="image-chat w-100" src="${images[i].image_path}">
                                 </div>`
             }
             if (sender) {
@@ -1899,7 +1895,7 @@
                 user_profile_id = $(this).children(":first").children(":first").data('userid')
 
                 $('tr').css("color", "black")
-                $(this).css("color", "red")
+                $(this).children('td').css("color", "red")
                 let urlRequest = $(this).data('url')
                 urlRequestLoadmore = $(this).data('url')
                 page = 1
@@ -1933,7 +1929,7 @@
         });
 
         $("#smile button").click(function () {
-            $("#input_message").val($("#input_message").val() + $(this).html())
+            $("#input_message").val($("#input_message").val() + $(this).html().trim())
         })
 
         function viewProfile() {
@@ -2045,5 +2041,14 @@
                 },
             })
         })
+
+        window.addEventListener('click', function(e){
+            if (document.getElementById('container_icon').contains(e.target)){
+                $('#container_icon > ul').show()
+            } else{
+                $('#container_icon > ul').hide()
+            }
+        });
+
     </script>
 @endsection

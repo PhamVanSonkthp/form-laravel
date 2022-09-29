@@ -49,7 +49,6 @@
     <link id="color" rel="stylesheet" href="/assets/administrator/css/color-1.css" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="/assets/administrator/css/responsive.css">
-
     @yield('css')
 </head>
 

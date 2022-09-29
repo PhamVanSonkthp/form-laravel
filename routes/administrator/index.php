@@ -20,7 +20,7 @@ Route::get('/admin/logout', [
     'uses' => '\App\Http\Controllers\Admin\AdminController@logout'
 ]);
 
-// ajax api chat
+// ajax
 Route::prefix('administrator')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::prefix('chat')->group(function () {
@@ -56,7 +56,7 @@ Route::prefix('administrator')->group(function () {
 
                 for ($x = 0; $x < $request->total_files; $x++) {
                     if ($request->hasFile('feature_image' . $x)) {
-                        $dataChatImageDetail = StorageImageTrait::storageTraitUploadMultiple($request->file('feature_image' . $x), 'chat');
+                        $dataChatImageDetail = StorageImageTrait::storageTraitUploadMultiple( $request->file('feature_image'.$x),  'chat');
 
                         ChatImage::create([
                             'image_name' => $dataChatImageDetail['file_name'],
@@ -69,10 +69,21 @@ Route::prefix('administrator')->group(function () {
                 foreach (ParticipantChat::where('chat_group_id', $request->chat_group_id)->get() as $item) {
                     if (auth()->id() != $item->user_id) {
                         $image_link = User::find($item->user_id)->feature_image_path;
-                        event(new ChatPusherEvent($request, $item, auth()->id(), $image_link, $chat->images));
+                        event(new ChatPusherEvent($request, $item, auth()->id(), $image_link,$chat->images));
                     }
 
-                    Notification::sendNotificationFirebase($item->user_id, $request->chat_group_id, $request->contents);
+                    Notification::sendNotificationFirebase($item->user_id, $request->contents,null,'Chat',auth()->id(), $request->chat_group_id);
+
+                    if ($item->user_id == auth()->id()){
+                        $item->update([
+                            'is_read' => 1
+                        ]);
+                    }else{
+                        $item->update([
+                            'is_read' => 0
+                        ]);
+                    }
+
                 }
 
                 return response()->json($chat);
@@ -391,6 +402,27 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.news.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminNewsController@delete',
             'middleware' => 'can:news-delete',
+        ]);
+
+    });
+
+    Route::prefix('email')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.email.index',
+            'uses' => 'App\Http\Controllers\Admin\AdminEmailController@index',
+            'middleware' => 'can:email-list',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.email.store',
+            'uses' => 'App\Http\Controllers\Admin\AdminEmailController@store',
+            'middleware' => 'can:email-add',
+        ]);
+
+        Route::get('/delete/{id}', [
+            'as' => 'administrator.email.delete',
+            'uses' => 'App\Http\Controllers\Admin\AdminEmailController@delete',
+            'middleware' => 'can:email-delete',
         ]);
 
     });

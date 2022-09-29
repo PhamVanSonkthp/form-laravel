@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateGenderUserSeeder::class);
         $this->call(CreateProductSeeder::class);
         $this->call(CreateSliderSeeder::class);
+        $this->call(CreateChatGroupSeeder::class);
+        $this->call(CreateChatSeeder::class);
+        $this->call(CreateParticipantChatSeeder::class);
 
     }
 }

@@ -20,6 +20,14 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateProduct();
         $this->defineGateCategory();
         $this->defineGateDashboard();
+        $this->defineGateEmail();
+    }
+
+    public function defineGateEmail(){
+        Gate::define('email-list','App\Policies\EmailPolicy@view');
+        Gate::define('email-add','App\Policies\EmailPolicy@create');
+        Gate::define('email-edit','App\Policies\EmailPolicy@update');
+        Gate::define('email-delete','App\Policies\EmailPolicy@delete');
     }
 
     public function defineGateDashboard(){

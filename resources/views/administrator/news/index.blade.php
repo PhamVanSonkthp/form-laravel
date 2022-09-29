@@ -40,7 +40,6 @@
                                         <th>#</th>
                                         <th>Tiêu đề</th>
                                         <th>Hình ảnh</th>
-                                        <th>Danh mục</th>
                                         <th class="text-center" style="width: 100px;">Hành động</th>
                                     </tr>
                                     </thead>
@@ -53,18 +52,17 @@
                                                 <img style="width: 60px;height: 60px;object-fit: cover;"
                                                      src="{{$item->feature_image_path}}">
                                             </td>
-                                            <td>{{ optional($item->category)->name}}</td>
                                             <td>
 
                                                 <a href="{{route('administrator.news.edit' , ['id'=> $item->id ])}}"
                                                    class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                                                    <i class="fas fa-pencil-alt"></i>
+                                                    Sửa
                                                 </a>
 
                                                 <a href="{{route('administrator.news.delete' , ['id'=> $item->id])}}"
                                                    data-url="{{route('administrator.news.delete' , ['id'=> $item->id])}}"
                                                    class="btn btn-danger btn-sm delete action_delete" title="Delete">
-                                                    <i class="mdi mdi-close"></i>
+                                                    Xóa
                                                 </a>
                                             </td>
                                         </tr>

@@ -4,6 +4,7 @@ function getCookie(name) {
     function escape(s) {
         return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, "\\$1")
     }
+
     var match = document.cookie.match(RegExp("(?:^|;\\s*)" + escape(name) + "=([^;]*)"))
     return match ? match[1] : null
 }
@@ -142,21 +143,9 @@ function formatAMPM(date) {
 }
 
 function escapeHtml(string) {
-    if (!isDefine(string)) return ""
-    // if(string.includes('<script>') || true){
-    // 	return String(string).replace(/[&<>"'`=\/]/g, function (s) {
-    // 		return entityMap[s];
-    // 	})
-    // }else{
-    // 	return string
-    // }
-
-    string = string + ""
-    if (string.includes("<script>") && string.includes("</script>")) {
-        return $("<div />").text(string).html()
-    } else {
-        return string
-    }
+    return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+        return entityMap[s];
+    })
     //ENCODED FOR MAXIMUM SAFETY
 }
 
@@ -202,7 +191,7 @@ function reloadScriptApp() {
 }
 
 function reloadTagNumber() {
-    $(".number").maskNumber({ integer: true })
+    $(".number").maskNumber({integer: true})
 }
 
 function formatMoney(nStr) {
@@ -486,11 +475,13 @@ function paginator(total_count, curent_page) {
     // $("#pagePatigation").addClass("mb-3");
     $("#pagePatigation").html(pagePatigation)
 }
+
 function nextPage() {
     page += 1
     let url = window.location.href.split("?")[0] + "?q=" + $("#input_keyword").val() + "&page=" + page + "&level=" + (urlParams.get("level") || 1)
     window.location.href = url
 }
+
 function previousPage() {
     page -= 1
     let url = window.location.href.split("?")[0] + "?q=" + $("#input_keyword").val() + "&page=" + page + "&level=" + (urlParams.get("level") || 1)
@@ -501,6 +492,7 @@ function previousPage() {
 
     window.location.href = url
 }
+
 function changeOffset(page) {
     page += 1
     let url = window.location.href.split("?")[0] + "?q=" + $("#input_keyword").val() + "&page=" + page + "&level=" + (urlParams.get("level") || 1)
@@ -512,146 +504,78 @@ function changeOffset(page) {
     window.location.href = url
 }
 
-// function changeOffset(page) {
-//     page += 1
+// This function keeps the casing unchanged for str, then perform the conversion
+function toNonAccentVietnamese(str) {
+    str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/E|É|È|Ẽ|Ẹ|Ê|Ế|Ề|Ễ|Ệ/, "E");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/I|Í|Ì|Ĩ|Ị/g, "I");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/O|Ó|Ò|Õ|Ọ|Ô|Ố|Ồ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ỡ|Ợ/g, "O");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/U|Ú|Ù|Ũ|Ụ|Ư|Ứ|Ừ|Ữ|Ự/g, "U");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/Y|Ý|Ỳ|Ỹ|Ỵ/g, "Y");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/Đ/g, "D");
+    str = str.replace(/đ/g, "d");
+    // Some system encode vietnamese combining accent as individual utf-8 characters
+    str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // Huyền sắc hỏi ngã nặng
+    str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
 
-//     let url = window.location.href.split("?")[0] + "?q=" + $("#input_keyword").val() + "&page=" + page
+    return str;
+}
 
-//     if ($("#input_date_from").val()) {
-//         url += "&from=" + $("#input_date_from").val() + "&to=" + $("#input_date_to").val()
-//     }
+function addressEnglish(str) {
+    str = toNonAccentVietnamese(str)
+    str = str.replace(/Huyen|Quan|huyen|quan/g, "")
+    str = str.replace(/Xa|xa|Phuong|phiong/g, "")
+    str = str.replace(/Tinh|tinh|Thanh Pho|thanh pho/g, "")
 
-//     window.location.href = url
-// }
+    values = str.split(', ')
 
-// function paginator(data) {
-//     var pagePatigation = '<div class="row dataTables_wrapper" style="float:right;padding-bottom: 25px;">'
-//     //page += '<div class="col-sm-12 col-md-5"><div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Đang hiển thị ' + stt + ' -> ' + (stt + data.result - 1) + ' của ' + (parseInt(data.count)) + ' </div></div>';
-//     pagePatigation += '<div class="col-sm-12 col-md-7"><div style="margin-top:10px;" class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">'
-//     pagePatigation += '<ul class="pagination">'
-//     count = isDefine(data.count) ? data.count : data
-//     // if (count - offset <= 0) return
+    if (values.length >= 4) {
+        str = values[0] + " Village, " + values[1] + " Ward, " + values[2] + " District, " + values[3] + " City"
+    }
 
-//     if (count / limit - parseInt(count / limit) > 0) {
-//         count = parseInt(count / limit) + 1
-//     } else {
-//         count = count / limit
-//     }
-//     count = parseInt(count)
+    return str
+}
 
-//     for (var i = 0; i < count; i++) {
-//         if (count >= 2 && i == 0) {
-//             // nếu có 2 trang trở lên thì sẽ có previous
-//             if (offset != 0)
-//                 // nếu offset khác 0 thì previous sẽ có thể click đc
-//                 pagePatigation += '<li onclick="changeOffset(' + i + ')" class="paginate_button page-item previous" id="dataTable_previous"><a href="javascript:void(0);" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">đầu</a></li>'
-//             //nếu  offset == 0 previous sẽ ko thể click đc
-//             else pagePatigation += '<li class="paginate_button page-item previous disabled" id="dataTable_previous"><a href="javascript:void(0);" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">đầu</a></li>'
-//         }
+function nationalityEnglish(str) {
+    str = toNonAccentVietnamese(str)
 
-//         if (i == parseInt(offset / limit)) {
-//             // nếu i nào bằng điều kiện trong if thì sẽ sáng màu xanh và ngược lại
-//             pagePatigation += '<li onclick="changeOffset(' + i + ')" class="paginate_button page-item active"><a href="javascript:void(0);" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">' + (i + 1) + "</a></li>"
-//             if (i == count - 1 && count >= 3) {
-//                 pagePatigation += '<li class="paginate_button page-item next disabled" id="dataTable_next"><a href="javascript:void(0);" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">cuối</a></li>'
-//             }
-//         } else {
-//             if (i <= 2 || i == count - 1) {
-//                 // hiện 5 trang đầu vaf trang cuối
-//                 pagePatigation += '<li  onclick="changeOffset(' + i + ')" class="paginate_button page-item"><a href="javascript:void(0);" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">' + (i + 1) + "</a></li>"
-//                 if (i == count - 1) {
-//                     pagePatigation += '<li  onclick="changeOffset(' + i + ')" class="paginate_button page-item next" id="dataTable_next"><a href="javascript:void(0);" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">cuối</a></li>'
-//                 }
-//             } else {
-//                 if (i >= isShow - 1 && i <= isShow + 1) {
-//                     pagePatigation += '<li  onclick="changeOffset(' + i + ')" class="paginate_button page-item"><a href="javascript:void(0);" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">' + (i + 1) + "</a></li>"
-//                 } else {
-//                     if (i == isShow - 2 || i == isShow + 3) {
-//                         pagePatigation += '<li class="paginate_button page-item"><a href="javascript:void(0);" class="page-link">...</a></li>'
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     pagePatigation += "</ul></div></div></div>"
+    if (str.includes('Trung Quoc') || str.includes('trung quoc')) {
+        return "China"
+    } else if (str.includes('Han Quoc') || str.includes('han quoc')) {
+        return "Korea"
+    } else if (str.includes('Nhat Ban') || str.includes('nhat ban')) {
+        return "Japan"
+    } else if (str.includes('Viet Nam') || str.includes('viet nam')) {
+        return "Vietnamese"
+    } else if (str.includes('Anh') || str.includes('anh')) {
+        return "England"
+    } else if (str.includes('Thai Lan') || str.includes('Thai lan')) {
+        return "England"
+    } else if (str.includes('an do') || str.includes('an do')) {
+        return "India"
+    } else if (str.includes('Dai Loan') || str.includes('dai loan')) {
+        return "Taiwan"
+    } else if (str.includes('Campuchia') || str.includes('campuchia')) {
+        return "Cambodia"
+    } else if (str.includes('Philippin') || str.includes('philippin') || str.includes('Philippines') || str.includes('philippines')) {
+        return "Philippines"
+    } else if (str.includes('Phap') || str.includes('phap')) {
+        return "France"
+    } else if (str.includes('My') || str.includes('my')) {
+        return "American"
+    } else if (str.includes('Nga') || str.includes('nga')) {
+        return "Russian"
+    } else if (str.includes('Uc') || str.includes('uc')) {
+        return "Australian"
+    } else if (str.includes('Lao') || str.includes('lao')) {
+        return "Laos"
+    }
 
-//     $("#pagePatigation").html(pagePatigation)
-//     $("#spn_loading").hide()
-// }
-
-
-            // This function keeps the casing unchanged for str, then perform the conversion
-            function toNonAccentVietnamese(str) {
-                str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
-                str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-                str = str.replace(/E|É|È|Ẽ|Ẹ|Ê|Ế|Ề|Ễ|Ệ/, "E");
-                str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-                str = str.replace(/I|Í|Ì|Ĩ|Ị/g, "I");
-                str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-                str = str.replace(/O|Ó|Ò|Õ|Ọ|Ô|Ố|Ồ|Ỗ|Ộ|Ơ|Ớ|Ờ|Ỡ|Ợ/g, "O");
-                str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-                str = str.replace(/U|Ú|Ù|Ũ|Ụ|Ư|Ứ|Ừ|Ữ|Ự/g, "U");
-                str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-                str = str.replace(/Y|Ý|Ỳ|Ỹ|Ỵ/g, "Y");
-                str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-                str = str.replace(/Đ/g, "D");
-                str = str.replace(/đ/g, "d");
-                // Some system encode vietnamese combining accent as individual utf-8 characters
-                str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // Huyền sắc hỏi ngã nặng
-                str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
-
-                return str;
-            }
-
-            function addressEnglish(str){
-                str = toNonAccentVietnamese(str)
-                str = str.replace(/Huyen|Quan|huyen|quan/g , "")
-                str = str.replace(/Xa|xa|Phuong|phiong/g , "")
-                str = str.replace(/Tinh|tinh|Thanh Pho|thanh pho/g , "")
-
-                values = str.split(', ')
-
-                if(values.length >= 4){
-                    str = values[0] + " Village, " + values[1] + " Ward, " + values[2] + " District, "  + values[3] + " City"
-                }
-
-                return str
-            }
-
-            function nationalityEnglish(str){
-                str = toNonAccentVietnamese(str)
-
-                if(str.includes('Trung Quoc') || str.includes('trung quoc')){
-                    return "China"
-                }else if(str.includes('Han Quoc') || str.includes('han quoc')){
-                    return "Korea"
-                }else if(str.includes('Nhat Ban') || str.includes('nhat ban')){
-                    return "Japan"
-                }else if(str.includes('Viet Nam') || str.includes('viet nam')){
-                    return "Vietnamese"
-                }else if(str.includes('Anh') || str.includes('anh')){
-                    return "England"
-                }else if(str.includes('Thai Lan') || str.includes('Thai lan')){
-                    return "England"
-                }else if(str.includes('an do') || str.includes('an do')){
-                    return "India"
-                }else if(str.includes('Dai Loan') || str.includes('dai loan')){
-                    return "Taiwan"
-                }else if(str.includes('Campuchia') || str.includes('campuchia')){
-                    return "Cambodia"
-                }else if(str.includes('Philippin') || str.includes('philippin') || str.includes('Philippines') || str.includes('philippines')){
-                    return "Philippines"
-                }else if(str.includes('Phap') || str.includes('phap')){
-                    return "France"
-                }else if(str.includes('My') || str.includes('my')){
-                    return "American"
-                }else if(str.includes('Nga') || str.includes('nga')){
-                    return "Russian"
-                }else if(str.includes('Uc') || str.includes('uc')){
-                    return "Australian"
-                }else if(str.includes('Lao') || str.includes('lao')){
-                    return "Laos"
-                }
-
-                return str
-            }
+    return str
+}

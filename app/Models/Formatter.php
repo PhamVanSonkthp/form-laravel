@@ -122,4 +122,24 @@ class Formatter extends Model
     public static function getThumbnailImage($input, $format = "100x100"){
         return str_replace("original",$format,$input);
     }
+
+    public static function convertTypeTime($value, $inputType = "dd/mm/yyyy", $outputType = "yyyy/mm/dd"){
+
+        if (empty($value)){
+            return date('Y-m-d');
+        }
+
+        $value = str_replace("-","/",$value);
+
+        $value = explode("/",$value);
+
+        if (count($value) < 3){
+            return date('Y-m-d');
+        }
+
+        if ($outputType == "yyyy/mm/dd" && strlen($value[0]) <= 2){
+            return $value[2] . '/' . $value[1] . '/' . $value[0];
+        }
+        return $value[0] . '/' . $value[1] . '/' . $value[2];
+    }
 }
