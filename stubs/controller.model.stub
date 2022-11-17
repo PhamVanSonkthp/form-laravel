@@ -1,0 +1,76 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ namespacedRequests }}
+use App\Traits\DeleteModelTrait;
+use App\Traits\StorageImageTrait;
+use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
+use function view;
+
+class {{ class }} extends Controller
+{
+    use DeleteModelTrait;
+    use StorageImageTrait;
+
+    private $model;
+    private $prefixView;
+    private $prefixExport;
+    private $title = "{{ model }}";
+
+    public function __construct({{ model }} ${{ modelVariable }})
+    {
+        $this->model = ${{ modelVariable }};
+        $this->prefixView = strtolower("{{ model }}");
+        $this->prefixExport = $this->title . "_" . date('Y-m-d H:i:s');
+        View::share('title', $this->title);
+    }
+
+    public function index(Request $request)
+    {
+        $items = $this->model->searchByQuery($request);
+        return view('administrator.'.$this->prefixView.'.index', compact('items'));
+    }
+
+    public function get(Request $request, $id)
+    {
+        return $this->model->findById($id);
+    }
+
+    public function create()
+    {
+        return view('administrator.'.$this->prefixView.'.add');
+    }
+
+    public function store(Request $request)
+    {
+        $item = $this->model->storeByQuery($request);
+        return redirect()->route('administrator.'.$this->prefixView.'.edit' , ["id" => $item->id]);
+    }
+
+    public function edit($id)
+    {
+        $item = $this->model->findById($id);
+        return view('administrator.'.$this->prefixView.'.edit', compact('item'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $item = $this->model->updateByQuery($id,$request);
+        return back();
+    }
+
+    public function delete(Request $request, $id)
+    {
+        return $this->deleteModelTrait($id, $this->model);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new UsersExport($request), $this->prefixExport . '.xlsx');
+    }
+
+}

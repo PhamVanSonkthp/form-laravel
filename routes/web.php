@@ -19,6 +19,11 @@ Route::prefix('/')->group(function () {
         'uses'=>'App\Http\Controllers\User\UserController@index',
     ]);
 
+    Route::get('/sms', [
+        'as'=>'welcome.index',
+        'uses'=>'App\Http\Controllers\Notification\NotificationController@sms',
+    ]);
+
     Route::prefix('/vnpay')->group(function () {
         Route::get('/', [
 //            'as'=>'welcome.index',

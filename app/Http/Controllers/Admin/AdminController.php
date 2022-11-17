@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use function auth;
 use function redirect;
@@ -45,4 +46,36 @@ class AdminController extends Controller
         return redirect('/admin');
     }
 
+    public function password()
+    {
+        $title = "Quản lý mật khẩu";
+        return view('administrator.password.index', compact('title'));
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'new_password_confirm' => 'required',
+        ]);
+
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            Session::flash("error", "Mật khẩu cũ không đúng");
+            return back();
+        }
+
+        if ($request->new_password != $request->new_password_confirm){
+            Session::flash("error", "Mật khẩu mới phải trùng nhau");
+            return back();
+        }
+
+        auth()->user()->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        Session::flash("success", "Đã thay đổi mật khẩu");
+
+        return back();
+    }
 }

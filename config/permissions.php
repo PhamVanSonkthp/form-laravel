@@ -64,6 +64,11 @@ return [
         'history_data-edit' => 'history_data_edit',
         'history_data-delete' => 'history_data_delete',
 
+        'setting-list' => 'setting_list',
+        'setting-add' => 'setting_add',
+        'setting-edit' => 'setting_edit',
+        'setting-delete' => 'setting_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -78,6 +83,7 @@ return [
         'notification',
         'logo',
         'history_data',
+        'setting',
     ],
 
     'table_module_name'=>[
@@ -93,6 +99,7 @@ return [
         'Thông báo',
         'Logo',
         'Lịch sử dữ liệu',
+        'Cài đặt',
     ],
 
     'module_children'=>[

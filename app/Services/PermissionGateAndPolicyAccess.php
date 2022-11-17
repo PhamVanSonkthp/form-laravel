@@ -21,6 +21,14 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateCategory();
         $this->defineGateDashboard();
         $this->defineGateEmail();
+        $this->defineGateSetting();
+    }
+
+    public function defineGateSetting(){
+        Gate::define('setting-list','App\Policies\SettingPolicy@view');
+        Gate::define('setting-add','App\Policies\SettingPolicy@create');
+        Gate::define('setting-edit','App\Policies\SettingPolicy@update');
+        Gate::define('setting-delete','App\Policies\SettingPolicy@delete');
     }
 
     public function defineGateEmail(){

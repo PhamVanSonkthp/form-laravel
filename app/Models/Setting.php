@@ -8,18 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class News extends Model implements Auditable
+class Setting extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
-
-    use DeleteModelTrait;
-    use StorageImageTrait;
-
     protected $guarded = [];
+
+    use StorageImageTrait;
+    use DeleteModelTrait;
 
     public function searchByQuery($request, $queries = [], $isApi = false)
     {
@@ -79,12 +77,10 @@ class News extends Model implements Auditable
     public function storeByQuery($request, $isApi = false)
     {
         $dataInsert = [
-            'title' => $request->title,
-            'content' => $request->contents,
-            'slug' => Str::slug($request->title),
+            'url_support' => $request->url_support,
         ];
 
-        $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'news');
+        $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'bank');
         if (!empty($dataUploadFeatureImage)) {
             $dataInsert['feature_image_name'] = $dataUploadFeatureImage['file_name'];
             $dataInsert['feature_image_path'] = $dataUploadFeatureImage['file_path'];
@@ -92,6 +88,9 @@ class News extends Model implements Auditable
 
         $item = $this->create($dataInsert);
 
+        if ($item->receipt_status_id == 2){
+            User::find($item->user_id)->decrement('money', $item->money);
+        }
         return $this->findById($item->id);
     }
 
@@ -100,19 +99,20 @@ class News extends Model implements Auditable
         try {
             DB::beginTransaction();
             $dataUpdate = [
-                'title' => $request->title,
-                'content' => $request->contents,
-                'slug' => Str::slug($request->title),
+                'number_trail' => $request->number_trail,
             ];
 
-            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
+            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'bank');
 
             if (!empty($dataUploadFeatureImage)) {
                 $dataUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
                 $dataUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
             }
 
-            $this->find($id)->update($dataUpdate);
+            $item = $this->find($id);
+
+            $item->update($dataUpdate);
+
             $item = $this->find($id);
 
             DB::commit();

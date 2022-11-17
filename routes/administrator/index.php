@@ -511,5 +511,56 @@ Route::prefix('administrator')->group(function () {
 
     });
 
+    Route::prefix('setting')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.setting.index',
+            'uses' => 'App\Http\Controllers\Admin\AdminSettingController@index',
+            'middleware' => 'can:setting-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.setting.create',
+            'uses' => 'App\Http\Controllers\Admin\AdminSettingController@create',
+            'middleware' => 'can:setting-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.setting.store',
+            'uses' => 'App\Http\Controllers\Admin\AdminSettingController@store',
+            'middleware' => 'can:setting-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.setting.edit',
+            'uses' => 'App\Http\Controllers\Admin\AdminSettingController@edit',
+            'middleware' => 'can:setting-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.setting.update',
+            'uses' => 'App\Http\Controllers\Admin\AdminSettingController@update',
+            'middleware' => 'can:setting-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.setting.delete',
+            'uses' => 'App\Http\Controllers\Admin\AdminSettingController@delete',
+            'middleware' => 'can:setting-delete',
+        ]);
+
+    });
+
+    Route::prefix('password')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.password.index',
+            'uses' => 'App\Http\Controllers\Admin\AdminController@password',
+        ]);
+        Route::put('/', [
+            'as' => 'administrator.password.update',
+            'uses' => 'App\Http\Controllers\Admin\AdminController@updatePassword',
+        ]);
+
+    });
+
 });
 
