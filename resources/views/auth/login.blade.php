@@ -74,6 +74,9 @@
                                                 Đăng nhập
                                             </button>
 
+                                            <a href="{{ route('login.provider', 'google') }}"
+                                               class="btn btn-secondary">{{ __('Google Sign in') }}</a>
+
                                             @if (Route::has('password.request'))
                                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                                     <strong class="text-dark">Bạn đã quên mật khẩu?</strong>

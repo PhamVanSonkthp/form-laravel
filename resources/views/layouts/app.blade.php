@@ -24,24 +24,17 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
     <!-- Bootstrap Css -->
-    <link href="{{asset('administrator/assets/css/bootstrap.min.css')}}"  rel="stylesheet" type="text/css">
-    <!-- Icons Css -->
-    <link href="{{asset('administrator/assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
-    <!-- App Css-->
-    <link href="{{asset('administrator/assets/css/app.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('/assets/css/vendors/bootstrap.css')}}"  rel="stylesheet" type="text/css">
 
-    <link href="{{asset('vendor/fontawesome-6.0.0/css/fontawesome.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('/assets/css/vendors/font-awesome.css')}}" rel="stylesheet" type="text/css">
+    <!-- latest jquery-->
+    <script src="{{asset('/assets/js/jquery-3.5.1.min.js')}}"></script>
 
     @yield('css')
 </head>
@@ -105,5 +98,6 @@
             @yield('content')
         </main>
     </div>
+
 </body>
 </html>

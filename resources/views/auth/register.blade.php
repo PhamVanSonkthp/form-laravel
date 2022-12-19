@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="accountbg"
-         style="background: url({{asset('user/assets/images/banner2000x1333.jpg')}});background-size: cover;background-position: center;z-index: -1;"></div>
+         style="background: url({{asset('/assets/images/Slider-Infinity-Main-min.png')}});background-size: cover;background-position: center;z-index: -1;"></div>
 
     <div class="account-pages mt-5">
         <div class="container">
@@ -201,21 +201,20 @@
             </div>
         </div>
     </div>
-@endsection
 
-<script src="{{asset('administrator/assets/libs/jquery/jquery.min.js')}}"></script>
-
-<script>
+    <script>
 
 
-    $(document).ready(function () {
-        $('#flexCheckDefault').change(function () {
-            if (this.checked) {
-                $('.button-register').prop('disabled', false);
-            } else {
-                $('.button-register').prop('disabled', true);
-            }
+        $(document).ready(function () {
+            $('#flexCheckDefault').change(function () {
+                if (this.checked) {
+                    $('.button-register').prop('disabled', false);
+                } else {
+                    $('.button-register').prop('disabled', true);
+                }
+            });
         });
-    });
 
-</script>
+    </script>
+
+@endsection

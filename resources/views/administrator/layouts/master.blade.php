@@ -49,6 +49,18 @@
     <link id="color" rel="stylesheet" href="/assets/administrator/css/color-1.css" media="screen">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="/assets/administrator/css/responsive.css">
+
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/jquery-ui.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/order-image.css')}}" >
+    <script src="{{asset('/assets/administrator/js/jquery-3.5.1.min.js')}}"></script>
+    <script src="{{asset('/assets/administrator/js/jquery.ui.min.js')}}"></script>
+
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{{--    <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>--}}
+{{--    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>--}}
+
+
     @yield('css')
 </head>
 
@@ -115,7 +127,7 @@
 {{--@include('administrator.components.footer')--}}
 
 <!-- latest jquery-->
-<script src="/assets/administrator/js/jquery-3.5.1.min.js"></script>
+{{--<script src="/assets/administrator/js/jquery-3.5.1.min.js"></script>--}}
 <!-- Bootstrap js-->
 <script src="/assets/administrator/js/bootstrap/bootstrap.bundle.min.js"></script>
 <!-- feather icon js-->

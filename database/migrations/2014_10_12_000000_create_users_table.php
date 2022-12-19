@@ -27,8 +27,10 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('is_admin')->default(0);
             $table->tinyInteger('gender_id')->default(1);
 
-            $table->string('provider')->nullable();
+            $table->string('provider_name')->nullable();
             $table->string('provider_id')->nullable();
+            $table->string('password')->nullable()->change();
+            $table->string('avatar')->nullable();
 
             $table->rememberToken();
             $table->timestamps();
