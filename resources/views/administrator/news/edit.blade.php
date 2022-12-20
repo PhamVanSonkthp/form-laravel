@@ -36,14 +36,22 @@
                             @enderror
                         </div>
 
-                        <div class="form-group mt-3">
-                            <label>Ảnh đại diện</label>
-                            <input type="file" name="feature_image_path" class="form-control-file" accept="image/*">
-                            <div class="col-md-4 container_feature_image">
-                                <div class="row">
-                                    <img class="feature_image" src="{{$item->feature_image_path}}" alt="">
-                                </div>
-                            </div>
+{{--                        <div class="form-group mt-3">--}}
+{{--                            <label>Ảnh đại diện</label>--}}
+{{--                            <input type="file" name="feature_image_path" class="form-control-file" accept="image/*">--}}
+{{--                            <div class="col-md-4 container_feature_image">--}}
+{{--                                <div class="row">--}}
+{{--                                    <img class="feature_image" src="{{$item->feature_image_path}}" alt="">--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_image', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'table' => 'news' , 'image' => $item->feature_image_path, 'relate_id' => $item->id])
+                        </div>
+
+                        <div>
+                            @include('administrator.components.upload_multiple_images', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'delete_api' => route('ajax,administrator.upload_multiple_images.delete') , 'sort_api' => route('ajax,administrator.upload_multiple_images.sort'), 'table' => 'news' , 'images' => $item->images, 'relate_id' => $item->id])
                         </div>
 
                         <div class="form-group mt-3">
@@ -55,6 +63,7 @@
                             <div class="alert alert-danger">{{$message}}</div>
                             @enderror
                         </div>
+
 
                         <button type="submit" class="btn btn-primary mt-3">Lưu thay đổi</button>
 

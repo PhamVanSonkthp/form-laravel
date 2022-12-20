@@ -244,7 +244,64 @@
         return false
     }
 
-    function callAjax(method = "GET", url, data, success, error){
+    function callAjaxMultipart(method = "GET", url, data, success, error, on_process = null, is_loading = true){
+        $.ajax({
+            type: method,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: data,
+            url: url,
+            beforeSend: function () {
+                if(is_loading){
+                    showLoading()
+                }
+            },
+            success: function (response) {
+                if(is_loading){
+                    hideLoading()
+                }
+                success(response)
+            },
+            error: function (err) {
+                if(is_loading){
+                    hideLoading()
+                }
+                Swal.fire(
+                    {
+                        icon: 'error',
+                        title: err.responseText,
+                    }
+                );
+                error(err)
+            },
+            xhr:function (){
+                // get the native XmlHttpRequest object
+                var xhr = $.ajaxSettings.xhr() ;
+                // set the onprogress event handler
+                xhr.upload.onprogress = function(evt){
+                    // console.log('progress', evt.loaded/evt.total*100)
+
+                    if (on_process){
+                        on_process(evt.loaded/evt.total*100)
+                    }
+
+                } ;
+                // set the onload event handler
+                xhr.upload.onload = function(){
+
+                } ;
+                // return the customized object
+
+                return xhr ;
+            }
+        });
+    }
+
+    function callAjax(method = "GET", url, data, success, error, is_loading = true){
         $.ajax({
             type: method,
             headers: {
@@ -254,14 +311,20 @@
             data: data,
             url: url,
             beforeSend: function () {
-                showLoading()
+                if(is_loading){
+                    showLoading()
+                }
             },
             success: function (response) {
-                hideLoading()
+                if(is_loading){
+                    hideLoading()
+                }
                 success(response)
             },
             error: function (err) {
-                hideLoading()
+                if(is_loading){
+                    hideLoading()
+                }
                 Swal.fire(
                     {
                         icon: 'error',

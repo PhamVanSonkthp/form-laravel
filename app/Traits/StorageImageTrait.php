@@ -22,8 +22,6 @@ trait StorageImageTrait
                 'file_path' => $folderName . '/original/' . $fileNameHash,
             ];
 
-
-
             // for save thumnail image
             $ImageUpload = Image::make($file);
             if (!file_exists(public_path() . $folderName . '/original/')) {
@@ -43,42 +41,6 @@ trait StorageImageTrait
                 }
                 $ImageUpload->save(public_path() . $folderName . '/'.$width .'x'. $height .'/' . $fileNameHash);
             }
-
-//            $ImageUpload = Image::make($file);
-//            $ImageUpload->fit(300, 300);
-//            if (!file_exists(public_path() . $folderName . '/300x300/')) {
-//                mkdir(public_path() . $folderName . '/300x300/', 666, true);
-//            }
-//            $ImageUpload->save(public_path() . $folderName . '/300x300/' . $fileNameHash);
-//
-//            $ImageUpload = Image::make($file);
-//            $ImageUpload->fit(100, 100);
-//            if (!file_exists(public_path() . $folderName . '/100x100/')) {
-//                mkdir(public_path() . $folderName . '/100x100/', 666, true);
-//            }
-//            $ImageUpload->save(public_path() . $folderName . '/100x100/' . $fileNameHash);
-//
-//            $ImageUpload = Image::make($file);
-//            $ImageUpload->fit(500, 500);
-//            if (!file_exists(public_path() . $folderName . '/500x500/')) {
-//                mkdir(public_path() . $folderName . '/500x500/', 666, true);
-//            }
-//            $ImageUpload->save(public_path() . $folderName . '/500x500/' . $fileNameHash);
-//
-//            $ImageUpload = Image::make($file);
-//            $ImageUpload->fit(200, 200);
-//            if (!file_exists(public_path() . $folderName . '/200x200/')) {
-//                mkdir(public_path() . $folderName . '/200x200/', 666, true);
-//            }
-//            $ImageUpload->save(public_path() . $folderName . '/200x200/' . $fileNameHash);
-//
-//            $ImageUpload = Image::make($file);
-//            $ImageUpload->fit(1000, 1000);
-//            if (!file_exists(public_path() . $folderName . '/1000x1000/')) {
-//                mkdir(public_path() . $folderName . '/1000x1000/', 666, true);
-//            }
-//            $ImageUpload->save(public_path() . $folderName . '/1000x1000/' . $fileNameHash);
-
 
             return $dataUpluadTrait;
         }

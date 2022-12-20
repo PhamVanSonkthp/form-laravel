@@ -18,13 +18,16 @@
 
     #image-preview {
         margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
     }
 
     #image-preview .image-view {
         display: inline-block;
         position: relative;
         margin-right: 13px;
-        margin-bottom: 13px;
+        margin-left: 13px;
     }
 
     #image-preview .image-view img {
@@ -32,6 +35,7 @@
         max-height: 220px;
         box-shadow: rgb(0 0 0 / 20%) 0px 0px 1px inset;
         border-radius: 12px;
+        border: 1px solid #dee2e6 !important;
     }
 
     #image-preview .overlay {
@@ -51,31 +55,32 @@
         bottom: 50%;
     }
 
-    .delete-button{
+    .delete-button {
         width: 0px;
         color: red;
         font-size: 25px;
         position: absolute;
         left: -5px;
-        top: -5px;
+        top: 0px;
     }
 
-    .delete-button:hover{
+    .delete-button:hover {
         cursor: pointer;
     }
 
-    .delete-button{
+    .delete-button {
         visibility: hidden;
     }
 
-    .image-view{
+    .image-view {
         cursor: pointer;
     }
-    .image-view:hover .delete-button{
+
+    .image-view:hover .delete-button {
         visibility: visible;
     }
 
-    .container-spinner{
+    .container-spinner {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -85,31 +90,58 @@
 
 <div id="drop-region">
     <div id="drop-message">
-        Drag & Drop images or click to upload
+        Kéo thả hình ảnh vào đây
     </div>
-    <ul id="image-preview"></ul>
+    <ul id="image-preview">
+        @if(isset($images))
+            @foreach($images as $image)
+                <li class="image-view" id="drop_image__{{$image->id}}">
+                    <img src="{{$image->image_path}}">
+                    <i class="fa fa-minus-square-o delete-button" onclick="deleteDropImage(this)"></i>
+                </li>
+            @endforeach
+
+        @endif
+    </ul>
 </div>
 
 <script>
 
-    let i = 0 ;
+    @if(isset($images))
+    @if(count($images))
+    $('#drop-message').hide()
+    @endif
+    @endif
+
+    $('#image-preview').on('sortupdate', function () {
+        const imageIdsArray = [];
+        $('#image-preview li').each(function (index) {
+            var id = $(this).attr('id');
+            if (isDefine(id)) {
+                const split_id = id.split("__");
+                imageIdsArray.push(split_id[1]);
+            }
+        });
+
+        callAjax(
+            "PUT",
+            "{{$sort_api}}",
+            {
+                ids: imageIdsArray
+            },
+            (response) => {
+
+            },
+            (error) => {
+
+            },
+            false,
+        )
+    });
 
     $("#image-preview").sortable({
         update: function (event, ui) {
-            dropIndex = ui.item.index();
-
-            var imageIdsArray = [];
-            $('#image-preview li').each(function (index) {
-                // if (index <= dropIndex) {
-                var id = $(this).attr('id');
-                if (isDefine(id)){
-                    var split_id = id.split("_");
-                    imageIdsArray.push(split_id);
-                    console.log(split_id)
-                }
-
-                // }
-            });
+            // dropIndex = ui.item.index();
 
         },
     });
@@ -227,12 +259,14 @@
 
     function previewAnduploadImage(image) {
 
+        let random_id = uuidv4()
+
         $('#drop-message').hide()
 
         // container
         var imgView = document.createElement("li");
         imgView.className = "image-view";
-        imgView.id = "drop_image__"+ ++i;
+        imgView.id = "drop_image__" + random_id;
 
         imagePreviewRegion.appendChild(imgView);
 
@@ -255,17 +289,8 @@
 
         // delete button
         var delete_button = document.createElement("i");
-        delete_button.onclick = function(){
-            if($('#image-preview').children().length == 0){
-                $('#drop-message').show()
-            }
-
-            const removed_id = imgView.id.split('__')[1]
-            imgView.remove()
-
-            ajax.open("DELETE", '{{$delete_api}}', true);
-
-        };
+        // delete_button.onclick = deleteDropImage;
+        delete_button.setAttribute("onclick","deleteDropImage(this)");
         delete_button.className = "fa fa-minus-square-o delete-button";
         imgView.appendChild(delete_button);
 
@@ -278,56 +303,54 @@
 
         // create FormData
         var formData = new FormData();
-        formData.en
         formData.append('image', image);
+        formData.append('id', random_id);
+        formData.append('table', '{{isset($table) ? $table : ''}}');
+        formData.append('relate_id', '{{isset($relate_id) ? $relate_id : ''}}');
 
-        // upload the image
-        formData.append('key', 'bb63bee9d9846c8d5b7947bcdb4b3573');
+        callAjaxMultipart(
+            "POST",
+            "{{$post_api}}",
+            formData,
+            (response) => {
+                container_spinner.remove()
+                overlay.remove();
 
-        console.log(image)
+                $("#image-preview").sortable("refresh");
+                $('#image-preview').trigger('sortupdate')
+            },
+            (error) => {
+                console.log(error)
+            },
+            (percent) => {
+                overlay.style.width = percent;
+            },
+            false,
+            false,
+            false,
+        )
 
-        var ajax = new XMLHttpRequest();
-        ajax.open("POST", '{{$post_api}}', true);
-        ajax.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
-        ajax.setRequestHeader("Content-Type","multipart/form-data");
-        ajax.setRequestHeader("boundary","----WebKitFormBoundaryyrV7KO0BoCBuDbTL");
+    }
 
-        ajax.onreadystatechange = function (e) {
-            if (ajax.readyState === 4) {
-                if (ajax.status === 200) {
-                    // done!
-                    container_spinner.remove()
-                    overlay.style.width = 100;
-
-                    console.log(e)
-
-                } else {
-                    // error!
-                    console.log(e)
-                }
-            }
+    function deleteDropImage(event){
+        const removed_id = $(event).parent().attr('id').split('__')[1]
+        $(event).parent().remove()
+        if ($('#image-preview').children().length == 0) {
+            $('#drop-message').show()
         }
+        callAjax(
+            "DELETE",
+            "{{$delete_api}}",
+            {
+                id: removed_id
+            },
+            (response) => {
 
-        ajax.upload.onprogress = function (e) {
+            },
+            (error) => {
 
-            // change progress
-            // (reduce the width of overlay)
-
-            var perc = (e.loaded / e.total * 100) || 100,
-                width = 100 - perc;
-
-            overlay.style.width = width;
-
-            // if (perc == 100){
-            //     container_spinner.remove()
-            // }
-            console.log(perc)
-
-            $("#image-preview").sortable( "refresh" );
-
-        }
-
-        ajax.send(formData);
-
+            },
+            false,
+        )
     }
 </script>
