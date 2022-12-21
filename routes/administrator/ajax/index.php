@@ -1,13 +1,37 @@
 <?php
 
 use App\Models\Image;
+use App\Models\SingpleImage;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 // ajax
 Route::prefix('ajax/administrator')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
+
+        Route::prefix('upload-image')->group(function () {
+            Route::post('/store', function (Request $request) {
+
+                $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image');
+
+                $item = SingpleImage::updateOrCreate([
+                    'relate_id' => $request->id,
+                    'table' => $request->table,
+                ],[
+                    'relate_id' => $request->id,
+                    'table' => $request->table,
+                    'image_path' => $dataUploadFeatureImage['file_path'],
+                    'image_name' => $dataUploadFeatureImage['file_name'],
+                ]);
+                $item->refresh();
+
+                return response()->json($item);
+
+            })->name('ajax,administrator.upload_image.store');
+        });
+
         Route::prefix('upload-multiple-images')->group(function () {
 
             Route::post('/store', function (Request $request) {
@@ -30,7 +54,7 @@ Route::prefix('ajax/administrator')->group(function () {
                 $image->update($dataUpdate);
                 $image->refresh();
 
-                return response()->json($dataUpdate);
+                return response()->json($image);
 
             })->name('ajax,administrator.upload_multiple_images.store');
 

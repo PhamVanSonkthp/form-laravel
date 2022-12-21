@@ -86,6 +86,11 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+    .drop-blur {
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+    }
 </style>
 
 <div id="drop-region">
@@ -113,6 +118,12 @@
     @endif
     @endif
 
+    const url_upload_file = "{{$post_api}}"
+    const url_delete_file = "{{$delete_api}}"
+    const url_sort_file = "{{$sort_api}}"
+    const maximum_upload_file = 10e6
+    const accept_upload_file = ['image/jpeg', 'image/png', 'image/gif']
+
     $('#image-preview').on('sortupdate', function () {
         const imageIdsArray = [];
         $('#image-preview li').each(function (index) {
@@ -125,7 +136,7 @@
 
         callAjax(
             "PUT",
-            "{{$sort_api}}",
+            url_sort_file,
             {
                 ids: imageIdsArray
             },
@@ -142,7 +153,6 @@
     $("#image-preview").sortable({
         update: function (event, ui) {
             // dropIndex = ui.item.index();
-
         },
     });
 
@@ -240,14 +250,14 @@
 
     function validateImage(image) {
         // check the type
-        var validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        var validTypes = accept_upload_file;
         if (validTypes.indexOf(image.type) === -1) {
             alert("Invalid File Type");
             return false;
         }
 
         // check the size
-        var maxSizeInBytes = 10e6; // 10MB
+        var maxSizeInBytes = maximum_upload_file; // 10MB
         if (image.size > maxSizeInBytes) {
             alert("File too large");
             return false;
@@ -272,6 +282,7 @@
 
         // previewing image
         var img = document.createElement("img");
+        img.className = "drop-blur"
         imgView.appendChild(img);
 
         // progress overlay
@@ -310,12 +321,12 @@
 
         callAjaxMultipart(
             "POST",
-            "{{$post_api}}",
+            url_upload_file,
             formData,
             (response) => {
                 container_spinner.remove()
                 overlay.remove();
-
+                img.classList.remove("drop-blur");
                 $("#image-preview").sortable("refresh");
                 $('#image-preview').trigger('sortupdate')
             },
@@ -340,7 +351,7 @@
         }
         callAjax(
             "DELETE",
-            "{{$delete_api}}",
+            url_delete_file,
             {
                 id: removed_id
             },
@@ -353,4 +364,5 @@
             false,
         )
     }
+
 </script>

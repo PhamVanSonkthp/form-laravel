@@ -47,7 +47,7 @@
 {{--                        </div>--}}
 
                         <div class="mt-3 mb-3">
-                            @include('administrator.components.upload_image', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'table' => 'news' , 'image' => $item->feature_image_path, 'relate_id' => $item->id])
+                            @include('administrator.components.upload_image', ['post_api' => route('ajax,administrator.upload_image.store'), 'table' => 'news' , 'image' => optional($item->image)->image_path, 'relate_id' => $item->id])
                         </div>
 
                         <div>

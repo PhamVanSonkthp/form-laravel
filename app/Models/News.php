@@ -21,6 +21,10 @@ class News extends Model implements Auditable
 
     protected $guarded = [];
 
+    public function image(){
+        return $this->hasOne(SingpleImage::class,'relate_id','id')->where('table' , $this->getTable());
+    }
+
     public function images(){
         return $this->hasMany(Image::class,'relate_id','id')->where('table' , $this->getTable())->orderBy('index');
     }

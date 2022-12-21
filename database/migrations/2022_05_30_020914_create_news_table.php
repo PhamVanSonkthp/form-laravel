@@ -19,8 +19,6 @@ class CreateNewsTable extends Migration
             $table->text('slug');
             $table->text('content');
             $table->bigInteger('category_id')->default(0);
-            $table->string('feature_image_name');
-            $table->string('feature_image_path');
             $table->timestamps();
         });
     }
