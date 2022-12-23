@@ -53,6 +53,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function avatar($size = "100x100"){
+        $image = $this->image;
+        if (!empty($image)){
+            return Formatter::getThumbnailImage($image->image_path,$size);
+        }
+
+        return config('_my_config.default_avatar');
+    }
+
+    public function image(){
+        return $this->hasOne(SingpleImage::class,'relate_id','id')->where('table' , $this->getTable());
+    }
+
+    public function images(){
+        return $this->hasMany(Image::class,'relate_id','id')->where('table' , $this->getTable())->orderBy('index');
+    }
+
     public function gender()
     {
         return $this->belongsTo(GenderUser::class);
@@ -170,22 +187,28 @@ class User extends Authenticatable implements MustVerifyEmail
             $updatetem = [
                 'name' => $request->name,
                 'phone' => $request->phone,
-                'email' => $request->email,
-                'date_of_birth' => $request->date_of_birth,
-                'gender_id' => $request->gender_id ?? 1,
-                'email_verified_at' => $request->verify_email ? now() : null,
             ];
+
+            if (!empty($request->date_of_birth)){
+                $updatetem['date_of_birth'] = $request->date_of_birth;
+            }
+
+            if (!empty($request->gender_id)){
+                $updatetem['gender_id'] = $request->gender_id;
+            }
 
             if (!empty($request->password)) {
                 $updatetem['password'] = Hash::make($request->password);
             }
 
-            $this->find($id)->update($updatetem);
             $item = $this->find($id);
-            $item->roles()->sync($request->role_id);
+
+            $item->update($updatetem);
+            $item->refresh();
+//            $item->roles()->sync($request->role_id);
             DB::commit();
 
-            return $this->findById($item->id);
+            return $item;
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());

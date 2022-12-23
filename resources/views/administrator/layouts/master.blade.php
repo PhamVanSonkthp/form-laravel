@@ -41,6 +41,7 @@
     <link rel="stylesheet" type="text/css" href="/vendor/owlcarousel/owlcarousel.css">
     <link rel="stylesheet" type="text/css" href="/vendor/rating/rating.css">
     <link rel="stylesheet" type="text/css" media="all" href="{{asset('vendor/datetimepicker/daterangepicker.css')}}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="{{asset('vendor/select2/select2.min.css')}}"/>
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/bootstrap.css">
@@ -106,9 +107,21 @@
             </div>
         </div>
         <!-- Page Sidebar Ends-->
+        <div class="page-body">
 
-        @yield('content')
+            <div class="container-fluid">
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <h3>{{isset($title) ? $title : ''}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            @yield('content')
+
+        </div>
 
         <!-- footer start-->
         <footer class="footer">
@@ -153,9 +166,9 @@
 <script src="/vendor/datatable/datatables.min.js"></script>
 <script src="{{asset('vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{asset('vendor/sweet-alert-2/sweetalert2@11.js')}}"></script>
+<script src="{{asset('vendor/select2/select2.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/daterangepicker.js')}}"></script>
-<script type="text/javascript" src="{{asset('vendor/helper/helper.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
 
 <!-- Plugins JS Ends-->

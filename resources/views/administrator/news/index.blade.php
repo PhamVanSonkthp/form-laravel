@@ -8,79 +8,65 @@
 
 @section('content')
 
-    <div class="page-body">
-        <div class="container-fluid">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <h3>{{$title}}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Container-fluid starts-->
-        <div class="container-fluid list-products">
-            <div class="row">
-                <!-- Individual column searching (text inputs) Starts-->
-                <div class="col-12">
+    <div class="container-fluid list-products">
+        <div class="row">
+            <!-- Individual column searching (text inputs) Starts-->
+            <div class="col-12">
 
-                    <div class="card">
-                        <div class="card-body">
+                <div class="card">
+                    <div class="card-body">
 
-                            <div class="col-md-12">
-                                <a href="{{route('administrator.news.create')}}"
-                                   class="btn btn-success float-end m-2">Thêm mới</a>
-                            </div>
-                            <div class="clearfix"></div>
-
-                            <div class="table-responsive product-table">
-                                <table class="display table-users" id="basic-1" data-order='[[ 0, "desc" ]]'>
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tiêu đề</th>
-                                        <th>Hình ảnh</th>
-                                        <th class="text-center" style="width: 100px;">Hành động</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($items as $item)
-                                        <tr>
-                                            <td>{{$item->id}}</td>
-                                            <td>{{$item->title}}</td>
-                                            <td>
-                                                <img style="width: 60px;height: 60px;object-fit: cover;"
-                                                     src="{{$item->feature_image_path}}">
-                                            </td>
-                                            <td>
-
-                                                <a href="{{route('administrator.news.edit' , ['id'=> $item->id ])}}"
-                                                   class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                                                    Sửa
-                                                </a>
-
-                                                <a href="{{route('administrator.news.delete' , ['id'=> $item->id])}}"
-                                                   data-url="{{route('administrator.news.delete' , ['id'=> $item->id])}}"
-                                                   class="btn btn-danger btn-sm delete action_delete" title="Delete">
-                                                    Xóa
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-
+                        <div class="col-md-12">
+                            <a href="{{route('administrator.news.create')}}"
+                               class="btn btn-success float-end m-2">Thêm mới</a>
                         </div>
-                    </div>
+                        <div class="clearfix"></div>
 
+                        <div class="table-responsive product-table">
+                            <table class="display table-users">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Hình ảnh</th>
+                                    <th class="text-center" style="width: 100px;">Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($items as $item)
+                                    <tr>
+                                        <td>{{$item->id}}</td>
+                                        <td>{{$item->title}}</td>
+                                        <td>
+                                            <img style="width: 60px;height: 60px;object-fit: cover;"
+                                                 src="{{$item->feature_image_path}}">
+                                        </td>
+                                        <td>
+
+                                            <a href="{{route('administrator.news.edit' , ['id'=> $item->id ])}}"
+                                               class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                                                Sửa
+                                            </a>
+
+                                            <a href="{{route('administrator.news.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.news.delete' , ['id'=> $item->id])}}"
+                                               class="btn btn-danger btn-sm delete action_delete" title="Delete">
+                                                Xóa
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
+
         </div>
-        <!-- Individual column searching (text inputs) Ends-->
-        <!-- Container-fluid Ends-->
     </div>
 
 @endsection

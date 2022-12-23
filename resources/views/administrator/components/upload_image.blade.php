@@ -10,14 +10,20 @@
         transition: .3s;
         min-height: 314px;
         position: relative;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
     }
 
     #single-drop-region:hover {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
     }
 
     #single-image-preview {
-        margin-top: 20px;
+        /*margin-top: 20px;*/
         display: flex;
         gap: 10px;
         overflow-x: auto;

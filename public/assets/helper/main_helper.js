@@ -2,6 +2,17 @@ $('select[name="limit"]').on('change', function () {
     addUrlParameter('limit', this.value)
 });
 
+$(".select2_init_mutilple").select2({
+    // placeholder: "Chọn",
+    tags: true,
+    multiple: true
+});
+
+$(".select2_init").select2({
+    placeholder: "Chọn",
+    // allowClear: true
+});
+
 function tryParseInt(val) {
     try {
         val = val.toString()
@@ -111,16 +122,16 @@ function actionDelete(event, url = null, table = null, target_remove = null) {
                 success: function (response) {
                     hideLoading()
                     if (response.code === 200) {
-                        table
-                            .row(target_remove)
-                            .remove()
-                            .draw();
-
-                        Swal.fire(
-                            'Đã xóa!',
-                            'Đã xóa bản ghi.',
-                            'success'
-                        )
+                        // table
+                        //     .row(target_remove)
+                        //     .remove()
+                        //     .draw();
+                        that.parent().parent().remove()
+                        // Swal.fire(
+                        //     'Đã xóa!',
+                        //     'Đã xóa bản ghi.',
+                        //     'success'
+                        // )
                     }
                 },
                 error: function (err) {

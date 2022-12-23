@@ -24,7 +24,8 @@ class UserEditRequest extends FormRequest
     public function rules()
     {
         return [
-//            'name'=>'required|max:255',
+            'name'=>'required|max:255',
+            'phone'=>'required|max:255',
         ];
     }
 

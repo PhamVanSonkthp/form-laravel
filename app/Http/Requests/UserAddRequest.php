@@ -25,7 +25,8 @@ class UserAddRequest extends FormRequest
     {
         return [
             'name'=>'required|max:255',
-//            'email'=>'required|unique:users',
+            'phone'=>'required|max:255',
+            'email'=>'required|unique:users',
             'password'=>'required',
         ];
     }

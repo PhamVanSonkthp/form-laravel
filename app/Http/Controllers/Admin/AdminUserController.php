@@ -55,7 +55,7 @@ class AdminUserController extends Controller
     public function store(UserAddRequest $request)
     {
         $item = $this->model->storeByQuery($request);
-        return response()->json($item);
+        return redirect()->route('administrator.users.index');
     }
 
     public function edit($id)
@@ -67,7 +67,7 @@ class AdminUserController extends Controller
     public function update($id, UserEditRequest $request)
     {
         $item = $this->model->updateByQuery($id,$request);
-        return response()->json($item);
+        return redirect()->route('administrator.users.index');
     }
 
     public function delete($id)

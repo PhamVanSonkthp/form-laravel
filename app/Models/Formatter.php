@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Formatter extends Model
@@ -20,7 +21,7 @@ class Formatter extends Model
         if (!empty($limit)){
             return (int) $limit;
         }
-        return 1000000;
+        return 10;
     }
 
     public static function formatTimeToNow($input)
@@ -142,4 +143,11 @@ class Formatter extends Model
         }
         return $value[0] . '/' . $value[1] . '/' . $value[2];
     }
+
+    public static function getShortDescriptionAttribute($description, $numberWord = 20)
+    {
+        $taglessDescription = strip_tags($description);
+        return html_entity_decode(Str::words($taglessDescription, $numberWord, '....'));
+    }
+
 }

@@ -103,7 +103,7 @@
             @endcan
 
             <li class="sidebar-list">
-                <a class="sidebar-link sidebar-title" href="#" data-bs-original-title="" title="">
+                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <g>
@@ -175,7 +175,7 @@
             </li>
 
             <li class="sidebar-list">
-                <a class="sidebar-link sidebar-title" href="#" data-bs-original-title="" title="">
+                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
                         <g>
@@ -268,30 +268,30 @@
                         </li>
                     @endcan
 
-                    @can('notification-list')
-                        <li>
-                            <a
-                                class="sidebar-link sidebar-title link-nav @yield('notification')"
-                                href="/administrator/notification">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <g>
-                                        <g>
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                  d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"
-                                                  stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
-                                                  stroke-linejoin="round"></path>
-                                            <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"
-                                                  stroke-width="1.5" stroke-linecap="round"
-                                                  stroke-linejoin="round"></path>
-                                        </g>
-                                    </g>
-                                </svg>
-                                <span>Thông báo</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
+{{--                    @can('notification-list')--}}
+{{--                        <li>--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav @yield('notification')"--}}
+{{--                                href="/administrator/notification">--}}
+{{--                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"--}}
+{{--                                     xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                    <g>--}}
+{{--                                        <g>--}}
+{{--                                            <path fill-rule="evenodd" clip-rule="evenodd"--}}
+{{--                                                  d="M2.75 12C2.75 18.937 5.063 21.25 12 21.25C18.937 21.25 21.25 18.937 21.25 12C21.25 5.063 18.937 2.75 12 2.75C5.063 2.75 2.75 5.063 2.75 12Z"--}}
+{{--                                                  stroke="#130F26" stroke-width="1.5" stroke-linecap="round"--}}
+{{--                                                  stroke-linejoin="round"></path>--}}
+{{--                                            <path d="M15.39 14.018L11.999 11.995V7.63403" stroke="#130F26"--}}
+{{--                                                  stroke-width="1.5" stroke-linecap="round"--}}
+{{--                                                  stroke-linejoin="round"></path>--}}
+{{--                                        </g>--}}
+{{--                                    </g>--}}
+{{--                                </svg>--}}
+{{--                                <span>Thông báo</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
 
                 </ul>
             </li>
@@ -321,15 +321,15 @@
             @endcan
 
         </ul>
-        <div class="sidebar-img-section">
-            <div class="sidebar-img-content"><img class="img-fluid" src="../assets/images/side-bar.png"
-                                                  alt="">
-                <h4>Need Help ?</h4><a class="txt" href="https://pixelstrap.freshdesk.com/support/home">Raise
-                    ticket at "support@pixelstrap.com"</a><a class="btn btn-secondary"
-                                                             href="https://themeforest.net/user/pixelstrap/portfolio">Buy
-                    Now</a>
-            </div>
-        </div>
+{{--        <div class="sidebar-img-section">--}}
+{{--            <div class="sidebar-img-content"><img class="img-fluid" src="../assets/images/side-bar.png"--}}
+{{--                                                  alt="">--}}
+{{--                <h4>Need Help ?</h4><a class="txt" href="https://pixelstrap.freshdesk.com/support/home">Raise--}}
+{{--                    ticket at "support@pixelstrap.com"</a><a class="btn btn-secondary"--}}
+{{--                                                             href="https://themeforest.net/user/pixelstrap/portfolio">Buy--}}
+{{--                    Now</a>--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </div>
     <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
 </nav>

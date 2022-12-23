@@ -136,10 +136,22 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:user-list',
         ]);
 
+        Route::get('/create', [
+            'as' => 'administrator.users.create',
+            'uses' => 'App\Http\Controllers\Admin\AdminUserController@create',
+            'middleware' => 'can:user-add',
+        ]);
+
         Route::post('/store', [
             'as' => 'administrator.users.store',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@store',
             'middleware' => 'can:user-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.users.edit',
+            'uses' => 'App\Http\Controllers\Admin\AdminUserController@edit',
+            'middleware' => 'can:user-edit',
         ]);
 
         Route::put('/update/{id}', [
@@ -419,7 +431,7 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:email-add',
         ]);
 
-        Route::get('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             'as' => 'administrator.email.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminEmailController@delete',
             'middleware' => 'can:email-delete',

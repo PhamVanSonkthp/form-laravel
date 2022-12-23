@@ -16,1672 +16,1945 @@
         $isHaveUserId = false;
     @endphp
 
-    <div class="page-body">
-        <div class="container-fluid">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <h3>{{$title}}</h3>
+    <div class="container-fluid list-products">
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        Danh sách đã chat
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table class="table table-editable table-nowrap align-middle table-edits">
+                                <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                </tr>
+                                </thead>
+                                <tbody class="container-participant">
+
+                                @foreach($items as $item)
+                                    <tr style="cursor: pointer;{{$item->chat_group_id == $chatGroupIdWithUser ? 'color: red;' : ''}}"
+                                        data-url="{{route('administrator.chat.participant' , ['id' => $item->chat_group_id])}}"
+                                        data-id="{{$item->chat_group_id}}"
+                                        data-participant_chat_id="{{$item->id}}"
+                                    >
+                                        @php
+                                            if($item->chat_group_id == $chatGroupIdWithUser){
+                                                $isHaveUserId = true;
+                                            }
+                                        @endphp
+                                        <td style="{{$item->chat_group_id == $chatGroupIdWithUser ? 'color: red;' : ''}}">
+                                            @foreach(\App\Models\ParticipantChat::where('chat_group_id', $item->chat_group_id)->get() as $itemParticipantChat)
+                                                @if(auth()->id() != optional($itemParticipantChat->user)->id)
+                                                    <div data-userid="{{optional($itemParticipantChat->user)->id}}"
+                                                         data-username="{{optional($itemParticipantChat->user)->name}}"
+                                                         data-notechat="{{optional($itemParticipantChat->user)->note_chat}}">
+                                                        {{ optional($itemParticipantChat->user)->name}}
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- Container-fluid starts-->
-        <div class="container-fluid list-products">
-            <div class="row">
-    <div class="col-md-4">
 
-        <div class="card">
+                <div class="card" style="display: none">
+                    <div class="card-header">
+                        Danh sách khách hàng
+                    </div>
 
-            <div class="card-header">
-                Danh sách đã chat
-            </div>
+                    <div class="card-body">
 
-            <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-editable table-nowrap align-middle table-edits">
+                                <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th>Vai trò</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach(\App\Models\User::where('is_admin' , '!=' , 1)->get() as $item)
 
-                <div class="table-responsive">
-                    <table class="table table-editable table-nowrap align-middle table-edits">
-                        <thead>
-                        <tr>
-                            <th>Tên</th>
-                        </tr>
-                        </thead>
-                        <tbody class="container-participant">
-
-                        @foreach($items as $item)
-                            <tr style="cursor: pointer;{{$item->chat_group_id == $chatGroupIdWithUser ? 'color: red;' : ''}}"
-                                data-url="{{route('administrator.chat.participant' , ['id' => $item->chat_group_id])}}"
-                                data-id="{{$item->chat_group_id}}"
-                                data-participant_chat_id="{{$item->id}}"
-                            >
-                                @php
-                                    if($item->chat_group_id == $chatGroupIdWithUser){
-                                        $isHaveUserId = true;
-                                    }
-                                @endphp
-                                <td style="{{$item->chat_group_id == $chatGroupIdWithUser ? 'color: red;' : ''}}">
-                                    @foreach(\App\Models\ParticipantChat::where('chat_group_id', $item->chat_group_id)->get() as $itemParticipantChat)
-                                        @if(auth()->id() != optional($itemParticipantChat->user)->id)
-                                            <div data-userid="{{optional($itemParticipantChat->user)->id}}"
-                                                 data-username="{{optional($itemParticipantChat->user)->name}}"
-                                                 data-notechat="{{optional($itemParticipantChat->user)->note_chat}}">
-                                                {{ optional($itemParticipantChat->user)->name}}
+                                    <tr style="cursor: pointer;{{$item->id == request('user_id') ? 'color: red;' : ''}}">
+                                        <td style="{{$item->id == request('user_id') ? 'color: red;' : ''}}">
+                                            <div>
+                                                {{ $item->display_name}}
                                             </div>
-                                        @endif
-                                    @endforeach
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                                        </td>
+                                        <td>
+                                            {{optional($item->role)->name}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
-        </div>
 
-        <div class="card" style="display: none">
-            <div class="card-header">
-                Danh sách khách hàng
-            </div>
+            <div class="col-md-8">
+                <div>
+                    <div class="card" id="chat2">
+                        <div class="card-header d-flex justify-content-between align-items-center p-3">
+                            <h5 class="mb-0" id="lbl_name_message"></h5>
+                        </div>
+                        <div id="container_chat" class="card-body" data-mdb-perfect-scrollbar="true"
+                             style="position: relative; height: 67vh;overflow: auto">
 
-            <div class="card-body">
-
-                <div class="table-responsive">
-                    <table class="table table-editable table-nowrap align-middle table-edits">
-                        <thead>
-                        <tr>
-                            <th>Tên</th>
-                            <th>Vai trò</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach(\App\Models\User::where('is_admin' , '!=' , 1)->get() as $item)
-
-                            <tr style="cursor: pointer;{{$item->id == request('user_id') ? 'color: red;' : ''}}">
-                                <td style="{{$item->id == request('user_id') ? 'color: red;' : ''}}">
-                                    <div>
-                                        {{ $item->display_name}}
+                            {{--                    <div class="divider d-flex align-items-center mb-4">--}}
+                            {{--                        <p class="text-center mx-3 mb-0" style="color: #a2aab7;">Today</p>--}}
+                            {{--                    </div>--}}
+                        </div>
+                        <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                            <div class="btn-group dropup" id="container_icon">
+                                <button type="button" class="btn btn-outline dropdown-toggle pe-2 ps-2"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-smile"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <div class="h-full tab-pane active" role="tabpanel" aria-labelledby="smile-tab">
+                                        <div class="font-medium px-3">Smileys &amp; People</div>
+                                        <div class="h-full pb-10 px-2 overflow-y-auto scrollbar-hidden mt-2"
+                                             style="max-height: 20vh;overflow-y: auto;width: 20vw;">
+                                            <div class="grid grid-cols-8 text-2xl" id="smile">
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😀
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😁
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😂
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤣
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😃
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😄
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😅
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😆
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😉
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😊
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😋
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😎
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😍
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😘
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😗
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😙
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😚
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ☺️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙂
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤗
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤩
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤔
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😐
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😑
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😶
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙄
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😏
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😣
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😥
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😮
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤐
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😯
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😪
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😫
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😴
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😌
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😛
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😜
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😝
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😒
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😔
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😕
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙃
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤑
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😲
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ☹️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙁
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😖
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😞
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😟
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😢
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😭
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😩
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤯
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😬
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😰
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😱
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😳
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤪
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😵
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😡
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😠
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤬
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😷
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤒
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤕
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤢
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤮
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😇
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤠
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤡
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤥
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤫
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤭
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧐
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😈
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👿
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👹
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👺
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💀
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ☠️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👻
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👽
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👾
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤖
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💩
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😺
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😸
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😹
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😻
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😼
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😽
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙀
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😿
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    😾
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙈
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙉
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙊
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👶
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧒
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧑
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👴
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👵
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍⚕️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍⚕️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🎓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🎓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🏫
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🏫
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍⚖️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍⚖️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🌾
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🌾
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🍳
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🍳
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🔧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🔧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🏭
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🏭
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍💼
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍💼
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🔬
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🔬
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍💻
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍💻
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🎤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🎤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🎨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🎨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍✈️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍✈️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🚀
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🚀
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍🚒
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍🚒
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👮
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👮‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👮‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🕵️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🕵️‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🕵️‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💂
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💂‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💂‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👷
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👷‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👷‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤴
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👸
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👳
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👳‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👳‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👲
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧕
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧔
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👱
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👱‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👱‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤵
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👰
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤰
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤱
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👼
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🎅
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤶
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧙
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧙‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧙‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧚
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧚‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧚‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧛
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧛‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧛‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧜
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧜‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧜‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧝
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧝‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧝‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧞
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧞‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧞‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧟
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧟‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧟‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙍
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙍‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙍‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙎
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙎‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙎‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙅
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙅‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙅‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙆
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙆‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙆‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💁
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💁‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💁‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙋
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙋‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙋‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙇
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙇‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙇‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤦‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤦‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤷
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤷‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤷‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💆
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💆‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💆‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💇
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💇‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💇‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚶
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚶‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚶‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏃
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏃‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏃‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💃
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🕺
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👯
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👯‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👯‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧖
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧖‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧖‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧗
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧗‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧗‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧘
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧘‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧘‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🛀
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🛌
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🕴️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🗣️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👥
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤺
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏇
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ⛷️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏂
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏌️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏌️‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏌️‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏄
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏄‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏄‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚣
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚣‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚣‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏊
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏊‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏊‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ⛹️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ⛹️‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ⛹️‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏋️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏋️‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏋️‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚴
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚴‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚴‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚵
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚵‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🚵‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏎️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🏍️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤸
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤸‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤸‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤼
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤼‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤼‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤽
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤽‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤽‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤾
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤾‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤾‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤹
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤹‍♂️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤹‍♀️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👫
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👬
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👭
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💏
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍❤️‍💋‍👨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍❤️‍💋‍👨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍❤️‍💋‍👩
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💑
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍❤️‍👨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍❤️‍👨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍❤️‍👩
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👪
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👩‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👩‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👩‍👧‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👩‍👦‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👩‍👧‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👨‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👨‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👨‍👧‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👨‍👦‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👨‍👧‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👩‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👩‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👩‍👧‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👩‍👦‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👩‍👧‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👦‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👧‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👨‍👧‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👦‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👧‍👦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👩‍👧‍👧
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤳
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💪
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👈
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👉
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ☝️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👆
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🖕
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👇
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ✌️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤞
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🖖
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤘
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤙
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🖐️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ✋
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👌
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👍
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👎
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ✊
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👊
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤛
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤜
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤚
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👋
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤟
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ✍️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👏
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👐
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙌
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤲
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🙏
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🤝
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💅
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👂
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👃
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👣
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👀
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👁️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👁️‍🗨️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧠
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👅
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👄
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💋
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💘
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ❤️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💔
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💕
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💖
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💗
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💙
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💚
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💛
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧡
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💜
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🖤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💝
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💞
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💟
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ❣️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💌
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💢
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💣
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💥
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💨
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💫
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💬
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🗨️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🗯️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💭
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🕳️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🕶️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👔
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👕
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👖
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧣
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧤
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧥
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧦
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👗
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👘
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👙
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👚
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👛
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👜
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👝
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🛍️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🎒
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👞
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👟
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👠
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👡
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👢
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👑
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    👒
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🎩
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🎓
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    🧢
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    ⛑️
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    📿
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💄
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💍
+                                                </button>
+                                                <button
+                                                    class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
+                                                    💎
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </td>
-                                <td>
-                                    {{optional($item->role)->name}}
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-md-8">
-        <div>
-            <div class="card" id="chat2">
-                <div class="card-header d-flex justify-content-between align-items-center p-3">
-                    <h5 class="mb-0" id="lbl_name_message"></h5>
-                </div>
-                <div id="container_chat" class="card-body" data-mdb-perfect-scrollbar="true"
-                     style="position: relative; height: 67vh;overflow: auto">
-
-                    {{--                    <div class="divider d-flex align-items-center mb-4">--}}
-                    {{--                        <p class="text-center mx-3 mb-0" style="color: #a2aab7;">Today</p>--}}
-                    {{--                    </div>--}}
-                </div>
-                <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
-                    <div class="btn-group dropup" id="container_icon">
-                        <button type="button" class="btn btn-outline dropdown-toggle pe-2 ps-2"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-smile"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <div class="h-full tab-pane active" role="tabpanel" aria-labelledby="smile-tab">
-                                <div class="font-medium px-3">Smileys &amp; People</div>
-                                <div class="h-full pb-10 px-2 overflow-y-auto scrollbar-hidden mt-2"
-                                     style="max-height: 20vh;overflow-y: auto;width: 20vw;">
-                                    <div class="grid grid-cols-8 text-2xl" id="smile">
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😀
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😁
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😂
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤣
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😃
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😄
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😅
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😆
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😉
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😊
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😋
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😎
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😍
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😘
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😗
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😙
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😚
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">☺️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙂
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤗
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤩
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤔
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😐
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😑
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😶
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙄
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😏
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😣
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😥
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😮
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤐
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😯
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😪
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😫
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😴
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😌
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😛
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😜
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😝
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😒
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😔
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😕
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙃
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤑
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😲
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">☹️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙁
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😖
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😞
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😟
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😢
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😭
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😩
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤯
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😬
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😰
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😱
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😳
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤪
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😵
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😡
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😠
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤬
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😷
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤒
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤕
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤢
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤮
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😇
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤠
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤡
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤥
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤫
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤭
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧐
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😈
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👿
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👹
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👺
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💀
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">☠️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👻
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👽
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👾
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤖
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💩
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😺
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😸
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😹
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😻
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😼
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😽
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙀
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😿
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">😾
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙈
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙉
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙊
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👶
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧒
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧑
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👩
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👴
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👵
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍⚕️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍⚕️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🎓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🎓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🏫
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🏫
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍⚖️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍⚖️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🌾
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🌾
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🍳
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🍳
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🔧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🔧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🏭
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🏭
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍💼
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍💼
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🔬
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🔬
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍💻
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍💻
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🎤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🎤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🎨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🎨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍✈️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍✈️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🚀
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🚀
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍🚒
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍🚒
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👮
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👮‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👮‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🕵️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🕵️‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🕵️‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💂
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💂‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💂‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👷
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👷‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👷‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤴
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👸
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👳
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👳‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👳‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👲
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧕
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧔
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👱
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👱‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👱‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤵
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👰
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤰
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤱
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👼
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🎅
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤶
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧙
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧙‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧙‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧚
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧚‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧚‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧛
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧛‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧛‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧜
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧜‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧜‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧝
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧝‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧝‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧞
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧞‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧞‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧟
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧟‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧟‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙍
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙍‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙍‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙎
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙎‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙎‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙅
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙅‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙅‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙆
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙆‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙆‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💁
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💁‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💁‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙋
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙋‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙋‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙇
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙇‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🙇‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤦‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤦‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤷
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤷‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤷‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💆
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💆‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💆‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💇
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💇‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            💇‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🚶
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚶‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚶‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🏃
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏃‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏃‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💃
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🕺
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👯
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👯‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👯‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧖
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧖‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧖‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧗
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧗‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧗‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧘
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧘‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🧘‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🛀
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🛌
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🕴️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🗣️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👥
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤺
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🏇
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">⛷️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🏂
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏌️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏌️‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏌️‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🏄
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏄‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏄‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🚣
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚣‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚣‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🏊
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏊‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏊‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">⛹️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            ⛹️‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            ⛹️‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏋️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏋️‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏋️‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🚴
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚴‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚴‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🚵
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚵‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🚵‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏎️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🏍️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤸
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤸‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤸‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤼
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤼‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤼‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤽
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤽‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤽‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤾
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤾‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤾‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤹
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤹‍♂️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🤹‍♀️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👫
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👬
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👭
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💏
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍❤️‍💋‍👨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍❤️‍💋‍👨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍❤️‍💋‍👩
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💑
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍❤️‍👨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍❤️‍👨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍❤️‍👩
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👪
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👩‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👩‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👩‍👧‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👩‍👦‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👩‍👧‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👨‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👨‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👨‍👧‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👨‍👦‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👨‍👧‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👩‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👩‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👩‍👧‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👩‍👦‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👩‍👧‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👦‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👧‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👨‍👧‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👦‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👧‍👦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👩‍👧‍👧
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤳
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💪
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👈
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👉
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">☝️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👆
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🖕
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👇
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">✌️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤞
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🖖
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤘
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤙
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🖐️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">✋
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👌
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👍
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👎
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">✊
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👊
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤛
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤜
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤚
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👋
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤟
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">✍️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👏
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👐
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙌
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤲
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🙏
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🤝
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💅
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👂
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👃
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👣
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👀
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👁️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            👁️‍🗨️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧠
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👅
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👄
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💋
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💘
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">❤️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💔
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💕
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💖
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💗
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💙
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💚
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💛
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧡
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💜
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🖤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💝
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💞
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💟
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">❣️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💌
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💢
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💣
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💥
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💨
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💫
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💬
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🗨️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🗯️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💭
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🕳️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🕶️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👔
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👕
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👖
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧣
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧤
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧥
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧦
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👗
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👘
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👙
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👚
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👛
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👜
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👝
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">
-                                            🛍️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🎒
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👞
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👟
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👠
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👡
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👢
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👑
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">👒
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🎩
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🎓
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">🧢
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">⛑️
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">📿
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💄
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💍
-                                        </button>
-                                        <button
-                                            class="rounded focus:outline-none hover:bg-gray-200 dark:hover:bg-dark-2">💎
-                                        </button>
-                                    </div>
-                                </div>
+                                </ul>
                             </div>
-                        </ul>
+
+                            <input class="form-control input-txt-bx" type="text" name="message-to-send"
+                                   placeholder="Type a message......" id="input_message">
+
+                            {{--                    <input type="text" class="form-control form-control-lg" placeholder="Nhập nội dung" id="input_message">--}}
+                            <div>
+                                <input class="form-control form-control-sm" id="file_images" type="file" multiple
+                                       accept="image/*">
+                            </div>
+
+
+                            <button onclick="sendMessage()" class="btn btn-outline-info-2x" type="button"
+                                    data-bs-original-title="" title=""
+                                    data-original-title="btn btn-outline-info-2x">Gửi
+                            </button>
+                            {{--                    <button onclick="sendMessage()" class="btn-primary btn"><i class="fas fa-paper-plane"></i></button>--}}
+
+                        </div>
                     </div>
-
-                    <input class="form-control input-txt-bx" type="text" name="message-to-send" placeholder="Type a message......" id="input_message">
-
-{{--                    <input type="text" class="form-control form-control-lg" placeholder="Nhập nội dung" id="input_message">--}}
-                    <div>
-                        <input class="form-control form-control-sm" id="file_images" type="file" multiple
-                               accept="image/*">
-                    </div>
-
-
-                    <button onclick="sendMessage()" class="btn btn-outline-info-2x" type="button" data-bs-original-title="" title="" data-original-title="btn btn-outline-info-2x">Gửi</button>
-{{--                    <button onclick="sendMessage()" class="btn-primary btn"><i class="fas fa-paper-plane"></i></button>--}}
 
                 </div>
             </div>
 
+            @if(!$isHaveUserId)
+                <style>
+                    .container-participant > tr:first-child > td {
+                        color: red;
+                    }
+                </style>
+            @endif
         </div>
-    </div>
-
-    @if(!$isHaveUserId)
-        <style>
-            .container-participant > tr:first-child > td {
-                color: red;
-            }
-        </style>
-    @endif
-            </div>
-        </div>
-        <!-- Individual column searching (text inputs) Ends-->
-        <!-- Container-fluid Ends-->
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1707,7 +1980,7 @@
     <script type="text/javascript" src="{{asset('vendor/datetimepicker/moment.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('vendor/datetimepicker/daterangepicker.js')}}"></script>
 
-{{--    <script src="{{asset('vendor/pusher/pusher.min.js')}}"></script>--}}
+    {{--    <script src="{{asset('vendor/pusher/pusher.min.js')}}"></script>--}}
     <script src="https://js.pusher.com/7.1/pusher.min.js"></script>
     <script>
 
@@ -1933,7 +2206,7 @@
         })
 
         function viewProfile() {
-            if(user_profile_id){
+            if (user_profile_id) {
                 window.location.href = "/administrator/users/edit/" + user_profile_id
             }
         }
@@ -2010,11 +2283,11 @@
             })
         })
 
-        function showImage(e){
+        function showImage(e) {
             const src = $(e).attr("src")
 
             const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
-            $("#image_modal").attr("src",src)
+            $("#image_modal").attr("src", src)
             myModal.show()
         }
     </script>
@@ -2042,10 +2315,10 @@
             })
         })
 
-        window.addEventListener('click', function(e){
-            if (document.getElementById('container_icon').contains(e.target)){
+        window.addEventListener('click', function (e) {
+            if (document.getElementById('container_icon').contains(e.target)) {
                 $('#container_icon > ul').show()
-            } else{
+            } else {
                 $('#container_icon > ul').hide()
             }
         });
