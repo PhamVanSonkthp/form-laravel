@@ -64,13 +64,14 @@ class AdminEmployeeController extends Controller
     public function edit($id)
     {
         $item = $this->model->findById($id);
-        return view('administrator.'.$this->prefixView.'.edit', compact('item'));
+        $rolesOfUser = $item->roles;
+        return view('administrator.'.$this->prefixView.'.edit', compact('item','rolesOfUser'));
     }
 
     public function update($id, UserEditRequest $request)
     {
         $item = $this->model->updateByQuery($id,$request);
-        return response()->json($item);
+        return back();
     }
 
     public function delete($id)

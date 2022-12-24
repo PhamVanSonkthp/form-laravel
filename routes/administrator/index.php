@@ -227,6 +227,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:employee-list',
         ]);
 
+        Route::get('/create', [
+            'as' => 'administrator.employees.create',
+            'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@create',
+            'middleware' => 'can:employee-add',
+        ]);
+
         Route::post('/store', [
             'as' => 'administrator.employees.store',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@store',
@@ -236,6 +242,12 @@ Route::prefix('administrator')->group(function () {
         Route::put('/update/{id}', [
             'as' => 'administrator.employees.update',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@update',
+            'middleware' => 'can:employee-edit',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.employees.edit',
+            'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@edit',
             'middleware' => 'can:employee-edit',
         ]);
 

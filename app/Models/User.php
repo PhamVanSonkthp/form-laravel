@@ -177,6 +177,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $item = $this->create($dataInsert);
 
+        if (!empty($request->is_admin && $request->is_admin == 1 && isset($request->role_ids))){
+            $item->roles()->attach($request->role_ids);
+        }
+
         return $this->findById($item->id);
     }
 
@@ -204,8 +208,12 @@ class User extends Authenticatable implements MustVerifyEmail
             $item = $this->find($id);
 
             $item->update($updatetem);
+
             $item->refresh();
-//            $item->roles()->sync($request->role_id);
+
+            if ($item->is_admin != 0 && isset($request->role_ids)){
+                $item->roles()->sync($request->role_ids);
+            }
             DB::commit();
 
             return $item;

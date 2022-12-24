@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <div class="container-fluid list-products">
+    <div class="container-fluid">
         <div class="row">
             <!-- Individual column searching (text inputs) Starts-->
             <div class="col-sm-12">
@@ -23,9 +23,9 @@
                             </div>
 
                             <div class="col-md-9 text-end">
-                                <button class="btn btn-primary float-end m-2" data-bs-toggle="modal"
-                                        data-bs-target="#modal_add_user" data-bs-whatever="@mdo">Thêm mới
-                                </button>
+                                <a class="btn btn-primary float-end m-2" href="{{route('administrator.employees.create')}}">Thêm
+                                    mới
+                                </a>
                                 <button onclick="exportExcel()" class="btn btn-success float-end m-2">Export
                                 </button>
                             </div>
@@ -35,10 +35,11 @@
 
                     <div class="card-body">
                         <div class="table-responsive product-table">
-                            <table class="display table-users" id="basic-1" data-order='[[ 0, "desc" ]]'>
+                            <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>Mã NV</th>
+                                    <th>Avatar</th>
                                     <th>Vai trò</th>
                                     <th>Tên NV</th>
                                     <th>Số điện thoại</th>
@@ -54,7 +55,14 @@
                                 @foreach($items as $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
-                                        <td>{{optional($item->role)->name}}</td>
+                                        <td>
+                                            <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
+                                        </td>
+                                        <td>
+                                            @foreach($item->roles as $role)
+                                                <span class="badge bg-primary">{{$role->name}}</span>
+                                            @endforeach
+                                        </td>
                                         <td>{{$item->name}}</td>
                                         <td>{{$item->phone}}</td>
                                         <td>{{$item->email}}</td>
@@ -62,12 +70,12 @@
                                         <td>{{ optional($item->gender)->name}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
-                                            <a class="btn btn-outline-secondary btn-sm edit"
-                                               data-id="{{$item->id}}">Sửa</a>
+                                            <a href="{{route('administrator.employees.edit' , ['id'=> $item->id])}}"
+                                               class="btn btn-outline-secondary btn-sm edit">Sửa</a>
 
-                                            <a href="{{route('administrator.users.delete' , ['id'=> $item->id])}}"
-                                               data-url="{{route('administrator.users.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-danger btn-sm delete">
+                                            <a href="{{route('administrator.employees.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.employees.delete' , ['id'=> $item->id])}}"
+                                               class="btn btn-danger btn-sm action_delete">
                                                 Xóa
                                             </a>
                                         </td>
@@ -76,6 +84,10 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    <div class="card-footer">
+                        {{ $items->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
