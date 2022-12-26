@@ -3,8 +3,18 @@
 @include('administrator.chat.header')
 
 @section('css')
-    <link rel="stylesheet" type="text/css" media="all" href="{{asset('assets/administrator/css/chat.css')}}"/>
 
+
+    <style>
+        .image-chat{
+            cursor: pointer;
+            max-height: 220px;
+            box-shadow: rgb(0 0 0 / 20%) 0px 0px 1px inset;
+            border-radius: 12px;
+            border: 1px solid #dee2e6 !important;
+            object-fit: cover;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -1942,6 +1952,8 @@
                             {{--                    <button onclick="sendMessage()" class="btn-primary btn"><i class="fas fa-paper-plane"></i></button>--}}
 
                         </div>
+
+                        @include('administrator.chat.components.placeholder_images')
                     </div>
 
                 </div>
@@ -1957,28 +1969,10 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ảnh</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <img id="image_modal">
-            </div>
-        </div>
-    </div>
-
+    @include('administrator.components.show_image_on_modal')
 @endsection
 
 @section('js')
-    <script src="{{asset('vendor/sweet-alert-2/sweetalert2@11.js')}}"></script>
-    <script src="{{asset('admins/products/index/list.js')}}"></script>
-
-    <script type="text/javascript" src="{{asset('vendor/datetimepicker/moment.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('vendor/datetimepicker/daterangepicker.js')}}"></script>
 
     {{--    <script src="{{asset('vendor/pusher/pusher.min.js')}}"></script>--}}
     <script src="https://js.pusher.com/7.1/pusher.min.js"></script>
@@ -2043,10 +2037,10 @@
             if (sender) {
                 data = `<div class="d-flex flex-row justify-content-end message">
                         <div class="w-100 text-end">
-                            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary text-chat" style="display: ${display};">${content}</p>
                             <div class="row justify-content-end small me-3 rounded-3">
                                 ${data_image}
                             </div>
+                            <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary text-chat" style="display: ${display};">${content}</p>
                             <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">${time}</p>
                         </div>
                         <img src="{{auth()->user()->feature_image_path}}" class="avatar-chat">
@@ -2057,10 +2051,10 @@
                         <img src="${img_link}"  class="avatar-chat">
                         <div class="w-100 text-start">
                             <p class="small ms-3 mb-1 text-chat">${name_getter}</p>
-                            <p class="small p-2 ms-3 mb-1 rounded-3 text-chat" style="background-color: #f5f6f7;display: ${display};">${content}</p>
                             <div class="row justify-content-end small me-3 rounded-3">
                                 ${data_image}
                             </div>
+                            <p class="small p-2 ms-3 mb-1 rounded-3 text-chat" style="background-color: #f5f6f7;display: ${display};">${content}</p>
                             <p class="small ms-3 mb-3 rounded-3 text-muted">${time}</p>
                         </div>
                     </div>`
@@ -2113,6 +2107,7 @@
                     processData: false,
                     dataType: 'json',
                     success: function (response) {
+                        console.log(response)
                         addMessageToChatBox(response.content, response.created_at, true, true, null, response.images)
                     },
                     error: function (err) {
@@ -2282,14 +2277,6 @@
                 },
             })
         })
-
-        function showImage(e) {
-            const src = $(e).attr("src")
-
-            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
-            $("#image_modal").attr("src", src)
-            myModal.show()
-        }
     </script>
 
     <script>
@@ -2323,5 +2310,10 @@
             }
         });
 
+        const message_box = document.querySelector('#container_chat')
+
+        message_box.addEventListener('dragover' , function (){
+            console.log('ok')
+        })
     </script>
 @endsection

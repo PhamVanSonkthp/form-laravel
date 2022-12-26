@@ -9,62 +9,49 @@
 
 @section('content')
 
-    <div class="page-body">
-        <div class="container-fluid">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <h3>{{$title}}</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Container-fluid starts-->
-        <div class="container-fluid list-products">
-            <div class="row">
+    <div class="container-fluid list-products">
+        <div class="row">
 
-                <form action="{{route('administrator.news.store')}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="col-md-12">
+            <form action="{{route('administrator.news.store')}}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="col-md-12">
+
+                    <div class="form-group mt-3">
+                        <label>Tiêu đề</label>
+                        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
+                               value="{{old('title')}}" required>
+                        @error('title')
+                        <div class="alert alert-danger">{{$message}}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label>Ảnh đại diện</label>
+                        <input type="file" name="feature_image_path" class="form-control-file" accept="image/*"
+                               required>
+
 
                         <div class="form-group mt-3">
-                            <label>Tiêu đề</label>
-                            <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
-                                   value="{{old('title')}}" required>
-                            @error('title')
+                            <label>Nhập nội dung</label>
+                            <textarea style="min-height: 400px;" name="contents"
+                                      class="form-control tinymce_editor_init @error('contents') is-invalid @enderror"
+                                      rows="8">{{old('contents')}}</textarea>
+                            @error('contents')
                             <div class="alert alert-danger">{{$message}}</div>
                             @enderror
                         </div>
 
-                        <div class="form-group mt-3">
-                            <label>Ảnh đại diện</label>
-                            <input type="file" name="feature_image_path" class="form-control-file" accept="image/*"
-                                   required>
-
-
-                            <div class="form-group mt-3">
-                                <label>Nhập nội dung</label>
-                                <textarea style="min-height: 400px;" name="contents"
-                                          class="form-control tinymce_editor_init @error('contents') is-invalid @enderror"
-                                          rows="8">{{old('contents')}}</textarea>
-                                @error('contents')
-                                <div class="alert alert-danger">{{$message}}</div>
-                                @enderror
-                            </div>
-
-                            <button type="submit" class="btn btn-primary mt-3">Thêm mới</button>
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_multiple_images', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'delete_api' => route('ajax,administrator.upload_multiple_images.delete') , 'sort_api' => route('ajax,administrator.upload_multiple_images.sort'), 'table' => 'news' , 'relate_id' => \App\Models\Helper::getNextIdTable('news')])
                         </div>
-                    </div>
-                </form>
 
-                <div>
-                    @include('administrator.components.upload_multiple_images', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'delete_api' => route('ajax,administrator.upload_multiple_images.delete'), 'table' => 'news'])
+                        <button type="submit" class="btn btn-primary mt-3">Thêm mới</button>
+                    </div>
                 </div>
-            </div>
+            </form>
 
         </div>
-        <!-- Individual column searching (text inputs) Ends-->
-        <!-- Container-fluid Ends-->
+
     </div>
 
 @endsection
