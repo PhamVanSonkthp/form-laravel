@@ -12,6 +12,10 @@
         position: relative;
     }
 
+    .drop-region-active{
+        filter: drop-shadow(0 0 0.15rem crimson);
+    }
+
     #drop-region:hover {
         box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
     }
@@ -91,6 +95,8 @@
         filter: blur(2px);
         -webkit-filter: blur(2px);
     }
+
+
 </style>
 
 <div id="drop-region">

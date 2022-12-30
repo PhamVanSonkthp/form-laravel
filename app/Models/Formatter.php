@@ -68,9 +68,11 @@ class Formatter extends Model
     {
         try {
             if (!empty($format)) {
-                return date($format, strtotime($input. "+7hours"));
+//                return date($format, strtotime($input. "+7hours"));
+                return date($format);
             } else {
-                return date('d-m-Y H:i', strtotime($input. "+7hours"));
+//                return date('d-m-Y H:i', strtotime($input. "+7hours"));
+                return date('d-m-Y H:i:s');
             }
 
         } catch (\Exception $exception) {

@@ -26,10 +26,17 @@
                     </div>
 
                     <div class="form-group mt-3">
-                        <label>Ảnh đại diện</label>
-                        <input type="file" name="feature_image_path" class="form-control-file" accept="image/*"
-                               required>
+{{--                        <label>Ảnh đại diện</label>--}}
+{{--                        <input type="file" name="feature_image_path" class="form-control-file" accept="image/*"--}}
+{{--                               required>--}}
 
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_image', ['post_api' => $imagePostUrl, 'table' => 'news', 'image' => optional(\App\Models\SingpleImage::where('relate_id', \App\Models\Helper::getNextIdTable('news'))->where('table','news')->first())->image_path , 'relate_id' => \App\Models\Helper::getNextIdTable('news')])
+                        </div>
+
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_multiple_images', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'delete_api' => route('ajax,administrator.upload_multiple_images.delete') , 'sort_api' => route('ajax,administrator.upload_multiple_images.sort'), 'table' => 'news' , 'images' => \App\Models\Image::where('relate_id', \App\Models\Helper::getNextIdTable('news'))->where('table','news')->orderBy('index')->get(),'relate_id' => \App\Models\Helper::getNextIdTable('news')])
+                        </div>
 
                         <div class="form-group mt-3">
                             <label>Nhập nội dung</label>
@@ -39,10 +46,6 @@
                             @error('contents')
                             <div class="alert alert-danger">{{$message}}</div>
                             @enderror
-                        </div>
-
-                        <div class="mt-3 mb-3">
-                            @include('administrator.components.upload_multiple_images', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'delete_api' => route('ajax,administrator.upload_multiple_images.delete') , 'sort_api' => route('ajax,administrator.upload_multiple_images.sort'), 'table' => 'news' , 'relate_id' => \App\Models\Helper::getNextIdTable('news')])
                         </div>
 
                         <button type="submit" class="btn btn-primary mt-3">Thêm mới</button>

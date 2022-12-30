@@ -23,13 +23,13 @@
                         <div class="clearfix"></div>
 
                         <div class="table-responsive product-table">
-                            <table class="display table-users">
+                            <table class="table table-hover ">
                                 <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Tiêu đề</th>
                                     <th>Hình ảnh</th>
-                                    <th class="text-center" style="width: 100px;">Hành động</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -38,8 +38,7 @@
                                         <td>{{$item->id}}</td>
                                         <td>{{$item->title}}</td>
                                         <td>
-                                            <img style="width: 60px;height: 60px;object-fit: cover;"
-                                                 src="{{$item->feature_image_path}}">
+                                            <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
                                         </td>
                                         <td>
 

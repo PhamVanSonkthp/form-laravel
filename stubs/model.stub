@@ -20,6 +20,23 @@ class {{ class }} extends Model implements Auditable
 
     protected $guarded = [];
 
+    public function avatar($size = "100x100"){
+        $image = $this->image;
+        if (!empty($image)){
+            return Formatter::getThumbnailImage($image->image_path,$size);
+        }
+
+        return config('_my_config.default_avatar');
+    }
+
+    public function image(){
+        return $this->hasOne(SingpleImage::class,'relate_id','id')->where('table' , $this->getTable());
+    }
+
+    public function images(){
+        return $this->hasMany(Image::class,'relate_id','id')->where('table' , $this->getTable())->orderBy('index');
+    }
+
     public function searchByQuery($request, $queries = [], $isApi = false)
     {
         $query = $this->query();

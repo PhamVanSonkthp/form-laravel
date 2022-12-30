@@ -21,6 +21,19 @@ class News extends Model implements Auditable
 
     protected $guarded = [];
 
+    public function getTableName(){
+        return $this->getTable();
+    }
+
+    public function avatar($size = "100x100"){
+        $image = $this->image;
+        if (!empty($image)){
+            return Formatter::getThumbnailImage($image->image_path,$size);
+        }
+
+        return config('_my_config.default_avatar');
+    }
+
     public function image(){
         return $this->hasOne(SingpleImage::class,'relate_id','id')->where('table' , $this->getTable());
     }
