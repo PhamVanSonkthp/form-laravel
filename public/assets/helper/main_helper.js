@@ -782,6 +782,26 @@ function uuidv4() {
     );
 }
 
+function addUrlParameter(name, value) {
+    const searchParams = new URLSearchParams(window.location.search)
+    searchParams.set(name, value)
+    window.location.search = searchParams.toString()
+}
+
+function addUrlParameterObjects($params) {
+    const searchParams = new URLSearchParams(window.location.search)
+
+    for (let i = 0; i < $params.length; i++) {
+        if (!empty($params[i].name) && !empty($params[i].value)){
+            searchParams.set($params[i].name, $params[i].value)
+        }else{
+            searchParams.delete($params[i].name)
+        }
+    }
+
+    window.location.search = searchParams.toString()
+}
+
 $(document).ready(function () {
     $(document).on('click', '.action_delete', actionDelete);
     $("input").attr("autocomplete", "off");

@@ -7,10 +7,15 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 trait DeleteModelTrait{
-    public function deleteModelTrait($id, $model){
+    public function deleteModelTrait($id, $model, $forceDelete = false){
 
         try {
-            $model->find($id)->delete();
+            if ($forceDelete){
+                $model->find($id)->forceDelete();
+            }else{
+                $model->find($id)->delete();
+            }
+
             return response()->json([
                 'code'=>200,
                 'message'=>'success',

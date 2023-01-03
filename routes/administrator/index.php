@@ -349,7 +349,7 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:news-edit',
         ]);
 
-        Route::get('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             'as' => 'administrator.news.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminNewsController@delete',
             'middleware' => 'can:news-delete',

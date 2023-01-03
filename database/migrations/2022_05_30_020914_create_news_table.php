@@ -19,6 +19,7 @@ class CreateNewsTable extends Migration
             $table->text('slug');
             $table->text('content');
             $table->bigInteger('category_id')->default(0);
+            $table->bigInteger('created_by_id')->default(0);
             $table->timestamps();
         });
     }

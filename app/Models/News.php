@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class News extends Model implements Auditable
@@ -16,140 +11,74 @@ class News extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
-    use DeleteModelTrait;
-    use StorageImageTrait;
-
     protected $guarded = [];
 
-    public function getTableName(){
-        return $this->getTable();
-    }
+    // begin
 
-    public function avatar($size = "100x100"){
-        $image = $this->image;
-        if (!empty($image)){
-            return Formatter::getThumbnailImage($image->image_path,$size);
-        }
 
-        return config('_my_config.default_avatar');
-    }
 
-    public function image(){
-        return $this->hasOne(SingpleImage::class,'relate_id','id')->where('table' , $this->getTable());
-    }
+    // end
 
-    public function images(){
-        return $this->hasMany(Image::class,'relate_id','id')->where('table' , $this->getTable())->orderBy('index');
-    }
-
-    public function searchByQuery($request, $queries = [], $isApi = false)
+    public function getTableName()
     {
-        $query = $this->query();
-
-        foreach ($request->all() as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
-            } else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            }
-        }
-
-        foreach ($queries as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
-            } else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            } else {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where($key, $item);
-                }
-            }
-        }
-
-        return $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+        return Helper::getTableName($this);
     }
 
-    public function storeByQuery($request, $isApi = false)
+    public function avatar($size = "100x100")
+    {
+       return Helper::getDefaultIcon($this, $size);
+    }
+
+    public function image()
+    {
+        return Helper::image($this);
+    }
+
+    public function images()
+    {
+        return Helper::images($this);
+    }
+
+    public function createdBy(){
+        return $this->hasOne(User::class,'id','created_by_id');
+    }
+
+    public function searchByQuery($request, $queries = [])
+    {
+        return Helper::searchByQuery($this, $request, $queries = []);
+    }
+
+    public function storeByQuery($request)
     {
         $dataInsert = [
             'title' => $request->title,
             'content' => $request->contents,
-            'slug' => Str::slug($request->title),
+            'slug' => Helper::addSlug($this,'slug', $request->title),
         ];
 
-        $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'news');
-        if (!empty($dataUploadFeatureImage)) {
-            $dataInsert['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-            $dataInsert['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-        }
-
-        $item = $this->create($dataInsert);
+        $item = Helper::storeByQuery($this, $request, $dataInsert);
 
         return $this->findById($item->id);
     }
 
-    public function updateByQuery($id, $request, $isApi = false)
+    public function updateByQuery($request, $id)
     {
-        try {
-            DB::beginTransaction();
-            $dataUpdate = [
-                'title' => $request->title,
-                'content' => $request->contents,
-                'slug' => Str::slug($request->title),
-            ];
-
-            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
-
-            if (!empty($dataUploadFeatureImage)) {
-                $dataUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-                $dataUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-            }
-
-            $this->find($id)->update($dataUpdate);
-            $item = $this->find($id);
-
-            DB::commit();
-
-            return $this->findById($item->id);
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());
-            return null;
-        }
+        $dataUpdate = [
+            'title' => $request->title,
+            'content' => $request->contents,
+            'slug' => Helper::addSlug($this,'slug', $request->title),
+        ];
+        $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
+        return $this->findById($item->id);
     }
 
-    public function findById($id, $isApi = false)
+    public function deleteByQuery($request, $id, $forceDelete = false)
     {
+        return Helper::deleteByQuery($this, $request, $id, $forceDelete);
+    }
+
+    public function findById($id){
         $item = $this->find($id);
         return $item;
     }
-
 }

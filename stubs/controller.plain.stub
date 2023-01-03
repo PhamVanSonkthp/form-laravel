@@ -2,78 +2,58 @@
 
 namespace {{ namespace }};
 
+use {{ namespacedModel }};
 use {{ rootNamespace }}Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-use App\Http\Controllers\Controller;
-use App\Models\{{ class }};
+use {{ namespacedRequests }};
+use App\Traits\BaseModelTrait;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
-
-use Illuminate\Support\Facades\View;
-use Maatwebsite\Excel\Facades\Excel;
+use function redirect;
 use function view;
 
 class {{ class }} extends Controller
 {
     use DeleteModelTrait;
     use StorageImageTrait;
+    use BaseModelTrait;
 
-    private $model;
-    private $prefixView;
-    private $prefixExport;
-    private $title = "{{ model }}";
-
-    public function __construct({{ model }} ${{ modelVariable }})
+    public function __construct({{ model }} $model)
     {
-        $this->model = ${{ modelVariable }};
-        $this->prefixView = strtolower("{{ model }}");
-        $this->prefixExport = $this->title . "_" . date('Y-m-d H:i:s');
-        View::share('title', $this->title);
+        $this->initBaseModel($model);
+        $this->shareBaseModel($model);
     }
 
     public function index(Request $request)
     {
         $items = $this->model->searchByQuery($request);
-        return view('administrator.'.$this->prefixView.'.index', compact('items'));
-    }
-
-    public function get(Request $request, $id)
-    {
-        return $this->model->findById($id);
+        return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 
     public function create()
     {
-        return view('administrator.'.$this->prefixView.'.add');
+        return view('administrator.' . $this->prefixView . '.add');
     }
 
     public function store(Request $request)
     {
         $item = $this->model->storeByQuery($request);
-        return redirect()->route('administrator.'.$this->prefixView.'.edit' , ["id" => $item->id]);
+        return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
     }
 
     public function edit($id)
     {
-        $item = $this->model->findById($id);
-        return view('administrator.'.$this->prefixView.'.edit', compact('item'));
+        $item = $this->model->find($id);
+        return view('administrator.' . $this->prefixView . '.edit', compact('item'));
     }
 
     public function update(Request $request, $id)
     {
-        $item = $this->model->updateByQuery($id,$request);
-        return back();
+        $item = $this->model->updateByQuery($request, $id);
+        return redirect()->route('administrator.news.edit', ['id' => $id]);
     }
 
     public function delete(Request $request, $id)
     {
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->model->deleteByQuery($request, $id, $this->forceDelete);
     }
-
-    public function export(Request $request)
-    {
-        return Excel::download(new UsersExport($request), $this->prefixExport . '.xlsx');
-    }
-
 }

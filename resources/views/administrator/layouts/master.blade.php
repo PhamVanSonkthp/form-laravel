@@ -11,9 +11,9 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ optional(\App\Models\Logo::first())->image_path }}">
 
-@yield('title')
+    @yield('title')
 
-<!-- Google font-->
+    <!-- Google font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link
@@ -40,6 +40,7 @@
     <link rel="stylesheet" type="text/css" href="/vendor/datatable/datatables.css">
     <link rel="stylesheet" type="text/css" href="/vendor/owlcarousel/owlcarousel.css">
     <link rel="stylesheet" type="text/css" href="/vendor/rating/rating.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" media="all" href="{{asset('vendor/datetimepicker/daterangepicker.css')}}"/>
     <link rel="stylesheet" type="text/css" media="all" href="{{asset('vendor/select2/select2.min.css')}}"/>
     <!-- Plugins css Ends-->
@@ -56,12 +57,25 @@
     <script src="{{asset('/assets/administrator/js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('/assets/administrator/js/jquery.ui.min.js')}}"></script>
 
-
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-{{--    <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>--}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .product-table{
+            overflow-x: auto !important;
+        }
 
+        .product-table > table > tbody > tr td:last-child {
+            width: 1%;
+            white-space: nowrap;
+        }
 
+        .product-table > table > tbody > tr td:first-child {
+            width: 1%;
+            white-space: nowrap;
+            text-align: start;
+        }
+
+    </style>
     @yield('css')
 </head>
 
@@ -170,6 +184,7 @@
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/daterangepicker.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <!-- Plugins JS Ends-->
 
@@ -184,7 +199,7 @@
 <!-- Theme js-->
 <script src="/assets/administrator/js/script.js"></script>
 <script src="/assets/administrator/js/theme-customizer/customizer.js"></script>
-
+@include('administrator.components.helper')
 <script>
 
     // function getFormattedDate(date) {
@@ -198,16 +213,6 @@
     //
     //     return month + '/' + day + '/' + year;
     // }
-
-    function addUrlParameterObjects($params) {
-        const searchParams = new URLSearchParams(window.location.search)
-
-        for (let i = 0; i < $params.length; i++) {
-            searchParams.set($params[i].name, $params[i].value)
-        }
-
-        window.location.search = searchParams.toString()
-    }
 
     function updateConfig() {
         const url = new URL(decodeURIComponent(window.location.href));

@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.user.header')
+@include('administrator.middle_path.header')
 
 @section('css')
 
@@ -8,83 +8,70 @@
 
 @section('content')
 
-    <div class="page-body">
-        <div class="container-fluid">
-            <div class="page-title">
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <h3>{{$title}}</h3>
+    <div class="container-fluid list-products">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        @include('administrator.middle_path.search')
+
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- Container-fluid starts-->
-        <div class="container-fluid list-products">
-            <div class="row">
-                <!-- Individual column searching (text inputs) Starts-->
-                <div class="col-12">
 
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md">
-                                    <a href="{{route('administrator.middle_path.create')}}"
-                                       class="btn btn-success float-end m-2">Thêm mới</a>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-
-                            <div class="table-responsive product-table">
-                                <table class="display table-users" id="basic-1" data-order='[[ 0, "desc" ]]'>
-                                    <thead>
+                    <div class="card-body">
+                        <div class="table-responsive product-table">
+                            <table class="table table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tiêu đề</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Thời gian tạo</th>
+                                    <th>Người tạo</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($items as $item)
                                     <tr>
-                                        <th>#</th>
-                                        <th>Tên</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Hành động</th>
+                                        <td>{{$item->id}}</td>
+                                        <td>{{$item->title}}</td>
+                                        <td>
+                                            <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
+                                        </td>
+                                        <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
+                                        <td>{{ optional($item->createdBy)->name}}</td>
+                                        <td>
+                                            <a href="{{route('administrator.middle_path.edit' , ['id'=> $item->id ])}}"
+                                               class="btn btn-outline-secondary btn-sm edit" title="Edit">
+                                                <i class="fa-solid fa-pen"></i>
+                                            </a>
+
+                                            <a href="{{route('administrator.middle_path.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.middle_path.delete' , ['id'=> $item->id])}}"
+                                               class="btn btn-outline-danger btn-sm delete action_delete"
+                                               title="Delete">
+                                                <i class="fa-solid fa-x"></i>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($items as $item)
-                                        <tr>
-                                            <td>
-                                                {{ $item->id}}
-                                            </td>
-                                            <td>
-                                                {{ $item->name}}
-                                            </td>
-                                            <td>
-                                                {{ $item->created_at}}
-                                            </td>
-                                            <td>
+                                @endforeach
 
-                                                <a href="{{route('administrator.middle_path.edit' , ['id'=> $item->id ])}}"
-                                                   class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                                                    Sửa
-                                                </a>
+                                </tbody>
+                            </table>
+                        </div>
 
-                                                <a href="{{route('administrator.middle_path.delete' , ['id'=> $item->id])}}"
-                                                   data-url="{{route('administrator.middle_path.delete' , ['id'=> $item->id])}}"
-                                                   class="btn btn-danger btn-sm delete" title="Delete">
-                                                    Xóa
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-
+                        <div class="mt-3">
+                            {{ $items->links('pagination::bootstrap-4') }}
                         </div>
                     </div>
-
                 </div>
 
             </div>
+
         </div>
-        <!-- Individual column searching (text inputs) Ends-->
-        <!-- Container-fluid Ends-->
     </div>
 
 @endsection
@@ -92,3 +79,4 @@
 @section('js')
 
 @endsection
+

@@ -66,17 +66,10 @@ class Formatter extends Model
 
     public static function getDateTime($input, $format = null)
     {
-        try {
-            if (!empty($format)) {
-//                return date($format, strtotime($input. "+7hours"));
-                return date($format);
-            } else {
-//                return date('d-m-Y H:i', strtotime($input. "+7hours"));
-                return date('d-m-Y H:i:s');
-            }
-
-        } catch (\Exception $exception) {
-            return null;
+        if (!empty($format)) {
+            return date($format);
+        } else {
+            return date(config('_my_config.type_date_time'));
         }
     }
 
