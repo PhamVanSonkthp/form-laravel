@@ -29,13 +29,13 @@
 
                         @if($isSingleImage)
                             <div class="mt-3 mb-3">
-                                @include('administrator.components.upload_image', ['post_api' => $imagePostUrl, 'table' => 'news', 'image' => optional(\App\Models\SingpleImage::where('relate_id', \App\Models\Helper::getNextIdTable('news'))->where('table','news')->first())->image_path , 'relate_id' => \App\Models\Helper::getNextIdTable('news')])
+                                @include('administrator.components.upload_image', ['post_api' => $imagePostUrl, 'table' => $table, 'image' => $imagePathSingple , 'relate_id' => $relateImageTableId])
                             </div>
                         @endif
 
                         @if($isMultipleImages)
                             <div class="mt-3 mb-3">
-                                @include('administrator.components.upload_multiple_images', ['post_api' => route('ajax,administrator.upload_multiple_images.store'), 'delete_api' => route('ajax,administrator.upload_multiple_images.delete') , 'sort_api' => route('ajax,administrator.upload_multiple_images.sort'), 'table' => 'news' , 'images' => \App\Models\Image::where('relate_id', \App\Models\Helper::getNextIdTable('news'))->where('table','news')->orderBy('index')->get(),'relate_id' => \App\Models\Helper::getNextIdTable('news')])
+                                @include('administrator.components.upload_multiple_images', ['post_api' => $imageMultiplePostUrl, 'delete_api' => $imageMultipleDeleteUrl , 'sort_api' => $imageMultipleSortUrl, 'table' => $table , 'images' => $imagesPath,'relate_id' => $relateImageTableId])
                             </div>
                         @endif
 

@@ -75,6 +75,9 @@
             text-align: start;
         }
 
+        .fa {
+            font-family: 'FontAwesome';
+        }
     </style>
     @yield('css')
 </head>
@@ -107,16 +110,7 @@
         <!-- Page Sidebar Start-->
         <div class="sidebar-wrapper">
             <div>
-                <div class="logo-wrapper"><a href="{{route('administrator.dashboard.index')}}"><img class="img-fluid for-light"
-                                                                    src="/assets/images/logo/original/Infinity-Logo-min.png"
-                                                                    alt=""><img class="img-fluid for-dark"
-                                                                                src="../assets/images/logo/small-white-logo.png"
-                                                                                alt=""></a>
-                    <div class="back-btn"><i class="fa fa-angle-left"></i></div>
-                </div>
-                <div class="logo-icon-wrapper"><a href="{{route('administrator.dashboard.index')}}"><img class="img-fluid"
-                                                                         src="/assets/images/logo/original/Infinity-Logo-min.png"
-                                                                         alt=""></a></div>
+                @include('administrator.components.logo')
                 @include('administrator.components.slidebars')
             </div>
         </div>
@@ -138,15 +132,8 @@
         </div>
 
         <!-- footer start-->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12 footer-copyright text-center">
-                        <p class="mb-0">Copyright 2022 © Zeta theme by pixelstrap </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+
+        @include('administrator.components.footer')
     </div>
 </div>
 {{--@include('administrator.components.slidebars')--}}

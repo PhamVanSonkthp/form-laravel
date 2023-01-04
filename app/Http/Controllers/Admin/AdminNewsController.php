@@ -6,15 +6,11 @@ use App\Models\News;
 use App\Http\Controllers\Controller;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
 use function redirect;
 use function view;
 
 class AdminNewsController extends Controller
 {
-    use DeleteModelTrait;
-    use StorageImageTrait;
     use BaseControllerTrait;
 
     public function __construct(News $model)

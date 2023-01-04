@@ -15,16 +15,17 @@ class Kernel extends ConsoleKernel
      */
 
     protected $commands = [
-        Commands\Notification::class,
+        Commands\JobNotification::class,
     ];
 
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
 
-        $schedule->command('email:notification')
-            ->dailyAt('08:00');
-        $schedule->command('email:job')
+        $schedule->command('email:job_notification')
+            ->everyMinute();
+
+        $schedule->command('email:job_email')
             ->everyMinute();
     }
 

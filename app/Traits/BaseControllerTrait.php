@@ -13,11 +13,58 @@ use Illuminate\Support\Str;
 
 trait BaseControllerTrait{
 
-    public $size_default_thumbnail;
+    private $model;
+    private $prefixView;
+    private $prefixExport;
+    private $title;
+    private $table;
+    private $relateImageTableId;
+    private $imagePathSingple;
+    private $imagePostUrl;
+    private $imagesPath;
+    private $imageMultiplePostUrl;
+    private $imageMultipleDeleteUrl;
+    private $imageMultipleSortUrl;
+    private $forceDelete;
+    private $isSingleImage;
+    private $isMultipleImages;
 
-    public function __construct()
-    {
-        $this->size_default_thumbnail = config('_my_config.default_size_avatar');
+    public function initBaseModel($model){
+        $this->model = $model;
+        $this->forceDelete = false;
+        $this->isSingleImage = false;
+        $this->isMultipleImages = true;
+        $this->table = $this->model->getTableName();
+
+        $this->prefixView = $this->table;
+        $this->prefixExport = $this->prefixView . "_" . Formatter::getDateTime(now());
+        $this->title = $this->prefixView;
+
+        $this->relateImageTableId = Helper::getNextIdTable($this->table);
+
+        $this->imagePathSingple = optional(SingpleImage::where('relate_id', Helper::getNextIdTable($this->table))->where('table', $this->table)->first())->image_path;
+        $this->imagePostUrl = route('ajax,administrator.upload_image.store');
+
+        $this->imagesPath = Image::where('relate_id', Helper::getNextIdTable($this->table))->where('table', $this->table)->orderBy('index')->get();
+        $this->imageMultiplePostUrl = route('ajax,administrator.upload_multiple_images.store');
+        $this->imageMultipleDeleteUrl = route('ajax,administrator.upload_multiple_images.delete');
+        $this->imageMultipleSortUrl = route('ajax,administrator.upload_multiple_images.sort');
     }
-    
+
+    public function shareBaseModel($model){
+
+        View::share('title', $this->title);
+        View::share('table', $this->table);
+        View::share('relateImageTableId', $this->relateImageTableId);
+        View::share('imagePathSingple', $this->imagePathSingple);
+        View::share('imagePostUrl', $this->imagePostUrl);
+        View::share('imagesPath', $this->imagesPath);
+        View::share('imageMultiplePostUrl', $this->imageMultiplePostUrl);
+        View::share('imageMultipleDeleteUrl', $this->imageMultipleDeleteUrl);
+        View::share('imageMultipleSortUrl', $this->imageMultipleSortUrl);
+        View::share('isSingleImage', $this->isSingleImage);
+        View::share('isMultipleImages', $this->isMultipleImages);
+
+    }
+
 }

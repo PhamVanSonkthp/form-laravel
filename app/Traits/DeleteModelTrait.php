@@ -11,9 +11,9 @@ trait DeleteModelTrait{
 
         try {
             if ($forceDelete){
-                $model->find($id)->forceDelete();
+                $model->withTrashed()->find($id)->forceDelete();
             }else{
-                $model->find($id)->delete();
+                $model->withTrashed()->find($id)->delete();
             }
 
             return response()->json([

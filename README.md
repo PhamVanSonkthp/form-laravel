@@ -18,6 +18,8 @@ php artisan make:viewindex Test
 php artisan make:viewheader Test
 php artisan make:viewsearch Test
 
+php artisan make:_policy Test
+
 php artisan migrate
 
 -- End --

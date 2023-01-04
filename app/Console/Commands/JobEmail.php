@@ -12,7 +12,7 @@ class JobEmail extends Command
      *
      * @var string
      */
-    protected $signature = 'email:job';
+    protected $signature = 'email:job_email';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class JobEmail extends Command
      */
     public function handle()
     {
-        $jobEmails = \App\Models\JobEmail::limit(10)->get();
+        $jobEmails = \App\Models\JobEmail::whereDate('time_send' , '<=', now())->limit(env('MAXIMUM_SEND_EMAIL_ONE_MINUTE', 10))->get();
 
         foreach ($jobEmails as $jobEmail) {
             if (!empty($jobEmail->user)){

@@ -9,10 +9,10 @@ return [
         'dashboard-edit' => 'dashboard_edit',
         'dashboard-delete' => 'dashboard_delete',
 
-        'email-list' => 'email_list',
-        'email-add' => 'email_add',
-        'email-edit' => 'email_edit',
-        'email-delete' => 'email_delete',
+        'job_email-list' => 'job_email_list',
+        'job_email-add' => 'job_email_add',
+        'job_email-edit' => 'job_email_edit',
+        'job_email-delete' => 'job_email_delete',
 
         'news-list' => 'news_list',
         'news-add' => 'news_add',
@@ -72,7 +72,7 @@ return [
     ],
     'table_module'=>[
         'dashboard',
-        'email',
+        'job_email',
         'news',
         'slider',
         'user',
@@ -88,7 +88,7 @@ return [
 
     'table_module_name'=>[
         'Dashboard',
-        'Email',
+        'Job Email',
         'Tin tức',
         'Slider',
         'Khách hàng',

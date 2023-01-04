@@ -5,11 +5,15 @@ namespace {{ namespace }};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Traits\DeleteModelTrait;
+use App\Traits\StorageImageTrait;
 
 class {{ class }} extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
+    use DeleteModelTrait;
+    use StorageImageTrait;
 
     protected $guarded = [];
 
@@ -45,7 +49,7 @@ class {{ class }} extends Model implements Auditable
 
     public function searchByQuery($request, $queries = [])
     {
-        return Helper::searchByQuery($this, $request, $queries = []);
+        return Helper::searchByQuery($this, $request, $queries);
     }
 
     public function storeByQuery($request)

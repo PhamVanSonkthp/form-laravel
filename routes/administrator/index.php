@@ -357,23 +357,68 @@ Route::prefix('administrator')->group(function () {
 
     });
 
-    Route::prefix('email')->group(function () {
+    Route::prefix('job-email')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.email.index',
-            'uses' => 'App\Http\Controllers\Admin\AdminEmailController@index',
-            'middleware' => 'can:email-list',
+            'as' => 'administrator.job_emails.index',
+            'uses' => 'App\Http\Controllers\Admin\AdminJobEmailController@index',
+            'middleware' => 'can:job_email-list',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.email.store',
-            'uses' => 'App\Http\Controllers\Admin\AdminEmailController@store',
-            'middleware' => 'can:email-add',
+            'as' => 'administrator.job_emails.store',
+            'uses' => 'App\Http\Controllers\Admin\AdminJobEmailController@store',
+            'middleware' => 'can:job_email-add',
         ]);
 
         Route::delete('/delete/{id}', [
-            'as' => 'administrator.email.delete',
-            'uses' => 'App\Http\Controllers\Admin\AdminEmailController@delete',
-            'middleware' => 'can:email-delete',
+            'as' => 'administrator.job_emails.delete',
+            'uses' => 'App\Http\Controllers\Admin\AdminJobEmailController@delete',
+            'middleware' => 'can:job_email-delete',
+        ]);
+
+    });
+
+    Route::prefix('job-notification')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.job_notifications.index',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@index',
+            'middleware' => 'can:jobnotification-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.job_notifications.create',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@create',
+            'middleware' => 'can:jobnotification-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.job_notifications.store',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@store',
+            'middleware' => 'can:jobnotification-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.job_notifications.edit',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@edit',
+            'middleware' => 'can:jobnotification-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.job_notifications.update',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@update',
+            'middleware' => 'can:jobnotification-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.job_notifications.delete',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@delete',
+            'middleware' => 'can:jobnotification-delete',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.job_notifications.get',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@get',
+            'middleware' => 'can:jobnotification-list',
         ]);
 
     });

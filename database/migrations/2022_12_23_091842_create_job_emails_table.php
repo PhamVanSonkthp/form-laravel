@@ -18,6 +18,8 @@ class CreateJobEmailsTable extends Migration
             $table->bigInteger('user_id');
             $table->text('title');
             $table->text('content');
+            $table->dateTime('time_send');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

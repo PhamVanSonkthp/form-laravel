@@ -75,6 +75,7 @@ class Helper extends Model
         $query = $object->query();
 
         $searchLikeColums = ['name', 'title'];
+        $searchColumnBanned = ['limit', 'page', 'with_trashed'];
 
         foreach ($request->all() as $key => $item) {
             $item = trim($item);
@@ -82,8 +83,8 @@ class Helper extends Model
                 if (!empty($item) || strlen($item) > 0) {
 
                     $query = $query->where(function ($query) use ($item, $columns, $searchLikeColums) {
-                        foreach ($searchLikeColums as $searchColumn){
-                            if (in_array($searchColumn , $columns)){
+                        foreach ($searchLikeColums as $searchColumn) {
+                            if (in_array($searchColumn, $columns)) {
                                 $query->orWhere($searchColumn, 'LIKE', "%{$item}%");
                             }
                         }
@@ -93,11 +94,11 @@ class Helper extends Model
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->where('gender_id', $item);
                 }
-            } else if ($key == "start") {
+            } else if ($key == "start" || $key == "from") {
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->whereDate('created_at', '>=', $item);
                 }
-            } else if ($key == "end") {
+            } else if ($key == "end" || $key == "to") {
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->whereDate('created_at', '<=', $item);
                 }
@@ -106,6 +107,9 @@ class Helper extends Model
 
         foreach ($queries as $key => $item) {
             $item = trim($item);
+
+            if (in_array($key, $searchColumnBanned)) continue;
+
             if ($key == "search_query") {
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->where(function ($query) use ($item) {
@@ -116,11 +120,11 @@ class Helper extends Model
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->where('gender_id', $item);
                 }
-            } else if ($key == "start") {
+            } else if ($key == "start" || $key == "from") {
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->whereDate('created_at', '>=', $item);
                 }
-            } else if ($key == "end") {
+            } else if ($key == "end" || $key == "to") {
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->whereDate('created_at', '<=', $item);
                 }
@@ -128,6 +132,15 @@ class Helper extends Model
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->where($key, $item);
                 }
+            }
+        }
+
+        foreach ($queries as $key => $item) {
+            $item = trim($item);
+
+            if ($key == 'with_trashed' && $item == true){
+                $query = $query->withTrashed();
+                break;
             }
         }
 
@@ -149,20 +162,27 @@ class Helper extends Model
 
     public static function deleteByQuery($object, $request, $id, $forceDelete = false)
     {
-        return $object->deleteModelTrait($id, $object,$forceDelete);
+        return $object->deleteModelTrait($id, $object, $forceDelete);
     }
 
-    public static function addSlug($object, $key, $value){
-        $item = $object->where($key , Str::slug($value))->first();
-        if (empty($item)){
+    public static function addSlug($object, $key, $value)
+    {
+        $item = $object->where($key, Str::slug($value))->first();
+        if (empty($item)) {
             return Str::slug($value);
         }
-        for ($i = 1; $i < 100000; $i++){
-            $item = $object->where($key , Str::slug($value) . '-' . $i)->first();
-            if (empty($item)){
-                return Str::slug($value). '-' . $i;
+        for ($i = 1; $i < 100000; $i++) {
+            $item = $object->where($key, Str::slug($value) . '-' . $i)->first();
+            if (empty($item)) {
+                return Str::slug($value) . '-' . $i;
             }
         }
         return Str::random(40);
+    }
+
+    public static function logoImagePath(){
+        $logo = Logo::first();
+        $table = $logo->getTableName();
+        return optional(SingpleImage::where('relate_id', Helper::getNextIdTable($table))->where('table', $table)->first())->image_path;
     }
 }

@@ -6,15 +6,11 @@ use {{ namespacedModel }};
 use {{ rootNamespace }}Http\Controllers\Controller;
 use {{ namespacedRequests }}
 use App\Traits\BaseControllerTrait;
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
 use function redirect;
 use function view;
 
 class {{ class }} extends Controller
 {
-    use DeleteModelTrait;
-    use StorageImageTrait;
     use BaseControllerTrait;
 
     public function __construct({{ model }} $model)

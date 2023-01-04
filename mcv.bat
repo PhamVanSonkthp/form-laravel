@@ -2,15 +2,17 @@ echo Ten bang cua ban la gi?
 Set /p table=
 echo OKAY! dang tao du lieu %table% ...
 
-php artisan make:model Test -m
-php artisan make:seed CreateTestSeeder
-php artisan make:controller Admin/TestController --model=Test
+php artisan make:model %table% -m
+php artisan make:seed Create%table%Seeder
+php artisan make:controller Admin/%table%Controller --model=%table%
 
-php artisan make:viewadd Test
-php artisan make:viewedit Test
-php artisan make:viewindex Test
-php artisan make:viewheader Test
-php artisan make:viewsearch Test
+php artisan make:viewadd %table%
+php artisan make:viewedit %table%
+php artisan make:viewindex %table%
+php artisan make:viewheader %table%
+php artisan make:viewsearch %table%
+
+php artisan make:_policy %table%
 
 echo DONE!
 echo ---PhamSon---

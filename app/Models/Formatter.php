@@ -56,7 +56,7 @@ class Formatter extends Model
             if (!empty($format)) {
                 return date($format, strtotime($input));
             } else {
-                return date('d-m-Y', strtotime($input));
+                return date(config('_my_config.type_date'), strtotime($input));
             }
 
         } catch (\Exception $exception) {
@@ -67,19 +67,15 @@ class Formatter extends Model
     public static function getDateTime($input, $format = null)
     {
         if (!empty($format)) {
-            return date($format);
+            return date($format, strtotime($input));
         } else {
-            return date(config('_my_config.type_date_time'));
+            return date(config('_my_config.type_date_time'), strtotime($input));
         }
     }
 
-    public function getOnlyTime($input)
+    public static function getOnlyTime($input)
     {
-        try {
-            return date('H:i', strtotime($input));
-        } catch (\Exception $exception) {
-            return null;
-        }
+        return date(config('_my_config.type_time_no_second'), strtotime($input));
     }
 
     public static function paginator(Request $request, $data)

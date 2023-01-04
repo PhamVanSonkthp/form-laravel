@@ -20,8 +20,23 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateProduct();
         $this->defineGateCategory();
         $this->defineGateDashboard();
-        $this->defineGateEmail();
         $this->defineGateSetting();
+        $this->defineGateJobEmail();
+        $this->defineGateJobNotification();
+    }
+
+    public function defineGateJobNotification(){
+        Gate::define('jobnotification-list','App\Policies\JobNotificationPolicy@view');
+        Gate::define('jobnotification-add','App\Policies\JobNotificationPolicy@create');
+        Gate::define('jobnotification-edit','App\Policies\JobNotificationPolicy@update');
+        Gate::define('jobnotification-delete','App\Policies\JobNotificationPolicy@delete');
+    }
+
+    public function defineGateJobEmail(){
+        Gate::define('job_email-list','App\Policies\JobEmailPolicy@view');
+        Gate::define('job_email-add','App\Policies\JobEmailPolicy@create');
+        Gate::define('job_email-edit','App\Policies\JobEmailPolicy@update');
+        Gate::define('job_email-delete','App\Policies\JobEmailPolicy@delete');
     }
 
     public function defineGateSetting(){
@@ -29,13 +44,6 @@ class PermissionGateAndPolicyAccess{
         Gate::define('setting-add','App\Policies\SettingPolicy@create');
         Gate::define('setting-edit','App\Policies\SettingPolicy@update');
         Gate::define('setting-delete','App\Policies\SettingPolicy@delete');
-    }
-
-    public function defineGateEmail(){
-        Gate::define('email-list','App\Policies\EmailPolicy@view');
-        Gate::define('email-add','App\Policies\EmailPolicy@create');
-        Gate::define('email-edit','App\Policies\EmailPolicy@update');
-        Gate::define('email-delete','App\Policies\EmailPolicy@delete');
     }
 
     public function defineGateDashboard(){

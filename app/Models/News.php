@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\DeleteModelTrait;
+use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -10,6 +12,8 @@ class News extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
+    use DeleteModelTrait;
+    use StorageImageTrait;
 
     protected $guarded = [];
 
@@ -45,7 +49,7 @@ class News extends Model implements Auditable
 
     public function searchByQuery($request, $queries = [])
     {
-        return Helper::searchByQuery($this, $request, $queries = []);
+        return Helper::searchByQuery($this, $request, $queries);
     }
 
     public function storeByQuery($request)
