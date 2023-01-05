@@ -15,14 +15,12 @@
                 <div class="card">
 
                     <div class="card-header">
-
                         @include('administrator.news.search')
-
                     </div>
 
                     <div class="card-body">
                         <div class="table-responsive product-table">
-                            <table class="table table-hover ">
+                            <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>#</th>

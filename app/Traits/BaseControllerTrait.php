@@ -55,6 +55,7 @@ trait BaseControllerTrait{
 
         View::share('title', $this->title);
         View::share('table', $this->table);
+        View::share('prefixView', $this->prefixView);
         View::share('relateImageTableId', $this->relateImageTableId);
         View::share('imagePathSingple', $this->imagePathSingple);
         View::share('imagePostUrl', $this->imagePostUrl);

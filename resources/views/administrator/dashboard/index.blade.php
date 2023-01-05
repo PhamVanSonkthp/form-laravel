@@ -23,7 +23,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Earnings</h6>
-                                    <h4 class="mb-0 counter">6659</h4>
+                                    <h4 class="mb-0 counter">0</h4>
                                 </div>
                                 <svg class="fill-secondary" width="48" height="48" viewBox="0 0 48 48" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +53,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Products</h6>
-                                    <h4 class="mb-0 counter">9856</h4>
+                                    <h4 class="mb-0 counter">{{\App\Models\Product::count()}}</h4>
                                 </div>
                                 <svg class="fill-success" width="45" height="39" viewBox="0 0 45 39" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -85,7 +85,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Messages</h6>
-                                    <h4 class="mb-0 counter">893</h4>
+                                    <h4 class="mb-0 counter">{{\App\Models\ChatGroup::count()}}</h4>
                                 </div>
                                 <svg class="fill-primary" width="44" height="46" viewBox="0 0 44 46"
                                      xmlns="http://www.w3.org/2000/svg">

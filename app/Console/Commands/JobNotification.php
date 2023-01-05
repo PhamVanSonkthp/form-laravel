@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Helper;
 use App\Models\User;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
 class JobNotification extends Command
@@ -42,28 +44,28 @@ class JobNotification extends Command
         $currentHour = (int)(date('H')) + 0;
         $dayOfWeek = (int)date('w');
 
-        if ($currentHour >= 24){
+        if ($currentHour >= 24) {
             $currentHour -= 24;
             $dayOfWeek++;
         }
-        $nowTime = $currentHour . ':'. date('i').":00";
+        $nowTime = $currentHour . ':' . date('i') . ":00";
 
         $nowTime = Carbon::parse($nowTime);
 //        $nowTime = $nowTime->addMinutes(6);
 
-        $resultsCron = \App\Models\JobNotification::where('time' , $nowTime)->where('notiable' , 1)->get();
+        $resultsCron = \App\Models\JobNotification::where('time', $nowTime)->where('notiable', 1)->get();
 
         $resultCron = [];
 
-        foreach ($resultsCron as $item){
+        foreach ($resultsCron as $item) {
 
-            foreach ($item->scheduleCronRepeats as $scheduleRepeatItem){
-                if ($scheduleRepeatItem->day_of_week == $dayOfWeek){
-                    if (!$scheduleRepeatItem->sent || $item->repeat){
+            foreach ($item->scheduleCronRepeats as $scheduleRepeatItem) {
+                if ($scheduleRepeatItem->day_of_week == $dayOfWeek) {
+                    if (!$scheduleRepeatItem->sent || $item->repeat) {
                         // send $item->user_id
 
-                        if ($item->userScheduleCron->count() == 0){
-                            foreach (User::all() as $itemUser){
+                        if ($item->userScheduleCron->count() == 0) {
+                            foreach (User::all() as $itemUser) {
                                 $resultCron[] = [
                                     'topic' => $itemUser->id,
                                     'title' => $item->title,
@@ -74,9 +76,9 @@ class JobNotification extends Command
                                     'sent' => true
                                 ]);
                             }
-                        }else{
-                            foreach ($item->userScheduleCron as $itemUserScheduleCron){
-                                if (!empty(optional($itemUserScheduleCron->user)->id)){
+                        } else {
+                            foreach ($item->userScheduleCron as $itemUserScheduleCron) {
+                                if (!empty(optional($itemUserScheduleCron->user)->id)) {
                                     $resultCron[] = [
                                         'topic' => optional($item->user)->id,
                                         'title' => $item->title,
@@ -94,8 +96,8 @@ class JobNotification extends Command
             }
         }
 
-        foreach ($resultCron as $item){
-
+        foreach ($resultCron as $item) {
+            Helper::sendNotificationToTopic($item['topic'], $item['title'], $item['description']);
         }
 
 //        return response()->json([

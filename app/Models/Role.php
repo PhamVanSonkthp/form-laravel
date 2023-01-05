@@ -29,51 +29,14 @@ class Role extends Model implements Auditable
         return $htmlOption;
     }
 
-    public function searchByQuery($request, $queries = [], $isApi = false)
+    public function getTableName()
     {
-        $query = $this->query();
+        return Helper::getTableName($this);
+    }
 
-        foreach ($request->all() as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            }else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            }
-        }
-
-        foreach ($queries as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            } else {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where($key, $item);
-                }
-            }
-        }
-
-        return $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+    public function searchByQuery($request, $queries = [])
+    {
+        return Helper::searchByQuery($this, $request, $queries);
     }
 
     public function storeByQuery($request, $isApi = false)

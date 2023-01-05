@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\DeleteModelTrait;
+use App\Traits\StorageImageTrait;
 use App\Traits\UserTrait;
 use DateTime;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -21,6 +23,8 @@ class User extends Authenticatable implements MustVerifyEmail
     use UserTrait;
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     use \Awobaz\Compoships\Compoships;
+    use DeleteModelTrait;
+    use StorageImageTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -52,6 +56,19 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // begin
+
+    public function userType(){
+        return $this->hasOne(UserType::class,'id','user_type_id');
+    }
+
+    // end
+
+    public function getTableName()
+    {
+        return Helper::getTableName($this);
+    }
 
     public function avatar($size = "100x100"){
         $image = $this->image;
@@ -99,66 +116,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
-    public function searchByQuery($request, $queries = [], $isApi = false)
-    {
-        $query = $this->query();
-
-        foreach ($request->all() as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
-            } else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            }
-        }
-
-        foreach ($queries as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
-            } else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            } else {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where($key, $item);
-                }
-            }
-        }
-
-        return $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
-    }
-
     public function isAdmin(){
         return auth()->check() && optional(auth()->user())->is_admin == 2;
     }
 
-    public function storeByQuery($request, $isApi = false)
+    public function searchByQuery($request, $queries = [])
+    {
+        return Helper::searchByQuery($this, $request, $queries);
+    }
+
+    public function storeByQuery($request)
     {
         $dataInsert = [
             'name' => $request->name,
@@ -175,7 +142,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $dataInsert['is_admin'] = $request->is_admin ?? 0;
         }
 
-        $item = $this->create($dataInsert);
+        $item = Helper::storeByQuery($this, $request, $dataInsert);
 
         if (!empty($request->is_admin && $request->is_admin == 1 && isset($request->role_ids))){
             $item->roles()->attach($request->role_ids);
@@ -184,47 +151,40 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->findById($item->id);
     }
 
-    public function updateByQuery($id, $request, $isApi = false)
+    public function updateByQuery($request, $id)
     {
-        try {
-            DB::beginTransaction();
-            $updatetem = [
-                'name' => $request->name,
-                'phone' => $request->phone,
-            ];
+        $dataUpdate = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+        ];
 
-            if (!empty($request->date_of_birth)){
-                $updatetem['date_of_birth'] = $request->date_of_birth;
-            }
-
-            if (!empty($request->gender_id)){
-                $updatetem['gender_id'] = $request->gender_id;
-            }
-
-            if (!empty($request->password)) {
-                $updatetem['password'] = Hash::make($request->password);
-            }
-
-            $item = $this->find($id);
-
-            $item->update($updatetem);
-
-            $item->refresh();
-
-            if ($item->is_admin != 0 && isset($request->role_ids)){
-                $item->roles()->sync($request->role_ids);
-            }
-            DB::commit();
-
-            return $item;
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());
-            return null;
+        if (!empty($request->date_of_birth)){
+            $dataUpdate['date_of_birth'] = $request->date_of_birth;
         }
+
+        if (!empty($request->gender_id)){
+            $dataUpdate['gender_id'] = $request->gender_id;
+        }
+
+        if (!empty($request->password)) {
+            $dataUpdate['password'] = Hash::make($request->password);
+        }
+
+        $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
+
+        if ($item->is_admin != 0 && isset($request->role_ids)){
+            $item->roles()->sync($request->role_ids);
+        }
+
+        return $item;
     }
 
-    public function findById($id, $isApi = false)
+    public function deleteByQuery($request, $id, $forceDelete = false)
+    {
+        return Helper::deleteByQuery($this, $request, $id, $forceDelete);
+    }
+
+    public function findById($id)
     {
         $item = $this->find($id);
         $item->gender;

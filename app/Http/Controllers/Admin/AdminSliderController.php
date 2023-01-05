@@ -8,6 +8,7 @@ use App\Http\Requests\UserEditRequest;
 use App\Models\Role;
 use App\Models\Slider;
 use App\Models\User;
+use App\Traits\BaseControllerTrait;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
@@ -20,25 +21,14 @@ use function view;
 
 class AdminSliderController extends Controller
 {
-
-    use DeleteModelTrait;
-    use StorageImageTrait;
-
-    private $model;
-
-    private $prefixView;
-    private $prefixExport;
-    private $title;
+    use BaseControllerTrait;
 
     public function __construct(Slider $model)
     {
-        $this->model = $model;
-
-        $this->prefixView = "slider";
-        $this->prefixExport = "Slider_" . date('Y-m-d H:i:s');
-        $this->title = "Slider";
-
-        View::share('title', $this->title);
+        $this->initBaseModel($model);
+        $this->isSingleImage = false;
+        $this->isMultipleImages = false;
+        $this->shareBaseModel($model);
     }
 
     public function index(Request $request)

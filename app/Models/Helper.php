@@ -6,6 +6,7 @@ use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Carbon\Carbon;
 use DateTime;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -138,7 +139,7 @@ class Helper extends Model
         foreach ($queries as $key => $item) {
             $item = trim($item);
 
-            if ($key == 'with_trashed' && $item == true){
+            if ($key == 'with_trashed' && $item == true) {
                 $query = $query->withTrashed();
                 break;
             }
@@ -149,12 +150,23 @@ class Helper extends Model
 
     public static function storeByQuery($object, $request, $dataCreate)
     {
+        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
+        if (!empty($dataUploadFeatureImage)) {
+            $dataCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
+            $dataCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
+        }
+
         $item = $object->create($dataCreate);
         return $item;
     }
 
     public static function updateByQuery($object, $request, $id, $dataUpdate)
     {
+        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
+        if (!empty($dataUploadFeatureImage)) {
+            $dataUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
+            $dataUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
+        }
         $object->find($id)->update($dataUpdate);
         $item = $object->find($id);
         return $item;
@@ -180,9 +192,52 @@ class Helper extends Model
         return Str::random(40);
     }
 
-    public static function logoImagePath(){
+    public static function logoImagePath()
+    {
         $logo = Logo::first();
         $table = $logo->getTableName();
         return optional(SingpleImage::where('relate_id', Helper::getNextIdTable($table))->where('table', $table)->first())->image_path;
+    }
+
+    public static function sendNotificationToTopic($topicName, $title, $body)
+    {
+        if (env('FIREBASE_SERVER_NOTIFIABLE', true)) {
+            $client = new Client();
+            $client->post(
+                'https://fcm.googleapis.com/fcm/send',
+                [
+                    'headers' => [
+                        'Content-Type' => 'application/json',
+                        'Authorization' => env('FIREBASE_SERVER_KEY')],
+                    'json' => [
+                        'to' => '/topics/' . $topicName,
+                        'notification' => [
+                            'title' => $title,
+                            'body' => $body,
+                            "click_action" => "TOP_STORY_ACTIVITY",
+                        ],
+                        'apns' => [
+                            'headers' => [
+                                'apns-priority' => '10'
+                            ],
+                            'payload' => [
+                                'aps' => [
+                                    'sound' => 'notification'
+                                ]
+                            ],
+                        ],
+                        'android' => [
+                            'priority' => 'high',
+                            'notification' => [
+                                'sound' => 'notification'
+                            ],
+                        ],
+                    ],
+                    'timeout' => 1, // Response timeout
+                    'connect_timeout' => 1, // Connection timeout
+                ],
+            );
+        }
+
     }
 }

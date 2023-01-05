@@ -96,8 +96,12 @@ class MakeViewIndex extends GeneratorCommand
     {
         $stub = parent::replaceClass($stub, $name);
 
-        $stub = str_replace("middle_path",str_replace("repository","",strtolower($this->repositoryClass)),$stub);
+        $stub = str_replace("middle_path",$this->toUnderline(strtolower($this->repositoryClass)),$stub);
 
         return str_replace("Repository", $this->argument('name'), $stub);
+    }
+
+    public function toUnderline($input){
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
     }
 }

@@ -141,4 +141,7 @@ class Formatter extends Model
         return html_entity_decode(Str::words($taglessDescription, $numberWord, '....'));
     }
 
+    public static function toUnderline($input){
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
+    }
 }

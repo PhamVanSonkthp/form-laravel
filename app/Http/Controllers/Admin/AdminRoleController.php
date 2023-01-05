@@ -7,6 +7,7 @@ use App\Http\Requests\RoleAddRequest;
 use App\Http\Requests\RoleEditRequest;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Traits\BaseControllerTrait;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
@@ -16,16 +17,11 @@ use function view;
 
 class AdminRoleController extends Controller
 {
-    use DeleteModelTrait;
-    use StorageImageTrait;
+    use BaseControllerTrait;
 
     private $model;
     private $premission;
     private $roles;
-
-    private $prefixView;
-    private $prefixExport;
-    private $title;
 
     public function __construct(Role $model, Permission $premission)
     {
@@ -33,9 +29,10 @@ class AdminRoleController extends Controller
         $this->models = Role::all();
         $this->premission = $premission;
 
-        $this->prefixView = "role";
-        $this->prefixExport = "Vai trò_" . date('Y-m-d H:i:s');
-        $this->title = "Vai trò";
+        $this->initBaseModel($model);
+        $this->isSingleImage = false;
+        $this->isMultipleImages = false;
+        $this->shareBaseModel($model);
 
         View::share('title', $this->title);
         View::share('roles', $this->models);

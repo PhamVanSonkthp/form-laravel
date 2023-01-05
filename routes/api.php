@@ -2,30 +2,16 @@
 
 use App\Events\ChatPusherEvent;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\User\DateController;
-use App\Http\Controllers\User\DateRatingController;
-use App\Http\Controllers\User\LevelController;
-use App\Http\Controllers\User\ProfileController;
-use App\Http\Controllers\User\TopicController;
-use App\Http\Controllers\User\UserController;
 use App\Http\Requests\Chat\ParticipantAddRequest;
 use App\Http\Requests\PusherChatRequest;
 use App\Models\Chat;
 use App\Models\ChatGroup;
 use App\Models\ChatImage;
-use App\Models\Formatter;
 use App\Models\Notification;
 use App\Models\ParticipantChat;
 use App\Models\RestfulAPI;
-use App\Models\User;
-use App\Notifications\FirebaseNotifications;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -165,35 +151,6 @@ Route::prefix('user')->group(function () {
             });
 
             Route::prefix('participant')->group(function () {
-
-//                Route::get('/', function (Request $request) {
-//                    $queries = ["user_id" => auth()->id(), 'status' => 1];
-//                    $results = RestfulAPI::responseCustomResult(ParticipantChat::class, $request, $queries);
-//                    $results = $results->latest('updated_at')->paginate((int)filter_var($request->limit ?? '10', FILTER_SANITIZE_NUMBER_INT))->appends(request()->query());
-//
-//                    $resultsFilted = [];
-//                    foreach ($results as $index => $item) {
-//                        $item->chatGroup;
-//
-//                        $item->users = $item->users();
-//
-//                        $queries = ["chat_group_id" => $item->chatGroup->id];
-//                        $requestMessage = $request;
-//                        $requestMessage->limit = 2;
-//                        $resultsMessage = RestfulAPI::response(Chat::class, $requestMessage, $queries);
-//
-//                        foreach ($resultsMessage as $message) {
-//                            $message->images;
-//                        }
-//                        $item->messages = $resultsMessage;
-//
-//                        if (!empty($item->users) && !in_array(null, $item->users, true)){
-//                            $resultsFilted[] = $item;
-//                        }
-//                    }
-//
-//                    return Formatter::paginator($request, $resultsFilted);
-//                });
 
                 Route::get('/', function (Request $request) {
                     $participantChat = ParticipantChat::where('user_id', auth()->id())->first();

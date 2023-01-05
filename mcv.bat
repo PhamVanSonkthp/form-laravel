@@ -1,6 +1,6 @@
 echo Ten bang cua ban la gi?
 Set /p table=
-echo OKAY! dang tao du lieu %table% ...
+OKAY! dang tao du lieu %table% ...
 
 php artisan make:model %table% -m
 php artisan make:seed Create%table%Seeder

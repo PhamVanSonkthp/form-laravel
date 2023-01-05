@@ -47,7 +47,7 @@ class MakePolicy extends GeneratorCommand
         $this->setRepositoryClass();
 
 //        $path = $this->getPath("/Models/".str_replace("Repository","",$this->repositoryClass));
-        $path = base_path() . '/app/Policies/'.str_replace("repository","",(strtolower($this->repositoryClass))) . "Policy.php";
+        $path = base_path() . '/app/Policies/'.$this->repositoryClass . "Policy.php";
 
         if ($this->alreadyExists($this->getNameInput())) {
             $this->error($this->type.' already exists!');
@@ -68,7 +68,7 @@ class MakePolicy extends GeneratorCommand
 
     private function setRepositoryClass()
     {
-        $name = ucwords(strtolower($this->argument('name')));
+        $name = ucwords(($this->argument('name')));
 
         $this->model = $name;
 
@@ -76,7 +76,7 @@ class MakePolicy extends GeneratorCommand
 //        $modelClass = $this->parseName($name);
         $modelClass = $name;
 
-        $this->repositoryClass = $modelClass . 'Repository';
+        $this->repositoryClass = $modelClass;
 
         return $this;
     }
@@ -96,9 +96,13 @@ class MakePolicy extends GeneratorCommand
     {
         $stub = parent::replaceClass($stub, $name);
 
-        $stub = str_replace(".replace_plaint.",str_replace("repository","",strtolower($this->repositoryClass)),$stub);
-        $stub = str_replace(".class.",str_replace("repository","",(($this->repositoryClass))),$stub);
+        $stub = str_replace(".replace_plaint.", $this->toUnderline($this->repositoryClass),$stub);
+        $stub = str_replace(".class.",$this->repositoryClass,$stub);
 
         return str_replace("Repository", $this->argument('name'), $stub);
+    }
+
+    public function toUnderline($input){
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
     }
 }

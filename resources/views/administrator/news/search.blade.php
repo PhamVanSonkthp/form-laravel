@@ -10,7 +10,7 @@
 
     <div class="float-start ms-3">
         <input id="input_search_datetime" type="date"
-               class="bg-white form-control open-jquery-date-range" placeholder="datetime">
+               class="bg-white form-control open-jquery-date-range" placeholder="--/--/--">
     </div>
 
     <div class="float-start d-flex ms-3">

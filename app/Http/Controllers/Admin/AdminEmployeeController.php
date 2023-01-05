@@ -8,6 +8,7 @@ use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\BaseControllerTrait;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
@@ -18,25 +19,19 @@ use function view;
 
 class AdminEmployeeController extends Controller
 {
-    use DeleteModelTrait;
-    use StorageImageTrait;
+    use BaseControllerTrait;
 
     private $model;
-    private $roles;
-
-    private $prefixView;
-    private $prefixExport;
-    private $title;
 
     public function __construct(User $model)
     {
-        $this->model = $model;
-        $this->roles = Role::all();
-        $this->prefixView = "employees";
-        $this->prefixExport = "Nhân viên_" . date('Y-m-d H:i:s');
-        $this->title = "Nhân viên";
-        View::share('title', $this->title);
-        View::share('roles', $this->roles);
+        $roles = Role::all();
+        $this->initBaseModel($model);
+        $this->isSingleImage = true;
+        $this->isMultipleImages = false;
+        $this->prefixView = 'employees';
+        $this->shareBaseModel($model);
+        View::share('roles', $roles);
     }
 
     public function index(Request $request)
@@ -52,13 +47,13 @@ class AdminEmployeeController extends Controller
 
     public function create()
     {
-        return view('administrator.employees.add');
+        return view('administrator.'.$this->prefixView.'.add');
     }
 
     public function store(UserAddRequest $request)
     {
         $item = $this->model->storeByQuery($request);
-        return response()->json($item);
+        return redirect()->route('administrator.'.$this->prefixView.'.index');
     }
 
     public function edit($id)

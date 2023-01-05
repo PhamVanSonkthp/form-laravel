@@ -13,24 +13,9 @@
             <!-- Individual column searching (text inputs) Starts-->
             <div class="col-sm-12">
                 <div class="card">
+
                     <div class="card-header">
-                        <div class="row align-items-end">
-                            <div class="col-md-3">
-                                <label>Ngày tạo</label>
-                                <span>
-                                        <input type="text" id="config-demo" class="form-control">
-                                    </span>
-                            </div>
-
-                            <div class="col-md-9 text-end">
-                                <a class="btn btn-primary float-end m-2" href="{{route('administrator.employees.create')}}">Thêm
-                                    mới
-                                </a>
-                                <button onclick="exportExcel()" class="btn btn-success float-end m-2">Export
-                                </button>
-                            </div>
-                        </div>
-
+                        @include('administrator.employees.search')
                     </div>
 
                     <div class="card-body">
@@ -38,7 +23,7 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Mã NV</th>
+                                    <th>#</th>
                                     <th>Avatar</th>
                                     <th>Vai trò</th>
                                     <th>Tên NV</th>

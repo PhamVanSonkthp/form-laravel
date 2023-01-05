@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.slider.header')
+@include('administrator.employees.header')
 
 @section('css')
 

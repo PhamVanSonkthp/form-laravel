@@ -8,6 +8,7 @@ use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\BaseControllerTrait;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
@@ -17,22 +18,15 @@ use function view;
 
 class AdminUserController extends Controller
 {
-    use DeleteModelTrait;
-    use StorageImageTrait;
-
-    private $model;
-    private $prefixView;
-    private $prefixExport;
-    private $title;
+    use BaseControllerTrait;
 
     public function __construct(User $model, Role $role)
     {
-        $this->model = $model;
+        $this->initBaseModel($model);
+        $this->isSingleImage = true;
+        $this->isMultipleImages = false;
+        $this->shareBaseModel($model);
         $this->role = $role;
-        $this->prefixView = "user";
-        $this->prefixExport = "Khách hàng_" . date('Y-m-d H:i:s');
-        $this->title = "Khách hàng";
-        View::share('title', $this->title);
     }
 
     public function index(Request $request)
@@ -64,15 +58,15 @@ class AdminUserController extends Controller
         return view('administrator.'.$this->prefixView.'.edit', compact('item'));
     }
 
-    public function update($id, UserEditRequest $request)
+    public function update(Request $request, $id)
     {
-        $item = $this->model->updateByQuery($id,$request);
+        $item = $this->model->updateByQuery($request, $id);
         return redirect()->route('administrator.users.index');
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->model->deleteByQuery($request, $id, $this->forceDelete);
     }
 
     public function export(Request $request)

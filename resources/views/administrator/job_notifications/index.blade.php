@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.job_notifications.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -16,7 +16,7 @@
 
                     <div class="card-header">
 
-                        @include('administrator.job_notifications.search')
+                        @include('administrator.'.$prefixView.'.search')
 
                     </div>
 
@@ -75,8 +75,8 @@
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
-                                            <a href="{{route('administrator.job_notifications.delete' , ['id'=> $item->id])}}"
-                                               data-url="{{route('administrator.job_notifications.delete' , ['id'=> $item->id])}}"
+                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                class="btn btn-outline-danger btn-sm delete action_delete"
                                                title="Delete">
                                                 <i class="fa-solid fa-x"></i>
@@ -276,7 +276,7 @@
                 showLoading()
                 callAjax(
                     "POST",
-                    "{{route('administrator.job_notifications.store')}}",
+                    "{{route('administrator.'.$prefixView.'.store')}}",
                     {
                         title: $("#input_title").val(),
                         description: $("#input_description").val(),
