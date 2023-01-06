@@ -8,7 +8,7 @@
     <meta content="Pham Son" name="author">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ optional(\App\Models\Logo::first())->image_path }}">
+    <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
 
     @yield('css')
 

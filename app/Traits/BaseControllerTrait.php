@@ -29,6 +29,8 @@ trait BaseControllerTrait{
     private $isSingleImage;
     private $isMultipleImages;
 
+    private $prefixViewApi;
+
     public function initBaseModel($model){
         $this->model = $model;
         $this->forceDelete = false;
@@ -37,6 +39,7 @@ trait BaseControllerTrait{
         $this->table = $this->model->getTableName();
 
         $this->prefixView = $this->table;
+        $this->prefixViewApi = str_replace("_","-",$this->prefixView);
         $this->prefixExport = $this->prefixView . "_" . Formatter::getDateTime(now());
         $this->title = $this->prefixView;
 
@@ -56,6 +59,7 @@ trait BaseControllerTrait{
         View::share('title', $this->title);
         View::share('table', $this->table);
         View::share('prefixView', $this->prefixView);
+        View::share('prefixViewApi', $this->prefixViewApi);
         View::share('relateImageTableId', $this->relateImageTableId);
         View::share('imagePathSingple', $this->imagePathSingple);
         View::share('imagePostUrl', $this->imagePostUrl);

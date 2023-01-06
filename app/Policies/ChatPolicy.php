@@ -29,7 +29,7 @@ class ChatPolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.chat-list'));
+        return $user->checkPermissionAccess(config('permissions.access.chats-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class ChatPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.chat-add'));
+        return $user->checkPermissionAccess(config('permissions.access.chats-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class ChatPolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.chat-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.chats-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class ChatPolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.chat-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.chats-delete'));
     }
 
     /**

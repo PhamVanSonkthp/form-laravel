@@ -5,13 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\JobNotification;
 use App\Models\JobNotificationRepeat;
-use App\Models\ScheduleCron;
-use App\Models\ScheduleCronRepeat;
 use App\Models\UserJobNotification;
-use App\Models\UserScheduleCron;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
-use function redirect;
 use function view;
 
 class JobNotificationController extends Controller

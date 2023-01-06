@@ -29,7 +29,7 @@ class LogoPolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.logo-list'));
+        return $user->checkPermissionAccess(config('permissions.access.logos-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class LogoPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.logo-add'));
+        return $user->checkPermissionAccess(config('permissions.access.logos-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class LogoPolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.logo-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.logos-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class LogoPolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.logo-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.logos-delete'));
     }
 
     /**

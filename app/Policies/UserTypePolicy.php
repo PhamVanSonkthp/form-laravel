@@ -29,7 +29,7 @@ class UserTypePolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.user_type-list'));
+        return $user->checkPermissionAccess(config('permissions.access.user_types-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class UserTypePolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.user_type-add'));
+        return $user->checkPermissionAccess(config('permissions.access.user_types-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class UserTypePolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.user_type-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.user_types-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class UserTypePolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.user_type-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.user_types-delete'));
     }
 
     /**

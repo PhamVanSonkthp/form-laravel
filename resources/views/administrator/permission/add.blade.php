@@ -1,15 +1,9 @@
 @extends('administrator.layouts.master')
 
-@section('title')
-    <title>Home page</title>
-@endsection
+@include('administrator.permission.header')
 
-@section('name')
-    <h4 class="page-title">Phân quyền</h4>
-@endsection
 @section('css')
-    <link href="{{asset('vendor/select2/select2.min.css') }}" rel="stylesheet"/>
-    <link href="{{asset('admins/products/add/add.css') }}" rel="stylesheet"/>
+
 @endsection
 
 @section('content')

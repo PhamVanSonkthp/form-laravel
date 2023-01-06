@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.employees.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -15,7 +15,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        @include('administrator.employees.search')
+                        @include('administrator.'.$prefixView.'.search')
                     </div>
 
                     <div class="card-body">
@@ -55,11 +55,11 @@
                                         <td>{{ optional($item->gender)->name}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
-                                            <a href="{{route('administrator.employees.edit' , ['id'=> $item->id])}}"
+                                            <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"
                                                class="btn btn-outline-secondary btn-sm edit">Sửa</a>
 
-                                            <a href="{{route('administrator.employees.delete' , ['id'=> $item->id])}}"
-                                               data-url="{{route('administrator.employees.delete' , ['id'=> $item->id])}}"
+                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                class="btn btn-danger btn-sm action_delete">
                                                 Xóa
                                             </a>
@@ -69,10 +69,10 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
 
-                    <div class="card-footer">
-                        {{ $items->links('pagination::bootstrap-4') }}
+                        <div class="mt-3">
+                            {{ $items->links('pagination::bootstrap-4') }}
+                        </div>
                     </div>
                 </div>
             </div>

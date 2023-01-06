@@ -29,7 +29,7 @@ class ProductPolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.product-list'));
+        return $user->checkPermissionAccess(config('permissions.access.products-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class ProductPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.product-add'));
+        return $user->checkPermissionAccess(config('permissions.access.products-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class ProductPolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.product-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.products-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class ProductPolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.product-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.products-delete'));
     }
 
     /**

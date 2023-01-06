@@ -29,7 +29,7 @@ class HistoryDataPolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.history-data-list'));
+        return $user->checkPermissionAccess(config('permissions.access.history_datas-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class HistoryDataPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.history-data-add'));
+        return $user->checkPermissionAccess(config('permissions.access.history_datas-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class HistoryDataPolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.history-data-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.history_datas-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class HistoryDataPolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.history-data-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.history_datas-delete'));
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.history_data.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -15,7 +15,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        @include('administrator.history_data.search')
+                        @include('administrator.'.$prefixView.'.search')
                     </div>
 
                     <div class="card-body">

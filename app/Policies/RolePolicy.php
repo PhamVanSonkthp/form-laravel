@@ -29,7 +29,7 @@ class RolePolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.role-list'));
+        return $user->checkPermissionAccess(config('permissions.access.roles-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.role-add'));
+        return $user->checkPermissionAccess(config('permissions.access.roles-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class RolePolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.role-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.roles-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class RolePolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.role-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.roles-delete'));
     }
 
     /**

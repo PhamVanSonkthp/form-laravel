@@ -3,47 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserAddRequest;
-use App\Http\Requests\UserEditRequest;
-use App\Models\Bank;
-use App\Models\CashOut;
-use App\Models\Category;
-use App\Models\News;
-use App\Models\Receipt;
-use App\Models\Role;
 use App\Models\Setting;
-use App\Models\Slider;
-use App\Models\User;
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
+use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
 use function redirect;
 use function view;
 
 class AdminSettingController extends Controller
 {
-
-    use DeleteModelTrait;
-    use StorageImageTrait;
-
-    private $model;
-    private $prefixView;
-    private $prefixExport;
-    private $title;
+    use BaseControllerTrait;
 
     public function __construct(Setting $model)
     {
-        $this->model = $model;
-
-        $this->prefixView = "setting";
-        $this->prefixExport = "Setting" . date('Y-m-d H:i:s');
-        $this->title = "Setting";
-        View::share('title', $this->title);
+        $this->initBaseModel($model);
+        $this->shareBaseModel($model);
     }
 
     public function index(Request $request)
@@ -52,7 +25,7 @@ class AdminSettingController extends Controller
         return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         return view('administrator.'.$this->prefixView.'.add');
     }
@@ -75,8 +48,8 @@ class AdminSettingController extends Controller
         return back();
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->model->deleteByQuery($request, $id);
     }
 }

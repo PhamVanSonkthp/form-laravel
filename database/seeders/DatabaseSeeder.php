@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CreatePermissionSeeder::class);
         $this->call(CreateRoleSeeder::class);
         $this->call(CreatePermissionRoleSeeder::class);
-
         $this->call(CreateUserStatusSeeder::class);
         $this->call(CreateUserSeeder::class);
         $this->call(CreateLogoSeeder::class);
@@ -27,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateChatGroupSeeder::class);
         $this->call(CreateChatSeeder::class);
         $this->call(CreateParticipantChatSeeder::class);
+        $this->call(CreateSettingSeeder::class);
 
     }
 }

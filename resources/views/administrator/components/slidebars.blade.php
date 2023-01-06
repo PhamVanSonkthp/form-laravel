@@ -2,8 +2,7 @@
     <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
     <div id="sidebar-menu">
         <ul class="sidebar-links" id="simple-bar">
-            <li class="back-btn"><a href="index.html"><img class="img-fluid"
-                                                           src="../assets/images/logo-icon.png" alt=""></a>
+            <li class="back-btn"><a href="index.html"><img class="img-fluid" alt=""></a>
                 <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
                                                                       aria-hidden="true"> </i></div>
             </li>
@@ -11,17 +10,17 @@
             <li class="sidebar-list">
                 <label class="badge badge-light-danger">Latest </label>
                 <a
-                    class="sidebar-link sidebar-title link-nav @yield('dashboard')" href="/administrator/dashboard">
+                    class="sidebar-link sidebar-title link-nav" href="/administrator/dashboard">
                     <i class="fa-solid fa-chart-line"></i>
                     <span>Tổng quan</span>
                     <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                 </a>
             </li>
 
-            @can('user-list')
+            @can('users-list')
                 <li class="sidebar-list">
                     <a
-                        class="sidebar-link sidebar-title link-nav @yield('user')" href="/administrator/users">
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/users">
                         <i class="fas fa-thin fa-users"></i>
                         <span>Khách hàng</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -29,10 +28,10 @@
                 </li>
             @endcan
 
-            @can('chat-list')
+            @can('chats-list')
                 <li class="sidebar-list">
                     <a
-                        class="sidebar-link sidebar-title link-nav @yield('chat')" href="/administrator/chats">
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/chats">
                         <i class="fas fa-thin fa-comment"></i>
                         <span>Chat</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -47,11 +46,11 @@
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
 
-                    @can('job_email-list')
+                    @can('job_emails-list')
                         <li class="sidebar-list">
                             <a
-                                class="sidebar-link sidebar-title link-nav @yield('job_email')"
-                                href="/administrator/job-email">
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/job-emails">
                                 <i class="fas fa-thin fa-envelope"></i>
                                 <span>Gửi Email</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -59,11 +58,11 @@
                         </li>
                     @endcan
 
-                    @can('jobnotification-list')
+                    @can('job_notifications-list')
                         <li class="sidebar-list">
                             <a
-                                class="sidebar-link sidebar-title link-nav @yield('jobnotification')"
-                                href="/administrator/job-notification">
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/job-notifications">
                                 <i class="fas fa-light fa-clock"></i>
                                 <span>Gửi thông báo</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -82,10 +81,10 @@
                     <div class="according-menu"><i class="fas fa fa-angle-right"></i></div>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
-                    @can('employee-list')
+                    @can('employees-list')
                         <li>
                             <a
-                                class="sidebar-link sidebar-title link-nav @yield('employee')"
+                                class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/employees">
                                 <i class="fas fa-sharp fa-solid fa-person"></i>
                                 <span>Nhân viên</span>
@@ -94,10 +93,10 @@
                         </li>
                     @endcan
 
-                    @can('role-list')
+                    @can('roles-list')
                         <li>
                             <a
-                                class="sidebar-link sidebar-title link-nav @yield('role')" href="/administrator/roles">
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/roles">
                                 <i class="fas fa-regular fa-pen-ruler"></i>
                                 <span>Vai trò</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -116,10 +115,10 @@
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
 
-                    @can('slider-list')
+                    @can('sliders-list')
                         <li>
                             <a
-                                class="sidebar-link sidebar-title link-nav @yield('role')" href="/administrator/slider">
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/sliders">
                                 <i class="fas fa-thin fa-pager"></i>
                                 <span>Slider</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -127,10 +126,10 @@
                         </li>
                     @endcan
 
-                    @can('logo-list')
+                    @can('logos-list')
                         <li>
                             <a
-                                class="sidebar-link sidebar-title link-nav @yield('role')" href="/administrator/logo">
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/logos">
                                 <i class="fas fa-brands fa-pied-piper"></i>
                                 <span>Logo</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -141,7 +140,7 @@
                     @can('news-list')
                         <li>
                             <a
-                                class="sidebar-link sidebar-title link-nav @yield('news')"
+                                class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/news">
                                 <i class="fas fa-solid fa-newspaper"></i>
                                 <span>Tin tức</span>
@@ -153,11 +152,11 @@
                 </ul>
             </li>
 
-            @can('history-data-list')
+            @can('history-datas-list')
                 <li class="sidebar-list">
                     <a
-                        class="sidebar-link sidebar-title link-nav @yield('history-data')"
-                        href="/administrator/history-data">
+                        class="sidebar-link sidebar-title link-nav"
+                        href="/administrator/history-datas">
                         <i class="fas fa-solid fa-database"></i>
                         <span>Lịch sử dữ liệu</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>

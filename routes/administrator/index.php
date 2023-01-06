@@ -31,26 +31,26 @@ Route::prefix('administrator')->group(function () {
 
     });
 
-    Route::prefix('history-data')->group(function () {
+    Route::prefix('history-datas')->group(function () {
         Route::get('/', [
             'as' => 'administrator.history_data.index',
             'uses' => 'App\Http\Controllers\Admin\AdminHistoryDataController@index',
-            'middleware' => 'can:history-data-list',
+            'middleware' => 'can:history_datas-list',
         ]);
 
     });
 
-    Route::prefix('logo')->group(function () {
+    Route::prefix('logos')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.logo.add',
+            'as' => 'administrator.logos.add',
             'uses' => 'App\Http\Controllers\Admin\AdminLogoController@create',
-            'middleware' => 'can:logo-list',
+            'middleware' => 'can:logos-list',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.logo.store',
+            'as' => 'administrator.logos.store',
             'uses' => 'App\Http\Controllers\Admin\AdminLogoController@store',
-            'middleware' => 'can:logo-add',
+            'middleware' => 'can:logos-add',
         ]);
 
     });
@@ -60,49 +60,49 @@ Route::prefix('administrator')->group(function () {
         Route::get('/', [
             'as' => 'administrator.users.index',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@index',
-            'middleware' => 'can:user-list',
+            'middleware' => 'can:users-list',
         ]);
 
         Route::get('/create', [
             'as' => 'administrator.users.create',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@create',
-            'middleware' => 'can:user-add',
+            'middleware' => 'can:users-add',
         ]);
 
         Route::post('/store', [
             'as' => 'administrator.users.store',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@store',
-            'middleware' => 'can:user-add',
+            'middleware' => 'can:users-add',
         ]);
 
         Route::get('/edit/{id}', [
             'as' => 'administrator.users.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@edit',
-            'middleware' => 'can:user-edit',
+            'middleware' => 'can:users-edit',
         ]);
 
         Route::put('/update/{id}', [
             'as' => 'administrator.users.update',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@update',
-            'middleware' => 'can:user-edit',
+            'middleware' => 'can:users-edit',
         ]);
 
         Route::delete('/delete/{id}', [
             'as' => 'administrator.users.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@delete',
-            'middleware' => 'can:user-delete',
+            'middleware' => 'can:users-delete',
         ]);
 
         Route::get('/export', [
             'as' => 'administrator.users.export',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@export',
-            'middleware' => 'can:user-list',
+            'middleware' => 'can:users-list',
         ]);
 
         Route::get('/{id}', [
             'as' => 'administrator.users.get',
             'uses' => 'App\Http\Controllers\Admin\AdminUserController@get',
-            'middleware' => 'can:user-list',
+            'middleware' => 'can:users-list',
         ]);
 
     });
@@ -111,38 +111,38 @@ Route::prefix('administrator')->group(function () {
         Route::get('/', [
             'as' => 'administrator.chats.index',
             'uses' => 'App\Http\Controllers\Admin\AdminChatController@index',
-            'middleware' => 'can:chat-list',
+            'middleware' => 'can:chats-list',
         ]);
 
         Route::get('/create', [
             'as' => 'administrator.chats.create',
             'uses' => 'App\Http\Controllers\Admin\AdminChatController@create',
-            'middleware' => 'can:chat-add',
+            'middleware' => 'can:chats-add',
         ]);
 
         Route::post('/store', [
             'as' => 'administrator.chats.store',
             'uses' => 'App\Http\Controllers\Admin\AdminChatController@store',
-            'middleware' => 'can:chat-add',
+            'middleware' => 'can:chats-add',
         ]);
 
         Route::get('/edit/{id}', [
             'as' => 'administrator.chats.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminChatController@edit',
-            'middleware' => 'can:chat-edit',
+            'middleware' => 'can:chats-edit',
         ]);
 
         Route::put('/update/{id}', [
             'as' => 'administrator.chats.update',
             'uses' => 'App\Http\Controllers\Admin\AdminChatController@update',
-            'middleware' => 'can:chat-edit',
+            'middleware' => 'can:chats-edit',
         ]);
 
 
         Route::get('/delete/{id}', [
             'as' => 'administrator.chats.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminChatController@delete',
-            'middleware' => 'can:chat-delete',
+            'middleware' => 'can:chats-delete',
         ]);
 
     });
@@ -151,49 +151,49 @@ Route::prefix('administrator')->group(function () {
         Route::get('/', [
             'as' => 'administrator.employees.index',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@index',
-            'middleware' => 'can:employee-list',
+            'middleware' => 'can:employees-list',
         ]);
 
         Route::get('/create', [
             'as' => 'administrator.employees.create',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@create',
-            'middleware' => 'can:employee-add',
+            'middleware' => 'can:employees-add',
         ]);
 
         Route::post('/store', [
             'as' => 'administrator.employees.store',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@store',
-            'middleware' => 'can:employee-add',
+            'middleware' => 'can:employees-add',
         ]);
 
         Route::put('/update/{id}', [
             'as' => 'administrator.employees.update',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@update',
-            'middleware' => 'can:employee-edit',
+            'middleware' => 'can:employees-edit',
         ]);
 
         Route::get('/edit/{id}', [
             'as' => 'administrator.employees.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@edit',
-            'middleware' => 'can:employee-edit',
+            'middleware' => 'can:employees-edit',
         ]);
 
         Route::delete('/delete/{id}', [
             'as' => 'administrator.employees.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@delete',
-            'middleware' => 'can:employee-delete',
+            'middleware' => 'can:employees-delete',
         ]);
 
         Route::get('/export', [
             'as' => 'administrator.users.export',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@export',
-            'middleware' => 'can:employee-list',
+            'middleware' => 'can:employees-list',
         ]);
 
         Route::get('/{id}', [
             'as' => 'administrator.users.get',
             'uses' => 'App\Http\Controllers\Admin\AdminEmployeeController@get',
-            'middleware' => 'can:employee-list',
+            'middleware' => 'can:employees-list',
         ]);
 
     });
@@ -202,37 +202,37 @@ Route::prefix('administrator')->group(function () {
         Route::get('/', [
             'as' => 'administrator.roles.index',
             'uses' => 'App\Http\Controllers\Admin\AdminRoleController@index',
-            'middleware' => 'can:role-list',
+            'middleware' => 'can:roles-list',
         ]);
 
         Route::get('/create', [
             'as' => 'administrator.roles.create',
             'uses' => 'App\Http\Controllers\Admin\AdminRoleController@create',
-            'middleware' => 'can:role-add',
+            'middleware' => 'can:roles-add',
         ]);
 
         Route::get('/edit/{id}', [
             'as' => 'administrator.roles.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminRoleController@edit',
-            'middleware' => 'can:role-edit',
+            'middleware' => 'can:roles-edit',
         ]);
 
         Route::post('/store', [
             'as' => 'administrator.roles.store',
             'uses' => 'App\Http\Controllers\Admin\AdminRoleController@store',
-            'middleware' => 'can:role-add',
+            'middleware' => 'can:roles-add',
         ]);
 
         Route::put('/update/{id}', [
             'as' => 'administrator.roles.update',
             'uses' => 'App\Http\Controllers\Admin\AdminRoleController@update',
-            'middleware' => 'can:role-edit',
+            'middleware' => 'can:roles-edit',
         ]);
 
         Route::get('/delete/{id}', [
             'as' => 'administrator.roles.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminRoleController@delete',
-            'middleware' => 'can:role-delete',
+            'middleware' => 'can:roles-delete',
         ]);
 
     });
@@ -241,79 +241,52 @@ Route::prefix('administrator')->group(function () {
         Route::get('/create', [
             'as' => 'administrator.permissions.create',
             'uses' => 'App\Http\Controllers\Admin\AdminPermissionController@create',
-            'middleware' => 'can:permission-list',
+            'middleware' => 'can:permissions-list',
         ]);
 
         Route::post('/store', [
             'as' => 'administrator.permissions.store',
             'uses' => 'App\Http\Controllers\Admin\AdminPermissionController@store',
-            'middleware' => 'can:permission-add',
+            'middleware' => 'can:permissions-add',
         ]);
 
     });
 
-    Route::prefix('notification')->group(function () {
+    Route::prefix('sliders')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.notification.index',
-            'uses' => 'App\Http\Controllers\Admin\AdminNotificationController@index',
-            'middleware' => 'can:notification-list',
-        ]);
-
-        Route::get('/edit', [
-            'as' => 'administrator.notification.edit',
-            'uses' => 'App\Http\Controllers\Admin\AdminNotificationController@edit',
-            'middleware' => 'can:notification-edit',
-        ]);
-
-        Route::put('/update', [
-            'as' => 'administrator.notification.update',
-            'uses' => 'App\Http\Controllers\Admin\AdminNotificationController@update',
-            'middleware' => 'can:notification-edit',
-        ]);
-
-        Route::get('/delete/{id}', [
-            'as' => 'administrator.notification.delete',
-            'uses' => 'App\Http\Controllers\Admin\AdminNotificationController@delete',
-            'middleware' => 'can:notification-delete',
-        ]);
-
-    });
-
-    Route::prefix('slider')->group(function () {
-        Route::get('/', [
-            'as' => 'administrator.slider.index',
+            'as' => 'administrator.sliders.index',
             'uses' => 'App\Http\Controllers\Admin\AdminSliderController@index',
-            'middleware' => 'can:slider-list',
+            'middleware' => 'can:sliders-list',
         ]);
 
         Route::get('/create', [
-            'as' => 'administrator.slider.create',
+            'as' => 'administrator.sliders.create',
             'uses' => 'App\Http\Controllers\Admin\AdminSliderController@create',
-            'middleware' => 'can:slider-add',
+            'middleware' => 'can:sliders-add',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.slider.store',
+            'as' => 'administrator.sliders.store',
             'uses' => 'App\Http\Controllers\Admin\AdminSliderController@store',
-            'middleware' => 'can:slider-add',
+            'middleware' => 'can:sliders-add',
         ]);
 
         Route::get('/edit/{id}', [
-            'as' => 'administrator.slider.edit',
+            'as' => 'administrator.sliders.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminSliderController@edit',
-            'middleware' => 'can:slider-edit',
+            'middleware' => 'can:sliders-edit',
         ]);
 
         Route::put('/update/{id}', [
-            'as' => 'administrator.slider.update',
+            'as' => 'administrator.sliders.update',
             'uses' => 'App\Http\Controllers\Admin\AdminSliderController@update',
-            'middleware' => 'can:slider-edit',
+            'middleware' => 'can:sliders-edit',
         ]);
 
         Route::delete('/delete/{id}', [
-            'as' => 'administrator.slider.delete',
+            'as' => 'administrator.sliders.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminSliderController@delete',
-            'middleware' => 'can:slider-delete',
+            'middleware' => 'can:sliders-delete',
         ]);
 
     });
@@ -357,191 +330,191 @@ Route::prefix('administrator')->group(function () {
 
     });
 
-    Route::prefix('job-email')->group(function () {
+    Route::prefix('job-emails')->group(function () {
         Route::get('/', [
             'as' => 'administrator.job_emails.index',
             'uses' => 'App\Http\Controllers\Admin\AdminJobEmailController@index',
-            'middleware' => 'can:job_email-list',
+            'middleware' => 'can:job_emails-list',
         ]);
 
         Route::post('/store', [
             'as' => 'administrator.job_emails.store',
             'uses' => 'App\Http\Controllers\Admin\AdminJobEmailController@store',
-            'middleware' => 'can:job_email-add',
+            'middleware' => 'can:job_emails-add',
         ]);
 
         Route::delete('/delete/{id}', [
             'as' => 'administrator.job_emails.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminJobEmailController@delete',
-            'middleware' => 'can:job_email-delete',
+            'middleware' => 'can:job_emails-delete',
         ]);
 
     });
 
-    Route::prefix('job-notification')->group(function () {
+    Route::prefix('job-notifications')->group(function () {
         Route::get('/', [
             'as' => 'administrator.job_notifications.index',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@index',
-            'middleware' => 'can:jobnotification-list',
+            'middleware' => 'can:job_notifications-list',
         ]);
 
         Route::get('/create', [
             'as' => 'administrator.job_notifications.create',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@create',
-            'middleware' => 'can:jobnotification-add',
+            'middleware' => 'can:job_notifications-add',
         ]);
 
         Route::post('/store', [
             'as' => 'administrator.job_notifications.store',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@store',
-            'middleware' => 'can:jobnotification-add',
+            'middleware' => 'can:job_notifications-add',
         ]);
 
         Route::get('/edit/{id}', [
             'as' => 'administrator.job_notifications.edit',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@edit',
-            'middleware' => 'can:jobnotification-edit',
+            'middleware' => 'can:job_notifications-edit',
         ]);
 
         Route::put('/update/{id}', [
             'as' => 'administrator.job_notifications.update',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@update',
-            'middleware' => 'can:jobnotification-edit',
+            'middleware' => 'can:job_notifications-edit',
         ]);
 
         Route::delete('/delete/{id}', [
             'as' => 'administrator.job_notifications.delete',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@delete',
-            'middleware' => 'can:jobnotification-delete',
+            'middleware' => 'can:job_notifications-delete',
         ]);
 
         Route::get('/{id}', [
             'as' => 'administrator.job_notifications.get',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@get',
-            'middleware' => 'can:jobnotification-list',
+            'middleware' => 'can:job_notifications-list',
         ]);
 
     });
 
-    Route::prefix('category')->group(function () {
+    Route::prefix('categorys')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.category.index',
+            'as' => 'administrator.categorys.index',
             'uses' => 'App\Http\Controllers\Admin\AdminCategoryController@index',
-            'middleware' => 'can:category-list',
+            'middleware' => 'can:categorys-list',
         ]);
 
         Route::get('/create', [
-            'as' => 'administrator.category.create',
+            'as' => 'administrator.categorys.create',
             'uses' => 'App\Http\Controllers\Admin\AdminCategoryController@create',
-            'middleware' => 'can:category-add',
+            'middleware' => 'can:categorys-add',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.category.store',
+            'as' => 'administrator.categorys.store',
             'uses' => 'App\Http\Controllers\Admin\AdminCategoryController@store',
-            'middleware' => 'can:category-add',
+            'middleware' => 'can:categorys-add',
         ]);
 
         Route::get('/edit/{id}', [
-            'as' => 'administrator.category.edit',
+            'as' => 'administrator.categorys.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminCategoryController@edit',
-            'middleware' => 'can:category-edit',
+            'middleware' => 'can:categorys-edit',
         ]);
 
         Route::put('/update/{id}', [
-            'as' => 'administrator.category.update',
+            'as' => 'administrator.categorys.update',
             'uses' => 'App\Http\Controllers\Admin\AdminCategoryController@update',
-            'middleware' => 'can:category-edit',
+            'middleware' => 'can:categorys-edit',
         ]);
 
         Route::get('/delete/{id}', [
-            'as' => 'administrator.category.delete',
+            'as' => 'administrator.categorys.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminCategoryController@delete',
-            'middleware' => 'can:category-delete',
+            'middleware' => 'can:categorys-delete',
         ]);
 
     });
 
-    Route::prefix('product')->group(function () {
+    Route::prefix('products')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.product.index',
+            'as' => 'administrator.products.index',
             'uses' => 'App\Http\Controllers\Admin\AdminProductController@index',
-            'middleware' => 'can:product-list',
+            'middleware' => 'can:products-list',
         ]);
 
         Route::get('/create', [
-            'as' => 'administrator.product.create',
+            'as' => 'administrator.products.create',
             'uses' => 'App\Http\Controllers\Admin\AdminProductController@create',
-            'middleware' => 'can:product-add',
+            'middleware' => 'can:products-add',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.product.store',
+            'as' => 'administrator.products.store',
             'uses' => 'App\Http\Controllers\Admin\AdminProductController@store',
-            'middleware' => 'can:product-add',
+            'middleware' => 'can:products-add',
         ]);
 
         Route::get('/edit/{id}', [
-            'as' => 'administrator.product.edit',
+            'as' => 'administrator.products.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminProductController@edit',
-            'middleware' => 'can:product-edit',
+            'middleware' => 'can:products-edit',
         ]);
 
         Route::put('/update/{id}', [
-            'as' => 'administrator.product.update',
+            'as' => 'administrator.products.update',
             'uses' => 'App\Http\Controllers\Admin\AdminProductController@update',
-            'middleware' => 'can:product-edit',
+            'middleware' => 'can:products-edit',
         ]);
 
         Route::get('/delete/{id}', [
-            'as' => 'administrator.product.delete',
+            'as' => 'administrator.products.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminProductController@delete',
-            'middleware' => 'can:product-delete',
+            'middleware' => 'can:products-delete',
         ]);
 
         Route::get('/export', [
-            'as'=>'administrator.product.export',
+            'as'=>'administrator.products.export',
             'uses'=>'App\Http\Controllers\Admin\AdminProductController@export',
-            'middleware'=>'can:product-list',
+            'middleware'=>'can:products-list',
         ]);
 
     });
 
-    Route::prefix('setting')->group(function () {
+    Route::prefix('settings')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.setting.index',
+            'as' => 'administrator.settings.index',
             'uses' => 'App\Http\Controllers\Admin\AdminSettingController@index',
-            'middleware' => 'can:setting-list',
+            'middleware' => 'can:settings-list',
         ]);
 
         Route::get('/create', [
-            'as' => 'administrator.setting.create',
+            'as' => 'administrator.settings.create',
             'uses' => 'App\Http\Controllers\Admin\AdminSettingController@create',
-            'middleware' => 'can:setting-add',
+            'middleware' => 'can:settings-add',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.setting.store',
+            'as' => 'administrator.settings.store',
             'uses' => 'App\Http\Controllers\Admin\AdminSettingController@store',
-            'middleware' => 'can:setting-add',
+            'middleware' => 'can:settings-add',
         ]);
 
         Route::get('/edit/{id}', [
-            'as' => 'administrator.setting.edit',
+            'as' => 'administrator.settings.edit',
             'uses' => 'App\Http\Controllers\Admin\AdminSettingController@edit',
-            'middleware' => 'can:setting-edit',
+            'middleware' => 'can:settings-edit',
         ]);
 
         Route::put('/update/{id}', [
-            'as' => 'administrator.setting.update',
+            'as' => 'administrator.settings.update',
             'uses' => 'App\Http\Controllers\Admin\AdminSettingController@update',
-            'middleware' => 'can:setting-edit',
+            'middleware' => 'can:settings-edit',
         ]);
 
         Route::delete('/delete/{id}', [
-            'as' => 'administrator.setting.delete',
+            'as' => 'administrator.settings.delete',
             'uses' => 'App\Http\Controllers\Admin\AdminSettingController@delete',
-            'middleware' => 'can:setting-delete',
+            'middleware' => 'can:settings-delete',
         ]);
 
     });

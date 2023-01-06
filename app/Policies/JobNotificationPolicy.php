@@ -24,12 +24,12 @@ class JobNotificationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $jobnotification
+     * @param  \App\Models\  $job_notifications
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.jobnotification-list'));
+        return $user->checkPermissionAccess(config('permissions.access.job_notifications-list'));
     }
 
     /**
@@ -40,41 +40,41 @@ class JobNotificationPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.jobnotification-add'));
+        return $user->checkPermissionAccess(config('permissions.access.job_notifications-add'));
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $jobnotification
+     * @param  \App\Models\  $job_notifications
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.jobnotification-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.job_notifications-edit'));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $jobnotification
+     * @param  \App\Models\  $job_notifications
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.jobnotification-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.job_notifications-delete'));
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $jobnotification
+     * @param  \App\Models\  $job_notifications
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user,  $jobnotification)
+    public function restore(User $user,  $job_notifications)
     {
         //
     }
@@ -83,10 +83,10 @@ class JobNotificationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $jobnotification
+     * @param  \App\Models\  $job_notifications
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user,  $jobnotification)
+    public function forceDelete(User $user,  $job_notifications)
     {
         //
     }

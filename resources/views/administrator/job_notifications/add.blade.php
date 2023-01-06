@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.job_notifications.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -12,7 +12,7 @@
     <div class="container-fluid list-products">
         <div class="row">
 
-            <form action="{{route('administrator.job_notifications.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('administrator.'.$prefixView.'.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="col-md-12">
 

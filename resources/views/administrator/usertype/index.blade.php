@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.usertype.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -15,9 +15,7 @@
                 <div class="card">
 
                     <div class="card-header">
-
-                        @include('administrator.usertype.search')
-
+                        @include('administrator.'.$prefixView.'.search')
                     </div>
 
                     <div class="card-body">
@@ -44,13 +42,13 @@
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>{{ optional($item->createdBy)->name}}</td>
                                         <td>
-                                            <a href="{{route('administrator.usertype.edit' , ['id'=> $item->id ])}}"
+                                            <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}"
                                                class="btn btn-outline-secondary btn-sm edit" title="Edit">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
 
-                                            <a href="{{route('administrator.usertype.delete' , ['id'=> $item->id])}}"
-                                               data-url="{{route('administrator.usertype.delete' , ['id'=> $item->id])}}"
+                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                class="btn btn-outline-danger btn-sm delete action_delete"
                                                title="Delete">
                                                 <i class="fa-solid fa-x"></i>

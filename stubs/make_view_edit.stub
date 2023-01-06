@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.middle_path.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -11,7 +11,7 @@
     <div class="container-fluid list-products">
         <div class="row">
 
-            <form action="{{route('administrator.middle_path.update', ['id'=> $item->id]) }}" method="post"
+            <form action="{{route('administrator.'.$prefixView.'.update', ['id'=> $item->id]) }}" method="post"
                   enctype="multipart/form-data">
                 @method('PUT')
                 @csrf

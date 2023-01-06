@@ -29,12 +29,17 @@ class Helper extends Model
     {
 
         try {
-            $item = DB::table($table)->latest()->first();
+            $item = DB::table($table)->orderBy('id', 'DESC')->first();
+
+            if (empty($item)){
+                return 1;
+            }
+
             return $item->id + 1;
 //            $statement = DB::select("SHOW TABLE STATUS LIKE '$table'");
 //            return $statement[0]->Auto_increment;
         } catch (\Exception $exception) {
-            return 1;
+            return 0;
         }
 
     }

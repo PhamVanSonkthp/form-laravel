@@ -321,7 +321,7 @@
                             `  <td>
                                                 <a class="btn btn-outline-secondary btn-sm edit" data-id="${response.id}">Sửa</a>
 
-                                                <a href="/administrator/job-notification/delete/${response.id}" data-url="/administrator/job-notification/delete/${response.id}" class="btn btn-danger btn-sm delete">
+                                                <a href="/administrator/{{$prefixViewApi}}/delete/${response.id}" data-url="/administrator/{{$prefixViewApi}}/delete/${response.id}" class="btn btn-danger btn-sm delete">
                                                     Xóa
                                                 </a>
                                             </td>`
@@ -349,7 +349,7 @@
 
                 callAjax(
                     "PUT",
-                    "/administrator/job-notification/update/" + idEdited,
+                    "/administrator/{{$prefixViewApi}}/update/" + idEdited,
                     {
                         title: $("#input_title_edit").val(),
                         description: $("#input_description_edit").val(),
@@ -396,7 +396,7 @@
                             `  <td>
                                                 <a class="btn btn-outline-secondary btn-sm edit" data-id="${response.id}">Sửa</a>
 
-                                                <a href="/administrator/job-notification/delete/${response.id}" data-url="/administrator/job-notification/delete/${response.id}" class="btn btn-danger btn-sm delete">
+                                                <a href="/administrator/{{$prefixViewApi}}/delete/${response.id}" data-url="/administrator/{{$prefixViewApi}}/delete/${response.id}" class="btn btn-danger btn-sm delete">
                                                     Xóa
                                                 </a>
                                             </td>`,
@@ -418,7 +418,7 @@
 
             callAjax(
                 "GET",
-                "/administrator/job-notification/" + id,
+                "/administrator/{{$prefixViewApi}}/" + id,
                 {},
                 (response) => {
                     showModal("modal_edit_user")

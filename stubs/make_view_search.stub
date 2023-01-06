@@ -20,7 +20,7 @@
                 class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 
-    <a href="{{route('administrator.middle_path.create')}}" class="btn btn-success float-end m-2"><i
+    <a href="{{route('administrator.'.$prefixView.'.create')}}" class="btn btn-success float-end m-2"><i
             class="fa-solid fa-plus"></i></a>
 </div>
 

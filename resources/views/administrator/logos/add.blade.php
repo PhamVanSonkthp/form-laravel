@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.logos.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 

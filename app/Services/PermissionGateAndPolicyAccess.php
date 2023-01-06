@@ -12,7 +12,6 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateEmployee();
         $this->defineGateRole();
         $this->defineGatePermission();
-        $this->defineGateNotification();
         $this->defineGateLogo();
         $this->defineGateHistoryData();
         $this->defineGateSlider();
@@ -26,24 +25,24 @@ class PermissionGateAndPolicyAccess{
     }
 
     public function defineGateJobNotification(){
-        Gate::define('jobnotification-list','App\Policies\JobNotificationPolicy@view');
-        Gate::define('jobnotification-add','App\Policies\JobNotificationPolicy@create');
-        Gate::define('jobnotification-edit','App\Policies\JobNotificationPolicy@update');
-        Gate::define('jobnotification-delete','App\Policies\JobNotificationPolicy@delete');
+        Gate::define('job_notifications-list','App\Policies\JobNotificationPolicy@view');
+        Gate::define('job_notifications-add','App\Policies\JobNotificationPolicy@create');
+        Gate::define('job_notifications-edit','App\Policies\JobNotificationPolicy@update');
+        Gate::define('job_notifications-delete','App\Policies\JobNotificationPolicy@delete');
     }
 
     public function defineGateJobEmail(){
-        Gate::define('job_email-list','App\Policies\JobEmailPolicy@view');
-        Gate::define('job_email-add','App\Policies\JobEmailPolicy@create');
-        Gate::define('job_email-edit','App\Policies\JobEmailPolicy@update');
-        Gate::define('job_email-delete','App\Policies\JobEmailPolicy@delete');
+        Gate::define('job_emails-list','App\Policies\JobEmailPolicy@view');
+        Gate::define('job_emails-add','App\Policies\JobEmailPolicy@create');
+        Gate::define('job_emails-edit','App\Policies\JobEmailPolicy@update');
+        Gate::define('job_emails-delete','App\Policies\JobEmailPolicy@delete');
     }
 
     public function defineGateSetting(){
-        Gate::define('setting-list','App\Policies\SettingPolicy@view');
-        Gate::define('setting-add','App\Policies\SettingPolicy@create');
-        Gate::define('setting-edit','App\Policies\SettingPolicy@update');
-        Gate::define('setting-delete','App\Policies\SettingPolicy@delete');
+        Gate::define('settings-list','App\Policies\SettingPolicy@view');
+        Gate::define('settings-add','App\Policies\SettingPolicy@create');
+        Gate::define('settings-edit','App\Policies\SettingPolicy@update');
+        Gate::define('settings-delete','App\Policies\SettingPolicy@delete');
     }
 
     public function defineGateDashboard(){
@@ -54,17 +53,17 @@ class PermissionGateAndPolicyAccess{
     }
 
     public function defineGateCategory(){
-        Gate::define('category-list','App\Policies\CategoryPolicy@view');
-        Gate::define('category-add','App\Policies\CategoryPolicy@create');
-        Gate::define('category-edit','App\Policies\CategoryPolicy@update');
-        Gate::define('category-delete','App\Policies\CategoryPolicy@delete');
+        Gate::define('categorys-list','App\Policies\CategoryPolicy@view');
+        Gate::define('categorys-add','App\Policies\CategoryPolicy@create');
+        Gate::define('categorys-edit','App\Policies\CategoryPolicy@update');
+        Gate::define('categorys-delete','App\Policies\CategoryPolicy@delete');
     }
 
     public function defineGateProduct(){
-        Gate::define('product-list','App\Policies\ProductPolicy@view');
-        Gate::define('product-add','App\Policies\ProductPolicy@create');
-        Gate::define('product-edit','App\Policies\ProductPolicy@update');
-        Gate::define('product-delete','App\Policies\ProductPolicy@delete');
+        Gate::define('products-list','App\Policies\ProductPolicy@view');
+        Gate::define('products-add','App\Policies\ProductPolicy@create');
+        Gate::define('products-edit','App\Policies\ProductPolicy@update');
+        Gate::define('products-delete','App\Policies\ProductPolicy@delete');
     }
 
     public function defineGateNews(){
@@ -75,66 +74,59 @@ class PermissionGateAndPolicyAccess{
     }
 
     public function defineGateSlider(){
-        Gate::define('slider-list','App\Policies\SliderPolicy@view');
-        Gate::define('slider-add','App\Policies\SliderPolicy@create');
-        Gate::define('slider-edit','App\Policies\SliderPolicy@update');
-        Gate::define('slider-delete','App\Policies\SliderPolicy@delete');
+        Gate::define('sliders-list','App\Policies\SliderPolicy@view');
+        Gate::define('sliders-add','App\Policies\SliderPolicy@create');
+        Gate::define('sliders-edit','App\Policies\SliderPolicy@update');
+        Gate::define('sliders-delete','App\Policies\SliderPolicy@delete');
     }
 
     public function defineGateUser(){
-        Gate::define('user-list','App\Policies\UserPolicy@view');
-        Gate::define('user-add','App\Policies\UserPolicy@create');
-        Gate::define('user-edit','App\Policies\UserPolicy@update');
-        Gate::define('user-delete','App\Policies\UserPolicy@delete');
+        Gate::define('users-list','App\Policies\UserPolicy@view');
+        Gate::define('users-add','App\Policies\UserPolicy@create');
+        Gate::define('users-edit','App\Policies\UserPolicy@update');
+        Gate::define('users-delete','App\Policies\UserPolicy@delete');
     }
 
     public function defineGateChat(){
-        Gate::define('chat-list','App\Policies\ChatPolicy@view');
-        Gate::define('chat-add','App\Policies\ChatPolicy@create');
-        Gate::define('chat-edit','App\Policies\ChatPolicy@update');
-        Gate::define('chat-delete','App\Policies\ChatPolicy@delete');
+        Gate::define('chats-list','App\Policies\ChatPolicy@view');
+        Gate::define('chats-add','App\Policies\ChatPolicy@create');
+        Gate::define('chats-edit','App\Policies\ChatPolicy@update');
+        Gate::define('chats-delete','App\Policies\ChatPolicy@delete');
     }
 
     public function defineGateEmployee(){
-        Gate::define('employee-list','App\Policies\EmployeePolicy@view');
-        Gate::define('employee-add','App\Policies\EmployeePolicy@create');
-        Gate::define('employee-edit','App\Policies\EmployeePolicy@update');
-        Gate::define('employee-delete','App\Policies\EmployeePolicy@delete');
+        Gate::define('employees-list','App\Policies\EmployeePolicy@view');
+        Gate::define('employees-add','App\Policies\EmployeePolicy@create');
+        Gate::define('employees-edit','App\Policies\EmployeePolicy@update');
+        Gate::define('employees-delete','App\Policies\EmployeePolicy@delete');
     }
 
     public function defineGateRole(){
-        Gate::define('role-list','App\Policies\RolePolicy@view');
-        Gate::define('role-add','App\Policies\RolePolicy@create');
-        Gate::define('role-edit','App\Policies\RolePolicy@update');
-        Gate::define('role-delete','App\Policies\RolePolicy@delete');
+        Gate::define('roles-list','App\Policies\RolePolicy@view');
+        Gate::define('roles-add','App\Policies\RolePolicy@create');
+        Gate::define('roles-edit','App\Policies\RolePolicy@update');
+        Gate::define('roles-delete','App\Policies\RolePolicy@delete');
     }
 
     public function defineGatePermission(){
-        Gate::define('permission-list','App\Policies\PermissionPolicy@view');
-        Gate::define('permission-add','App\Policies\PermissionPolicy@create');
-        Gate::define('permission-edit','App\Policies\PermissionPolicy@update');
-        Gate::define('permission-delete','App\Policies\PermissionPolicy@delete');
-    }
-
-    public function defineGateNotification(){
-        Gate::define('notification-list','App\Policies\NotificationPolicy@view');
-        Gate::define('notification-add','App\Policies\NotificationPolicy@create');
-        Gate::define('notification-edit','App\Policies\NotificationPolicy@update');
-        Gate::define('notification-delete','App\Policies\NotificationPolicy@delete');
+        Gate::define('permissions-list','App\Policies\PermissionPolicy@view');
+        Gate::define('permissions-add','App\Policies\PermissionPolicy@create');
+        Gate::define('permissions-edit','App\Policies\PermissionPolicy@update');
+        Gate::define('permissions-delete','App\Policies\PermissionPolicy@delete');
     }
 
     public function defineGateLogo(){
-        Gate::define('logo-list','App\Policies\LogoPolicy@view');
-        Gate::define('logo-add','App\Policies\LogoPolicy@create');
-        Gate::define('logo-edit','App\Policies\LogoPolicy@update');
-        Gate::define('logo-delete','App\Policies\LogoPolicy@delete');
+        Gate::define('logos-list','App\Policies\LogoPolicy@view');
+        Gate::define('logos-add','App\Policies\LogoPolicy@create');
+        Gate::define('logos-edit','App\Policies\LogoPolicy@update');
+        Gate::define('logos-delete','App\Policies\LogoPolicy@delete');
     }
 
     public function defineGateHistoryData(){
-        Gate::define('history-data-list','App\Policies\HistoryDataPolicy@view');
-        Gate::define('history-data-add','App\Policies\HistoryDataPolicy@create');
-        Gate::define('history-data-edit','App\Policies\HistoryDataPolicy@update');
-        Gate::define('history-data-delete','App\Policies\HistoryDataPolicy@delete');
+        Gate::define('history_datas-list','App\Policies\HistoryDataPolicy@view');
+        Gate::define('history_datas-add','App\Policies\HistoryDataPolicy@create');
+        Gate::define('history_datas-edit','App\Policies\HistoryDataPolicy@update');
+        Gate::define('history_datas-delete','App\Policies\HistoryDataPolicy@delete');
     }
 
 }

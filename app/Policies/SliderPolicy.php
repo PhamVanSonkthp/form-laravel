@@ -29,7 +29,7 @@ class SliderPolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.slider-list'));
+        return $user->checkPermissionAccess(config('permissions.access.sliders-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class SliderPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.slider-add'));
+        return $user->checkPermissionAccess(config('permissions.access.sliders-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class SliderPolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.slider-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.sliders-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class SliderPolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.slider-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.sliders-delete'));
     }
 
     /**

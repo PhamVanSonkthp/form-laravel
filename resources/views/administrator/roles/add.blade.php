@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.roles.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -10,7 +10,7 @@
 
     <div class="container-fluid list-products">
         <div class="row">
-            <form action="{{route('administrator.roles.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('administrator.'.$prefixView.'.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="col-md-6">
 

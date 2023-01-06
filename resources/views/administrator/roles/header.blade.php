@@ -6,7 +6,3 @@
     <h4 class="page-title">{{$title}}</h4>
 @endsection
 
-@section('role')
-    class="mm-active"
-@endsection
-

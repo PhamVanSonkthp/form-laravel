@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.roles.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="card-header">
-                        @include('administrator.roles.search')
+                        @include('administrator.'.$prefixView.'.search')
                     </div>
 
                     <div class="card-body">
@@ -66,11 +66,11 @@
                                         <td>{{$item->display_name}}</td>
                                         <td>
                                             <a class="btn btn-outline-secondary btn-sm edit"
-                                               href="{{route('administrator.roles.edit' , ['id'=> $item->id])}}"
+                                               href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"
                                                data-id="{{$item->id}}">Sửa</a>
 
-                                            <a href="{{route('administrator.roles.delete' , ['id'=> $item->id])}}"
-                                               data-url="{{route('administrator.roles.delete' , ['id'=> $item->id])}}"
+                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                class="btn btn-danger btn-sm delete">
                                                 Xóa
                                             </a>

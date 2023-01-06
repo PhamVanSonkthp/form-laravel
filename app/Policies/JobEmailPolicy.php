@@ -29,7 +29,7 @@ class JobEmailPolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.job_email-list'));
+        return $user->checkPermissionAccess(config('permissions.access.job_emails-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class JobEmailPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.job_email-add'));
+        return $user->checkPermissionAccess(config('permissions.access.job_emails-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class JobEmailPolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.job_email-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.job_emails-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class JobEmailPolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.job_email-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.job_emails-delete'));
     }
 
     /**

@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.job_emails.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -33,7 +33,7 @@
                                                             class="icofont icofont-envelope me-2"></i> NEW MAIL</a></li>
                                                 <li>
                                                     <div>
-                                                        <form action="{{route('administrator.job_emails.store')}}"
+                                                        <form action="{{route('administrator.'.$prefixView.'.store')}}"
                                                               method="post"
                                                               enctype="multipart/form-data">
                                                             @csrf
@@ -118,8 +118,8 @@
                                                         <span
                                                             style="top: 15px;right: 40px;">{{\App\Models\Formatter::getOnlyDate($item->time_send)}} {{\App\Models\Formatter::getOnlyTime($item->time_send)}}</span>
                                                         <a style="position: absolute;right: 10px;top: 15px;font-size: 10px;"
-                                                           href="{{route('administrator.job_emails.delete' , ['id'=> $item->id])}}"
-                                                           data-url="{{route('administrator.job_emails.delete' , ['id'=> $item->id])}}"
+                                                           href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
+                                                           data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                            class="btn-danger btn-sm action_delete">
                                                             <i class="fa-solid fa-x"></i>
                                                         </a>
@@ -138,70 +138,6 @@
                 </div>
             </div>
         </div>
-
-        {{--        <div class="row">--}}
-
-        {{--            <div class="col-12">--}}
-        {{--                <div class="card">--}}
-        {{--                    <div class="card-header">--}}
-        {{--                        Danh sách email chờ gửi--}}
-        {{--                    </div>--}}
-        {{--                    <div class="card-body">--}}
-
-        {{--                        <div class="table-responsive product-table">--}}
-        {{--                            <table class="table table-hover ">--}}
-        {{--                                <thead>--}}
-        {{--                                <tr>--}}
-        {{--                                    <th>#</th>--}}
-        {{--                                    <th>Avatar</th>--}}
-        {{--                                    <th>Tên KH</th>--}}
-        {{--                                    <th>Email</th>--}}
-        {{--                                    <th>Tiêu đề</th>--}}
-        {{--                                    <th>Nội dung</th>--}}
-        {{--                                    <th>Ngày gửi</th>--}}
-        {{--                                    <th>Giờ gửi</th>--}}
-        {{--                                    <th>Hành động</th>--}}
-        {{--                                </tr>--}}
-        {{--                                </thead>--}}
-        {{--                                <tbody>--}}
-
-        {{--                                @foreach($items as $item)--}}
-        {{--                                    <tr>--}}
-        {{--                                        <td>{{optional($item->user)->id}}</td>--}}
-        {{--                                        <td>--}}
-        {{--                                            <img class="rounded-circle" src="{{ optional($item->user)->avatar()}}"--}}
-        {{--                                                 alt="">--}}
-        {{--                                        </td>--}}
-        {{--                                        <td>{{optional($item->user)->name}}</td>--}}
-        {{--                                        <td>{{optional($item->user)->email}}</td>--}}
-        {{--                                        <td>{{\App\Models\Formatter::getShortDescriptionAttribute($item->title,10)}}</td>--}}
-        {{--                                        <td>{{\App\Models\Formatter::getShortDescriptionAttribute($item->content)}}</td>--}}
-        {{--                                        <td>{{\App\Models\Formatter::getOnlyDate($item->created_at)}}</td>--}}
-        {{--                                        <td>{{\App\Models\Formatter::getOnlyTime($item->created_at)}}</td>--}}
-        {{--                                        <td>--}}
-        {{--                                            <a href="{{route('administrator.job_emails.delete' , ['id'=> $item->id])}}"--}}
-        {{--                                               data-url="{{route('administrator.job_emails.delete' , ['id'=> $item->id])}}"--}}
-        {{--                                               class="btn btn-danger btn-sm action_delete">--}}
-        {{--                                                Xóa--}}
-        {{--                                            </a>--}}
-        {{--                                        </td>--}}
-        {{--                                    </tr>--}}
-        {{--                                @endforeach--}}
-        {{--                                </tbody>--}}
-        {{--                            </table>--}}
-        {{--                        </div>--}}
-        {{--                    </div>--}}
-
-        {{--                    <div class="card-footer">--}}
-        {{--                        {{ $items->links('pagination::bootstrap-4') }}--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--            <!-- Individual column searching (text inputs) Starts-->--}}
-        {{--            <div class="col-12">--}}
-        {{--                --}}
-        {{--            </div>--}}
-        {{--        </div>--}}
     </div>
 @endsection
 

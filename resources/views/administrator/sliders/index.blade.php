@@ -1,6 +1,6 @@
 @extends('administrator.layouts.master')
 
-@include('administrator.sliders.header')
+@include('administrator.'.$prefixView.'.header')
 
 @section('css')
 
@@ -42,11 +42,11 @@
                                         </td>
                                         <td>
                                             <a class="btn btn-outline-secondary btn-sm edit"
-                                               href="{{route('administrator.slider.edit' , ['id'=> $item->id])}}"
+                                               href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"
                                                data-id="{{$item->id}}">Sửa</a>
 
-                                            <a href="{{route('administrator.slider.delete' , ['id'=> $item->id])}}"
-                                               data-url="{{route('administrator.slider.delete' , ['id'=> $item->id])}}"
+                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
+                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                class="btn btn-danger btn-sm delete">
                                                 Xóa
                                             </a>
@@ -57,6 +57,10 @@
 
                                 </tbody>
                             </table>
+                        </div>
+
+                        <div class="mt-3">
+                            {{ $items->links('pagination::bootstrap-4') }}
                         </div>
 
                     </div>
@@ -70,28 +74,6 @@
 @endsection
 
 @section('js')
-
-    <script>
-
-        function exportExcel() {
-            window.location.href = "{{route('administrator.users.export')}}" + window.location.search
-        }
-
-        $(document).ready(function () {
-
-            $(".table-users").dataTable().fnDestroy();
-
-            var table = $('.table-users').DataTable({
-                scrollX: true,
-            });
-            $('.table-users tbody').on('click', 'a.delete', function (e) {
-                event.preventDefault()
-                actionDelete(e, $(this).data('url'), table, $(this).parents('tr'))
-            });
-
-        });
-
-    </script>
 
 @endsection
 

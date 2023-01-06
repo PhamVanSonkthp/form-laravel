@@ -29,7 +29,7 @@ class EmployeePolicy
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.employee-list'));
+        return $user->checkPermissionAccess(config('permissions.access.employees-list'));
     }
 
     /**
@@ -40,7 +40,7 @@ class EmployeePolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.employee-add'));
+        return $user->checkPermissionAccess(config('permissions.access.employees-add'));
     }
 
     /**
@@ -52,7 +52,7 @@ class EmployeePolicy
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.employee-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.employees-edit'));
     }
 
     /**
@@ -64,7 +64,7 @@ class EmployeePolicy
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.employee-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.employees-delete'));
     }
 
     /**
