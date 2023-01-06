@@ -4,111 +4,52 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
+use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use function redirect;
 use function view;
 
 class CategoryController extends Controller
 {
-
-    use DeleteModelTrait;
-    use StorageImageTrait;
-
-    private $model;
+    use BaseControllerTrait;
 
     public function __construct(Category $model)
     {
-        $this->model = $model;
+        $this->initBaseModel($model);
+        $this->shareBaseModel($model);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-
-        $query = $this->model;
-
-        if (isset($_GET['search_query'])) {
-            $query = $query->where('name', 'LIKE', "%{$_GET['search_query']}%");
-        }
-
-        $items = $query->latest()->paginate(10)->appends(request()->query());
-
-        return view('administrator.category.index', compact('items'));
+        $items = $this->model->searchByQuery($request);
+        return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 
     public function create()
     {
-        return view('administrator.category.add');
+        return view('administrator.' . $this->prefixView . '.add');
     }
 
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
-
-            $dataCreate = [
-                'name' => $request->name,
-                'parent_id'=> $request->parent_id,
-                'slug'=> Str::slug($request->name),
-            ];
-
-            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'category');
-            if (!empty($dataUploadFeatureImage)) {
-                $dataCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-                $dataCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-            }
-            $item = $this->model->create($dataCreate);
-
-            DB::commit();
-
-            return redirect()->route('administrator.category.edit', ["id" => $item->id]);
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());
-        }
-
-        return redirect()->route('administrator.category.index');
+        $item = $this->model->storeByQuery($request);
+        return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
     }
 
     public function edit($id)
     {
         $item = $this->model->find($id);
-        return view('administrator.category.edit', compact('item'));
+        return view('administrator.' . $this->prefixView . '.edit', compact('item'));
     }
 
     public function update(Request $request, $id)
     {
-        try {
-            DB::beginTransaction();
-            $updateItem = [
-                'name' => $request->name,
-                'parent_id'=> $request->parent_id,
-                'slug'=> Str::slug($request->name),
-            ];
-
-            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
-
-            if (!empty($dataUploadFeatureImage)) {
-                $updateItem['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-                $updateItem['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-            }
-
-            $this->model->find($id)->update($updateItem);
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());
-        }
-
-        return back();
+        $item = $this->model->updateByQuery($request, $id);
+        return redirect()->route('administrator.news.edit', ['id' => $id]);
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->model->deleteByQuery($request, $id, $this->forceDelete);
     }
 }

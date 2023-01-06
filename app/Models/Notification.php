@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use App\Notifications\FirebaseNotifications;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Notification extends Model implements Auditable
@@ -29,121 +25,66 @@ class Notification extends Model implements Auditable
                 $participantChat = ParticipantChat::where('chat_group_id', $chat_group_id)->where('user_id', $user_id)->first();
 
                 if (!empty($participantChat) && $participantChat->status == 1) {
-                    auth()->user()->notify(new FirebaseNotifications('Tin nhắn', $contents, $user_id . ""));
+                    Helper::sendNotificationToTopic($user_id, 'Tin nhắn', $contents);
                 }
             }
         }
     }
 
-    public function searchByQuery($request, $queries = [], $isApi = false)
+    public function getTableName()
     {
-        $query = $this->query();
-
-        foreach ($request->all() as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
-            } else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            }
-        }
-
-        foreach ($queries as $key => $item) {
-            if ($key == "search_query") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
-            } else if ($key == "start") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            } else {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where($key, $item);
-                }
-            }
-        }
-
-        return $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+        return Helper::getTableName($this);
     }
 
-    public function storeByQuery($request, $isApi = false)
+    public function avatar($size = "100x100")
+    {
+        return Helper::getDefaultIcon($this, $size);
+    }
+
+    public function image()
+    {
+        return Helper::image($this);
+    }
+
+    public function createdBy(){
+        return $this->hasOne(User::class,'id','created_by_id');
+    }
+
+    public function searchByQuery($request, $queries = [])
+    {
+        return Helper::searchByQuery($this, $request, $queries);
+    }
+
+    public function storeByQuery($request)
     {
         $dataInsert = [
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'date_of_birth' => $request->date_of_birth,
-            'gender_id' => $request->gender_id ?? 1,
-            'email_verified_at' => now(),
-            'password' => Hash::make($request->password),
+            'title' => $request->title,
+            'content' => $request->contents,
+            'slug' => Helper::addSlug($this,'slug', $request->title),
         ];
 
-        if ($this->isAdmin()){
-            $dataInsert['role_id'] = $request->role_id ?? 0;
-            $dataInsert['is_admin'] = $request->is_admin ?? 0;
-        }
-
-        $item = $this->create($dataInsert);
+        $item = Helper::storeByQuery($this, $request, $dataInsert);
 
         return $this->findById($item->id);
     }
 
-    public function updateByQuery($id, $request, $isApi = false)
+    public function updateByQuery($request, $id)
     {
-        try {
-            DB::beginTransaction();
-            $updatetem = [
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'email' => $request->email,
-                'date_of_birth' => $request->date_of_birth,
-                'gender_id' => $request->gender_id ?? 1,
-                'email_verified_at' => $request->verify_email ? now() : null,
-            ];
-
-            if (!empty($request->password)) {
-                $updatetem['password'] = Hash::make($request->password);
-            }
-
-            $this->find($id)->update($updatetem);
-            $item = $this->find($id);
-            $item->roles()->sync($request->role_id);
-            DB::commit();
-
-            return $this->findById($item->id);
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());
-            return null;
-        }
+        $dataUpdate = [
+            'title' => $request->title,
+            'content' => $request->contents,
+            'slug' => Helper::addSlug($this,'slug', $request->title),
+        ];
+        $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
+        return $this->findById($item->id);
     }
 
-    public function findById($id, $isApi = false)
+    public function deleteByQuery($request, $id, $forceDelete = false)
     {
+        return Helper::deleteByQuery($this, $request, $id, $forceDelete);
+    }
+
+    public function findById($id){
         $item = $this->find($id);
         return $item;
     }

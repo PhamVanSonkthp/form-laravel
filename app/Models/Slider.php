@@ -44,19 +44,6 @@ class Slider extends Model implements Auditable
         $item = Helper::storeByQuery($this, $request, $dataInsert);
 
         return $this->findById($item->id);
-
-//        $dataCreate = [
-//            'link' => $request->link,
-//        ];
-//
-//        $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'slider');
-//        if (!empty($dataUploadFeatureImage)) {
-//            $dataCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-//            $dataCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-//        }
-//        $item = $this->create($dataCreate);
-//
-//        return $this->findById($item->id);
     }
 
     public function updateByQuery($request, $id)
@@ -67,15 +54,6 @@ class Slider extends Model implements Auditable
 
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);
-
-//        $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
-//
-//        if (!empty($dataUploadFeatureImage)) {
-//            $updateItem['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-//            $updateItem['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-//        }
-//
-//        $this->find($id)->update($updateItem);
     }
 
     public function findById($id)
