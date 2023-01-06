@@ -3,24 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserAddRequest;
-use App\Http\Requests\UserEditRequest;
 use App\Models\Category;
-use App\Models\News;
-use App\Models\Role;
-use App\Models\Slider;
-use App\Models\User;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use function redirect;
 use function view;
 
-class AdminCategoryController extends Controller
+class CategoryController extends Controller
 {
 
     use DeleteModelTrait;

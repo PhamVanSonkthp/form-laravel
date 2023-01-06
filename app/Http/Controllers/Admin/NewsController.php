@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\News;
 use App\Http\Controllers\Controller;
-use App\Models\JobEmail;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use function redirect;
 use function view;
 
-class AdminJobEmailController extends Controller
+class NewsController extends Controller
 {
     use BaseControllerTrait;
 
-    public function __construct(JobEmail $model)
+    public function __construct(News $model)
     {
         $this->initBaseModel($model);
         $this->shareBaseModel($model);
@@ -20,9 +21,7 @@ class AdminJobEmailController extends Controller
 
     public function index(Request $request)
     {
-        $queries = ['with_trashed' => true];
-        $items = $this->model->searchByQuery($request, $queries);
-
+        $items = $this->model->searchByQuery($request);
         return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 
@@ -33,12 +32,8 @@ class AdminJobEmailController extends Controller
 
     public function store(Request $request)
     {
-        foreach ($request->user_ids as $id) {
-            $request->id = $id;
-            $this->model->storeByQuery($request);
-        }
-
-        return back();
+        $item = $this->model->storeByQuery($request);
+        return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
     }
 
     public function edit($id)
@@ -55,8 +50,6 @@ class AdminJobEmailController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $this->forceDelete = true;
         return $this->model->deleteByQuery($request, $id, $this->forceDelete);
     }
-
 }

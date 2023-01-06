@@ -6,12 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LogoAddRequest;
 use App\Models\Logo;
 use App\Traits\BaseControllerTrait;
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
-use Illuminate\Support\Facades\View;
 use function view;
 
-class AdminLogoController extends Controller
+class LogoController extends Controller
 {
     use BaseControllerTrait;
 

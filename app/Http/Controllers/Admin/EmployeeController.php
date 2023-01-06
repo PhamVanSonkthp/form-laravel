@@ -2,36 +2,39 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\UsersExport;
+use App\Exports\EmployeeExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserEditRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\BaseControllerTrait;
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
 use function view;
 
-class AdminUserController extends Controller
+class EmployeeController extends Controller
 {
     use BaseControllerTrait;
 
-    public function __construct(User $model, Role $role)
+    private $model;
+
+    public function __construct(User $model)
     {
+        $roles = Role::all();
         $this->initBaseModel($model);
         $this->isSingleImage = true;
         $this->isMultipleImages = false;
+        $this->prefixView = 'employees';
         $this->shareBaseModel($model);
-        $this->role = $role;
+        View::share('roles', $roles);
     }
 
     public function index(Request $request)
     {
-        $items = $this->model->searchByQuery($request, ['is_admin' => 0]);
+        $items = $this->model->searchByQuery($request, ['is_admin' => 1]);
         return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 
@@ -42,36 +45,35 @@ class AdminUserController extends Controller
 
     public function create()
     {
-        $roles = $this->role->all();
-        return view('administrator.'.$this->prefixView.'.add', compact('roles'));
+        return view('administrator.'.$this->prefixView.'.add');
     }
 
     public function store(UserAddRequest $request)
     {
         $item = $this->model->storeByQuery($request);
-        return redirect()->route('administrator.users.index');
+        return redirect()->route('administrator.'.$this->prefixView.'.index');
     }
 
     public function edit($id)
     {
         $item = $this->model->findById($id);
-        return view('administrator.'.$this->prefixView.'.edit', compact('item'));
+        $rolesOfUser = $item->roles;
+        return view('administrator.'.$this->prefixView.'.edit', compact('item','rolesOfUser'));
     }
 
-    public function update(Request $request, $id)
+    public function update($id, UserEditRequest $request)
     {
-        $item = $this->model->updateByQuery($request, $id);
-        return redirect()->route('administrator.users.index');
+        $item = $this->model->updateByQuery($id,$request);
+        return back();
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
-        return $this->model->deleteByQuery($request, $id, $this->forceDelete);
+        return $this->deleteModelTrait($id, $this->model);
     }
 
     public function export(Request $request)
     {
-        return Excel::download(new UsersExport($request), $this->prefixExport . '.xlsx');
+        return Excel::download(new EmployeeExport($request), $this->prefixExport . '.xlsx');
     }
-
 }

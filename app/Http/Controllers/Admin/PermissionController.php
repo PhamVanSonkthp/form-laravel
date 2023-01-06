@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PermissionAddRequest;
 use App\Models\Permission;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use function view;
 
-class AdminPermissionController extends Controller
+class PermissionController extends Controller
 {
     public function create()
     {

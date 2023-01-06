@@ -8,14 +8,12 @@ use App\Http\Requests\RoleEditRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Traits\BaseControllerTrait;
-use App\Traits\DeleteModelTrait;
-use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use function redirect;
 use function view;
 
-class AdminRoleController extends Controller
+class RoleController extends Controller
 {
     use BaseControllerTrait;
 

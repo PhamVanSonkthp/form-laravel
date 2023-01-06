@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Setting;
+use App\Models\Slider;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
 use function redirect;
 use function view;
 
-class AdminSettingController extends Controller
+class SliderController extends Controller
 {
     use BaseControllerTrait;
 
-    public function __construct(Setting $model)
+    public function __construct(Slider $model)
     {
         $this->initBaseModel($model);
+        $this->isSingleImage = false;
+        $this->isMultipleImages = false;
         $this->shareBaseModel($model);
     }
 
@@ -25,20 +27,20 @@ class AdminSettingController extends Controller
         return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 
-    public function create(Request $request)
+    public function create()
     {
         return view('administrator.'.$this->prefixView.'.add');
     }
 
     public function store(Request $request)
     {
-        $item = $this->model->storeByQuery($request);
-        return redirect()->route('administrator.'.$this->prefixView.'.edit', ["id" => $item->id]);
+        $this->model->storeByQuery($request);
+        return redirect()->route('administrator.'.$this->prefixView.'.index');
     }
 
     public function edit($id)
     {
-        $item = $this->model->findById($id);
+        $item = $this->model->find($id);
         return view('administrator.'.$this->prefixView.'.edit', compact('item'));
     }
 
@@ -48,8 +50,8 @@ class AdminSettingController extends Controller
         return back();
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
-        return $this->model->deleteByQuery($request, $id);
+        return $this->deleteModelTrait($id, $this->model);
     }
 }

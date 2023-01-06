@@ -200,7 +200,12 @@ class Helper extends Model
     public static function logoImagePath()
     {
         $logo = Logo::first();
-        $table = $logo->getTableName();
+        if (empty($logo)){
+            $table = 'logos';
+        }else{
+            $table = $logo->getTableName();
+        }
+
         return optional(SingpleImage::where('relate_id', Helper::getNextIdTable($table))->where('table', $table)->first())->image_path;
     }
 

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Audit;
-use function auth;
 use function view;
 
-class AdminHistoryDataController extends Controller
+class HistoryDataController extends Controller
 {
     public function index(){
         $title = "Lịch sử dữ liệu";

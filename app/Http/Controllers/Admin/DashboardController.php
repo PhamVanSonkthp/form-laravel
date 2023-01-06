@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use function auth;
 use function view;
 
-class AdminDashboardController extends Controller
+class DashboardController extends Controller
 {
     public function index(){
         if(auth()->check()){
