@@ -5,18 +5,13 @@ namespace App\Models;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use App\Traits\UserTrait;
-use DateTime;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -80,7 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function image(){
-        return $this->hasOne(SingpleImage::class,'relate_id','id')->where('table' , $this->getTable());
+        return $this->hasOne(SingleImage::class,'relate_id','id')->where('table' , $this->getTable());
     }
 
     public function images(){
@@ -118,6 +113,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(){
         return auth()->check() && optional(auth()->user())->is_admin == 2;
+    }
+
+    public function isEmployee(){
+        return auth()->check() && optional(auth()->user())->is_admin != 0;
     }
 
     public function searchByQuery($request, $queries = [])

@@ -65,34 +65,16 @@
                         </tbody>
                     </table>
                 </div>
-
+                <div>
+                    @include('administrator.components.footer_table')
+                </div>
             </div>
         </div>
 
     </div>
 
-    <div class="col-md-12">
-        {{ $items->links('pagination::bootstrap-4') }}
-    </div>
-
 @endsection
 
 @section('js')
-    <script>
-        function search() {
-            if (event.key === 'Enter') {
-                searchButton()
-            }
-        }
 
-        function searchButton(searchParams) {
-            if (!searchParams) {
-                searchParams = new URLSearchParams(window.location.search)
-            }
-            searchParams.set('search_query', $('#input_search').val())
-            window.location.search = searchParams.toString()
-        }
-        const url = new URL(decodeURIComponent(window.location.href));
-        $('#input_search').val(url.searchParams.get("search_query"))
-    </script>
 @endsection

@@ -21,6 +21,7 @@ class CreateImagesTable extends Migration
             $table->string('table')->nullable();
             $table->bigInteger('relate_id')->index();
             $table->integer('index')->default(0);
+            $table->tinyInteger('status_image_id')->default(0);
             $table->timestamps();
         });
     }

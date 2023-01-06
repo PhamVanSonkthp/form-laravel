@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSingpleImagesTable extends Migration
+class CreateUserSingleImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateSingpleImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('singple_images', function (Blueprint $table) {
+        Schema::create('user_single_images', function (Blueprint $table) {
             $table->id();
-            $table->string('image_path');
-            $table->string('image_name');
-            $table->string('table')->nullable();
-            $table->bigInteger('relate_id')->index();
+            $table->bigInteger('user_id');
+            $table->bigInteger('single_image_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateSingpleImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('singple_images');
+        Schema::dropIfExists('user_single_images');
     }
 }

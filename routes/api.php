@@ -29,42 +29,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/categories', [CategoryController::class, 'categories']);
-Route::get('/news', [ProductController::class, 'news']);
-Route::get('/sliders', [ProductController::class, 'sliders']);
-Route::get('/type_sale', [ProductController::class, 'typeSale']);
-Route::get('/shipping_type', [OrderController::class, 'shippingType']);
-Route::get('/payment_type', [OrderController::class, 'paymentType']);
-Route::get('/order_status', [OrderController::class, 'orderStatus']);
-Route::post('/cart/addByAdmin', [CartController::class, 'addByAdmin']);
-Route::get('/voucher', [OrderController::class, 'voucher']);
-Route::prefix('product')->group(function () {
-    Route::post('/inc/{id}', [ProductController::class, 'incView']);
-    Route::get('/flash_sale', [ProductController::class, 'flashSale']);
-    Route::get('/', [ProductController::class, 'list']);
-    Route::get('/{id}', [ProductController::class, 'detail']);
-});
-
-Route::prefix('cart')->group(function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::get('/', [CartController::class, 'getCart']);
-        Route::post('/add', [CartController::class, 'addCart']);
-        Route::put('/update', [CartController::class, 'updateCart']);
-        Route::delete('/delete/{id}', [CartController::class, 'deleteCart']);
-    });
-});
-
-Route::prefix('order')->group(function () {
-    Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::get('/', [OrderController::class, 'getOrder']);
-        Route::post('/add', [OrderController::class, 'addOrder']);
-        Route::delete('/delete/{id}', [OrderController::class, 'deleteOrder']);
-        Route::get('/orderCount', [OrderController::class, 'orderCount']);
-        Route::get('/changeStatus/{id}', [OrderController::class, 'changeStatus']);
-        Route::get('/applyVoucher', [OrderController::class, 'applyVoucher']);
-    });
-});
-
 Route::prefix('user')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);

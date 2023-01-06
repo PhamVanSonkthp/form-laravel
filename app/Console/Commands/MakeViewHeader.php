@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Formatter;
 use Illuminate\Console\Command;
 use Illuminate\Console\GeneratorCommand;
 use InvalidArgumentException;
@@ -46,8 +47,7 @@ class MakeViewHeader extends GeneratorCommand
     {
         $this->setRepositoryClass();
 
-//        $path = $this->getPath("/Models/".str_replace("Repository","",$this->repositoryClass));
-        $path = base_path() . '/resources/views/administrator/'.str_replace("repository","",strtolower($this->repositoryClass)) . "/header.blade.php";
+        $path = base_path() . '/resources/views/administrator/'. Formatter::toUnderline($this->repositoryClass) . "s/header.blade.php";
 
         if ($this->alreadyExists($this->getNameInput())) {
             $this->error($this->type.' already exists!');
@@ -68,16 +68,10 @@ class MakeViewHeader extends GeneratorCommand
 
     private function setRepositoryClass()
     {
-        $name = ucwords(strtolower($this->argument('name')));
-
+        $name = ($this->argument('name'));
         $this->model = $name;
-
-
-//        $modelClass = $this->parseName($name);
         $modelClass = $name;
-
-        $this->repositoryClass = $modelClass . 'Repository';
-
+        $this->repositoryClass = $modelClass;
         return $this;
     }
 

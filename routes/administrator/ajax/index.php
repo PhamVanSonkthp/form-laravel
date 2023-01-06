@@ -8,11 +8,10 @@ use App\Models\Image;
 use App\Models\Notification;
 use App\Models\ParticipantChat;
 use App\Models\RestfulAPI;
-use App\Models\SingpleImage;
+use App\Models\SingleImage;
 use App\Models\User;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 // ajax
@@ -22,14 +21,19 @@ Route::prefix('ajax/administrator')->group(function () {
         Route::prefix('upload-image')->group(function () {
             Route::post('/store', function (Request $request) {
 
-                $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image');
-
-                $item = SingpleImage::updateOrCreate([
+                $item = SingleImage::firstOrCreate([
                     'relate_id' => $request->id,
                     'table' => $request->table,
                 ],[
                     'relate_id' => $request->id,
                     'table' => $request->table,
+                    'image_path' => 'waiting_update',
+                    'image_name' => 'waiting_update',
+                ]);
+
+                $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image', 'single', $item->id);
+
+                $item->update([
                     'image_path' => $dataUploadFeatureImage['file_path'],
                     'image_name' => $dataUploadFeatureImage['file_name'],
                 ]);
@@ -44,7 +48,7 @@ Route::prefix('ajax/administrator')->group(function () {
 
             Route::post('/store', function (Request $request) {
 
-                $image = Image::create([
+                $item = Image::create([
                     'uuid' => $request->id,
                     'table' => $request->table,
                     'image_path' => "waiting",
@@ -52,17 +56,17 @@ Route::prefix('ajax/administrator')->group(function () {
                     'relate_id' => $request->relate_id ?? 0,
                 ]);
 
-                $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image');
+                $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image','multiple', $item->id);
 
                 $dataUpdate = [
                     'image_path' => $dataUploadFeatureImage['file_path'],
                     'image_name' => $dataUploadFeatureImage['file_name'],
                 ];
 
-                $image->update($dataUpdate);
-                $image->refresh();
+                $item->update($dataUpdate);
+                $item->refresh();
 
-                return response()->json($image);
+                return response()->json($item);
 
             })->name('ajax,administrator.upload_multiple_images.store');
 

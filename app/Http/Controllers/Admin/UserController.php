@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserAddRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\BaseControllerTrait;
@@ -42,7 +41,7 @@ class UserController extends Controller
         return view('administrator.'.$this->prefixView.'.add', compact('roles'));
     }
 
-    public function store(UserAddRequest $request)
+    public function store(Request $request)
     {
         $item = $this->model->storeByQuery($request);
         return redirect()->route('administrator.users.index');

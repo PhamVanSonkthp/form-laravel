@@ -15,9 +15,7 @@
                 <div class="card">
 
                     <div class="card-header">
-
                         @include('administrator.'.$prefixView.'.search')
-
                     </div>
 
                     <div class="card-body">
@@ -88,9 +86,8 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="mt-3">
-                            {{ $items->links('pagination::bootstrap-4') }}
+                        <div>
+                            @include('administrator.components.footer_table')
                         </div>
                     </div>
                 </div>

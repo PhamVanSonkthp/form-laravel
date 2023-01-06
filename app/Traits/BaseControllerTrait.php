@@ -5,11 +5,8 @@ namespace App\Traits;
 use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\Image;
-use App\Models\SingpleImage;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use App\Models\SingleImage;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
 
 trait BaseControllerTrait{
 
@@ -45,7 +42,7 @@ trait BaseControllerTrait{
 
         $this->relateImageTableId = Helper::getNextIdTable($this->table);
 
-        $this->imagePathSingple = optional(SingpleImage::where('relate_id', Helper::getNextIdTable($this->table))->where('table', $this->table)->first())->image_path;
+        $this->imagePathSingple = optional(SingleImage::where('relate_id', Helper::getNextIdTable($this->table))->where('table', $this->table)->first())->image_path;
         $this->imagePostUrl = route('ajax,administrator.upload_image.store');
 
         $this->imagesPath = Image::where('relate_id', Helper::getNextIdTable($this->table))->where('table', $this->table)->orderBy('index')->get();

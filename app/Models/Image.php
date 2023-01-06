@@ -20,6 +20,18 @@ class Image extends Model implements Auditable
 
     protected $guarded = [];
 
+    // begin
+
+    public function isPublic(){
+        return $this->status_image_id == 0;
+    }
+
+    public function usersSingleImage(){
+        return $this->hasMany(UserImage::class,'image_id','id');
+    }
+
+    // end
+
     protected $casts = [
         'id' => 'string'
     ];

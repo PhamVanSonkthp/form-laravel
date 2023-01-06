@@ -4,19 +4,12 @@ namespace App\Models;
 
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
-use Carbon\Carbon;
-use DateTime;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use OwenIt\Auditing\Contracts\Auditable;
 
 class Helper extends Model
 {
@@ -155,11 +148,11 @@ class Helper extends Model
 
     public static function storeByQuery($object, $request, $dataCreate)
     {
-        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
-        if (!empty($dataUploadFeatureImage)) {
-            $dataCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-            $dataCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-        }
+//        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
+//        if (!empty($dataUploadFeatureImage)) {
+//            $dataCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
+//            $dataCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
+//        }
 
         $item = $object->create($dataCreate);
         return $item;
@@ -167,11 +160,11 @@ class Helper extends Model
 
     public static function updateByQuery($object, $request, $id, $dataUpdate)
     {
-        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
-        if (!empty($dataUploadFeatureImage)) {
-            $dataUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-            $dataUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-        }
+//        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
+//        if (!empty($dataUploadFeatureImage)) {
+//            $dataUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
+//            $dataUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
+//        }
         $object->find($id)->update($dataUpdate);
         $item = $object->find($id);
         return $item;
@@ -206,7 +199,7 @@ class Helper extends Model
             $table = $logo->getTableName();
         }
 
-        return optional(SingpleImage::where('relate_id', Helper::getNextIdTable($table))->where('table', $table)->first())->image_path;
+        return optional(SingleImage::where('relate_id', Helper::getNextIdTable($table))->where('table', $table)->first())->image_path;
     }
 
     public static function sendNotificationToTopic($topicName, $title, $body)
@@ -248,6 +241,10 @@ class Helper extends Model
                 ],
             );
         }
+
+    }
+
+    public static function protecterImage(){
 
     }
 }

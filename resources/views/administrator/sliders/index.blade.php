@@ -58,11 +58,9 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="mt-3">
-                            {{ $items->links('pagination::bootstrap-4') }}
+                        <div>
+                            @include('administrator.components.footer_table')
                         </div>
-
                     </div>
                 </div>
 

@@ -6,12 +6,9 @@ use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class SingpleImage extends Model implements Auditable
+class UserImage extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
@@ -20,6 +17,12 @@ class SingpleImage extends Model implements Auditable
 
     protected $guarded = [];
 
+    // begin
+
+
+
+    // end
+
     public function getTableName()
     {
         return Helper::getTableName($this);
@@ -27,7 +30,7 @@ class SingpleImage extends Model implements Auditable
 
     public function avatar($size = "100x100")
     {
-        return Helper::getDefaultIcon($this, $size);
+       return Helper::getDefaultIcon($this, $size);
     }
 
     public function image()
