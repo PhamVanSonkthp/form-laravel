@@ -93,6 +93,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:users-delete',
         ]);
 
+        Route::delete('/delete-many', [
+            'as' => 'administrator.users.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\UserController@deleteManyByIds',
+            'middleware' => 'can:users-delete',
+        ]);
+
         Route::get('/export', [
             'as' => 'administrator.users.export',
             'uses' => 'App\Http\Controllers\Admin\UserController@export',
@@ -138,11 +144,28 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:chats-edit',
         ]);
 
-
         Route::get('/delete/{id}', [
             'as' => 'administrator.chats.delete',
             'uses' => 'App\Http\Controllers\Admin\ChatController@delete',
             'middleware' => 'can:chats-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.chats.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\ChatController@deleteManyByIds',
+            'middleware' => 'can:chats-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.chats.export',
+            'uses' => 'App\Http\Controllers\Admin\ChatController@export',
+            'middleware' => 'can:chats-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.chats.get',
+            'uses' => 'App\Http\Controllers\Admin\ChatController@get',
+            'middleware' => 'can:chats-list',
         ]);
 
     });
@@ -184,14 +207,20 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:employees-delete',
         ]);
 
+        Route::delete('/delete-many', [
+            'as' => 'administrator.employees.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\EmployeeController@deleteManyByIds',
+            'middleware' => 'can:employees-delete',
+        ]);
+
         Route::get('/export', [
-            'as' => 'administrator.users.export',
+            'as' => 'administrator.employees.export',
             'uses' => 'App\Http\Controllers\Admin\EmployeeController@export',
             'middleware' => 'can:employees-list',
         ]);
 
         Route::get('/{id}', [
-            'as' => 'administrator.users.get',
+            'as' => 'administrator.employees.get',
             'uses' => 'App\Http\Controllers\Admin\EmployeeController@get',
             'middleware' => 'can:employees-list',
         ]);
@@ -233,6 +262,24 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.roles.delete',
             'uses' => 'App\Http\Controllers\Admin\RoleController@delete',
             'middleware' => 'can:roles-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.roles.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\RoleController@deleteManyByIds',
+            'middleware' => 'can:roles-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.roles.export',
+            'uses' => 'App\Http\Controllers\Admin\RoleController@export',
+            'middleware' => 'can:roles-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.roles.get',
+            'uses' => 'App\Http\Controllers\Admin\RoleController@get',
+            'middleware' => 'can:roles-list',
         ]);
 
     });
@@ -289,6 +336,24 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:sliders-delete',
         ]);
 
+        Route::delete('/delete-many', [
+            'as' => 'administrator.sliders.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\SliderController@deleteManyByIds',
+            'middleware' => 'can:sliders-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.sliders.export',
+            'uses' => 'App\Http\Controllers\Admin\SliderController@export',
+            'middleware' => 'can:sliders-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.sliders.get',
+            'uses' => 'App\Http\Controllers\Admin\SliderController@get',
+            'middleware' => 'can:sliders-list',
+        ]);
+
     });
 
     Route::prefix('news')->group(function () {
@@ -328,6 +393,24 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:news-delete',
         ]);
 
+        Route::delete('/delete-many', [
+            'as' => 'administrator.news.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\NewsController@deleteManyByIds',
+            'middleware' => 'can:news-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.news.export',
+            'uses' => 'App\Http\Controllers\Admin\NewsController@export',
+            'middleware' => 'can:news-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.news.get',
+            'uses' => 'App\Http\Controllers\Admin\NewsController@get',
+            'middleware' => 'can:news-list',
+        ]);
+
     });
 
     Route::prefix('job-emails')->group(function () {
@@ -347,6 +430,24 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.job_emails.delete',
             'uses' => 'App\Http\Controllers\Admin\JobEmailController@delete',
             'middleware' => 'can:job_emails-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.job_emails.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\JobEmailController@deleteManyByIds',
+            'middleware' => 'can:job_emails-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.job_emails.export',
+            'uses' => 'App\Http\Controllers\Admin\JobEmailController@export',
+            'middleware' => 'can:job_emails-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.job_emails.get',
+            'uses' => 'App\Http\Controllers\Admin\JobEmailController@get',
+            'middleware' => 'can:job_emails-list',
         ]);
 
     });
@@ -386,6 +487,18 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.job_notifications.delete',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@delete',
             'middleware' => 'can:job_notifications-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.job_notifications.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@deleteManyByIds',
+            'middleware' => 'can:job_notifications-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.job_notifications.export',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@export',
+            'middleware' => 'can:job_notifications-list',
         ]);
 
         Route::get('/{id}', [
@@ -433,6 +546,24 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:categorys-delete',
         ]);
 
+        Route::delete('/delete-many', [
+            'as' => 'administrator.categorys.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\CategoryController@deleteManyByIds',
+            'middleware' => 'can:categorys-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.categorys.export',
+            'uses' => 'App\Http\Controllers\Admin\CategoryController@export',
+            'middleware' => 'can:categorys-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.categorys.get',
+            'uses' => 'App\Http\Controllers\Admin\CategoryController@get',
+            'middleware' => 'can:categorys-list',
+        ]);
+
     });
 
     Route::prefix('products')->group(function () {
@@ -472,10 +603,22 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:products-delete',
         ]);
 
+        Route::delete('/delete-many', [
+            'as' => 'administrator.products.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\ProductController@deleteManyByIds',
+            'middleware' => 'can:products-delete',
+        ]);
+
         Route::get('/export', [
             'as'=>'administrator.products.export',
             'uses'=>'App\Http\Controllers\Admin\ProductController@export',
             'middleware'=>'can:products-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.products.get',
+            'uses' => 'App\Http\Controllers\Admin\ProductController@get',
+            'middleware' => 'can:products-list',
         ]);
 
     });
@@ -515,6 +658,24 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.settings.delete',
             'uses' => 'App\Http\Controllers\Admin\SettingController@delete',
             'middleware' => 'can:settings-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.settings.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\SettingController@deleteManyByIds',
+            'middleware' => 'can:settings-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.settings.export',
+            'uses' => 'App\Http\Controllers\Admin\SettingController@export',
+            'middleware' => 'can:settings-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.settings.get',
+            'uses' => 'App\Http\Controllers\Admin\SettingController@get',
+            'middleware' => 'can:settings-list',
         ]);
 
     });

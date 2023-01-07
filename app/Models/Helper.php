@@ -55,7 +55,7 @@ class Helper extends Model
 
     public static function image($object)
     {
-        $item = $object->hasOne(SingpleImage::class, 'relate_id', 'id')->where('table', $object->getTable());
+        $item = $object->hasOne(SingleImage::class, 'relate_id', 'id')->where('table', $object->getTable());
         if (empty($item->image)) {
             return $object->hasOne(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
         }
@@ -175,6 +175,17 @@ class Helper extends Model
         return $object->deleteModelTrait($id, $object, $forceDelete);
     }
 
+    public static function deleteManyByIds($object, $request, $forceDelete = false)
+    {
+        $items = [];
+        foreach ($request->ids as $id){
+            $item = $object->deleteModelTrait($id, $object, $forceDelete);
+            $items[] = $item;
+        }
+
+        return $items;
+    }
+
     public static function addSlug($object, $key, $value)
     {
         $item = $object->where($key, Str::slug($value))->first();
@@ -241,10 +252,6 @@ class Helper extends Model
                 ],
             );
         }
-
-    }
-
-    public static function protecterImage(){
 
     }
 }

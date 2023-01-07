@@ -1,10 +1,8 @@
 <div>
     @include('administrator.components.search')
 
-    <a href="{{route('administrator.'.$prefixView.'.create')}}" class="btn btn-success float-end"><i
-            class="fa-solid fa-plus"></i></a>
-
     <a href="{{route('administrator.'.$prefixView.'.export')}}" class="btn btn-outline-primary float-end me-2" data-bs-original-title="" title="Excel"><i class="fa-sharp fa-solid fa-file-excel"></i></i></a>
+
 </div>
 
 

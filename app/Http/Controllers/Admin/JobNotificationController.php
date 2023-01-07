@@ -26,6 +26,21 @@ class JobNotificationController extends Controller
         return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 
+    public function get(Request $request, $id)
+    {
+        $item = $this->model->findById($id);
+        $item['schedule_repeats'] = $item->scheduleCronRepeats;
+
+        $users = [];
+
+        foreach ($item->userScheduleCron as $itemUserScheduleCron){
+            $users[] = $itemUserScheduleCron->user;
+        }
+
+        $item['users'] = $users;
+        return $item;
+    }
+
     public function create()
     {
         return view('administrator.' . $this->prefixView . '.add');
@@ -155,19 +170,9 @@ class JobNotificationController extends Controller
         return $this->model->deleteByQuery($request, $id);
     }
 
-    public function get(Request $request, $id)
+    public function deleteManyByIds(Request $request)
     {
-        $item = $this->model->findById($id);
-        $item['schedule_repeats'] = $item->scheduleCronRepeats;
-
-        $users = [];
-
-        foreach ($item->userScheduleCron as $itemUserScheduleCron){
-            $users[] = $itemUserScheduleCron->user;
-        }
-
-        $item['users'] = $users;
-        return $item;
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 
 }

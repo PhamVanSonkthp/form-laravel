@@ -8,17 +8,18 @@
         </select>
     </div>
 
-    <div class="float-start ms-3">
+    <div class="float-start ms-2">
         <input id="input_search_datetime" type="date"
                class="bg-white form-control open-jquery-date-range" placeholder="--/--/--">
     </div>
 
-    <div class="float-start d-flex ms-3">
+    <div class="float-start d-flex ms-2">
         <input id="input_search_query" type="text" class="form-control" placeholder="search..."
                value="{{request('search_query')}}">
-        <button class="btn btn-outline-primary" type="button" onclick="onSearchQuery()"><i
+        <button class="btn btn-outline-primary ms-2" type="button" onclick="onSearchQuery()"><i
                 class="fa-solid fa-magnifying-glass"></i></button>
     </div>
+
 </div>
 
 

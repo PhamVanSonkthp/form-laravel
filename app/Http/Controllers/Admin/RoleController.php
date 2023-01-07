@@ -43,6 +43,11 @@ class RoleController extends Controller
         return view('administrator.'.$this->prefixView.'.index', compact('items','premissionsParent'));
     }
 
+    public function get(Request $request, $id)
+    {
+        return $this->model->findById($id);
+    }
+
     public function create(){
         $premissionsParent = $this->premission->where('parent_id' , 0)->orderBy('display_name')->get();
         return view('administrator.'.$this->prefixView.'.add' , compact('premissionsParent'));
@@ -78,5 +83,10 @@ class RoleController extends Controller
 
     public function delete($id){
         return $this->deleteModelTrait($id, $this->model);
+    }
+
+    public function deleteManyByIds(Request $request)
+    {
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 }

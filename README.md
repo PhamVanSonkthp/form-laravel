@@ -29,6 +29,7 @@ php artisan make:_policy Test
 * Thêm quyền vào file "config/permissions"
 * Thêm check permession vào file "Services/PermissionGateAndPolicyAccess"
 * Thêm route và middleware "routes/administrator/index"
+* Thêm menu vào view "administrator/components/slidebars.blade"
 * Thêm các trường bảng migration
 * Sau dó chạy
 

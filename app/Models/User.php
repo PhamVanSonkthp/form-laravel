@@ -183,6 +183,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return Helper::deleteByQuery($this, $request, $id, $forceDelete);
     }
 
+    public function deleteManyByIds($request, $forceDelete = false)
+    {
+        return Helper::deleteManyByIds($this, $request, $forceDelete);
+    }
+
     public function findById($id)
     {
         $item = $this->find($id);

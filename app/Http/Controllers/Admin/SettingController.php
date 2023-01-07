@@ -25,6 +25,11 @@ class SettingController extends Controller
         return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 
+    public function get(Request $request, $id)
+    {
+        return $this->model->findById($id);
+    }
+
     public function create(Request $request)
     {
         return view('administrator.'.$this->prefixView.'.add');
@@ -51,5 +56,10 @@ class SettingController extends Controller
     public function delete(Request $request, $id)
     {
         return $this->model->deleteByQuery($request, $id);
+    }
+
+    public function deleteManyByIds(Request $request)
+    {
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 }

@@ -4,13 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Audit;
+use App\Traits\BaseControllerTrait;
+use Illuminate\Http\Request;
 use function view;
 
 class HistoryDataController extends Controller
 {
-    public function index(){
-        $title = "Lịch sử dữ liệu";
-        $items = Audit::latest()->paginate(10)->appends(request()->query());
-        return view('administrator.history_data.index' , compact('items','title'));
+    use BaseControllerTrait;
+
+    public function __construct(Audit $model)
+    {
+        $this->initBaseModel($model);
+        $this->shareBaseModel($model);
+    }
+
+    public function index(Request $request){
+        $items = $this->model->searchByQuery($request);
+        return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 }

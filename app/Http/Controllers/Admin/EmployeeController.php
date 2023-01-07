@@ -19,8 +19,6 @@ class EmployeeController extends Controller
 {
     use BaseControllerTrait;
 
-    private $model;
-
     public function __construct(User $model)
     {
         $roles = Role::all();
@@ -72,8 +70,8 @@ class EmployeeController extends Controller
         return $this->deleteModelTrait($id, $this->model);
     }
 
-    public function export(Request $request)
+    public function deleteManyByIds(Request $request)
     {
-        return Excel::download(new EmployeeExport($request), $this->prefixExport . '.xlsx');
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 }

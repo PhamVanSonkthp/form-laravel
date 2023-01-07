@@ -154,4 +154,9 @@ class ProductController extends Controller
     {
         return $this->deleteModelTrait($id, $this->model);
     }
+
+    public function deleteManyByIds(Request $request)
+    {
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
+    }
 }

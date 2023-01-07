@@ -41,6 +41,9 @@ class JobNotification extends Command
      */
     public function handle()
     {
+
+        $sendAll = [];
+
         $currentHour = (int)(date('H')) + 0;
         $dayOfWeek = (int)date('w');
 
@@ -65,17 +68,15 @@ class JobNotification extends Command
                         // send $item->user_id
 
                         if ($item->userScheduleCron->count() == 0) {
-                            foreach (User::all() as $itemUser) {
-                                $resultCron[] = [
-                                    'topic' => $itemUser->id,
-                                    'title' => $item->title,
-                                    'description' => $item->description,
-                                ];
-                                //
-                                $scheduleRepeatItem->update([
-                                    'sent' => true
-                                ]);
-                            }
+                            $sendAll[] = [
+                                'title' => $item->title,
+                                'description' => $item->description,
+                            ];
+
+                            $scheduleRepeatItem->update([
+                                'sent' => true
+                            ]);
+
                         } else {
                             foreach ($item->userScheduleCron as $itemUserScheduleCron) {
                                 if (!empty(optional($itemUserScheduleCron->user)->id)) {
@@ -98,6 +99,10 @@ class JobNotification extends Command
 
         foreach ($resultCron as $item) {
             Helper::sendNotificationToTopic($item['topic'], $item['title'], $item['description']);
+        }
+
+        foreach ($sendAll as $item) {
+            Helper::sendNotificationToTopic(env('FIREBASE_TOPIC_ALL_N1','app'), $item['title'], $item['description']);
         }
 
 //        return response()->json([

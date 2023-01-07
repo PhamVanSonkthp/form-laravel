@@ -152,7 +152,7 @@
                 </ul>
             </li>
 
-            @can('history-datas-list')
+            @can('history_datas-list')
                 <li class="sidebar-list">
                     <a
                         class="sidebar-link sidebar-title link-nav"

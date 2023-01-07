@@ -26,6 +26,11 @@ class JobEmailController extends Controller
         return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 
+    public function get(Request $request, $id)
+    {
+        return $this->model->findById($id);
+    }
+
     public function create()
     {
         return view('administrator.' . $this->prefixView . '.add');
@@ -57,6 +62,11 @@ class JobEmailController extends Controller
     {
         $this->forceDelete = true;
         return $this->model->deleteByQuery($request, $id, $this->forceDelete);
+    }
+
+    public function deleteManyByIds(Request $request)
+    {
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 
 }

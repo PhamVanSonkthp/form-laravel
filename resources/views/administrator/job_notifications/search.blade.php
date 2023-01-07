@@ -1,30 +1,11 @@
 <div>
-    <div class="float-start">
-        <select name="limit" class="form-control select2_init">
-            @foreach(config('_my_config.items_show_in_table') as $itemShowInTable)
-                <option
-                    value="{{$itemShowInTable}}" {{request('limit') == $itemShowInTable ? 'selected' : ''}}>{{$itemShowInTable}}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="float-start ms-3">
-        <input id="input_search_datetime" type="date"
-               class="bg-white form-control open-jquery-date-range" placeholder="--/--/--">
-    </div>
-
-    <div class="float-start d-flex ms-3">
-        <input id="input_search_query" type="text" class="form-control" placeholder="search..."
-               value="{{request('search_query')}}">
-
-
-        <button class="btn btn-outline-primary" type="button" onclick="onSearchQuery()"><i
-                class="fa-solid fa-magnifying-glass"></i></button>
-    </div>
+    @include('administrator.components.search')
 
     <button  data-bs-toggle="modal"
-             data-bs-target="#modal_add_user" data-bs-whatever="@mdo" class="btn btn-success float-end m-2"><i
+             data-bs-target="#modal_add_user" data-bs-whatever="@mdo" class="btn btn-success float-end"><i
             class="fa-solid fa-plus"></i></button>
+
+    <a href="{{route('administrator.'.$prefixView.'.export')}}" class="btn btn-outline-primary float-end me-2" data-bs-original-title="" title="Excel"><i class="fa-sharp fa-solid fa-file-excel"></i></i></a>
 </div>
 
 

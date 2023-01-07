@@ -27,6 +27,11 @@ class SliderController extends Controller
         return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 
+    public function get(Request $request, $id)
+    {
+        return $this->model->findById($id);
+    }
+
     public function create()
     {
         return view('administrator.'.$this->prefixView.'.add');
@@ -53,5 +58,10 @@ class SliderController extends Controller
     public function delete($id)
     {
         return $this->deleteModelTrait($id, $this->model);
+    }
+
+    public function deleteManyByIds(Request $request)
+    {
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 }

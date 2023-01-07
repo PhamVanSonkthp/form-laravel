@@ -64,9 +64,9 @@ class UserController extends Controller
         return $this->model->deleteByQuery($request, $id, $this->forceDelete);
     }
 
-    public function export(Request $request)
+    public function deleteManyByIds(Request $request)
     {
-        return Excel::download(new UsersExport($request), $this->prefixExport . '.xlsx');
+        return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 
 }

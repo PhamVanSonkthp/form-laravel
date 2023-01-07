@@ -1,5 +1,0 @@
-php artisan make:controller Admin/AdminTestController --model=Test
-php artisan make:controller --model=Test
-php artisan make:viewindex test
-php artisan make:viewadd test
-php artisan make:viewedit test

@@ -17,6 +17,7 @@
                                                       href="javascript:void(0)">email filter</a>
                             <div class="email-left-aside">
                                 <div class="card">
+
                                     <div class="card-body">
                                         <div class="email-app-sidebar">
                                             <div class="media">
