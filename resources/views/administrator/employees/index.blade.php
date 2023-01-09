@@ -43,6 +43,9 @@
 
                                 @foreach($items as $item)
                                     <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
+                                        </td>
                                         <td>{{$item->id}}</td>
                                         <td>
                                             <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
@@ -60,12 +63,12 @@
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
                                             <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-secondary btn-sm edit">Sửa</a>
+                                               class="btn btn-outline-secondary btn-sm edit"><i class="fa-solid fa-pen"></i></a>
 
                                             <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-danger btn-sm action_delete">
-                                                Xóa
+                                               class="btn btn-outline-danger btn-sm action_delete">
+                                                <i class="fa-solid fa-x"></i>
                                             </a>
                                         </td>
                                     </tr>

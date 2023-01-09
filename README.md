@@ -1,16 +1,10 @@
 -- Begin --
-
 * Chạy cron mỗi phút để gửi email và thông báo
 
 run chedule: php artisan schedule:run
-
 -- End --
 
-
-
-
 -- Begin --
-
 ** Create Model, Migration, Seeder, Controller, Policy and View **
 
 * Chạy file batch "mcv.bat"
@@ -35,5 +29,8 @@ php artisan make:_policy Test
 
 php artisan migrate
 php artisan db:seed --class=CreatePermissionSeeder
+-- End --
 
+-- Begin --
+* Đối với App có sử dụng thông báo, cần đăng ký topic "app" khi vào app
 -- End --

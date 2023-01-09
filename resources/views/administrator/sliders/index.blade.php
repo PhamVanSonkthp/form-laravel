@@ -37,6 +37,10 @@
                                 <tbody>
                                 @foreach($items as $index => $item)
                                     <tr>
+
+                                        <td class="text-center">
+                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
+                                        </td>
                                         <td>{{$item->id}}</td>
                                         <td>
                                             <img src="{{ \App\Models\Formatter::getThumbnailImage($item->feature_image_path)}}">
@@ -47,12 +51,12 @@
                                         <td>
                                             <a class="btn btn-outline-secondary btn-sm edit"
                                                href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"
-                                               data-id="{{$item->id}}">Sửa</a>
+                                               data-id="{{$item->id}}"><i class="fa-solid fa-pen"></i></a>
 
                                             <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-danger btn-sm delete">
-                                                Xóa
+                                               class="btn btn-outline-danger btn-sm delete">
+                                                <i class="fa-solid fa-x"></i>
                                             </a>
 
                                         </td>

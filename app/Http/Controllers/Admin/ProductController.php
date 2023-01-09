@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Traits\DeleteModelTrait;
@@ -158,5 +159,10 @@ class ProductController extends Controller
     public function deleteManyByIds(Request $request)
     {
         return $this->model->deleteManyByIds($request, $this->forceDelete);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 }

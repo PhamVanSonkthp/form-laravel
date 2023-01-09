@@ -121,7 +121,7 @@
                                                         <a style="position: absolute;right: 10px;top: 15px;font-size: 10px;"
                                                            href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                            data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                                           class="btn-danger btn-sm action_delete">
+                                                           class="btn-outline-danger btn-sm action_delete">
                                                             <i class="fa-solid fa-x"></i>
                                                         </a>
                                                     </div>

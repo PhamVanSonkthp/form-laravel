@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\UsersExport;
+use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
@@ -27,7 +27,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $items = $this->model->searchByQuery($request, ['is_admin' => 0]);
-        return view('administrator.'.$this->prefixView.'.index', compact('items'));
+        return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 
     public function get(Request $request, $id)
@@ -38,7 +38,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = $this->role->all();
-        return view('administrator.'.$this->prefixView.'.add', compact('roles'));
+        return view('administrator.' . $this->prefixView . '.add', compact('roles'));
     }
 
     public function store(Request $request)
@@ -50,7 +50,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $item = $this->model->findById($id);
-        return view('administrator.'.$this->prefixView.'.edit', compact('item'));
+        return view('administrator.' . $this->prefixView . '.edit', compact('item'));
     }
 
     public function update(Request $request, $id)
@@ -67,6 +67,11 @@ class UserController extends Controller
     public function deleteManyByIds(Request $request)
     {
         return $this->model->deleteManyByIds($request, $this->forceDelete);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 
 }

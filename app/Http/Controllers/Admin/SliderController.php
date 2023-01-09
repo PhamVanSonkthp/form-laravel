@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
 
@@ -63,5 +65,10 @@ class SliderController extends Controller
     public function deleteManyByIds(Request $request)
     {
         return $this->model->deleteManyByIds($request, $this->forceDelete);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 }

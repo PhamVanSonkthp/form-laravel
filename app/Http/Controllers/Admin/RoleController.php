@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleAddRequest;
 use App\Http\Requests\RoleEditRequest;
@@ -10,6 +11,7 @@ use App\Models\Role;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
 
@@ -88,5 +90,10 @@ class RoleController extends Controller
     public function deleteManyByIds(Request $request)
     {
         return $this->model->deleteManyByIds($request, $this->forceDelete);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 }

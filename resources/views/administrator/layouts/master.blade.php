@@ -78,6 +78,11 @@
         .fa {
             font-family: 'FontAwesome';
         }
+
+        .list-products .product-table table th {
+            min-width: 0 !important;
+        }
+
     </style>
     @yield('css')
 </head>

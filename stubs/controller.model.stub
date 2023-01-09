@@ -6,6 +6,7 @@ use {{ namespacedModel }};
 use {{ rootNamespace }}Http\Controllers\Controller;
 use {{ namespacedRequests }}
 use App\Traits\BaseControllerTrait;
+use App\Exports\ModelExport;
 use function redirect;
 use function view;
 
@@ -61,5 +62,10 @@ class {{ class }} extends Controller
     public function deleteManyByIds(Request $request)
     {
         return $this->model->deleteManyByIds($request, $this->forceDelete);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 }

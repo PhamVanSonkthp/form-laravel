@@ -68,6 +68,10 @@ class Helper extends Model
         return $object->hasMany(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
     }
 
+    public static function getAllColumsOfTable($object){
+        return Schema::getColumnListing($object->getTableName());
+    }
+
     public static function searchByQuery($object, $request, $queries = [])
     {
         $columns = Schema::getColumnListing($object->getTableName());
@@ -144,6 +148,84 @@ class Helper extends Model
         }
 
         return $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+    }
+
+    public static function searchAllByQuery($object, $request, $queries = [])
+    {
+        $columns = Schema::getColumnListing($object->getTableName());
+        $query = $object->query();
+
+        $searchLikeColums = ['name', 'title'];
+        $searchColumnBanned = ['limit', 'page', 'with_trashed'];
+
+        foreach ($request->all() as $key => $item) {
+            $item = trim($item);
+            if ($key == "search_query") {
+                if (!empty($item) || strlen($item) > 0) {
+
+                    $query = $query->where(function ($query) use ($item, $columns, $searchLikeColums) {
+                        foreach ($searchLikeColums as $searchColumn) {
+                            if (in_array($searchColumn, $columns)) {
+                                $query->orWhere($searchColumn, 'LIKE', "%{$item}%");
+                            }
+                        }
+                    });
+                }
+            } else if ($key == "gender_id") {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->where('gender_id', $item);
+                }
+            } else if ($key == "start" || $key == "from") {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->whereDate('created_at', '>=', $item);
+                }
+            } else if ($key == "end" || $key == "to") {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->whereDate('created_at', '<=', $item);
+                }
+            }
+        }
+
+        foreach ($queries as $key => $item) {
+            $item = trim($item);
+
+            if (in_array($key, $searchColumnBanned)) continue;
+
+            if ($key == "search_query") {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->where(function ($query) use ($item) {
+                        $query->orWhere('name', 'LIKE', "%{$item}%");
+                    });
+                }
+            } else if ($key == "gender_id") {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->where('gender_id', $item);
+                }
+            } else if ($key == "start" || $key == "from") {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->whereDate('created_at', '>=', $item);
+                }
+            } else if ($key == "end" || $key == "to") {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->whereDate('created_at', '<=', $item);
+                }
+            } else {
+                if (!empty($item) || strlen($item) > 0) {
+                    $query = $query->where($key, $item);
+                }
+            }
+        }
+
+        foreach ($queries as $key => $item) {
+            $item = trim($item);
+
+            if ($key == 'with_trashed' && $item == true) {
+                $query = $query->withTrashed();
+                break;
+            }
+        }
+
+        return $query->latest()->get();
     }
 
     public static function storeByQuery($object, $request, $dataCreate)

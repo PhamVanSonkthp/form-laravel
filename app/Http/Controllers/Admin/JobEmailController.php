@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Models\JobEmail;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use function view;
 
 class JobEmailController extends Controller
@@ -67,6 +69,11 @@ class JobEmailController extends Controller
     public function deleteManyByIds(Request $request)
     {
         return $this->model->deleteManyByIds($request, $this->forceDelete);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 
 }

@@ -41,6 +41,9 @@
                                 <tbody>
                                 @foreach($items as $item)
                                     <tr>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
+                                        </td>
                                         <td>{{$item->id}}</td>
                                         <td>
                                             @if($item->userScheduleCron->count() == 0)
