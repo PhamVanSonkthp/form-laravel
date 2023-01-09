@@ -22,42 +22,43 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/font-awesome.css')}}">
     <!-- ico-font-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/icofont.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/icofont.css')}}">
     <!-- Themify icon-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/themify.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/themify.css')}}">
     <!-- Flag icon-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/flag-icon.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/flag-icon.css')}}">
     <!-- Feather icon-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/feather-icon.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/feather-icon.css')}}">
     <!-- Plugins css start-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/scrollbar.css">
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/date-picker.css">
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/owlcarousel.css">
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/prism.css">
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/whether-icon.css">
-    <link rel="stylesheet" type="text/css" href="/vendor/datatable/datatables.css">
-    <link rel="stylesheet" type="text/css" href="/vendor/owlcarousel/owlcarousel.css">
-    <link rel="stylesheet" type="text/css" href="/vendor/rating/rating.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/scrollbar.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/date-picker.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/owlcarousel.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/prism.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/whether-icon.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/vendor/datatable/datatables.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/vendor/owlcarousel/owlcarousel.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/vendor/rating/rating.css')}}">
+{{--    <link rel="stylesheet" type="text/css" href="{{asset('/vendor/fontawesome-6.0.0/css/fontawesome.css')}}"/>--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" type="text/css" media="all" href="{{asset('vendor/datetimepicker/daterangepicker.css')}}"/>
     <link rel="stylesheet" type="text/css" media="all" href="{{asset('vendor/select2/select2.min.css')}}"/>
     <!-- Plugins css Ends-->
     <!-- Bootstrap css-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/vendors/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/bootstrap.css')}}">
     <!-- App css-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/style.css">
-    <link id="color" rel="stylesheet" href="/assets/administrator/css/color-1.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/style.css')}}">
+    <link id="color" rel="stylesheet" href="{{asset('/assets/administrator/css/color-1.css')}}" media="screen">
     <!-- Responsive css-->
-    <link rel="stylesheet" type="text/css" href="/assets/administrator/css/responsive.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/responsive.css')}}">
 
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/jquery-ui.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/order-image.css')}}" >
     <script src="{{asset('/assets/administrator/js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('/assets/administrator/js/jquery.ui.min.js')}}"></script>
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{asset('/vendor/jquery-ui-1.13.2/jquery-ui.js')}}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
         .product-table{
@@ -81,6 +82,10 @@
 
         .list-products .product-table table th {
             min-width: 0 !important;
+        }
+
+        .customizer-links{
+            display: none;
         }
 
     </style>
@@ -148,28 +153,28 @@
 <!-- latest jquery-->
 {{--<script src="/assets/administrator/js/jquery-3.5.1.min.js"></script>--}}
 <!-- Bootstrap js-->
-<script src="/assets/administrator/js/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="{{asset('/assets/administrator/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 <!-- feather icon js-->
-<script src="/assets/administrator/js/icons/feather-icon/feather.min.js"></script>
-<script src="/assets/administrator/js/icons/feather-icon/feather-icon.js"></script>
+<script src="{{asset('/assets/administrator/js/icons/feather-icon/feather.min.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/icons/feather-icon/feather-icon.js')}}"></script>
 <!-- scrollbar js-->
-<script src="/assets/administrator/js/scrollbar/simplebar.js"></script>
-<script src="/assets/administrator/js/scrollbar/custom.js"></script>
+<script src="{{asset('/assets/administrator/js/scrollbar/simplebar.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/scrollbar/custom.js')}}"></script>
 <!-- Sidebar jquery-->
-<script src="/assets/administrator/js/config.js"></script>
+<script src="{{asset('/assets/administrator/js/config.js')}}"></script>
 <!-- Plugins JS start-->
-<script src="/assets/administrator/js/sidebar-menu.js"></script>
-<script src="/assets/administrator/js/prism/prism.min.js"></script>
-<script src="/assets/administrator/js/counter/jquery.waypoints.min.js"></script>
-<script src="/assets/administrator/js/counter/jquery.counterup.min.js"></script>
-<script src="/assets/administrator/js/counter/counter-custom.js"></script>
-<script src="/assets/administrator/js/datepicker/date-picker/datepicker.js"></script>
-<script src="/assets/administrator/js/datepicker/date-picker/datepicker.en.js"></script>
-<script src="/assets/administrator/js/datepicker/date-picker/datepicker.custom.js"></script>
-<script src="/assets/administrator/js/owlcarousel/owl.carousel.js"></script>
-<script src="/assets/administrator/js/general-widget.js"></script>
-<script src="/assets/administrator/js/tooltip-init.js"></script>
-<script src="/vendor/datatable/datatables.min.js"></script>
+<script src="{{asset('/assets/administrator/js/sidebar-menu.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/prism/prism.min.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/counter/jquery.waypoints.min.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/counter/jquery.counterup.min.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/counter/counter-custom.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/datepicker/date-picker/datepicker.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/datepicker/date-picker/datepicker.en.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/datepicker/date-picker/datepicker.custom.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/owlcarousel/owl.carousel.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/general-widget.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/tooltip-init.js')}}"></script>
+<script src="{{asset('/vendor/datatable/datatables.min.js')}}"></script>
 <script src="{{asset('vendor/tinymce/tinymce.min.js') }}"></script>
 <script src="{{asset('vendor/sweet-alert-2/sweetalert2@11.js')}}"></script>
 <script src="{{asset('vendor/select2/select2.min.js')}}"></script>
@@ -181,56 +186,18 @@
 <!-- Plugins JS Ends-->
 
 <!-- Plugin used-->
-<script src="/vendor/rating/jquery.barrating.js"></script>
-<script src="/vendor/rating/rating-script.js"></script>
-<script src="/vendor/ecommerce.js"></script>
-<script src="/vendor/product-list-custom.js"></script>
-<script src="/vendor/script.js"></script>
-<script src="/vendor/theme-customizer/customizer.js"></script>
+<script src="{{asset('/vendor/rating/jquery.barrating.js')}}"></script>
+<script src="{{asset('/vendor/rating/rating-script.js')}}"></script>
+<script src="{{asset('/vendor/ecommerce.js')}}"></script>
+<script src="{{asset('/vendor/product-list-custom.js')}}"></script>
+<script src="{{asset('/vendor/script.js')}}"></script>
+<script src="{{asset('/vendor/theme-customizer/customizer.js')}}"></script>
 
 <!-- Theme js-->
-<script src="/assets/administrator/js/script.js"></script>
-<script src="/assets/administrator/js/theme-customizer/customizer.js"></script>
+<script src="{{asset('/assets/administrator/js/script.js')}}"></script>
+<script src="{{asset('/assets/administrator/js/theme-customizer/customizer.js')}}"></script>
 @include('administrator.components.helper')
 <script>
-
-    // function getFormattedDate(date) {
-    //     var year = date.getFullYear();
-    //
-    //     var month = (1 + date.getMonth()).toString();
-    //     month = month.length > 1 ? month : '0' + month;
-    //
-    //     var day = date.getDate().toString();
-    //     day = day.length > 1 ? day : '0' + day;
-    //
-    //     return month + '/' + day + '/' + year;
-    // }
-
-    function updateConfig() {
-        const url = new URL(decodeURIComponent(window.location.href));
-
-        $('#select_type_user').val(url.searchParams.get("type_user")).change();
-
-        const options = {}
-        options.autoApply = false;
-
-        if (url.searchParams.get("start")) {
-            options.startDate = getOnlyDate(new Date(url.searchParams.get("start")), "mm/dd/yyyy")
-        }
-
-        if (url.searchParams.get("end")) {
-            options.endDate = getOnlyDate(new Date(url.searchParams.get("end")), "mm/dd/yyyy")
-        }
-
-        $('#config-demo').daterangepicker(options, function (start, end, label) {
-            addUrlParameterObjects([{name: "start", value: start.format('YYYY-MM-DD')}, {
-                name: "end",
-                value: end.format('YYYY-MM-DD')
-            }])
-        });
-    }
-
-    updateConfig()
 
     function viewBirthOfDay() {
 
