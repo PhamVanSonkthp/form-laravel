@@ -30,7 +30,7 @@
 
             @include('administrator.components.textarea_description')
 
-            @include('administrator.components.select_category' , ['html_category' => \App\Models\Category::getCategory()])
+            @include('administrator.components.select_category' , ['name' => 'category_id' ,'html_category' => \App\Models\Category::getCategory(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])
 
             @include('administrator.components.require_input_number' , ['name' => 'price_import' , 'label' => 'Giá nhập'])
 
@@ -41,6 +41,7 @@
             @include('administrator.components.require_input_number' , ['name' => 'inventory' , 'label' => 'Tồn kho'])
 
             @include('administrator.components.button_save')
+
         </div>
     </form>
 

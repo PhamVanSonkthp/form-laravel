@@ -99,6 +99,16 @@
 
 </style>
 
+@php
+
+if(isset($item)) {
+    $images = $item->images;
+    $relateImageTableId = $item->id;
+    $relate_id = $item->id;
+}
+
+@endphp
+
 <div id="drop-region">
     <div id="drop-message">
         Kéo thả hình ảnh vào đây

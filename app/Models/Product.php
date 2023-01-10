@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\DeleteModelTrait;
+use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -10,11 +12,33 @@ class Product extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
+    use DeleteModelTrait;
+    use StorageImageTrait;
+
     protected $guarded = [];
+
+    // begin
 
     public function category(){
         return $this->hasOne(Category::class, 'id','category_id');
     }
+
+    function firstOrCreateCategory($category_id){
+        if (!empty($category_id) && !is_numeric($category_id)){
+            $category = Category::firstOrCreate([
+                'name' => $category_id,
+            ],[
+                'name' => $category_id,
+                'slug' => Helper::addSlug($this,'slug', $category_id),
+            ]);
+
+            return $category->id;
+        }
+
+        return $category_id ?? 0;
+    }
+
+    // end
 
     public function getTableName()
     {
@@ -47,14 +71,16 @@ class Product extends Model implements Auditable
 
     public function storeByQuery($request)
     {
+
         $dataInsert = [
             'name' => $request->name,
             'short_description' => $request->short_description,
             'description' => $request->description,
             'slug' => Helper::addSlug($this,'slug', $request->title),
+            'price_import' => Formatter::formatMoneyToDatabase($request->price_import),
             'price_client' => Formatter::formatMoneyToDatabase($request->price_client),
-            'price_agent' => Formatter::formatMoneyToDatabase($request->price_agen),
-            'category_id' => Formatter::formatNumberToDatabase($request->category_id),
+            'price_agent' => Formatter::formatMoneyToDatabase($request->price_agent),
+            'category_id' => $this->firstOrCreateCategory($request->category_id),
             'inventory' => Formatter::formatNumberToDatabase($request->inventory),
             'note' => $request->note,
         ];
@@ -71,9 +97,10 @@ class Product extends Model implements Auditable
             'short_description' => $request->short_description,
             'description' => $request->description,
             'slug' => Helper::addSlug($this,'slug', $request->title),
+            'price_import' => Formatter::formatMoneyToDatabase($request->price_import),
             'price_client' => Formatter::formatMoneyToDatabase($request->price_client),
-            'price_agent' => Formatter::formatMoneyToDatabase($request->price_agen),
-            'category_id' => Formatter::formatNumberToDatabase($request->category_id),
+            'price_agent' => Formatter::formatMoneyToDatabase($request->price_agent),
+            'category_id' => $this->firstOrCreateCategory($request->category_id),
             'inventory' => Formatter::formatNumberToDatabase($request->inventory),
             'note' => $request->note,
         ];

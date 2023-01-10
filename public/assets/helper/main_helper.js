@@ -19,6 +19,12 @@ $(".select2_init").select2({
     // allowClear: true
 });
 
+$(".select2_init_tag").select2({
+    placeholder: "Chọn",
+    tags: true,
+    // allowClear: true
+});
+
 function tryParseInt(val) {
     try {
         val = val.toString()

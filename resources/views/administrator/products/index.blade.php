@@ -68,7 +68,7 @@
 
                                             <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-danger btn-sm delete">
+                                               class="btn btn-outline-danger btn-sm delete action_delete">
                                                 <i class="fa-solid fa-x"></i>
                                             </a>
 

@@ -597,7 +597,7 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:products-edit',
         ]);
 
-        Route::get('/delete/{id}', [
+        Route::delete('/delete/{id}', [
             'as' => 'administrator.products.delete',
             'uses' => 'App\Http\Controllers\Admin\ProductController@delete',
             'middleware' => 'can:products-delete',
