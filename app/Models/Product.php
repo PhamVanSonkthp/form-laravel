@@ -48,9 +48,15 @@ class Product extends Model implements Auditable
     public function storeByQuery($request)
     {
         $dataInsert = [
-            'title' => $request->title,
-            'content' => $request->contents,
+            'name' => $request->name,
+            'short_description' => $request->short_description,
+            'description' => $request->description,
             'slug' => Helper::addSlug($this,'slug', $request->title),
+            'price_client' => Formatter::formatMoneyToDatabase($request->price_client),
+            'price_agent' => Formatter::formatMoneyToDatabase($request->price_agen),
+            'category_id' => Formatter::formatNumberToDatabase($request->category_id),
+            'inventory' => Formatter::formatNumberToDatabase($request->inventory),
+            'note' => $request->note,
         ];
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -61,9 +67,15 @@ class Product extends Model implements Auditable
     public function updateByQuery($request, $id)
     {
         $dataUpdate = [
-            'title' => $request->title,
-            'content' => $request->contents,
+            'name' => $request->name,
+            'short_description' => $request->short_description,
+            'description' => $request->description,
             'slug' => Helper::addSlug($this,'slug', $request->title),
+            'price_client' => Formatter::formatMoneyToDatabase($request->price_client),
+            'price_agent' => Formatter::formatMoneyToDatabase($request->price_agen),
+            'category_id' => Formatter::formatNumberToDatabase($request->category_id),
+            'inventory' => Formatter::formatNumberToDatabase($request->inventory),
+            'note' => $request->note,
         ];
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);

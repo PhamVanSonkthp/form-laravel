@@ -144,4 +144,24 @@ class Formatter extends Model
     public static function toUnderline($input){
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
     }
+
+    public static function formatMoney($input){
+        if (empty($input)) return 0;
+        return number_format($input);
+    }
+
+    public static function formatNumber($input){
+        if (empty($input)) return 0;
+        return number_format($input);
+    }
+
+    public static function formatNumberToDatabase($input){
+        if (empty($input)) return 0;
+        return (int) filter_var($input, FILTER_SANITIZE_NUMBER_INT);
+    }
+
+    public static function formatMoneyToDatabase($input){
+        if (empty($input)) return 0;
+        return (int) filter_var($input, FILTER_SANITIZE_NUMBER_INT);
+    }
 }

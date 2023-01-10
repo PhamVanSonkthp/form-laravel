@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Traits\BaseControllerTrait;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
@@ -17,143 +18,51 @@ use function view;
 
 class ProductController extends Controller
 {
-
-    use DeleteModelTrait;
-    use StorageImageTrait;
-
-    private $model;
+    use BaseControllerTrait;
 
     public function __construct(Product $model)
     {
-        $this->model = $model;
+        $this->initBaseModel($model);
+        $this->shareBaseModel($model);
     }
 
     public function index(Request $request)
     {
+        $items = $this->model->searchByQuery($request);
+        return view('administrator.'.$this->prefixView.'.index', compact('items'));
+    }
 
-        $query = $this->model;
-
-        if (isset($_GET['search_query'])) {
-            $query = $query->where('name', 'LIKE', "%{$_GET['search_query']}%")->orWhere('code', '=', "{$_GET['search_query']}")->orWhere('bar_code', '=', "{$_GET['search_query']}");
-        }
-
-        $items = $query->latest()->paginate((int)filter_var($request->limit ?? '10', FILTER_SANITIZE_NUMBER_INT))->appends(request()->query());
-
-        return view('administrator.product.index', compact('items'));
+    public function get(Request $request, $id)
+    {
+        return $this->model->findById($id);
     }
 
     public function create()
     {
-        return view('administrator.product.add');
+        return view('administrator.'.$this->prefixView.'.add');
     }
 
     public function store(Request $request)
     {
-        try {
-            DB::beginTransaction();
-
-            $dataCreate = [
-                'name' => $request->name,
-                'slug' => Str::slug($request->name),
-                'content' => $request->contents,
-                'inventory' => $request->inventory,
-                'price' => $request->price,
-                'unit' => $request->unit,
-                'category_id' => $request->category_id,
-                'code' => $request->code ?? Str::uuid()->getHex(),
-                'bar_code' => $request->bar_code,
-            ];
-
-            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
-            if (!empty($dataUploadFeatureImage)) {
-                $dataCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-                $dataCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-            }
-
-            $item = $this->model->create($dataCreate);
-
-            if ($request->hasFile('image_path')) {
-                foreach ($request->image_path as $fileItem) {
-                    $dataProductImageDetail = $this->storageTraitUploadMultiple($fileItem, 'product');
-                    $item->images()->create([
-                        'image_path' => $dataProductImageDetail['file_path'],
-                        'image_name' => $dataProductImageDetail['file_name'],
-                    ]);
-                }
-            }
-            DB::commit();
-
-            return redirect()->route('administrator.product.edit', ["id" => $item->id]);
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());
-            dd($exception->getMessage());
-        }
+        $this->model->storeByQuery($request);
+        return redirect()->route('administrator.'.$this->prefixView.'.index');
     }
 
     public function edit($id)
     {
         $item = $this->model->find($id);
-        return view('administrator.product.edit', compact('item'));
+        return view('administrator.'.$this->prefixView.'.edit', compact('item'));
     }
 
     public function update(Request $request, $id)
     {
-        try {
-            DB::beginTransaction();
-            $updateItem = [
-                'name' => $request->name,
-                'slug' => Str::slug($request->name),
-                'content' => $request->contents,
-                'inventory' => $request->inventory,
-                'price' => $request->price,
-                'unit' => $request->unit,
-                'category_id' => $request->category_id,
-                'code' => $request->code ?? Str::uuid()->getHex(),
-                'bar_code' => $request->bar_code,
-            ];
-
-            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image_path', 'product');
-
-            if (!empty($dataUploadFeatureImage)) {
-                $updateItem['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-                $updateItem['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-            }
-
-            $this->model->find($id)->update($updateItem);
-            $item = $this->model->find($id);
-            if ($request->hasFile('image_path')) {
-                foreach ($request->image_path as $fileItem) {
-                    $dataProductImageDetail = $this->storageTraitUploadMultiple($fileItem, 'product');
-                    $item->images()->create([
-                        'image_path' => $dataProductImageDetail['file_path'],
-                        'image_name' => $dataProductImageDetail['file_name'],
-                    ]);
-                }
-            }
-            DB::commit();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            Log::error('Message: ' . $exception->getMessage() . 'Line' . $exception->getLine());
-        }
-
+        $this->model->updateByQuery($request, $id);
         return back();
     }
 
-    public function export(Request $request)
+    public function delete(Request $request, $id)
     {
-        $search_query = '';
-
-        if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
-            $search_query = $_GET['search_query'];
-        }
-
-        return Excel::download(new ProductExport($request, $search_query), 'san_pham.xlsx');
-    }
-
-    public function delete($id)
-    {
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->deleteByQuery($request, $id, $this->model, $this->forceDelete);
     }
 
     public function deleteManyByIds(Request $request)

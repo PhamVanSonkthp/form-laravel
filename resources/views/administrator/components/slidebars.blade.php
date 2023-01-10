@@ -42,6 +42,40 @@
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                     <i class="fas fa-thin fa-bell"></i>
+                    <span class="">Bán hàng</span>
+                </a>
+                <ul class="sidebar-submenu" style="display: none;">
+
+                    @can('job_emails-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/job-emails">
+                                <i class="fas fa-thin fa-envelope"></i>
+                                <span>Danh mục</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('products-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/products">
+                                <i class="fas fa-light fa-clock"></i>
+                                <span>Sản phẩm</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                </ul>
+            </li>
+
+            <li class="sidebar-list">
+                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
+                    <i class="fas fa-thin fa-bell"></i>
                     <span class="">Email và thông báo</span>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">

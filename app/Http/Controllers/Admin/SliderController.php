@@ -53,13 +53,13 @@ class SliderController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->model->updateByQuery($id,$request);
+        $this->model->updateByQuery($request, $id);
         return back();
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->deleteByQuery($request, $id, $this->model, $this->forceDelete);
     }
 
     public function deleteManyByIds(Request $request)

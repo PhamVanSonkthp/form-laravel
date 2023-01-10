@@ -60,6 +60,8 @@
 
     <script src="{{asset('/vendor/jquery-ui-1.13.2/jquery-ui.js')}}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="{{asset('/vendor/masknumber/jquery.masknumber.js')}}"></script>
+
     <style>
         .product-table{
             overflow-x: auto !important;
@@ -324,6 +326,10 @@
     function isCheckedInput(id){
         return $("#" + id).is(":checked") == "true" || $("#" + id).is(":checked") == true
     }
+
+    $("input.number").maskNumber({
+        integer: true
+    })
 
 </script>
 
