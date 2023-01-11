@@ -16,15 +16,26 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->text('name');
+            $table->text('slug');
             $table->text('short_description')->nullable();
             $table->text('description')->nullable();
             $table->bigInteger('category_id')->default(0);
-            $table->text('slug');
             $table->bigInteger('price_import');
             $table->bigInteger('price_client');
             $table->bigInteger('price_agent');
             $table->bigInteger('inventory')->default(0);
-            $table->text('note')->nullable();
+            $table->tinyInteger('product_visibility_id')->default(1);
+            $table->bigInteger('group_product_id');
+            $table->text('sku')->nullable();
+            $table->bigInteger('provider_id')->default(0);
+            $table->tinyInteger('product_buy_empty_id')->default(1);
+            $table->tinyInteger('request_devilvery_id')->default(1);
+            $table->tinyInteger('vat_id')->default(1);
+            $table->string('bar_code')->nullable();
+            $table->text('seo_title')->nullable();
+            $table->text('seo_description')->nullable();
+            $table->integer('weight')->default(0);
+            $table->string('type_weight')->default('kg');
             $table->timestamps();
         });
     }

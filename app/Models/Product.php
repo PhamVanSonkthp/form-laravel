@@ -7,6 +7,7 @@ use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Rinvex\Attributes\Traits\Attributable;
 
 class Product extends Model implements Auditable
 {
@@ -14,10 +15,84 @@ class Product extends Model implements Auditable
     use HasFactory;
     use DeleteModelTrait;
     use StorageImageTrait;
+    use Attributable;
 
     protected $guarded = [];
 
+//    protected $with = ['eav'];
+
     // begin
+
+    public function productsAttributes(){
+        return $this->hasMany(Product::class,'group_product_id','group_product_id');
+    }
+
+    public function isEmptyInventory(){
+        return $this->inventory <= 0;
+    }
+
+    public function priceSale($request){
+
+        $productsAttributes = $this->productsAttributes;
+
+        $priceMinAgent = PHP_INT_MAX;
+        $priceMaxAgent = -PHP_INT_MIN;
+        $priceMinClient = PHP_INT_MAX;
+        $priceMaxClient = PHP_INT_MIN;
+
+        $resultAgent = "Liên hệ";
+        $resultClient = "Liên hệ";
+
+        foreach ($productsAttributes as $item){
+            if (!$item->isEmptyInventory()){
+                if ($item->price_client <= $priceMinClient) $priceMinClient = $item->price_client;
+                if ($item->price_client >= $priceMaxClient) $priceMaxClient = $item->price_client;
+                if ($item->price_agent <= $priceMinAgent) $priceMinAgent = $item->price_agent;
+                if ($item->price_agent >= $priceMaxAgent) $priceMaxAgent = $item->price_agent;
+            }
+        }
+
+        if (!empty($priceMinAgent)){
+            if ($priceMinAgent != $priceMaxAgent){
+                $resultAgent = $priceMinAgent . " ~ " . $priceMaxAgent;
+            }else{
+                $resultAgent = $priceMinAgent;
+            }
+        }
+
+        if (!empty($priceMinClient)){
+            if ($priceMinClient != $priceMaxClient){
+                $resultClient = $priceMinClient . " ~ " . $priceMaxClient;
+            }else{
+                $resultClient = $priceMinClient;
+            }
+        }
+
+        if ($request->user('sanctum') && $request->user('sanctum')->user_type_id == 2) {
+            return $resultAgent . "";
+        } else {
+            return $resultClient . "";
+        }
+    }
+
+    public function attributes()
+    {
+        $products = $this->where('group_product_id', $this->group_product_id)->get();
+
+        $results = [];
+
+        foreach ($products as $item){
+            $temp = [];
+            $temp['id'] = $item->id;
+            $temp['size'] = $item->sizes;
+            $temp['color'] = $item->colors;
+            $temp['inventory'] = $item->inventory;
+
+            $results[] = $temp;
+        }
+
+        return $results;
+    }
 
     public function category(){
         return $this->hasOne(Category::class, 'id','category_id');

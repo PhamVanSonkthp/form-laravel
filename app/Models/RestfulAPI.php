@@ -11,7 +11,7 @@ class RestfulAPI extends Model
 {
     use HasFactory;
 
-    public function response($model, $request, $queries = null, $randomRecord = null){
+    public function response($model, $request, $queries = null, $randomRecord = null, $makeHiddens = null){
         $query = $model::query();
 
         if (!empty($queries) && is_array($queries)){
@@ -28,7 +28,16 @@ class RestfulAPI extends Model
         if (!empty($randomRecord)){
             $query = $query->inRandomOrder();
         }
-        return $query->latest()->paginate( (int) filter_var($request->limit ?? '10', FILTER_SANITIZE_NUMBER_INT))->appends(request()->query());
+
+        $items = $query->latest()->paginate( (int) filter_var($request->limit ?? '10', FILTER_SANITIZE_NUMBER_INT))->appends(request()->query());
+
+        if (!empty($makeHiddens) && is_array($makeHiddens)){
+            foreach ($items as $item){
+                $item->makeHidden($makeHiddens)->toArray();
+            }
+        }
+
+        return $items;
     }
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\ChatPusherEvent;
+use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Requests\Chat\ParticipantAddRequest;
 use App\Http\Requests\PusherChatRequest;
@@ -27,6 +28,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('public')->group(function () {
+    Route::prefix('product')->group(function () {
+        Route::get('/', [ProductController::class, 'list']);
+    });
 });
 
 Route::prefix('user')->group(function () {

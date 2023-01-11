@@ -28,7 +28,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $items = $this->model->searchByQuery($request);
+        $items = $this->model->searchByQuery($request, ['product_visibility_id' => 2]);
         return view('administrator.'.$this->prefixView.'.index', compact('items'));
     }
 
