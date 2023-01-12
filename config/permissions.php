@@ -69,6 +69,11 @@ return [
         'job_notifications-edit' => 'job_notifications_edit',
         'job_notifications-delete' => 'job_notifications_delete',
 
+        'category_news-list' => 'category_news_list',
+        'category_news-add' => 'category_news_add',
+        'category_news-edit' => 'category_news_edit',
+        'category_news-delete' => 'category_news_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -84,6 +89,7 @@ return [
         'history_datas',
         'settings',
         'job_notifications',
+        'category_news',
     ],
 
     'table_module_name'=>[
@@ -100,6 +106,7 @@ return [
         'Lịch sử dữ liệu',
         'Cài đặt',
         'Thông báo',
+        'Danh mục tin tức',
     ],
 
     'module_children'=>[

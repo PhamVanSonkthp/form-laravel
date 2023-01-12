@@ -72,7 +72,7 @@ class Helper extends Model
         return Schema::getColumnListing($object->getTableName());
     }
 
-    public static function searchByQuery($object, $request, $queries = [])
+    public static function searchByQuery($object, $request, $queries = [], $makeHiddens = null)
     {
         $columns = Schema::getColumnListing($object->getTableName());
         $query = $object->query();
@@ -147,7 +147,15 @@ class Helper extends Model
             }
         }
 
-        return $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+        $items =  $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+
+        if (!empty($makeHiddens) && is_array($makeHiddens)){
+            foreach ($items as $item){
+                $item->makeHidden($makeHiddens)->toArray();
+            }
+        }
+
+        return $items;
     }
 
     public static function searchAllByQuery($object, $request, $queries = [])

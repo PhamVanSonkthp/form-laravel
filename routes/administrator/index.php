@@ -22,6 +22,18 @@ Route::get('/admin/logout', [
 
 Route::prefix('administrator')->group(function () {
 
+    Route::prefix('password')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.password.index',
+            'uses' => 'App\Http\Controllers\Admin\Controller@password',
+        ]);
+        Route::put('/', [
+            'as' => 'administrator.password.update',
+            'uses' => 'App\Http\Controllers\Admin\Controller@updatePassword',
+        ]);
+
+    });
+
     Route::prefix('dashboard')->group(function () {
         Route::get('/', [
             'as' => 'administrator.dashboard.index',
@@ -680,17 +692,61 @@ Route::prefix('administrator')->group(function () {
 
     });
 
-    Route::prefix('password')->group(function () {
+    Route::prefix('category-news')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.password.index',
-            'uses' => 'App\Http\Controllers\Admin\Controller@password',
+            'as' => 'administrator.category_news.index',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@index',
+            'middleware' => 'can:category_news-list',
         ]);
-        Route::put('/', [
-            'as' => 'administrator.password.update',
-            'uses' => 'App\Http\Controllers\Admin\Controller@updatePassword',
+
+        Route::get('/create', [
+            'as' => 'administrator.category_news.create',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@create',
+            'middleware' => 'can:category_news-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.category_news.store',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@store',
+            'middleware' => 'can:category_news-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.category_news.edit',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@edit',
+            'middleware' => 'can:category_news-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.category_news.update',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@update',
+            'middleware' => 'can:category_news-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.category_news.delete',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@delete',
+            'middleware' => 'can:category_news-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.category_news.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@deleteManyByIds',
+            'middleware' => 'can:category_news-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.category_news.export',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@export',
+            'middleware' => 'can:category_news-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.category_news.get',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@get',
+            'middleware' => 'can:category_news-list',
         ]);
 
     });
-
 });
 

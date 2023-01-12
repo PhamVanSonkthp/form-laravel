@@ -30,8 +30,6 @@
                         </div>
                     @endif
 
-                    @include('administrator.components.textarea_description')
-
                     @include('administrator.components.button_save')
 
                 </div>

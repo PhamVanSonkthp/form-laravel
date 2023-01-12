@@ -175,6 +175,18 @@
                         <li>
                             <a
                                 class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/category-news">
+                                <i class="fas fa-solid fa-newspaper"></i>
+                                <span>Danh mục tin tức</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('news-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/news">
                                 <i class="fas fa-solid fa-newspaper"></i>
                                 <span>Tin tức</span>

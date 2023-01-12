@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -163,5 +164,9 @@ class Formatter extends Model
     public static function formatMoneyToDatabase($input){
         if (empty($input)) return 0;
         return (int) filter_var($input, FILTER_SANITIZE_NUMBER_INT);
+    }
+
+    public static function hash($input){
+        return Hash::make($input);
     }
 }

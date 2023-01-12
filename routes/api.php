@@ -1,8 +1,10 @@
 <?php
 
 use App\Events\ChatPusherEvent;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CategoryNewsController;
+use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\ProductController;
-use App\Http\Controllers\AuthController;
 use App\Http\Requests\Chat\ParticipantAddRequest;
 use App\Http\Requests\PusherChatRequest;
 use App\Models\Chat;
@@ -31,35 +33,45 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('public')->group(function () {
-    Route::prefix('product')->group(function () {
+
+    Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'list']);
+    });
+
+    Route::prefix('news')->group(function () {
+        Route::get('/', [NewsController::class, 'list']);
+    });
+
+    Route::prefix('categories-news')->group(function () {
+        Route::get('/', [CategoryNewsController::class, 'list']);
+    });
+
+    Route::prefix('auth')->group(function () {
+        Route::post('/register', [AuthController::class, 'register']);
+        Route::post('/sign-in', [AuthController::class, 'signIn']);
+        Route::post('/check-exist', [AuthController::class, 'checkExist']);
+        Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     });
 });
 
 Route::prefix('user')->group(function () {
-    Route::prefix('auth')->group(function () {
-        Route::post('/register', [AuthController::class, 'register']);
-        Route::post('/signin', [AuthController::class, 'signin']);
-        Route::post('/check_exist', [AuthController::class, 'checkExist']);
-        Route::post('/check_phone', [AuthController::class, 'checkPhone']);
-        Route::post('/reset_password', [AuthController::class, 'rsPassword']);
 
-        Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+
+        Route::prefix('auth')->group(function () {
+
             Route::post('/logout', [AuthController::class, 'logout']);
-            Route::post('/edit', [AuthController::class, 'edit']);
-            Route::post('/avatar', [AuthController::class, 'updateImage']);
-            Route::post('/avatar', [AuthController::class, 'updateImage']);
-            Route::get('/referral/get', [AuthController::class, 'getReferral']);
-            Route::post('/referral', [AuthController::class, 'referral']);
-            Route::get('/list', [AuthController::class, 'list']);
-            Route::post('/add_address', [AuthController::class, 'addAddress']);
-            Route::delete('/address/{id}', [AuthController::class, 'delAddress']);
-            Route::get('/address', [AuthController::class, 'address']);
-            Route::post('/change_password', [AuthController::class, 'changePassword']);
-            Route::delete('/delete_account', [AuthController::class, 'deleteAccount']);
         });
 
+        Route::prefix('profile')->group(function () {
+
+            Route::put('/', [AuthController::class, 'update']);
+            Route::post('/avatar', [AuthController::class, 'updateAvatar']);
+            Route::delete('/', [AuthController::class, 'delete']);
+
+        });
     });
+
 
     Route::prefix('chat')->group(function () {
         Route::group(['middleware' => ['auth:sanctum', 'banned']], function () {

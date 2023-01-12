@@ -22,6 +22,7 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateSetting();
         $this->defineGateJobEmail();
         $this->defineGateJobNotification();
+        $this->defineGateCategoryNews();
     }
 
     public function defineGateJobNotification(){
@@ -127,6 +128,13 @@ class PermissionGateAndPolicyAccess{
         Gate::define('history_datas-add','App\Policies\HistoryDataPolicy@create');
         Gate::define('history_datas-edit','App\Policies\HistoryDataPolicy@update');
         Gate::define('history_datas-delete','App\Policies\HistoryDataPolicy@delete');
+    }
+
+    public function defineGateCategoryNews(){
+        Gate::define('category_news-list','App\Policies\CategoryNewPolicy@view');
+        Gate::define('category_news-add','App\Policies\CategoryNewPolicy@create');
+        Gate::define('category_news-edit','App\Policies\CategoryNewPolicy@update');
+        Gate::define('category_news-delete','App\Policies\CategoryNewPolicy@delete');
     }
 
 }
