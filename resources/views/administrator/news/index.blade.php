@@ -26,11 +26,11 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
+                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>#</th>
                                     <th>Tiêu đề</th>
                                     <th>Hình ảnh</th>
                                     <th>Thời gian tạo</th>
-                                    <th>Người tạo</th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
@@ -44,7 +44,6 @@
                                             <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
                                         </td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
-                                        <td>{{ optional($item->createdBy)->name}}</td>
                                         <td>
                                             <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}"
                                                class="btn btn-outline-secondary btn-sm edit" title="Edit">

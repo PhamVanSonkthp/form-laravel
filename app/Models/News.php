@@ -19,7 +19,9 @@ class News extends Model implements Auditable
 
     // begin
 
-
+    public function category(){
+        return $this->belongsTo(CategoryNew::class);
+    }
 
     // end
 

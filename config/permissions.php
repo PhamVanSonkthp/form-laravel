@@ -74,6 +74,16 @@ return [
         'category_news-edit' => 'category_news_edit',
         'category_news-delete' => 'category_news_delete',
 
+        'categories-list' => 'categories_list',
+        'categories-add' => 'categories_add',
+        'categories-edit' => 'categories_edit',
+        'categories-delete' => 'categories_delete',
+
+        'system_branches-list' => 'system_branches_list',
+        'system_branches-add' => 'system_branches_add',
+        'system_branches-edit' => 'system_branches_edit',
+        'system_branches-delete' => 'system_branches_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -90,6 +100,8 @@ return [
         'settings',
         'job_notifications',
         'category_news',
+        'categories',
+        'system_branches',
     ],
 
     'table_module_name'=>[
@@ -107,6 +119,8 @@ return [
         'Cài đặt',
         'Thông báo',
         'Danh mục tin tức',
+        'Danh mục sản phẩm',
+        'Danh sách cửa hàng',
     ],
 
     'module_children'=>[

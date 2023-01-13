@@ -521,59 +521,59 @@ Route::prefix('administrator')->group(function () {
 
     });
 
-    Route::prefix('categorys')->group(function () {
+    Route::prefix('categories')->group(function () {
         Route::get('/', [
-            'as' => 'administrator.categorys.index',
+            'as' => 'administrator.categories.index',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@index',
-            'middleware' => 'can:categorys-list',
+            'middleware' => 'can:categories-list',
         ]);
 
         Route::get('/create', [
-            'as' => 'administrator.categorys.create',
+            'as' => 'administrator.categories.create',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@create',
-            'middleware' => 'can:categorys-add',
+            'middleware' => 'can:categories-add',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.categorys.store',
+            'as' => 'administrator.categories.store',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@store',
-            'middleware' => 'can:categorys-add',
+            'middleware' => 'can:categories-add',
         ]);
 
         Route::get('/edit/{id}', [
-            'as' => 'administrator.categorys.edit',
+            'as' => 'administrator.categories.edit',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@edit',
-            'middleware' => 'can:categorys-edit',
+            'middleware' => 'can:categories-edit',
         ]);
 
         Route::put('/update/{id}', [
-            'as' => 'administrator.categorys.update',
+            'as' => 'administrator.categories.update',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@update',
-            'middleware' => 'can:categorys-edit',
+            'middleware' => 'can:categories-edit',
         ]);
 
-        Route::get('/delete/{id}', [
-            'as' => 'administrator.categorys.delete',
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.categories.delete',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@delete',
-            'middleware' => 'can:categorys-delete',
+            'middleware' => 'can:categories-delete',
         ]);
 
         Route::delete('/delete-many', [
-            'as' => 'administrator.categorys.delete_many',
+            'as' => 'administrator.categories.delete_many',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@deleteManyByIds',
-            'middleware' => 'can:categorys-delete',
+            'middleware' => 'can:categories-delete',
         ]);
 
         Route::get('/export', [
-            'as' => 'administrator.categorys.export',
+            'as' => 'administrator.categories.export',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@export',
-            'middleware' => 'can:categorys-list',
+            'middleware' => 'can:categories-list',
         ]);
 
         Route::get('/{id}', [
-            'as' => 'administrator.categorys.get',
+            'as' => 'administrator.categories.get',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@get',
-            'middleware' => 'can:categorys-list',
+            'middleware' => 'can:categories-list',
         ]);
 
     });
@@ -745,6 +745,63 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.category_news.get',
             'uses' => 'App\Http\Controllers\Admin\CategoryNewController@get',
             'middleware' => 'can:category_news-list',
+        ]);
+
+    });
+
+    Route::prefix('system-branches')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.system_branches.index',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@index',
+            'middleware' => 'can:system_branches-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.system_branches.create',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@create',
+            'middleware' => 'can:system_branches-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.system_branches.store',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@store',
+            'middleware' => 'can:system_branches-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.system_branches.edit',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@edit',
+            'middleware' => 'can:system_branches-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.system_branches.update',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@update',
+            'middleware' => 'can:system_branches-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.system_branches.delete',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@delete',
+            'middleware' => 'can:system_branches-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.system_branches.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@deleteManyByIds',
+            'middleware' => 'can:system_branches-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.system_branches.export',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@export',
+            'middleware' => 'can:system_branches-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.system_branches.get',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@get',
+            'middleware' => 'can:system_branches-list',
         ]);
 
     });

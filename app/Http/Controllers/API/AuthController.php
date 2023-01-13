@@ -7,7 +7,9 @@ use App\Models\Chat;
 use App\Models\ChatGroup;
 use App\Models\Formatter;
 use App\Models\ParticipantChat;
+use App\Models\SingleImage;
 use App\Models\User;
+use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,13 +44,7 @@ class AuthController extends Controller
             'firebase_uid' => $request->uid,
         ]);
 
-//        $user = User::where('name', $request->name)->first();
-//
-//        if (!$user || !Hash::check($request->password, $user->password)) {
-//            return response([
-//                'message' => "wrong token"
-//            ], 401);
-//        }
+        $user->refresh();
 
         $token = $user->createToken($this->plainToken)->plainTextToken;
 
@@ -175,28 +171,29 @@ class AuthController extends Controller
 
     public function updateAvatar(Request $request)
     {
-        if (!$request->hasFile('feature_image')) {
-            return response()->json(['upload_file_not_found'], 400);
-        }
-        $allowedfileExtension = ['jpg', 'png'];
-        $file = $request->file('feature_image');
-        $extension = $file->getClientOriginalExtension();
-        $check = in_array($extension, $allowedfileExtension);
-        if (!$check) {
-            return response()->json(['invalid_file_format'], 422);
-        }
+        $request->validate([
+            'image' => 'required|mimes:jpg,jpeg,png',
+        ]);
 
-        $dataUploadFeatureImage = $this->storageTraitUpload($request, 'feature_image', 'user');
+        $item = SingleImage::firstOrCreate([
+            'relate_id' => auth()->id(),
+            'table' => auth()->user()->getTableName(),
+        ],[
+            'relate_id' => auth()->id(),
+            'table' => auth()->user()->getTableName(),
+            'image_path' => 'waiting_update',
+            'image_name' => 'waiting_update',
+        ]);
 
-        $dataUpdate = [];
+        $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image', 'single', auth()->id());
 
-        if (!empty($dataUploadFeatureImage)) {
-            $dataUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-            $dataUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-        }
+        $item->update([
+            'image_path' => $dataUploadFeatureImage['file_path'],
+            'image_name' => $dataUploadFeatureImage['file_name'],
+        ]);
+        $item->refresh();
 
-        auth()->user()->update($dataUpdate);
-        return auth()->user();
+        return response()->json(auth()->user());
     }
 
     public function update(Request $request)

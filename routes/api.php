@@ -2,9 +2,13 @@
 
 use App\Events\ChatPusherEvent;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CalendarController;
 use App\Http\Controllers\API\CategoryNewsController;
+use App\Http\Controllers\API\CategoryProductsController;
 use App\Http\Controllers\API\NewsController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\SystemBranchController;
 use App\Http\Requests\Chat\ParticipantAddRequest;
 use App\Http\Requests\PusherChatRequest;
 use App\Models\Chat;
@@ -46,6 +50,18 @@ Route::prefix('public')->group(function () {
         Route::get('/', [CategoryNewsController::class, 'list']);
     });
 
+    Route::prefix('categories-products')->group(function () {
+        Route::get('/', [CategoryProductsController::class, 'list']);
+    });
+
+    Route::prefix('system-branches')->group(function () {
+        Route::get('/', [SystemBranchController::class, 'list']);
+    });
+
+    Route::prefix('calendars')->group(function () {
+        Route::get('/', [CalendarController::class, 'list']);
+    });
+
     Route::prefix('auth')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/sign-in', [AuthController::class, 'signIn']);
@@ -68,6 +84,13 @@ Route::prefix('user')->group(function () {
             Route::put('/', [AuthController::class, 'update']);
             Route::post('/avatar', [AuthController::class, 'updateAvatar']);
             Route::delete('/', [AuthController::class, 'delete']);
+
+        });
+
+        Route::prefix('notification')->group(function () {
+
+            Route::get('/', [NotificationController::class, 'list']);
+            Route::post('/read/{id}', [NotificationController::class, 'read']);
 
         });
     });

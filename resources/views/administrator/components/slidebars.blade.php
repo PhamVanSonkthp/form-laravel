@@ -50,7 +50,7 @@
                         <li class="sidebar-list">
                             <a
                                 class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/job-emails">
+                                href="/administrator/categories">
                                 <i class="fas fa-thin fa-envelope"></i>
                                 <span>Danh mục</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
@@ -159,6 +159,17 @@
                             </a>
                         </li>
                     @endcan
+
+                        @can('sliders-list')
+                            <li>
+                                <a
+                                    class="sidebar-link sidebar-title link-nav" href="/administrator/system-branches">
+                                    <i class="fas fa-thin fa-pager"></i>
+                                    <span>Hệ thống cửa hàng</span>
+                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                </a>
+                            </li>
+                        @endcan
 
                     @can('logos-list')
                         <li>

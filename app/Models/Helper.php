@@ -56,7 +56,7 @@ class Helper extends Model
     public static function image($object)
     {
         $item = $object->hasOne(SingleImage::class, 'relate_id', 'id')->where('table', $object->getTable());
-        if (empty($item->image)) {
+        if (empty($item)) {
             return $object->hasOne(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
         }
 
@@ -72,31 +72,30 @@ class Helper extends Model
         return Schema::getColumnListing($object->getTableName());
     }
 
-    public static function searchByQuery($object, $request, $queries = [], $makeHiddens = null)
+    public static function searchByQuery($object, $request, $queries = [],$randomRecord = null, $makeHiddens = null, $isCustom= false)
     {
         $columns = Schema::getColumnListing($object->getTableName());
         $query = $object->query();
 
-        $searchLikeColums = ['name', 'title'];
+        $searchLikeColumns = ['name', 'title', 'search_query'];
         $searchColumnBanned = ['limit', 'page', 'with_trashed'];
 
         foreach ($request->all() as $key => $item) {
             $item = trim($item);
-            if ($key == "search_query") {
+
+            if (in_array($key, $searchColumnBanned)) continue;
+
+            if ( in_array($key, $searchLikeColumns)) {
                 if (!empty($item) || strlen($item) > 0) {
 
-                    $query = $query->where(function ($query) use ($item, $columns, $searchLikeColums) {
-                        foreach ($searchLikeColums as $searchColumn) {
+                    $query = $query->where(function ($query) use ($item, $columns, $searchLikeColumns) {
+                        foreach ($searchLikeColumns as $searchColumn) {
                             if (in_array($searchColumn, $columns)) {
                                 $query->orWhere($searchColumn, 'LIKE', "%{$item}%");
                             }
                         }
                     });
                 }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
             } else if ($key == "start" || $key == "from") {
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->whereDate('created_at', '>=', $item);
@@ -105,49 +104,62 @@ class Helper extends Model
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->whereDate('created_at', '<=', $item);
                 }
-            }
-        }
-
-        foreach ($queries as $key => $item) {
-            $item = trim($item);
-
-            if (in_array($key, $searchColumnBanned)) continue;
-
-            if ($key == "search_query") {
+            }else{
+                if (!in_array($key, $columns)) continue;
                 if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where(function ($query) use ($item) {
-                        $query->orWhere('name', 'LIKE', "%{$item}%");
-                    });
-                }
-            } else if ($key == "gender_id") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where('gender_id', $item);
-                }
-            } else if ($key == "start" || $key == "from") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '>=', $item);
-                }
-            } else if ($key == "end" || $key == "to") {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate('created_at', '<=', $item);
-                }
-            } else {
-                if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->where($key, $item);
+                    $query = $query->whereDate($key, $item);
                 }
             }
         }
 
-        foreach ($queries as $key => $item) {
-            $item = trim($item);
+        if (is_array($queries)){
+            foreach ($queries as $key => $item) {
+                $item = trim($item);
 
-            if ($key == 'with_trashed' && $item == true) {
-                $query = $query->withTrashed();
-                break;
+                if (in_array($key, $searchColumnBanned)) continue;
+
+                if ( in_array($key, $searchLikeColumns)) {
+                    if (!empty($item) || strlen($item) > 0) {
+
+                        $query = $query->where(function ($query) use ($item, $columns, $searchLikeColumns) {
+                            foreach ($searchLikeColumns as $searchColumn) {
+                                if (in_array($searchColumn, $columns)) {
+                                    $query->orWhere($searchColumn, 'LIKE', "%{$item}%");
+                                }
+                            }
+                        });
+                    }
+                } else if ($key == "start" || $key == "from") {
+                    if (!empty($item) || strlen($item) > 0) {
+                        $query = $query->whereDate('created_at', '>=', $item);
+                    }
+                } else if ($key == "end" || $key == "to") {
+                    if (!empty($item) || strlen($item) > 0) {
+                        $query = $query->whereDate('created_at', '<=', $item);
+                    }
+                } else {
+                    if (!in_array($key, $columns)) continue;
+                    if (!empty($item) || strlen($item) > 0) {
+                        $query = $query->where($key, $item);
+                    }
+                }
+            }
+
+            foreach ($queries as $key => $item) {
+                $item = trim($item);
+
+                if ($key == 'with_trashed' && $item == true) {
+                    $query = $query->withTrashed();
+                    break;
+                }
             }
         }
 
-        $items =  $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+        if ($isCustom){
+            return $query;
+        }
+
+        $items = $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
 
         if (!empty($makeHiddens) && is_array($makeHiddens)){
             foreach ($items as $item){
@@ -163,7 +175,7 @@ class Helper extends Model
         $columns = Schema::getColumnListing($object->getTableName());
         $query = $object->query();
 
-        $searchLikeColums = ['name', 'title'];
+        $searchLikeColumns = ['name', 'title'];
         $searchColumnBanned = ['limit', 'page', 'with_trashed'];
 
         foreach ($request->all() as $key => $item) {
@@ -171,8 +183,8 @@ class Helper extends Model
             if ($key == "search_query") {
                 if (!empty($item) || strlen($item) > 0) {
 
-                    $query = $query->where(function ($query) use ($item, $columns, $searchLikeColums) {
-                        foreach ($searchLikeColums as $searchColumn) {
+                    $query = $query->where(function ($query) use ($item, $columns, $searchLikeColumns) {
+                        foreach ($searchLikeColumns as $searchColumn) {
                             if (in_array($searchColumn, $columns)) {
                                 $query->orWhere($searchColumn, 'LIKE', "%{$item}%");
                             }
@@ -303,8 +315,18 @@ class Helper extends Model
         return optional(SingleImage::where('relate_id', Helper::getNextIdTable($table))->where('table', $table)->first())->image_path;
     }
 
-    public static function sendNotificationToTopic($topicName, $title, $body)
+    public static function sendNotificationToTopic($topicName, $title, $body, $save = false, $user_id = null, $image_path = null, $activity = null)
     {
+        if ($save && !empty($user_id)){
+            UserNotification::create([
+                'user_id' => $user_id,
+                'title' => $title,
+                'content' => $body,
+                'image_path' => $image_path ?? Helper::logoImagePath(),
+                'activity' => $activity,
+            ]);
+        }
+
         if (env('FIREBASE_SERVER_NOTIFIABLE', true)) {
             $client = new Client();
             $client->post(

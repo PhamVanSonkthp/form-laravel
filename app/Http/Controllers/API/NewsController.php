@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Chat;
 use App\Models\ChatGroup;
+use App\Models\Formatter;
 use App\Models\News;
 use App\Models\ParticipantChat;
 use App\Models\Product;
@@ -16,14 +17,22 @@ use Illuminate\Support\Facades\Hash;
 
 class NewsController extends Controller
 {
+    private $modelNew;
+
+    public function __construct(News $new)
+    {
+        $this->modelNew = $new;
+    }
 
     public function list(Request $request)
     {
-        $queries = $request->all();
-        $results = RestfulAPI::response(News::class, $request, $queries);
+
+        $results = RestfulAPI::response($this->modelNew, $request);
 
         foreach ($results as $item){
-            $item['price'] = $item->priceSale($request);
+            $item['short_title'] = Formatter::getShortDescriptionAttribute($item->title);
+            $item['short_content'] = Formatter::getShortDescriptionAttribute($item->content, 30);
+            $item->category;
         }
 
         return response()->json($results);

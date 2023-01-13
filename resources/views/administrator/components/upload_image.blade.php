@@ -85,6 +85,16 @@
     }
 </style>
 
+@php
+
+    if(isset($item)) {
+        $image = optional($item->image)->image_path;
+        $relateImageTableId = $item->id;
+        $relate_id = $item->id;
+    }
+
+@endphp
+
 <div id="single-drop-region" style="max-width: 314px;max-height: 314px;">
     <div id="single-drop-message">
         Icon

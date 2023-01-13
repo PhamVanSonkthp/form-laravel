@@ -23,6 +23,19 @@ class Product extends Model implements Auditable
 
     // begin
 
+    public function star(){
+        return 4.5;
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['star'] = $this->star();
+        $array['category'] = $this->category;
+        $array['price'] = $this->priceSale();
+        return $array;
+    }
+
     public function productsAttributes(){
         return $this->hasMany(Product::class,'group_product_id','group_product_id');
     }
@@ -31,13 +44,13 @@ class Product extends Model implements Auditable
         return $this->inventory <= 0;
     }
 
-    public function priceSale($request){
+    public function priceSale(){
 
         $productsAttributes = $this->productsAttributes;
 
         $priceMinAgent = PHP_INT_MAX;
-        $priceMaxAgent = -PHP_INT_MIN;
         $priceMinClient = PHP_INT_MAX;
+        $priceMaxAgent = PHP_INT_MIN;
         $priceMaxClient = PHP_INT_MIN;
 
         $resultAgent = "Liên hệ";
@@ -68,7 +81,7 @@ class Product extends Model implements Auditable
             }
         }
 
-        if ($request->user('sanctum') && $request->user('sanctum')->user_type_id == 2) {
+        if (auth('sanctum')->check() && auth('sanctum')->user()->user_type_id == 2){
             return $resultAgent . "";
         } else {
             return $resultClient . "";
@@ -95,7 +108,7 @@ class Product extends Model implements Auditable
     }
 
     public function category(){
-        return $this->hasOne(Category::class, 'id','category_id');
+        return $this->belongsTo(Category::class);
     }
 
     function firstOrCreateCategory($category_id){

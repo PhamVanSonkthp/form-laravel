@@ -65,6 +65,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return Helper::getTableName($this);
     }
 
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['image_path_avatar'] = $this->avatar();
+        $array['path_images'] = $this->images;
+        return $array;
+    }
+
     public function avatar($size = "100x100"){
         $image = $this->image;
         if (!empty($image)){

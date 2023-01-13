@@ -57,7 +57,7 @@ class JobEmailController extends Controller
     public function update(Request $request, $id)
     {
         $item = $this->model->updateByQuery($request, $id);
-        return redirect()->route('administrator.news.edit', ['id' => $id]);
+        return redirect()->route('administrator.' . $this->prefixView . '.edit', ['id' => $id]);
     }
 
     public function delete(Request $request, $id)

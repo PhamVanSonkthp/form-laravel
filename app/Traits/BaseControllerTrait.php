@@ -66,7 +66,6 @@ trait BaseControllerTrait{
         View::share('imageMultipleSortUrl', $this->imageMultipleSortUrl);
         View::share('isSingleImage', $this->isSingleImage);
         View::share('isMultipleImages', $this->isMultipleImages);
-
     }
 
 }

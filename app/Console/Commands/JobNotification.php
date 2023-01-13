@@ -84,6 +84,7 @@ class JobNotification extends Command
                                         'topic' => optional($item->user)->id,
                                         'title' => $item->title,
                                         'description' => $item->description,
+                                        'user_id' => optional($item->user)->id,
                                     ];
                                     //
                                     $scheduleRepeatItem->update([
@@ -98,7 +99,7 @@ class JobNotification extends Command
         }
 
         foreach ($resultCron as $item) {
-            Helper::sendNotificationToTopic($item['topic'], $item['title'], $item['description']);
+            Helper::sendNotificationToTopic($item['topic'], $item['title'], $item['description'], true, $item->user_id);
         }
 
         foreach ($sendAll as $item) {

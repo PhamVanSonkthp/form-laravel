@@ -23,6 +23,7 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateJobEmail();
         $this->defineGateJobNotification();
         $this->defineGateCategoryNews();
+        $this->defineGateSystemBranches();
     }
 
     public function defineGateJobNotification(){
@@ -54,10 +55,10 @@ class PermissionGateAndPolicyAccess{
     }
 
     public function defineGateCategory(){
-        Gate::define('categorys-list','App\Policies\CategoryPolicy@view');
-        Gate::define('categorys-add','App\Policies\CategoryPolicy@create');
-        Gate::define('categorys-edit','App\Policies\CategoryPolicy@update');
-        Gate::define('categorys-delete','App\Policies\CategoryPolicy@delete');
+        Gate::define('categories-list','App\Policies\CategoryPolicy@view');
+        Gate::define('categories-add','App\Policies\CategoryPolicy@create');
+        Gate::define('categories-edit','App\Policies\CategoryPolicy@update');
+        Gate::define('categories-delete','App\Policies\CategoryPolicy@delete');
     }
 
     public function defineGateProduct(){
@@ -135,6 +136,13 @@ class PermissionGateAndPolicyAccess{
         Gate::define('category_news-add','App\Policies\CategoryNewPolicy@create');
         Gate::define('category_news-edit','App\Policies\CategoryNewPolicy@update');
         Gate::define('category_news-delete','App\Policies\CategoryNewPolicy@delete');
+    }
+
+    public function defineGateSystemBranches(){
+        Gate::define('system_branches-list','App\Policies\SystemBranchPolicy@view');
+        Gate::define('system_branches-add','App\Policies\SystemBranchPolicy@create');
+        Gate::define('system_branches-edit','App\Policies\SystemBranchPolicy@update');
+        Gate::define('system_branches-delete','App\Policies\SystemBranchPolicy@delete');
     }
 
 }

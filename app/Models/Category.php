@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Components\Recusive;
+use App\Traits\DeleteModelTrait;
+use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -12,6 +14,8 @@ class Category extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     protected $guarded = [];
+    use DeleteModelTrait;
+    use StorageImageTrait;
 
     public function getCategory($parent_id = null){
         $data = Category::all();
@@ -67,9 +71,9 @@ class Category extends Model implements Auditable
     public function storeByQuery($request)
     {
         $dataInsert = [
-            'title' => $request->title,
-            'content' => $request->contents,
-            'slug' => Helper::addSlug($this,'slug', $request->title),
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => Helper::addSlug($this,'slug', $request->name),
         ];
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -80,9 +84,9 @@ class Category extends Model implements Auditable
     public function updateByQuery($request, $id)
     {
         $dataUpdate = [
-            'title' => $request->title,
-            'content' => $request->contents,
-            'slug' => Helper::addSlug($this,'slug', $request->title),
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => Helper::addSlug($this,'slug', $request->name),
         ];
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);

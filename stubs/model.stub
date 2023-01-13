@@ -5,6 +5,7 @@ namespace {{ namespace }};
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 
@@ -26,6 +27,14 @@ class {{ class }} extends Model implements Auditable
     public function getTableName()
     {
         return Helper::getTableName($this);
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['image_path_avatar'] = $this->avatar();
+        $array['path_images'] = $this->images;
+        return $array;
     }
 
     public function avatar($size = "100x100")

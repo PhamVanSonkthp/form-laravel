@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('provider_name')->nullable();
             $table->string('provider_id')->nullable();
             $table->string('password')->nullable()->change();
-            $table->string('avatar')->nullable();
+//            $table->string('avatar')->nullable();
 
             $table->integer('user_type_id')->default(1);
 
