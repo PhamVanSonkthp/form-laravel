@@ -15,6 +15,12 @@ class CreateFiveElementCalendarsTable extends Migration
     {
         Schema::create('five_element_calendars', function (Blueprint $table) {
             $table->id();
+            $table->text('cat_hung_day');
+            $table->text('nap_am_day');
+            $table->text('ngu_hanh_day');
+            $table->text('hop_day');
+            $table->text('khac_day');
+            $table->bigInteger('calendar_id')->unique();
             $table->timestamps();
         });
     }

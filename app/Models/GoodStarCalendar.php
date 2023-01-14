@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Facades\Excel;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class ZodiacCalendar extends Model implements Auditable
+class GoodStarCalendar extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;

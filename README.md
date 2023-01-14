@@ -21,7 +21,7 @@ php artisan make:viewsearch Test
 php artisan make:_policy Test
 
 * Thêm quyền vào file "config/permissions"
-* Thêm check permession vào file "app/Services/PermissionGateAndPolicyAccess"
+* Thêm check permission vào file "app/Services/PermissionGateAndPolicyAccess"
 * Thêm route và middleware "routes/administrator/index"
 * Thêm menu vào view "resources/views/administrator/components/slidebars.blade"
 * Thêm các trường bảng migration

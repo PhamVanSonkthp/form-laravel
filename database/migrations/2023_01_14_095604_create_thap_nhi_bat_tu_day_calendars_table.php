@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDayZodiacCalendarsTable extends Migration
+class CreateThapNhiBatTuDayCalendarsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateDayZodiacCalendarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('day_zodiac_calendars', function (Blueprint $table) {
+        Schema::create('thap_nhi_bat_tu_day_calendars', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
+            $table->text('star');
             $table->text('status');
+            $table->text('should_do');
+            $table->text('should_not_do');
             $table->text('description');
             $table->unsignedBigInteger('calendar_id')->unique();
             $table->timestamps();
@@ -30,6 +32,6 @@ class CreateDayZodiacCalendarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('day_zodiac_calendars');
+        Schema::dropIfExists('thap_nhi_bat_tu_day_calendars');
     }
 }

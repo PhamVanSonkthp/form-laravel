@@ -24,6 +24,7 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateJobNotification();
         $this->defineGateCategoryNews();
         $this->defineGateSystemBranches();
+        $this->defineGateSystemQuotations();
     }
 
     public function defineGateJobNotification(){
@@ -143,6 +144,13 @@ class PermissionGateAndPolicyAccess{
         Gate::define('system_branches-add','App\Policies\SystemBranchPolicy@create');
         Gate::define('system_branches-edit','App\Policies\SystemBranchPolicy@update');
         Gate::define('system_branches-delete','App\Policies\SystemBranchPolicy@delete');
+    }
+
+    public function defineGateSystemQuotations(){
+        Gate::define('quotations-list','App\Policies\QuotationPolicy@view');
+        Gate::define('quotations-add','App\Policies\QuotationPolicy@create');
+        Gate::define('quotations-edit','App\Policies\QuotationPolicy@update');
+        Gate::define('quotations-delete','App\Policies\QuotationPolicy@delete');
     }
 
 }

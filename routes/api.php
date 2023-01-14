@@ -59,7 +59,7 @@ Route::prefix('public')->group(function () {
     });
 
     Route::prefix('calendars')->group(function () {
-        Route::get('/', [CalendarController::class, 'list']);
+        Route::get('/{id}', [CalendarController::class, 'get']);
     });
 
     Route::prefix('auth')->group(function () {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCalendarsTable extends Migration
+class CreateTongHopBangKeCalendarsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateCalendarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('calendars', function (Blueprint $table) {
+        Schema::create('tong_hop_bang_ke_calendars', function (Blueprint $table) {
             $table->id();
-            $table->string('weekdays');
-            $table->string('weather');
-            $table->float('score');
-            $table->unsignedBigInteger('quotation_id')->default(0);
+            $table->text('good_star');
+            $table->text('bad_star');
+            $table->unsignedBigInteger('calendar_id')->unique();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateCalendarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calendars');
+        Schema::dropIfExists('tong_hop_bang_ke_calendars');
     }
 }

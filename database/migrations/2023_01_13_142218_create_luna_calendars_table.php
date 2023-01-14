@@ -27,7 +27,7 @@ class CreateLunaCalendarsTable extends Migration
             $table->string('can_year');
             $table->string('chi_year');
             $table->string('text_year');
-            $table->bigInteger('calendar_id');
+            $table->bigInteger('calendar_id')->unique();
             $table->timestamps();
         });
     }

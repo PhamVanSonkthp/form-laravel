@@ -805,5 +805,62 @@ Route::prefix('administrator')->group(function () {
         ]);
 
     });
+
+    Route::prefix('quotations')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.quotations.index',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@index',
+            'middleware' => 'can:quotations-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.quotations.create',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@create',
+            'middleware' => 'can:quotations-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.quotations.store',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@store',
+            'middleware' => 'can:quotations-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.quotations.edit',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@edit',
+            'middleware' => 'can:quotations-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.quotations.update',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@update',
+            'middleware' => 'can:quotations-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.quotations.delete',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@delete',
+            'middleware' => 'can:quotations-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.quotations.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@deleteManyByIds',
+            'middleware' => 'can:quotations-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.quotations.export',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@export',
+            'middleware' => 'can:quotations-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.quotations.get',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@get',
+            'middleware' => 'can:quotations-list',
+        ]);
+
+    });
 });
 

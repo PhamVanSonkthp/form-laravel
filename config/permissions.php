@@ -84,6 +84,11 @@ return [
         'system_branches-edit' => 'system_branches_edit',
         'system_branches-delete' => 'system_branches_delete',
 
+        'quotations-list' => 'quotations_list',
+        'quotations-add' => 'quotations_add',
+        'quotations-edit' => 'quotations_edit',
+        'quotations-delete' => 'quotations_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -102,6 +107,7 @@ return [
         'category_news',
         'categories',
         'system_branches',
+        'quotations',
     ],
 
     'table_module_name'=>[
@@ -121,6 +127,7 @@ return [
         'Danh mục tin tức',
         'Danh mục sản phẩm',
         'Danh sách cửa hàng',
+        'Các câu danh ngôn',
     ],
 
     'module_children'=>[

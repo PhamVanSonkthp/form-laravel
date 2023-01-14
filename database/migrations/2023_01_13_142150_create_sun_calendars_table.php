@@ -19,7 +19,7 @@ class CreateSunCalendarsTable extends Migration
             $table->integer('day_of_month');
             $table->integer('month');
             $table->integer('year');
-            $table->bigInteger('calendar_id');
+            $table->bigInteger('calendar_id')->unique();
             $table->timestamps();
         });
     }

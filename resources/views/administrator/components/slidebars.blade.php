@@ -206,6 +206,18 @@
                         </li>
                     @endcan
 
+                    @can('quotations-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/quotations">
+                                <i class="fas fa-solid fa-newspaper"></i>
+                                <span>Danh ngôn</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
                 </ul>
             </li>
 

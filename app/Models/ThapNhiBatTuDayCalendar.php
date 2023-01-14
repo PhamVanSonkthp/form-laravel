@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Facades\Excel;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Calendar extends Model implements Auditable
+class ThapNhiBatTuDayCalendar extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
@@ -20,57 +20,7 @@ class Calendar extends Model implements Auditable
 
     // begin
 
-    public function sunCalendar(){
-        return $this->hasOne(SunCalendar::class);
-    }
 
-    public function lunaCalendar(){
-        return $this->hasOne(LunaCalendar::class);
-    }
-
-    public function timeCalendar(){
-        return $this->hasMany(TimeCalendar::class);
-    }
-
-    public function timeZodiacCalendar(){
-        return $this->hasMany(TimeZodiacCalendar::class);
-    }
-
-    public function fiveElementCalendar(){
-        return $this->hasOne(FiveElementCalendar::class);
-    }
-
-    public function dayZodiacCalendar(){
-        return $this->hasOne(DayZodiacCalendar::class);
-    }
-
-    public function trucDayCalendar(){
-        return $this->hasOne(TrucDayCalendar::class);
-    }
-
-    public function thapNhiBatTuDayCalendar(){
-        return $this->hasOne(ThapNhiBatTuDayCalendar::class);
-    }
-
-    public function goodStarCalendar(){
-        return $this->hasMany(GoodStarCalendar::class);
-    }
-
-    public function badStarCalendar(){
-        return $this->hasMany(BadStarCalendar::class);
-    }
-
-    public function tongHopBangKeCalendar(){
-        return $this->hasMany(TongHopBangKeCalendar::class);
-    }
-
-    public function gioLyThuanPhongCalendar(){
-        return $this->hasMany(GioLyThuanPhongCalendar::class);
-    }
-
-    public function quotation(){
-        return $this->belongsTo(Quotation::class);
-    }
 
     // end
 
@@ -84,19 +34,6 @@ class Calendar extends Model implements Auditable
         $array = parent::toArray();
         $array['image_path_avatar'] = $this->avatar();
         $array['path_images'] = $this->images;
-        $array['sun_calendar'] = $this->sunCalendar;
-        $array['luna_calendar'] = $this->lunaCalendar;
-        $array['time_calendar'] = $this->timeCalendar;
-        $array['time_zodiac_calendar'] = $this->timeZodiacCalendar;
-        $array['five_element_calendar'] = $this->fiveElementCalendar;
-        $array['day_zodiac_calendar'] = $this->dayZodiacCalendar;
-        $array['truc_day_calendar'] = $this->trucDayCalendar;
-        $array['thap_nhi_bat_tuDay_calendar'] = $this->thapNhiBatTuDayCalendar;
-        $array['good_star_calendar'] = $this->goodStarCalendar;
-        $array['bad_star_calendar'] = $this->badStarCalendar;
-        $array['tong_hop_bang_ke_calendar'] = $this->tongHopBangKeCalendar;
-        $array['gio_ly_thuan_phong_calendar'] = $this->gioLyThuanPhongCalendar;
-        $array['quotation'] = $this->quotation;
         return $array;
     }
 
