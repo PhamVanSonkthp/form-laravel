@@ -42,6 +42,28 @@
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                     <i class="fas fa-thin fa-bell"></i>
+                    <span class="">Lịch</span>
+                </a>
+                <ul class="sidebar-submenu" style="display: none;">
+
+                    @can('calendars-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/calendars">
+                                <i class="fas fa-thin fa-envelope"></i>
+                                <span>Lịch vạn niên</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                </ul>
+            </li>
+
+            <li class="sidebar-list">
+                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
+                    <i class="fas fa-thin fa-bell"></i>
                     <span class="">Bán hàng</span>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">

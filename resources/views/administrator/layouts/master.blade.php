@@ -90,6 +90,9 @@
             display: none;
         }
 
+        .simplebar-content-wrapper{
+            overflow: visible;
+        }
     </style>
     @yield('css')
 </head>

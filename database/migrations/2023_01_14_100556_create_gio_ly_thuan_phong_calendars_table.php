@@ -17,6 +17,8 @@ class CreateGioLyThuanPhongCalendarsTable extends Migration
             $table->id();
             $table->text('name');
             $table->text('description');
+            $table->integer('min_hour');
+            $table->integer('max_hour');
             $table->unsignedBigInteger('calendar_id');
             $table->timestamps();
         });

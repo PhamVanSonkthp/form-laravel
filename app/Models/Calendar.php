@@ -61,7 +61,7 @@ class Calendar extends Model implements Auditable
     }
 
     public function tongHopBangKeCalendar(){
-        return $this->hasMany(TongHopBangKeCalendar::class);
+        return $this->hasOne(TongHopBangKeCalendar::class);
     }
 
     public function gioLyThuanPhongCalendar(){
@@ -119,9 +119,9 @@ class Calendar extends Model implements Auditable
         return $this->hasOne(User::class,'id','created_by_id');
     }
 
-    public function searchByQuery($request, $queries = [])
+    public function searchByQuery($request, $queries = [], $randomRecord = null, $makeHiddens = null, $isCustom = false)
     {
-        return Helper::searchByQuery($this, $request, $queries);
+        return Helper::searchByQuery($this, $request, $queries, $randomRecord, $makeHiddens, $isCustom);
     }
 
     public function storeByQuery($request)

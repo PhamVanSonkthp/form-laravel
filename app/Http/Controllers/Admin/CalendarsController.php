@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
+use App\Imports\CalendarImport;
 use App\Models\Calendar;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
 
-class CalendarController extends Controller
+class CalendarsController extends Controller
 {
     use BaseControllerTrait;
 
@@ -67,5 +69,10 @@ class CalendarController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+
     }
 }

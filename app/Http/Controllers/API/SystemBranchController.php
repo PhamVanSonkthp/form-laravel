@@ -21,7 +21,7 @@ class SystemBranchController extends Controller
 
     private $model;
 
-    public function __construct(Calendar $model)
+    public function __construct(SystemBranch $model)
     {
         $this->model = $model;
     }

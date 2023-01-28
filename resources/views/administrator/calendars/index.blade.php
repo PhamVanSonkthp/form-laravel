@@ -30,23 +30,38 @@
                                 <tr>
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>#</th>
-                                    <th>Tiêu đề</th>
-                                    <th>Hình ảnh</th>
+                                    <th>Dương lịch</th>
+                                    <th>Âm lịch</th>
+                                    <th>Thứ</th>
+                                    <th>Thời tiết</th>
+                                    <th>Điểm số</th>
                                     <th>Thời gian tạo</th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($items as $item)
+                                    @php
+                                        $itemTemp = $item->toArray();
+                                    @endphp
                                     <tr>
                                         <td class="text-center">
                                             <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
                                         </td>
                                         <td>{{$item->id}}</td>
-                                        <td>{{$item->title}}</td>
                                         <td>
-                                            <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
+                                            @if (isset($itemTemp['sun_calendar']) && isset($itemTemp['sun_calendar']['date']))
+                                                {{$itemTemp['sun_calendar']['date']}}
+                                            @endif
                                         </td>
+                                        <td>
+                                            @if (isset($itemTemp['luna_calendar']) && isset($itemTemp['luna_calendar']['date']))
+                                                {{$itemTemp['luna_calendar']['date']}}
+                                            @endif
+                                        </td>
+                                        <td>{{$item->weekdays}}</td>
+                                        <td>{{$item->weather}}</td>
+                                        <td>{{$item->score}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
                                             <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}"

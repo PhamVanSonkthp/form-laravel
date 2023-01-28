@@ -28,10 +28,7 @@ class CalendarController extends Controller
     }
 
     public function get(Request $request, $id)
-
     {
-
-
         $item = $this->model->find($id);
 
         if (empty($item)) $item = SunCalendar::whereDate('date', $id)->first();

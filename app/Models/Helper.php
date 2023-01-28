@@ -107,7 +107,7 @@ class Helper extends Model
             }else{
                 if (!in_array($key, $columns)) continue;
                 if (!empty($item) || strlen($item) > 0) {
-                    $query = $query->whereDate($key, $item);
+                    $query = $query->where($key, $item);
                 }
             }
         }

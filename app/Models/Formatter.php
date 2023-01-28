@@ -19,8 +19,8 @@ class Formatter extends Model
 
     public function getLimitRequest($limit)
     {
-        if (!empty($limit)){
-            return (int) $limit;
+        if (!empty($limit)) {
+            return (int)$limit;
         }
         return 10;
     }
@@ -101,36 +101,39 @@ class Formatter extends Model
         return Carbon::parse($value)->format('Y-m-d\TH:i');
     }
 
-    public static function maxLengthString($input, $max = 20){
+    public static function maxLengthString($input, $max = 20)
+    {
         $input = $input . "";
 
-        if(mb_strlen($input) > ($max + 3)){
+        if (mb_strlen($input) > ($max + 3)) {
             //return mb_strtoupper(mb_substr($this->first_name, 0, 1) . mb_substr($this->last_name, 0, 1));
 
-            return mb_substr($input,0,$max) . "...";
+            return mb_substr($input, 0, $max) . "...";
         }
         return $input;
     }
 
-    public static function getThumbnailImage($input, $format = "100x100"){
-        return str_replace("original",$format,$input);
+    public static function getThumbnailImage($input, $format = "100x100")
+    {
+        return str_replace("original", $format, $input);
     }
 
-    public static function convertTypeTime($value, $inputType = "dd/mm/yyyy", $outputType = "yyyy/mm/dd"){
+    public static function convertTypeTime($value, $inputType = "dd/mm/yyyy", $outputType = "yyyy/mm/dd")
+    {
 
-        if (empty($value)){
+        if (empty($value)) {
             return date('Y-m-d');
         }
 
-        $value = str_replace("-","/",$value);
+        $value = str_replace("-", "/", $value);
 
-        $value = explode("/",$value);
+        $value = explode("/", $value);
 
-        if (count($value) < 3){
+        if (count($value) < 3) {
             return date('Y-m-d');
         }
 
-        if ($outputType == "yyyy/mm/dd" && strlen($value[0]) <= 2){
+        if ($outputType == "yyyy/mm/dd" && strlen($value[0]) <= 2) {
             return $value[2] . '/' . $value[1] . '/' . $value[0];
         }
         return $value[0] . '/' . $value[1] . '/' . $value[2];
@@ -142,31 +145,60 @@ class Formatter extends Model
         return html_entity_decode(Str::words($taglessDescription, $numberWord, '....'));
     }
 
-    public static function toUnderline($input){
+    public static function toUnderline($input)
+    {
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $input));
     }
 
-    public static function formatMoney($input){
+    public static function formatMoney($input)
+    {
         if (empty($input)) return 0;
         return number_format($input);
     }
 
-    public static function formatNumber($input){
+    public static function formatNumber($input)
+    {
         if (empty($input)) return 0;
         return number_format($input);
     }
 
-    public static function formatNumberToDatabase($input){
+    public static function formatNumberToDatabase($input)
+    {
         if (empty($input)) return 0;
-        return (int) filter_var($input, FILTER_SANITIZE_NUMBER_INT);
+        return (int)filter_var($input, FILTER_SANITIZE_NUMBER_INT);
     }
 
-    public static function formatMoneyToDatabase($input){
+    public static function formatMoneyToDatabase($input)
+    {
         if (empty($input)) return 0;
-        return (int) filter_var($input, FILTER_SANITIZE_NUMBER_INT);
+        return (int)filter_var($input, FILTER_SANITIZE_NUMBER_INT);
     }
 
-    public static function hash($input){
+    public static function hash($input)
+    {
         return Hash::make($input);
+    }
+
+    public static function trimer($input)
+    {
+        return $input;
+    }
+
+    public static function convertDateVNToEng($input)
+    {
+        $input = str_replace("/", "-", $input);
+        $values = explode("-", $input);
+        return $values[2] . "-" . $values['1'] . "-" . $values[0];
+    }
+
+    public static function abb($input)
+    {
+//        $input = ThapNhiBatTuDayCalendar::create($input);
+
+        foreach ($input as $item) {
+            $input = GoodStarCalendar::create($item);
+            dd($input);
+        }
+
     }
 }

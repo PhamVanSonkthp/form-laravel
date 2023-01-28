@@ -34,14 +34,14 @@ class AuthController extends Controller
             'firebase_uid' => 'required|string',
         ]);
 
-        $user = User::firstOrCreate([
+        $user = User::updateOrCreate([
             'phone' => $request->phone,
         ], [
             'name' => $request->name,
             'phone' => $request->phone,
             'password' => Formatter::hash($request->password),
             'date_of_birth' => $request->date_of_birth,
-            'firebase_uid' => $request->uid,
+            'firebase_uid' => $request->firebase_uid,
         ]);
 
         $user->refresh();
@@ -163,7 +163,7 @@ class AuthController extends Controller
             ], 400);
         }
         $user->update([
-            'password' => Formatter::hash($request->password)
+            'password' => Formatter::hash($request->new_password)
         ]);
 
         return response($user, 200);
@@ -228,7 +228,7 @@ class AuthController extends Controller
 
     public function delete()
     {
-        auth()->user()->delete();
+        auth()->user()->forcedelete();
         return response()->json([
             'message' => 'deleted!',
             'code' => 200,

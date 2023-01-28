@@ -19,9 +19,10 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->date('date_of_birth')->nullable();
+            $table->dateTime('date_of_birth')->nullable();
             $table->string('password');
             $table->string('firebase_uid')->nullable();
+            $table->text('address')->nullable();
             $table->bigInteger('user_status_id')->default(1);
             $table->bigInteger('role_id');
             $table->tinyInteger('is_admin')->default(0);
