@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 use Rinvex\Attributes\Traits\Attributable;
+use function PHPUnit\Framework\isNull;
 
 class Product extends Model implements Auditable
 {
@@ -19,7 +20,7 @@ class Product extends Model implements Auditable
 
     protected $guarded = [];
 
-//    protected $with = ['eav'];
+    protected $with = ['eav'];
 
     // begin
 
@@ -30,6 +31,23 @@ class Product extends Model implements Auditable
     public function toArray()
     {
         $array = parent::toArray();
+        $array['image_path_avatar'] = $this->avatar();
+
+        $array['path_images'] = $this->images;
+        if (count($array['path_images']) == 0){
+            $array['path_images'][] = [
+                'id' => "0",
+                'uuid' => "none",
+                'image_path' => $this->feature_image_path,
+                'image_name' => "feature_image_path",
+                'table' => "feature_image_path",
+                'relate_id' => 0,
+                'index' => 0,
+                'status_image_id' => 0,
+                'created_at' => "none",
+                'updated_at' => "none",
+            ];
+        }
         $array['star'] = $this->star();
         $array['category'] = $this->category;
         $array['price'] = $this->priceSale();
@@ -97,14 +115,42 @@ class Product extends Model implements Auditable
         foreach ($products as $item){
             $temp = [];
             $temp['id'] = $item->id;
-            $temp['size'] = $item->sizes;
-            $temp['color'] = $item->colors;
+            $temp['size'] = $item->size;
+            $temp['color'] = $item->color;
             $temp['inventory'] = $item->inventory;
+
+            if (is_null($temp['size']) || is_null($temp['color'])) continue;
 
             $results[] = $temp;
         }
 
         return $results;
+    }
+
+    public function attributesJson()
+    {
+        $products = $this->where('group_product_id', $this->group_product_id)->get();
+
+        $resultsSize = [];
+        $resultsColor = [];
+
+        foreach ($products as $item){
+            $tempSize = $item->size;
+            $tempColor = $item->color;
+
+            if (is_null($tempSize)) continue;
+            $resultsSize[] = $tempSize;
+
+            if (is_null($tempColor)) continue;
+            $resultsColor[] = $tempColor;
+        }
+
+        $result = [
+            'sizes' => $resultsSize,
+            'colors' => $resultsColor,
+        ];
+
+        return $result;
     }
 
     public function category(){
@@ -170,7 +216,6 @@ class Product extends Model implements Auditable
             'price_agent' => Formatter::formatMoneyToDatabase($request->price_agent),
             'category_id' => $this->firstOrCreateCategory($request->category_id),
             'inventory' => Formatter::formatNumberToDatabase($request->inventory),
-            'note' => $request->note,
         ];
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -190,7 +235,6 @@ class Product extends Model implements Auditable
             'price_agent' => Formatter::formatMoneyToDatabase($request->price_agent),
             'category_id' => $this->firstOrCreateCategory($request->category_id),
             'inventory' => Formatter::formatNumberToDatabase($request->inventory),
-            'note' => $request->note,
         ];
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);

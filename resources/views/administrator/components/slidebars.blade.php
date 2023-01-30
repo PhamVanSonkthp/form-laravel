@@ -28,16 +28,16 @@
                 </li>
             @endcan
 
-            @can('chats-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/chats">
-                        <i class="fas fa-thin fa-comment"></i>
-                        <span>Chat</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
+{{--            @can('chats-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/chats">--}}
+{{--                        <i class="fas fa-thin fa-comment"></i>--}}
+{{--                        <span>Chat</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
 
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
@@ -53,6 +53,18 @@
                                 href="/administrator/calendars">
                                 <i class="fas fa-thin fa-envelope"></i>
                                 <span>Lịch vạn niên</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                    @can('quotations-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/quotations">
+                                <i class="fas fa-solid fa-newspaper"></i>
+                                <span>Danh ngôn</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
                         </li>
@@ -182,16 +194,16 @@
                         </li>
                     @endcan
 
-                        @can('sliders-list')
-                            <li>
-                                <a
-                                    class="sidebar-link sidebar-title link-nav" href="/administrator/system-branches">
-                                    <i class="fas fa-thin fa-pager"></i>
-                                    <span>Hệ thống cửa hàng</span>
-                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                        @endcan
+                    @can('sliders-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/system-branches">
+                                <i class="fas fa-thin fa-pager"></i>
+                                <span>Hệ thống cửa hàng</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
 
                     @can('logos-list')
                         <li>
@@ -223,18 +235,6 @@
                                 href="/administrator/news">
                                 <i class="fas fa-solid fa-newspaper"></i>
                                 <span>Tin tức</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('quotations-list')
-                        <li>
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/quotations">
-                                <i class="fas fa-solid fa-newspaper"></i>
-                                <span>Danh ngôn</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
                         </li>

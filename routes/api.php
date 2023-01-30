@@ -40,6 +40,7 @@ Route::prefix('public')->group(function () {
 
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'list']);
+        Route::get('/{id}', [ProductController::class, 'get']);
     });
 
     Route::prefix('news')->group(function () {
@@ -75,23 +76,23 @@ Route::prefix('user')->group(function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::prefix('auth')->group(function () {
-
             Route::post('/logout', [AuthController::class, 'logout']);
         });
 
         Route::prefix('profile')->group(function () {
-
             Route::put('/', [AuthController::class, 'update']);
             Route::post('/avatar', [AuthController::class, 'updateAvatar']);
             Route::delete('/', [AuthController::class, 'delete']);
-
         });
 
         Route::prefix('notification')->group(function () {
-
             Route::get('/', [NotificationController::class, 'list']);
+            Route::get('/count-not-read', [NotificationController::class, 'countNotRead']);
             Route::post('/read/{id}', [NotificationController::class, 'read']);
+        });
 
+        Route::prefix('product-seen-recent')->group(function () {
+            Route::get('/', [ProductController::class, 'productSeenRecent']);
         });
     });
 

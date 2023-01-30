@@ -10,7 +10,7 @@
 
     <form action="{{route('administrator.'.$prefixView.'.store')}}" method="post" enctype="multipart/form-data">
         @csrf
-        <div class="col-md-6">
+        <div class="col-md-12">
 
             @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên'])
 

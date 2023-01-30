@@ -12,7 +12,7 @@
           enctype="multipart/form-data">
         @method('PUT')
         @csrf
-        <div class="col-md-6">
+        <div class="col-md-12">
 
             @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên'])
 
@@ -30,7 +30,7 @@
 
             @include('administrator.components.require_input_text' , ['name' => 'short_description' , 'label' => 'Mô tả ngắn'])
 
-            @include('administrator.components.textarea_description')
+            @include('administrator.components.require_textarea_description', ['name' => 'description' , 'label' => 'Mô tả'])
 
             @include('administrator.components.select_category' , ['name' => 'category_id' ,'html_category' => \App\Models\Category::getCategory(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])
 

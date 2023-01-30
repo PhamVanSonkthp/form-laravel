@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,12 +16,28 @@ class Slider extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use StorageImageTrait;
+    use DeleteModelTrait;
 
     protected $guarded = [];
 
     public function getTableName()
     {
         return Helper::getTableName($this);
+    }
+
+    public function avatar($size = "100x100")
+    {
+        return Helper::getDefaultIcon($this, $size);
+    }
+
+    public function image()
+    {
+        return Helper::image($this);
+    }
+
+    public function images()
+    {
+        return Helper::images($this);
     }
 
     public function createdBy(){
@@ -35,10 +52,7 @@ class Slider extends Model implements Auditable
     public function storeByQuery($request)
     {
         $dataInsert = [
-            'user_id' => $request->id,
-            'title' => $request->subject,
-            'content' => $request->contents,
-            'time_send' => $request->time_send,
+            'link' => $request->link,
         ];
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -54,6 +68,11 @@ class Slider extends Model implements Auditable
 
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);
+    }
+
+    public function deleteByQuery($request, $id, $forceDelete = false)
+    {
+        return Helper::deleteByQuery($this, $request, $id, $forceDelete);
     }
 
     public function findById($id)

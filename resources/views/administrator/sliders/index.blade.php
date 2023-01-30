@@ -43,7 +43,7 @@
                                         </td>
                                         <td>{{$item->id}}</td>
                                         <td>
-                                            <img src="{{ \App\Models\Formatter::getThumbnailImage($item->feature_image_path)}}">
+                                            <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
                                         </td>
                                         <td>
                                             <a href="{{$item->link}}" target="_blank">{{$item->link}}</a>
@@ -55,7 +55,7 @@
 
                                             <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
                                                data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-danger btn-sm delete">
+                                               class="btn btn-outline-danger btn-sm delete action_delete">
                                                 <i class="fa-solid fa-x"></i>
                                             </a>
 

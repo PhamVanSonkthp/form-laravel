@@ -18,7 +18,7 @@ class SliderController extends Controller
     public function __construct(Slider $model)
     {
         $this->initBaseModel($model);
-        $this->isSingleImage = false;
+        $this->isSingleImage = true;
         $this->isMultipleImages = false;
         $this->shareBaseModel($model);
     }
@@ -59,7 +59,7 @@ class SliderController extends Controller
 
     public function delete(Request $request, $id)
     {
-        return $this->deleteByQuery($request, $id, $this->model, $this->forceDelete);
+        return $this->model->deleteByQuery($request, $id, $this->forceDelete);
     }
 
     public function deleteManyByIds(Request $request)

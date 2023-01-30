@@ -24,7 +24,7 @@ class Helper extends Model
         try {
             $item = DB::table($table)->orderBy('id', 'DESC')->first();
 
-            if (empty($item)){
+            if (empty($item)) {
                 return 1;
             }
 
@@ -46,9 +46,9 @@ class Helper extends Model
     {
         $image = $object->image;
 
-        if (!empty($image)) {
-            return Formatter::getThumbnailImage($image->image_path, $size);
-        }
+        if (!empty($image)) return Formatter::getThumbnailImage($image->image_path, $size);
+
+        if (!empty($object->feature_image_path)) return $object->feature_image_path;
 
         return config('_my_config.default_avatar');
     }
@@ -56,11 +56,14 @@ class Helper extends Model
     public static function image($object)
     {
         $item = $object->hasOne(SingleImage::class, 'relate_id', 'id')->where('table', $object->getTable());
-        if (empty($item)) {
-            return $object->hasOne(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
+
+        $isSingle = SingleImage::where('relate_id', $object->id)->where('table', $object->getTable())->first();
+
+        if (!empty($isSingle)) {
+            return $item;
         }
 
-        return $item;
+        return $object->hasOne(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
     }
 
     public static function images($object)
@@ -68,11 +71,12 @@ class Helper extends Model
         return $object->hasMany(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
     }
 
-    public static function getAllColumsOfTable($object){
+    public static function getAllColumsOfTable($object)
+    {
         return Schema::getColumnListing($object->getTableName());
     }
 
-    public static function searchByQuery($object, $request, $queries = [],$randomRecord = null, $makeHiddens = null, $isCustom= false)
+    public static function searchByQuery($object, $request, $queries = [], $randomRecord = null, $makeHiddens = null, $isCustom = false)
     {
         $columns = Schema::getColumnListing($object->getTableName());
         $query = $object->query();
@@ -85,7 +89,7 @@ class Helper extends Model
 
             if (in_array($key, $searchColumnBanned)) continue;
 
-            if ( in_array($key, $searchLikeColumns)) {
+            if (in_array($key, $searchLikeColumns)) {
                 if (!empty($item) || strlen($item) > 0) {
 
                     $query = $query->where(function ($query) use ($item, $columns, $searchLikeColumns) {
@@ -104,7 +108,7 @@ class Helper extends Model
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->whereDate('created_at', '<=', $item);
                 }
-            }else{
+            } else {
                 if (!in_array($key, $columns)) continue;
                 if (!empty($item) || strlen($item) > 0) {
                     $query = $query->where($key, $item);
@@ -112,13 +116,13 @@ class Helper extends Model
             }
         }
 
-        if (is_array($queries)){
+        if (is_array($queries)) {
             foreach ($queries as $key => $item) {
                 $item = trim($item);
 
                 if (in_array($key, $searchColumnBanned)) continue;
 
-                if ( in_array($key, $searchLikeColumns)) {
+                if (in_array($key, $searchLikeColumns)) {
                     if (!empty($item) || strlen($item) > 0) {
 
                         $query = $query->where(function ($query) use ($item, $columns, $searchLikeColumns) {
@@ -155,14 +159,14 @@ class Helper extends Model
             }
         }
 
-        if ($isCustom){
+        if ($isCustom) {
             return $query;
         }
 
         $items = $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
 
-        if (!empty($makeHiddens) && is_array($makeHiddens)){
-            foreach ($items as $item){
+        if (!empty($makeHiddens) && is_array($makeHiddens)) {
+            foreach ($items as $item) {
                 $item->makeHidden($makeHiddens)->toArray();
             }
         }
@@ -280,7 +284,7 @@ class Helper extends Model
     public static function deleteManyByIds($object, $request, $forceDelete = false)
     {
         $items = [];
-        foreach ($request->ids as $id){
+        foreach ($request->ids as $id) {
             $item = $object->deleteModelTrait($id, $object, $forceDelete);
             $items[] = $item;
         }
@@ -306,9 +310,9 @@ class Helper extends Model
     public static function logoImagePath()
     {
         $logo = Logo::first();
-        if (empty($logo)){
+        if (empty($logo)) {
             $table = 'logos';
-        }else{
+        } else {
             $table = $logo->getTableName();
         }
 
@@ -317,7 +321,7 @@ class Helper extends Model
 
     public static function sendNotificationToTopic($topicName, $title, $body, $save = false, $user_id = null, $image_path = null, $activity = null)
     {
-        if ($save && !empty($user_id)){
+        if ($save && !empty($user_id)) {
             UserNotification::create([
                 'user_id' => $user_id,
                 'title' => $title,

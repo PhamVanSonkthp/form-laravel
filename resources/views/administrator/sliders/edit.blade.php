@@ -15,7 +15,7 @@
                   enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
-                <div class="col-md-6">
+                <div class="col-md-12">
 
                     <div class="form-group">
                         <label>Link</label>
@@ -26,15 +26,17 @@
                         @enderror
                     </div>
 
-                    <div class="form-group mt-3">
-                        <label>Ảnh đại diện</label>
-                        <input type="file" name="feature_image_path" class="form-control-file" accept="image/*">
-                        <div class="col-md-4 container_feature_image">
-                            <div class="row">
-                                <img class="feature_image" src="{{$item->feature_image_path}}" alt="">
-                            </div>
+                    @if($isSingleImage)
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_image', ['post_api' => $imagePostUrl, 'table' => $table, 'image' => $imagePathSingple , 'relate_id' => $relateImageTableId])
                         </div>
-                    </div>
+                    @endif
+
+                    @if($isMultipleImages)
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_multiple_images', ['post_api' => $imageMultiplePostUrl, 'delete_api' => $imageMultipleDeleteUrl , 'sort_api' => $imageMultipleSortUrl, 'table' => $table , 'images' => $imagesPath,'relate_id' => $relateImageTableId])
+                        </div>
+                    @endif
 
                     <button type="submit" class="btn btn-primary mt-3">Lưu thay đổi</button>
 

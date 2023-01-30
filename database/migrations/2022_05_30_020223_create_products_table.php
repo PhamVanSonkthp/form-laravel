@@ -34,8 +34,9 @@ class CreateProductsTable extends Migration
             $table->string('bar_code')->nullable();
             $table->text('seo_title')->nullable();
             $table->text('seo_description')->nullable();
-            $table->integer('weight')->default(0);
+            $table->float('weight')->default(0);
             $table->string('type_weight')->default('kg');
+            $table->string('feature_image_path')->nullable();
             $table->timestamps();
         });
     }

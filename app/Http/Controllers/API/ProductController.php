@@ -12,6 +12,7 @@ use App\Models\ParticipantChat;
 use App\Models\Product;
 use App\Models\RestfulAPI;
 use App\Models\User;
+use App\Models\UserProductRecent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,7 +34,6 @@ class ProductController extends Controller
         ]);
 
         $queries = ['product_visibility_id' => 2];
-        //, 'price_client', 'price_agent'
         $results = RestfulAPI::response($this->model, $request, $queries, null, ['price_import'], true);
 
         if (isset($request->min_price)){
@@ -51,6 +51,37 @@ class ProductController extends Controller
         }
 
         $results = $results->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+
+        return response()->json($results);
+    }
+
+    public function get(Request $request, $id)
+    {
+        $item = $this->model->findById($id);
+
+        if (empty($item)) return abort(404);
+
+        $item['attributes'] = $item->attributes();
+        $item['attributes_json'] = $item->attributesJson();
+
+        if (auth('sanctum')->check()){
+            $user = auth('sanctum')->user();
+
+            $userProductRecent = UserProductRecent::firstOrCreate([
+                'user_id' => $user->id,
+                'product_id' => $item->id,
+            ]);
+
+            $userProductRecent->increment('count');
+        }
+
+        return response()->json($item);
+    }
+
+    public function productSeenRecent(Request $request)
+    {
+        $queries = ['user_id' => auth()->id()];
+        $results = RestfulAPI::response(new UserProductRecent, $request, $queries);
 
         return response()->json($results);
     }
