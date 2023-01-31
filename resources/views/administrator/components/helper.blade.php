@@ -1,6 +1,6 @@
 <script>
 
-    let input_query_from, input_query_to
+    let input_query_from = "", input_query_to = ""
 
     @if(!empty(request('from')))
         input_query_from = "{{request('from')}}"

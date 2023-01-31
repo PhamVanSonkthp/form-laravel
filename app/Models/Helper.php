@@ -68,6 +68,12 @@ class Helper extends Model
 
     public static function images($object)
     {
+        $item = $object->hasOne(SingleImage::class, 'relate_id', 'id')->where('table', $object->getTable());
+        $isSingle = SingleImage::where('relate_id', $object->id)->where('table', $object->getTable())->first();
+        if (!empty($isSingle)) {
+            return $item;
+        }
+
         return $object->hasMany(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
     }
 

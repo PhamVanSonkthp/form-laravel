@@ -20,6 +20,14 @@ class Slider extends Model implements Auditable
 
     protected $guarded = [];
 
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['image_path_avatar'] = $this->avatar();
+        $array['path_images'] = $this->images;
+        return $array;
+    }
+
     public function getTableName()
     {
         return Helper::getTableName($this);

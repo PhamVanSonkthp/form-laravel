@@ -86,7 +86,7 @@
                                 class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/categories">
                                 <i class="fas fa-thin fa-envelope"></i>
-                                <span>Danh mục</span>
+                                <span>Danh mục sản phẩm</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
                         </li>

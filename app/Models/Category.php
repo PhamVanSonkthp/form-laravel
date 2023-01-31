@@ -39,6 +39,14 @@ class Category extends Model implements Auditable
         return $this->rootParent($item);
     }
 
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['image_path_avatar'] = $this->avatar();
+        $array['path_images'] = $this->images;
+        return $array;
+    }
+
     public function getTableName()
     {
         return Helper::getTableName($this);

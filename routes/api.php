@@ -8,6 +8,7 @@ use App\Http\Controllers\API\CategoryProductsController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\SliderController;
 use App\Http\Controllers\API\SystemBranchController;
 use App\Http\Requests\Chat\ParticipantAddRequest;
 use App\Http\Requests\PusherChatRequest;
@@ -57,6 +58,10 @@ Route::prefix('public')->group(function () {
 
     Route::prefix('system-branches')->group(function () {
         Route::get('/', [SystemBranchController::class, 'list']);
+    });
+
+    Route::prefix('slider')->group(function () {
+        Route::get('/', [SliderController::class, 'list']);
     });
 
     Route::prefix('calendars')->group(function () {
