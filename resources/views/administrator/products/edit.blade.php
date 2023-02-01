@@ -38,7 +38,9 @@
 
             @include('administrator.components.require_input_number' , ['name' => 'price_client' , 'label' => 'Giá bán lẻ'])
 
-            @include('administrator.components.require_input_number' , ['name' => 'price_agent' , 'label' => 'Giá bán buôn'])
+            @include('administrator.components.require_input_number' , ['name' => 'price_agent' , 'label' => 'Giá bán buôn (đại lý)'])
+
+            @include('administrator.components.require_input_number' , ['name' => 'price_partner' , 'label' => 'Giá CTV (Cộng tác viên)'])
 
             @include('administrator.components.require_input_number' , ['name' => 'inventory' , 'label' => 'Tồn kho'])
 

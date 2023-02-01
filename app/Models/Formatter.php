@@ -191,14 +191,9 @@ class Formatter extends Model
         return $values[2] . "-" . $values['1'] . "-" . $values[0];
     }
 
-    public static function abb($input)
+    public static function getOnlyNumber($input)
     {
-//        $input = ThapNhiBatTuDayCalendar::create($input);
-
-        foreach ($input as $item) {
-            $input = GoodStarCalendar::create($item);
-            dd($input);
-        }
-
+        if (empty($input)) return 0;
+        return (int)filter_var($input, FILTER_SANITIZE_NUMBER_INT);
     }
 }

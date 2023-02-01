@@ -44,6 +44,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $this->model->storeByQuery($request);
         return redirect()->route('administrator.'.$this->prefixView.'.index');
     }

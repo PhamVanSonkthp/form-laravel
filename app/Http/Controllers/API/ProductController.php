@@ -38,8 +38,8 @@ class ProductController extends Controller
 
         if (isset($request->min_price)){
             $results = $results->where(function ($query) use ($request) {
-                $query->where('price_client', '=>', $request->min_price)
-                    ->orWhere('price_agent', '=>', $request->min_price);
+                $query->where('price_client', '>=', $request->min_price)
+                    ->orWhere('price_agent', '>=', $request->min_price);
             });
         }
 

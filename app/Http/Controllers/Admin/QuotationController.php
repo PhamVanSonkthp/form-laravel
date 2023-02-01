@@ -17,6 +17,8 @@ class QuotationController extends Controller
     public function __construct(Quotation $model)
     {
         $this->initBaseModel($model);
+        $this->isSingleImage = false;
+        $this->isMultipleImages = false;
         $this->shareBaseModel($model);
     }
 

@@ -214,6 +214,7 @@ class Product extends Model implements Auditable
             'price_import' => Formatter::formatMoneyToDatabase($request->price_import),
             'price_client' => Formatter::formatMoneyToDatabase($request->price_client),
             'price_agent' => Formatter::formatMoneyToDatabase($request->price_agent),
+            'price_partner' => Formatter::formatMoneyToDatabase($request->price_partner),
             'category_id' => $this->firstOrCreateCategory($request->category_id),
             'inventory' => Formatter::formatNumberToDatabase($request->inventory),
         ];
@@ -233,6 +234,7 @@ class Product extends Model implements Auditable
             'price_import' => Formatter::formatMoneyToDatabase($request->price_import),
             'price_client' => Formatter::formatMoneyToDatabase($request->price_client),
             'price_agent' => Formatter::formatMoneyToDatabase($request->price_agent),
+            'price_partner' => Formatter::formatMoneyToDatabase($request->price_partner),
             'category_id' => $this->firstOrCreateCategory($request->category_id),
             'inventory' => Formatter::formatNumberToDatabase($request->inventory),
         ];

@@ -34,7 +34,8 @@
                                     <th>Mô tả ngắn</th>
                                     <th>Danh mục</th>
                                     <th>Giá bán lẻ</th>
-                                    <th>Giá bán buôn</th>
+                                    <th>Giá bán buôn (đại lý)</th>
+                                    <th>Giá CTV</th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
@@ -59,7 +60,10 @@
                                             {{\App\Models\Formatter::formatMoney($item->price_client)}}
                                         </td>
                                         <td>
-                                            {{\App\Models\Formatter::formatMoney($item->price_client)}}
+                                            {{\App\Models\Formatter::formatMoney($item->price_agent)}}
+                                        </td>
+                                        <td>
+                                            {{\App\Models\Formatter::formatMoney($item->price_partner)}}
                                         </td>
                                         <td>
                                             <a class="btn btn-outline-secondary btn-sm edit"

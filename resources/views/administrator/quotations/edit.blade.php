@@ -16,7 +16,9 @@
                 @method('PUT')
                 @csrf
                 <div class="col-md-12">
-                    @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên'])
+                    @include('administrator.components.require_input_text' , ['name' => 'description' , 'label' => "Câu danh ngôn"])
+
+                    @include('administrator.components.require_input_text' , ['name' => 'author' , 'label' => 'Tác giả'])
 
                     @if($isSingleImage)
                         <div class="mt-3 mb-3">
@@ -29,8 +31,6 @@
                             @include('administrator.components.upload_multiple_images', ['post_api' => $imageMultiplePostUrl, 'delete_api' => $imageMultipleDeleteUrl , 'sort_api' => $imageMultipleSortUrl, 'table' => $table , 'images' => $imagesPath,'relate_id' => $relateImageTableId])
                         </div>
                     @endif
-
-                    @include('administrator.components.textarea_description')
 
                     @include('administrator.components.button_save')
 
