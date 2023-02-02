@@ -206,6 +206,45 @@ class Product extends Model implements Auditable
     public function storeByQuery($request)
     {
 
+//        if (isset($request->headers) && isset($request->attributes) && !empty($request->headers) && !empty($request->attributes)){
+//            $headers = json_decode($request->headers);
+//            $attributes = json_decode($request->attributes);
+//
+//            if (count($headers) == 1){
+//                app('rinvex.attributes.attribute')->create([
+//                    'slug' => Formatter::slug($headers[0]),
+//                    'type' => 'varchar',
+//                    'name' => ['vi' => $headers[0], 'en' => $headers[0]],
+//                    'entities' => ['App\Models\Product'],
+//                ]);
+//
+//                for ($i = 0 ; $i < count($attributes[0]);$i++){
+//
+//                    $dataInsert = [
+//                        'name' => $request->name,
+//                        'short_description' => $request->short_description,
+//                        'description' => $request->description,
+//                        'slug' => Helper::addSlug($this,'slug', $request->title),
+//                        'price_import' => Formatter::formatMoneyToDatabase($request->price_import),
+//                        'price_client' => Formatter::formatMoneyToDatabase($request->price_client),
+//                        'price_agent' => Formatter::formatMoneyToDatabase($request->price_agent),
+//                        'price_partner' => Formatter::formatMoneyToDatabase($request->price_partner),
+//                        'category_id' => $this->firstOrCreateCategory($request->category_id),
+//                        'inventory' => Formatter::formatNumberToDatabase($request->inventory),
+//                    ];
+//
+//                    $item = Helper::storeByQuery($this, $request, $dataInsert);
+//
+//                    $item->fill([Formatter::slug($headers[0]) => $attributes[0][$i]])->save();
+//                }
+//            }else{
+//
+//            }
+//
+//        }else{
+//
+//        }
+
         $dataInsert = [
             'name' => $request->name,
             'short_description' => $request->short_description,

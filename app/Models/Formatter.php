@@ -196,4 +196,9 @@ class Formatter extends Model
         if (empty($input)) return 0;
         return (int)filter_var($input, FILTER_SANITIZE_NUMBER_INT);
     }
+
+    public static function slug($input)
+    {
+        return Str::slug($input);
+    }
 }

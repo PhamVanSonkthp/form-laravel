@@ -297,7 +297,7 @@
                                                 <div class="date f-24 mb-2" id="date"><span
                                                         id="monthDay"></span><span id="year">, </span></div>
                                                 <div>
-                                                    <p class="m-0 f-14 text-light">kolkata, India</p>
+                                                    <p class="m-0 f-14 text-light">Hà nội</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -479,72 +479,72 @@
                         </div>
                     </div>
                 </div>
-                <div class="box-col-12">
-                    <div>
-                        <div class="card">
-                            <div class="card-header pb-0">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <h5>Recent Activity</h5>
-                                    </div>
-                                    <div class="icon-box onhover-dropdown"><i data-feather="more-horizontal"></i>
-                                        <div class="icon-box-show onhover-show-div">
-                                            <ul>
-                                                <li><a>
-                                                        Done</a></li>
-                                                <li><a>
-                                                        Pending</a></li>
-                                                <li><a>
-                                                        Rejected</a></li>
-                                                <li><a>In Progress</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="activity-media">
-                                    <div class="media">
-                                        <div class="recent-circle bg-primary"></div>
-                                        <div class="media-body">
-                                            <h6 class="font-roboto">Any desktop publishing pack ages editors.</h6>
-                                            <span><i class="me-2" data-feather="clock"></i><span
-                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="recent-circle bg-primary"></div>
-                                        <div class="media-body">
-                                            <h6 class="font-roboto">
-                                                Contrary to popular belief, Lorem Ipsum
-                                                is not simply.
-                                            </h6><span><i class="me-2" data-feather="clock"></i><span
-                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="recent-circle bg-primary"></div>
-                                        <div class="media-body">
-                                            <h6 class="font-roboto">Established fact that a reader will be
-                                                distracted lorem.</h6><span><i class="me-2"
-                                                                               data-feather="clock"></i><span
-                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="recent-circle bg-primary"></div>
-                                        <div class="media-body">
-                                            <h6 class="font-roboto">Established fact that a reader will be
-                                                distracted lorem.</h6><span><i class="me-2"
-                                                                               data-feather="clock"></i><span
-                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="box-col-12">--}}
+{{--                    <div>--}}
+{{--                        <div class="card">--}}
+{{--                            <div class="card-header pb-0">--}}
+{{--                                <div class="media">--}}
+{{--                                    <div class="media-body">--}}
+{{--                                        <h5>Recent Activity</h5>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="icon-box onhover-dropdown"><i data-feather="more-horizontal"></i>--}}
+{{--                                        <div class="icon-box-show onhover-show-div">--}}
+{{--                                            <ul>--}}
+{{--                                                <li><a>--}}
+{{--                                                        Done</a></li>--}}
+{{--                                                <li><a>--}}
+{{--                                                        Pending</a></li>--}}
+{{--                                                <li><a>--}}
+{{--                                                        Rejected</a></li>--}}
+{{--                                                <li><a>In Progress</a></li>--}}
+{{--                                            </ul>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-body">--}}
+{{--                                <div class="activity-media">--}}
+{{--                                    <div class="media">--}}
+{{--                                        <div class="recent-circle bg-primary"></div>--}}
+{{--                                        <div class="media-body">--}}
+{{--                                            <h6 class="font-roboto">Any desktop publishing pack ages editors.</h6>--}}
+{{--                                            <span><i class="me-2" data-feather="clock"></i><span--}}
+{{--                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="media">--}}
+{{--                                        <div class="recent-circle bg-primary"></div>--}}
+{{--                                        <div class="media-body">--}}
+{{--                                            <h6 class="font-roboto">--}}
+{{--                                                Contrary to popular belief, Lorem Ipsum--}}
+{{--                                                is not simply.--}}
+{{--                                            </h6><span><i class="me-2" data-feather="clock"></i><span--}}
+{{--                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="media">--}}
+{{--                                        <div class="recent-circle bg-primary"></div>--}}
+{{--                                        <div class="media-body">--}}
+{{--                                            <h6 class="font-roboto">Established fact that a reader will be--}}
+{{--                                                distracted lorem.</h6><span><i class="me-2"--}}
+{{--                                                                               data-feather="clock"></i><span--}}
+{{--                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="media">--}}
+{{--                                        <div class="recent-circle bg-primary"></div>--}}
+{{--                                        <div class="media-body">--}}
+{{--                                            <h6 class="font-roboto">Established fact that a reader will be--}}
+{{--                                                distracted lorem.</h6><span><i class="me-2"--}}
+{{--                                                                               data-feather="clock"></i><span--}}
+{{--                                                    class="font-roboto">25 July 2017 | 20 hours ago</span></span>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
         </div>
     @else

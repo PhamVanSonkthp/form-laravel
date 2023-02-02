@@ -5,7 +5,19 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login Admin</title>
+    <title>Admin - {{env('APP_NAME')}}</title>
+
+    <meta name="promotion" content="Admin - {{env('APP_NAME')}}">
+    <meta name="Description" content="Admin - {{env('APP_NAME')}}">
+
+    <meta property="og:url" content="{{env('APP_URL') . "/admin"}}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Admin - {{env('APP_NAME')}}" />
+    <meta property="og:description" content="Admin - {{env('APP_NAME')}}" />
+    <meta property="og:image" content="{{ env('APP_URL') . \App\Models\Helper::logoImagePath() }}" />
+
+    <link rel="shortcut icon" href="{{ env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
     <style>

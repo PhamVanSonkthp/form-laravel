@@ -32,13 +32,13 @@
 
             @include('administrator.components.select_category' , ['name' => 'category_id' ,'html_category' => \App\Models\Category::getCategory(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])
 
-            <div id="container_infor_attributes" class="p-3">
-                <label>
-                    Sản phẩm có biển thể
-                </label>
-                <button onclick="addValueAttribute()" type="button" class="btn btn-outline-success"><i
-                        class="fa-solid fa-plus"></i></button>
-            </div>
+{{--            <div id="container_infor_attributes" class="p-3">--}}
+{{--                <label>--}}
+{{--                    Sản phẩm có biển thể--}}
+{{--                </label>--}}
+{{--                <button onclick="addValueAttribute()" type="button" class="btn btn-outline-success"><i--}}
+{{--                        class="fa-solid fa-plus"></i></button>--}}
+{{--            </div>--}}
 
             <div id="bassic_price">
 
@@ -49,75 +49,19 @@
             <input id="attributes" name="attributes" type="text" value="" class="hidden">
 
             <div id="table_bassic_price" class="card p-3 m-3" style="display: none;">
-{{--                <div class="card p-3">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-2">--}}
-{{--                            Loại--}}
-{{--                        </div>--}}
-{{--                        <div class="col-2">--}}
-{{--                            Màu--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            Giá nhập--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            Giá bán lẻ--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            Giá bán buôn--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            Giá CTV--}}
-{{--                        </div>--}}
-{{--                        <div class="col-2">--}}
-{{--                            Kho hàng--}}
-{{--                        </div>--}}
-{{--                        <div class="col-2">--}}
-{{--                            SKU--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
 
-{{--                    <div class="row mt-2 align-items-center">--}}
-{{--                        <div class="col-2">--}}
-{{--                            <div>--}}
-{{--                                45 cm--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-2">--}}
-{{--                            Xanh--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            <input type="text" autocomplete="off" class="form-control number" value="" required>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            <input type="text" autocomplete="off" class="form-control number" value="" required>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            <input type="text" autocomplete="off" class="form-control number" value="" required>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-1">--}}
-{{--                            <input type="text" autocomplete="off" class="form-control number" value="" required>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-2">--}}
-{{--                            <input type="text" autocomplete="off" class="form-control number" value="" required>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-2">--}}
-{{--                            <input type="text" autocomplete="off" class="form-control" value="">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
             </div>
 
             <div id="price">
-                @include('administrator.components.require_input_number' , ['name' => 'price_import' , 'label' => 'Giá nhập'])
+                @include('administrator.components.input_number' , ['name' => 'price_import' , 'label' => 'Giá nhập'])
 
-                @include('administrator.components.require_input_number' , ['name' => 'price_client' , 'label' => 'Giá bán lẻ'])
+                @include('administrator.components.input_number' , ['name' => 'price_client' , 'label' => 'Giá bán lẻ'])
 
-                @include('administrator.components.require_input_number' , ['name' => 'price_agent' , 'label' => 'Giá bán buôn (đại lý)'])
+                @include('administrator.components.input_number' , ['name' => 'price_agent' , 'label' => 'Giá bán buôn (đại lý)'])
 
-                @include('administrator.components.require_input_number' , ['name' => 'price_partner' , 'label' => 'Giá CTV (Cộng tác viên)'])
+                @include('administrator.components.input_number' , ['name' => 'price_partner' , 'label' => 'Giá CTV (Cộng tác viên)'])
 
-                @include('administrator.components.require_input_number' , ['name' => 'inventory' , 'label' => 'Tồn kho'])
+                @include('administrator.components.input_number' , ['name' => 'inventory' , 'label' => 'Tồn kho'])
             </div>
 
             @include('administrator.components.button_save')
@@ -140,7 +84,7 @@
                     </div>
 
                     <div class="d-flex mt-3">
-                        <input type="text" autocomplete="off" class="form-control header-attributes" placeholder="Thuộc tính" oninput="renderTableAttribute()">
+                        <input type="text" autocomplete="off" class="form-control header-attributes" placeholder="Thuộc tính" oninput="renderTableAttribute()" required>
                         <button type="button" onclick="addItemValueAttribute(this)" class="btn btn-success ms-1"
                                 data-bs-original-title="" title=""><i class="fa-solid fa-plus"></i></button>
                     </div>
@@ -175,7 +119,7 @@
 
                     <div class="d-flex mt-3">
                         <input type="text" autocomplete="off" class="form-control header-attributes"  oninput="renderTableAttribute()"
-                               placeholder="Thuộc tính">
+                               placeholder="Thuộc tính" required>
                         <button type="button" onclick="addItemValueAttribute(this)" class="btn btn-success ms-1"
                                 data-bs-original-title="" title=""><i class="fa-solid fa-plus"></i></button>
                     </div>
@@ -346,22 +290,22 @@
                     let row = '<div class="row mt-2">'
                     row += `<div class="col-4">${attributes[0][i]}</div>`
                     row += `<div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-2">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-2">
-                            <input type="text" autocomplete="off" class="form-control" value="">
+                            <input name="skus[]" type="text" autocomplete="off" class="form-control" value="">
                         </div>`
 
                     row += "</div>"
@@ -404,22 +348,22 @@
                         row += `<div class="col-2">${attributes[0][i]}</div>`
                         row += `<div class="col-2">${attributes[1][j]}</div>`
                         row += `<div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-1">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-2">
-                            <input type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number" value="" required>
                         </div>
                         <div class="col-2">
-                            <input type="text" autocomplete="off" class="form-control" value="">
+                            <input name="skus[]" type="text" autocomplete="off" class="form-control" value="">
                         </div>`
 
                         row += "</div>"
