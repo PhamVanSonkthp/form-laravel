@@ -376,4 +376,14 @@ class Helper extends Model
         }
 
     }
+
+    public static function errorAPI($code, $data, $message){
+        return [
+            'success' => false,
+            'code' => $code,
+            'data' => $data,
+            'message' => $message
+        ];
+
+    }
 }

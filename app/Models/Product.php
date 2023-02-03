@@ -51,6 +51,7 @@ class Product extends Model implements Auditable
         $array['star'] = $this->star();
         $array['category'] = $this->category;
         $array['price'] = $this->priceSale();
+        $array['price_by_user'] = $this->priceByUser();
         return $array;
     }
 
@@ -60,6 +61,19 @@ class Product extends Model implements Auditable
 
     public function isEmptyInventory(){
         return $this->inventory <= 0;
+    }
+
+    public function priceByUser(){
+        if (auth('sanctum')->check()){
+            $user_type_id = optional(auth('sanctum')->user())->user_type_id;
+            if ($user_type_id == 3){
+                return $this->price_partner;
+            }if ($user_type_id == 2){
+                return $this->price_agent;
+            }
+        }
+
+        return $this->price_client;
     }
 
     public function priceSale(){
@@ -119,7 +133,7 @@ class Product extends Model implements Auditable
             $temp['color'] = $item->color;
             $temp['inventory'] = $item->inventory;
 
-            if (is_null($temp['size']) || is_null($temp['color'])) continue;
+//            if (is_null($temp['size']) || is_null($temp['color'])) continue;
 
             $results[] = $temp;
         }
@@ -145,10 +159,15 @@ class Product extends Model implements Auditable
             $resultsColor[] = $tempColor;
         }
 
-        $result = [
-            'sizes' => $resultsSize,
-            'colors' => $resultsColor,
-        ];
+        $result = [];
+
+        if (!empty($resultsSize) && count($resultsSize) > 0){
+            $result['sizes'] = $resultsSize;
+        }
+
+        if (!empty($resultsColor) && count($resultsColor) > 0){
+            $result['colors'] = $resultsColor;
+        }
 
         return $result;
     }

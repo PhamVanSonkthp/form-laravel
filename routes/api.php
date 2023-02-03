@@ -3,10 +3,12 @@
 use App\Events\ChatPusherEvent;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CalendarController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryNewsController;
 use App\Http\Controllers\API\CategoryProductsController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SliderController;
 use App\Http\Controllers\API\SystemBranchController;
@@ -98,6 +100,18 @@ Route::prefix('user')->group(function () {
 
         Route::prefix('product-seen-recent')->group(function () {
             Route::get('/', [ProductController::class, 'productSeenRecent']);
+        });
+
+        Route::prefix('cart')->group(function () {
+            Route::get('/', [CartController::class, 'list']);
+            Route::post('/', [CartController::class, 'store']);
+            Route::put('/{id}', [CartController::class, 'update']);
+            Route::delete('/{id}', [CartController::class, 'delete']);
+        });
+
+        Route::prefix('order')->group(function () {
+            Route::get('/', [OrderController::class, 'list']);
+            Route::post('/', [OrderController::class, 'store']);
         });
     });
 

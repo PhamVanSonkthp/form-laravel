@@ -89,7 +89,7 @@ class AuthController extends Controller
 
         $user = User::where('phone', $request->phone)->first();
 
-        if (!$user) {
+        if (empty($user)) {
             return response([
                 'message' => "Tài khoản chưa được tạo",
                 'code' => 400,

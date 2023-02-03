@@ -44,42 +44,40 @@ Route::prefix('/')->group(function () {
 //    ]);
 
 //    Route::get('/quot', function () {
-//        $file = fopen("C:\Game\quot.txt", "r");
 //
-//        while (!feof($file)) {
-//            $value = trim(str_replace("-","",str_replace("*", "" ,str_replace("-\t", "", fgets($file)))));
+//        $path = "C:\Game\quot.xlsx";
 //
-//            $values = explode(".", $value);
+//        $reader = ReaderEntityFactory::createReaderFromFile($path);
 //
-//            $description = "";
-//            $author = $values[count($values) - 1];
+//        $reader->open($path);
 //
-//            for ($i = 0; $i < count($values) - 1; $i++){
-//                $description .= $values[$i];
+//        foreach ($reader->getSheetIterator() as $sheet) {
+//            foreach ($sheet->getRowIterator() as $index => $row) {
+//                // do stuff with the row
+//
+//                if ($index > 0) {
+//                    $cells = $row->getCells();
+//
+//                    Quotation::create([
+//                        'description' => Formatter::trimer($cells[1]->getValue()),
+//                        'author' => Formatter::trimer($cells[2]->getValue()),
+//                    ]);
+//
+//                }
 //            }
-//
-//            if (!empty($description) && !empty($author)){
-//                Quotation::create([
-//                    'description' => trim($description),
-//                    'author' => trim($author),
-//                ]);
-//            }
-//
 //        }
-//
-//        fclose($file);
+//        $reader->close();
 //
 //        dd('ok');
 //    });
-//
+
 //    Route::get('/abc', function () {
 //
 //        $max = Quotation::count();
 //
-//
 //        foreach (Calendar::all() as $item){
 //            $item->update([
-//                'quotation_id' => rand(4955, 4955 + $max)
+//                'quotation_id' => rand(6074, 6074 + $max)
 //            ]);
 //        }
 //        dd('123');

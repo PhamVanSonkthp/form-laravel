@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumBankIdToPhieuthusTable extends Migration
+class CreateUserCartsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddColumBankIdToPhieuthusTable extends Migration
      */
     public function up()
     {
-        Schema::table('phieuthues', function (Blueprint $table) {
-            //
+        Schema::create('user_carts', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('user_id')->index();
+            $table->bigInteger('product_id');
+            $table->bigInteger('quantity');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class AddColumBankIdToPhieuthusTable extends Migration
      */
     public function down()
     {
-        Schema::table('phieuthues', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('user_carts');
     }
 }

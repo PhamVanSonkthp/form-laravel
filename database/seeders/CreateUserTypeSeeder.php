@@ -21,5 +21,9 @@ class CreateUserTypeSeeder extends Seeder
         UserType::firstOrCreate([
             "name" => "Đại lý",
         ]);
+
+        UserType::firstOrCreate([
+            "name" => "Cộng tác viên",
+        ]);
     }
 }
