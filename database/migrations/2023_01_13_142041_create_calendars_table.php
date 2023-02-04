@@ -19,6 +19,9 @@ class CreateCalendarsTable extends Migration
             $table->string('weather');
             $table->float('score');
             $table->unsignedBigInteger('quotation_id')->default(0);
+            $table->unsignedBigInteger('new_id')->default(1);
+            $table->text('description')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

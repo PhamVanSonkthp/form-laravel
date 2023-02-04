@@ -1,7 +1,3 @@
-$('select[name="limit"]').on('change', function () {
-    addUrlParameter('limit', this.value)
-});
-
 $(".select2_init_multiple").select2({
     // placeholder: "Chọn",
     // tags: true,
@@ -17,6 +13,11 @@ $(".select2_init_multiple_tag").select2({
 $(".select2_init").select2({
     placeholder: "Chọn",
     // allowClear: true
+});
+
+$(".select2_init_allow_clear").select2({
+    placeholder: "Chọn",
+    allowClear: true
 });
 
 $(".select2_init_tag").select2({

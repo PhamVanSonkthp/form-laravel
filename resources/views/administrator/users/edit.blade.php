@@ -70,7 +70,9 @@
                         @include('administrator.components.upload_image', ['post_api' => route('ajax,administrator.upload_image.store'), 'relate_id' => $item->id , 'table' => 'users', 'image' => $item->avatar("original")])
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-3">Lưu</button>
+                    @include('administrator.components.require_select2' , ['name' => 'user_type_id' , 'label' => 'Mô tả ngắn', 'select2Items' => $userTypes])
+
+                    @include('administrator.components.button_save')
 
                 </div>
             </form>

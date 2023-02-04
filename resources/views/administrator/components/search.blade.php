@@ -33,4 +33,8 @@
         ])
     }
 
+    $('select[name="limit"]').on('change', function () {
+        addUrlParameter('limit', this.value)
+    });
+
 </script>

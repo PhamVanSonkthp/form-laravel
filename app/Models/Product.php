@@ -133,12 +133,26 @@ class Product extends Model implements Auditable
             $temp['color'] = $item->color;
             $temp['inventory'] = $item->inventory;
 
-//            if (is_null($temp['size']) || is_null($temp['color'])) continue;
+            if (is_null($temp['size']) && is_null($temp['color'])) continue;
 
             $results[] = $temp;
         }
 
         return $results;
+    }
+
+    public function getInventoryByAttributes($input){
+        foreach ($this->attributes() as $attribute){
+            if ($attribute['size'] == $input){
+                return $attribute['inventory'];
+            }
+        }
+
+        return 0;
+    }
+
+    public function isProductVariation(){
+        return !empty($this->attributesJson()) && is_array($this->attributesJson()) && count($this->attributesJson()) > 0;
     }
 
     public function attributesJson()
@@ -147,6 +161,9 @@ class Product extends Model implements Auditable
 
         $resultsSize = [];
         $resultsColor = [];
+
+        $resultsSizeFiltered = [];
+        $resultsColorFiltered = [];
 
         foreach ($products as $item){
             $tempSize = $item->size;
@@ -159,14 +176,46 @@ class Product extends Model implements Auditable
             $resultsColor[] = $tempColor;
         }
 
-        $result = [];
+        $attributes = $this->attributes();
 
-        if (!empty($resultsSize) && count($resultsSize) > 0){
-            $result['sizes'] = $resultsSize;
+        foreach ($resultsSize as $resultsSizeItem){
+
+            $isBelong = false;
+
+            foreach ($attributes as $attributeItem){
+                if ($resultsSizeItem == $attributeItem['size'] && !in_array($resultsSizeItem, $resultsSizeFiltered)){
+                    $isBelong = true;
+                    break;
+                }
+            }
+            if ($isBelong){
+                $resultsSizeFiltered[] = $resultsSizeItem;
+            }
         }
 
-        if (!empty($resultsColor) && count($resultsColor) > 0){
-            $result['colors'] = $resultsColor;
+        foreach ($resultsColor as $resultsColorItem){
+
+            $isBelong = false;
+
+            foreach ($attributes as $attributeItem){
+                if ($resultsColorItem == $attributeItem['color'] && !in_array($resultsColorItem, $resultsColorFiltered)){
+                    $isBelong = true;
+                    break;
+                }
+            }
+            if ($isBelong){
+                $resultsColorFiltered[] = $resultsColorItem;
+            }
+        }
+
+        $result = [];
+
+        if (!empty($resultsSizeFiltered) && count($resultsSizeFiltered) > 0){
+            $result['sizes'] = $resultsSizeFiltered;
+        }
+
+        if (!empty($resultsColorFiltered) && count($resultsColorFiltered) > 0){
+            $result['colors'] = $resultsColorFiltered;
         }
 
         return $result;
@@ -217,9 +266,9 @@ class Product extends Model implements Auditable
         return $this->hasOne(User::class,'id','created_by_id');
     }
 
-    public function searchByQuery($request, $queries = [])
+    public function searchByQuery($request, $queries = [], $randomRecord = null, $makeHiddens = null, $isCustom = false)
     {
-        return Helper::searchByQuery($this, $request, $queries);
+        return Helper::searchByQuery($this, $request, $queries, $randomRecord, $makeHiddens, $isCustom);
     }
 
     public function storeByQuery($request)

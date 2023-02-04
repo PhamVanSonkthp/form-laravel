@@ -30,8 +30,7 @@
                                 <tr>
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>#</th>
-                                    <th>Tiêu đề</th>
-                                    <th>Hình ảnh</th>
+                                    <th>Sản phẩm</th>
                                     <th>Thời gian tạo</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -43,7 +42,24 @@
                                             <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
                                         </td>
                                         <td>{{$item->id}}</td>
-                                        <td>{{$item->title}}</td>
+                                        <td>
+                                            @foreach($item->products as $productItem)
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <img class="rounded-circle" src="{{$productItem->avatar()}}" alt="">
+                                                    </div>
+                                                    <div class="col-10">
+                                                        <div>
+                                                            {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->name)}}
+                                                        </div>
+                                                        <div>
+                                                            Phân loại: {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->size)}} {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_size)}},{{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_color)}}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
                                         </td>

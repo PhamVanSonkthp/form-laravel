@@ -16,7 +16,7 @@
                 <div class="card">
 
                     <div class="card-header">
-                        @include('administrator.roles.search')
+                        @include('administrator.'.$prefixView.'.search')
                     </div>
 
                     <div class="card-body">
@@ -31,11 +31,26 @@
                                     <th>#</th>
                                     <th>Tên</th>
                                     <th>Hình ảnh</th>
-                                    <th>Mô tả ngắn</th>
                                     <th>Danh mục</th>
-                                    <th>Giá bán lẻ</th>
-                                    <th>Giá bán buôn (đại lý)</th>
-                                    <th>Giá CTV</th>
+                                    <th width="50%">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                Phân loại
+                                            </div>
+                                            <div class="col-2">
+                                                Tồn kho
+                                            </div>
+                                            <div class="col-2">
+                                                Giá bán lẻ
+                                            </div>
+                                            <div class="col-2">
+                                                Giá bán buôn
+                                            </div>
+                                            <div class="col-2">
+                                                Giá bán CTV
+                                            </div>
+                                        </div>
+                                    </th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
@@ -51,19 +66,54 @@
                                             <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
                                         </td>
                                         <td>
-                                            {{\App\Models\Formatter::getShortDescriptionAttribute($item->short_description, 20)}}
-                                        </td>
-                                        <td>
                                             {{optional($item->category)->name}}
                                         </td>
                                         <td>
-                                            {{\App\Models\Formatter::formatMoney($item->price_client)}}
-                                        </td>
-                                        <td>
-                                            {{\App\Models\Formatter::formatMoney($item->price_agent)}}
-                                        </td>
-                                        <td>
-                                            {{\App\Models\Formatter::formatMoney($item->price_partner)}}
+                                            @if($item->isProductVariation())
+                                                @foreach($item->attributes() as $key => $itemAttribute)
+                                                    <div class="row mt-2">
+                                                        <div class="col-4">
+                                                            <div>
+                                                                {{$itemAttribute['size']}}, {{$itemAttribute['color']}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{\App\Models\Formatter::formatNumber($itemAttribute['inventory'])}}
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{ \App\Models\Formatter::formatMoney( optional(\App\Models\Product::find($itemAttribute['id']))->price_client) }}
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{ \App\Models\Formatter::formatMoney( optional(\App\Models\Product::find($itemAttribute['id']))->price_agent) }}
+                                                        </div>
+                                                        <div class="col-2">
+                                                            {{ \App\Models\Formatter::formatMoney( optional(\App\Models\Product::find($itemAttribute['id']))->price_partner) }}
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div class="row mt-2">
+                                                    <div class="col-4">
+                                                        <div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        {{\App\Models\Formatter::formatNumber($item->inventory)}}
+                                                    </div>
+                                                    <div class="col-2">
+                                                        {{ \App\Models\Formatter::formatMoney( $item->price_client) }}
+                                                    </div>
+                                                    <div class="col-2">
+                                                        {{ \App\Models\Formatter::formatMoney( $item->price_agent) }}
+                                                    </div>
+                                                    <div class="col-2">
+                                                        {{ \App\Models\Formatter::formatMoney( $item->price_partner) }}
+                                                    </div>
+                                                </div>
+
+
+                                            @endif
                                         </td>
                                         <td>
                                             <a class="btn btn-outline-secondary btn-sm edit"

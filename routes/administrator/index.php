@@ -923,5 +923,67 @@ Route::prefix('administrator')->group(function () {
         ]);
     });
 
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.orders.index',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@index',
+            'middleware' => 'can:orders-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.orders.create',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@create',
+            'middleware' => 'can:orders-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.orders.store',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@store',
+            'middleware' => 'can:orders-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.orders.edit',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@edit',
+            'middleware' => 'can:orders-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.orders.update',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@update',
+            'middleware' => 'can:orders-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.orders.delete',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@delete',
+            'middleware' => 'can:orders-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.orders.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@deleteManyByIds',
+            'middleware' => 'can:orders-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.orders.export',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@export',
+            'middleware' => 'can:orders-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.orders.import',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@import',
+            'middleware' => 'can:orders-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.orders.get',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@get',
+            'middleware' => 'can:orders-list',
+        ]);
+    });
+
 });
 

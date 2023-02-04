@@ -176,7 +176,6 @@ class Helper extends Model
                 $item->makeHidden($makeHiddens)->toArray();
             }
         }
-
         return $items;
     }
 

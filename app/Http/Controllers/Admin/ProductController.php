@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Formatter;
 use App\Models\Product;
 use App\Traits\BaseControllerTrait;
 use App\Traits\DeleteModelTrait;
@@ -11,6 +13,7 @@ use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
@@ -23,13 +26,26 @@ class ProductController extends Controller
     public function __construct(Product $model)
     {
         $this->initBaseModel($model);
+        $categories = Category::all();
         $this->shareBaseModel($model);
+        View::share('categories', $categories);
     }
 
     public function index(Request $request)
     {
-        $items = $this->model->searchByQuery($request, ['product_visibility_id' => 2]);
-        return view('administrator.'.$this->prefixView.'.index', compact('items'));
+        $query = $this->model->searchByQuery($request, ['product_visibility_id' => 2], null, null, true);
+
+        if (isset($request->min_inventory) && strlen($request->min_inventory)){
+            $query = $query->where('inventory' ,'>=', $request->min_inventory);
+        }
+
+        if (isset($request->min_inventory) && strlen($request->min_inventory)){
+            $query = $query->where('inventory', '<=', $request->max_inventory);
+        }
+
+        $items = $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+
+        return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 
     public function get(Request $request, $id)
@@ -39,19 +55,19 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('administrator.'.$this->prefixView.'.add');
+        return view('administrator.' . $this->prefixView . '.add');
     }
 
     public function store(Request $request)
     {
         $this->model->storeByQuery($request);
-        return redirect()->route('administrator.'.$this->prefixView.'.index');
+        return redirect()->route('administrator.' . $this->prefixView . '.index');
     }
 
     public function edit($id)
     {
         $item = $this->model->find($id);
-        return view('administrator.'.$this->prefixView.'.edit', compact('item'));
+        return view('administrator.' . $this->prefixView . '.edit', compact('item'));
     }
 
     public function update(Request $request, $id)

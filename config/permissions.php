@@ -89,6 +89,16 @@ return [
         'quotations-edit' => 'quotations_edit',
         'quotations-delete' => 'quotations_delete',
 
+        'calendars-list' => 'calendars_list',
+        'calendars-add' => 'calendars_add',
+        'calendars-edit' => 'calendars_edit',
+        'calendars-delete' => 'calendars_delete',
+
+        'orders-list' => 'orders_list',
+        'orders-add' => 'orders_add',
+        'orders-edit' => 'orders_edit',
+        'orders-delete' => 'orders_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -108,6 +118,8 @@ return [
         'categories',
         'system_branches',
         'quotations',
+        'calendars',
+        'orders',
     ],
 
     'table_module_name'=>[
@@ -128,6 +140,8 @@ return [
         'Danh mục sản phẩm',
         'Danh sách cửa hàng',
         'Các câu danh ngôn',
+        'Quản lý lịch',
+        'Quản lý đơn hàng',
     ],
 
     'module_children'=>[

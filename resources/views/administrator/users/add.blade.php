@@ -76,7 +76,18 @@
                         </div>
                     @endif
 
-                    <button type="submit" class="btn btn-primary mt-3">Thêm mới</button>
+                    <div class="mt-3">
+                        <label>Lọại khách hàng</label>
+                        <select name="user_type_id" class="form-control select2_init">
+                            @foreach($userTypes as $userTypeItem)
+                                <option value="{{$userTypeItem->id}}" {{request('user_type_id') == $userTypeItem->id ? 'selected' : ''}}>{{$userTypeItem->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    @include('administrator.components.require_select2' , ['name' => 'user_type_id' , 'label' => 'Mô tả ngắn', 'select2Items' => $userTypes])
+
+                    @include('administrator.components.button_save')
 
                 </div>
             </form>

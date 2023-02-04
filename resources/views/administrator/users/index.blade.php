@@ -35,6 +35,7 @@
                                     <th>Email</th>
                                     <th>Ngày sinh</th>
                                     <th>Giới tính</th>
+                                    <th>Loại</th>
                                     <th>Ngày sử dụng</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -55,6 +56,7 @@
                                         <td>{{$item->email}}</td>
                                         <td>{{\App\Models\Formatter::getOnlyDate($item->date_of_birth)}}</td>
                                         <td>{{ optional($item->gender)->name}}</td>
+                                        <td>{{ optional($item->userType)->name}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
                                             <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"

@@ -26,6 +26,7 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateSystemBranches();
         $this->defineGateSystemQuotations();
         $this->defineGateCalendars();
+        $this->defineGateOrders();
     }
 
     public function defineGateJobNotification(){
@@ -159,6 +160,13 @@ class PermissionGateAndPolicyAccess{
         Gate::define('calendars-add','App\Policies\CalendarsPolicy@create');
         Gate::define('calendars-edit','App\Policies\CalendarsPolicy@update');
         Gate::define('calendars-delete','App\Policies\CalendarsPolicy@delete');
+    }
+
+    public function defineGateOrders(){
+        Gate::define('orders-list','App\Policies\OrderPolicy@view');
+        Gate::define('orders-add','App\Policies\OrderPolicy@create');
+        Gate::define('orders-edit','App\Policies\OrderPolicy@update');
+        Gate::define('orders-delete','App\Policies\OrderPolicy@delete');
     }
 
 }

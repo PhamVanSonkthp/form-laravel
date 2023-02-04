@@ -104,6 +104,18 @@
                         </li>
                     @endcan
 
+                    @can('orders-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/orders">
+                                <i class="fas fa-light fa-clock"></i>
+                                <span>Đơn hàng</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
                 </ul>
             </li>
 

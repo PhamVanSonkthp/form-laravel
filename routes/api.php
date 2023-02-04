@@ -48,6 +48,7 @@ Route::prefix('public')->group(function () {
 
     Route::prefix('news')->group(function () {
         Route::get('/', [NewsController::class, 'list']);
+        Route::get('/{id}', [NewsController::class, 'get']);
     });
 
     Route::prefix('categories-news')->group(function () {

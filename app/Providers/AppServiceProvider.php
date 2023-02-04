@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\OrderProduct;
 use App\Models\Product;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
@@ -37,5 +38,6 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         app('rinvex.attributes.entities')->push(Product::class);
+        app('rinvex.attributes.entities')->push(OrderProduct::class);
     }
 }

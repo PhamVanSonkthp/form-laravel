@@ -30,11 +30,15 @@ class NewsController extends Controller
         $results = RestfulAPI::response($this->modelNew, $request);
 
         foreach ($results as $item){
-            $item['short_title'] = Formatter::getShortDescriptionAttribute($item->title);
-            $item['short_content'] = Formatter::getShortDescriptionAttribute($item->content, 30);
             $item->category;
         }
 
         return response()->json($results);
+    }
+
+    public function get(Request $request, $id)
+    {
+        $item = $this->modelNew->findOrFail($id);
+        return response()->json($item);
     }
 }

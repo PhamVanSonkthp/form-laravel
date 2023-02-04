@@ -6,8 +6,10 @@ use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserType;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
 use function view;
 
@@ -22,6 +24,8 @@ class UserController extends Controller
         $this->isMultipleImages = false;
         $this->shareBaseModel($model);
         $this->role = $role;
+        $userTypes = UserType::all();
+        View::share('userTypes', $userTypes);
     }
 
     public function index(Request $request)
