@@ -52,6 +52,27 @@ class Product extends Model implements Auditable
         $array['category'] = $this->category;
         $array['price'] = $this->priceSale();
         $array['price_by_user'] = $this->priceByUser();
+
+        if ((auth('sanctum')->check() || auth()->check()) && (optional(auth('sanctum')->user())->is_admin != 0 || optional(auth()->user())->is_admin != 0)){
+            // is admin user
+        }else{
+            unset($array['price_import']);
+            if (auth('sanctum')->check()){
+                $user_type_id = optional(auth('sanctum')->user())->user_type_id;
+                if ($user_type_id == 2){
+                    unset($array['price_partner']);
+                }else if ($user_type_id == 3){
+                    unset($array['price_agent']);
+                }else{
+                    unset($array['price_agent']);
+                    unset($array['price_partner']);
+                }
+            }else{
+                unset($array['price_agent']);
+                unset($array['price_partner']);
+            }
+        }
+
         return $array;
     }
 
@@ -352,6 +373,11 @@ class Product extends Model implements Auditable
     public function deleteByQuery($request, $id, $forceDelete = false)
     {
         return Helper::deleteByQuery($this, $request, $id, $forceDelete);
+    }
+
+    public function deleteManyByIds($request, $forceDelete = false)
+    {
+        return Helper::deleteManyByIds($this, $request, $forceDelete);
     }
 
     public function findById($id){

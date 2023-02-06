@@ -30,21 +30,12 @@
         $('.open-jquery-date-time').flatpickr({
             enableTime: true,
             dateFormat: "{{config('_my_config.type_date_time_no_second')}}",
-            defaultDate: "{{\App\Models\Formatter::getDateTime(now())}}",
-            onClose: function (selectedDates, dateStr, instance) {
-                var dateStart = instance.formatDate(selectedDates[0], "{{config('_my_config.type_date')}}");
-                var dateEnd = instance.formatDate(selectedDates[1], "{{config('_my_config.type_date')}}");
-
-            },
+            defaultDate: "{{ \App\Models\Formatter::getDateTime(now()) }}",
         });
 
         $('.open-jquery-date').flatpickr({
             dateFormat: "{{config('_my_config.type_date')}}",
-            onClose: function (selectedDates, dateStr, instance) {
-                var dateStart = instance.formatDate(selectedDates[0], "{{config('_my_config.type_date')}}");
-                var dateEnd = instance.formatDate(selectedDates[1], "{{config('_my_config.type_date')}}");
-
-            },
+            defaultDate: "{{ \App\Models\Formatter::getDateTime(now()) }}",
         });
 
     });
@@ -54,14 +45,6 @@
             onSearchQuery()
         }
     });
-
-    // function onSearchQuery() {
-    //     addUrlParameterObjects([
-    //         {name: "search_query", value: $('#input_search_query').val()},
-    //         {name: "from", value: input_query_from},
-    //         {name: "to", value: input_query_to},
-    //     ])
-    // }
 
 
 </script>

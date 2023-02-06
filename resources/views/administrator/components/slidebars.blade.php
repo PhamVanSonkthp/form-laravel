@@ -116,6 +116,18 @@
                         </li>
                     @endcan
 
+                    @can('vouchers-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/vouchers">
+                                <i class="fas fa-light fa-clock"></i>
+                                <span>Mã giảm giá</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
                 </ul>
             </li>
 

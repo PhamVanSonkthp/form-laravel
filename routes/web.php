@@ -43,6 +43,12 @@ Route::prefix('/')->group(function () {
 //        'uses' => 'App\Http\Controllers\User\UserController@index',
 //    ]);
 
+//    Route::get('/ttt', function () {
+//        $product = \App\Models\Product::find(124);
+//        $product->fill(['size' => "67CM", 'color' => 'Vàng'])->save();
+//    });
+
+
 //    Route::get('/quot', function () {
 //
 //        $path = "C:\Game\quot.xlsx";

@@ -1,23 +1,25 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Controllers\Admin;
 
-use {{ namespacedModel }};
-use {{ rootNamespace }}Http\Controllers\Controller;
-use {{ namespacedRequests }}
-use App\Traits\BaseControllerTrait;
 use App\Exports\ModelExport;
+use App\Http\Controllers\Controller;
+use App\Models\Voucher;
+use App\Traits\BaseControllerTrait;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
 
-class {{ class }} extends Controller
+class VoucherController extends Controller
 {
     use BaseControllerTrait;
 
-    public function __construct({{ model }} $model)
+    public function __construct(Voucher $model)
     {
         $this->initBaseModel($model);
+        $this->isSingleImage = false;
+        $this->isMultipleImages = false;
         $this->shareBaseModel($model);
     }
 

@@ -69,6 +69,11 @@ class Permission extends Model implements Auditable
         return Helper::deleteByQuery($this, $request, $id, $forceDelete);
     }
 
+    public function deleteManyByIds($request, $forceDelete = false)
+    {
+        return Helper::deleteManyByIds($this, $request, $forceDelete);
+    }
+
     public function findById($id){
         $item = $this->find($id);
         return $item;

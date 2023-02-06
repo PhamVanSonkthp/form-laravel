@@ -99,6 +99,11 @@ return [
         'orders-edit' => 'orders_edit',
         'orders-delete' => 'orders_delete',
 
+        'vouchers-list' => 'vouchers_list',
+        'vouchers-add' => 'vouchers_add',
+        'vouchers-edit' => 'vouchers_edit',
+        'vouchers-delete' => 'vouchers_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -120,6 +125,7 @@ return [
         'quotations',
         'calendars',
         'orders',
+        'vouchers',
     ],
 
     'table_module_name'=>[
@@ -142,6 +148,7 @@ return [
         'Các câu danh ngôn',
         'Quản lý lịch',
         'Quản lý đơn hàng',
+        'Quản lý mã giảm giá',
     ],
 
     'module_children'=>[

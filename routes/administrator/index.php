@@ -985,5 +985,67 @@ Route::prefix('administrator')->group(function () {
         ]);
     });
 
+    Route::prefix('vouchers')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.vouchers.index',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@index',
+            'middleware' => 'can:vouchers-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.vouchers.create',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@create',
+            'middleware' => 'can:vouchers-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.vouchers.store',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@store',
+            'middleware' => 'can:vouchers-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.vouchers.edit',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@edit',
+            'middleware' => 'can:vouchers-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.vouchers.update',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@update',
+            'middleware' => 'can:vouchers-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.vouchers.delete',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@delete',
+            'middleware' => 'can:vouchers-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.vouchers.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@deleteManyByIds',
+            'middleware' => 'can:vouchers-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.vouchers.export',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@export',
+            'middleware' => 'can:vouchers-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.vouchers.import',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@import',
+            'middleware' => 'can:vouchers-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.vouchers.get',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@get',
+            'middleware' => 'can:vouchers-list',
+        ]);
+    });
+
 });
 

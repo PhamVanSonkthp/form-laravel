@@ -6,10 +6,10 @@
     }
 @endphp
 
-<div class="form-group mt-3">
-    <label>{{$label}}</label>
+<div class="form-group {{ (isset($no_margin) && $no_margin == true) ? "" : "mt-3" }}">
+    @if(isset($label))<label> {{$label}} </label>@endif
     <input type="text" autocomplete="off" name="{{$name}}" class="form-control number @error($name) is-invalid @enderror"
-           value="{{$value}}">
+           value="{{$value}}" placeholder="{{isset($placeholder) ? $placeholder : ''}}" style="{{isset($hidden) ? "display: none;" : ''}}">
     @error($name)
     <div class="alert alert-danger">{{$message}}</div>
     @enderror

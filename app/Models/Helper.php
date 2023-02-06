@@ -385,4 +385,8 @@ class Helper extends Model
         ];
 
     }
+
+    public static function randomString(){
+        return Str::random(10);
+    }
 }

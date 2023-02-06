@@ -55,12 +55,15 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/jquery-ui.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/order-image.css')}}" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
     <script src="{{asset('/assets/administrator/js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('/assets/administrator/js/jquery.ui.min.js')}}"></script>
-
     <script src="{{asset('/vendor/jquery-ui-1.13.2/jquery-ui.js')}}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="{{asset('/vendor/masknumber/jquery.masknumber.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    @include('administrator.components.helper')
 
     <style>
         .product-table{
@@ -151,12 +154,7 @@
         @include('administrator.components.footer')
     </div>
 </div>
-{{--@include('administrator.components.slidebars')--}}
 
-{{--@include('administrator.components.footer')--}}
-
-<!-- latest jquery-->
-{{--<script src="/assets/administrator/js/jquery-3.5.1.min.js"></script>--}}
 <!-- Bootstrap js-->
 <script src="{{asset('/assets/administrator/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 <!-- feather icon js-->
@@ -186,7 +184,6 @@
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/datetimepicker/daterangepicker.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <!-- Plugins JS Ends-->
 
@@ -201,7 +198,7 @@
 <!-- Theme js-->
 <script src="{{asset('/assets/administrator/js/script.js')}}"></script>
 <script src="{{asset('/assets/administrator/js/theme-customizer/customizer.js')}}"></script>
-@include('administrator.components.helper')
+
 <script>
 
     function viewBirthOfDay() {
