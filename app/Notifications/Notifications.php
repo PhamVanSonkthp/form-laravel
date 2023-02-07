@@ -17,18 +17,16 @@ class Notifications extends Notification
     private $notificationData;
     private $subject;
     private $body;
-    private $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($subject = null, $body = null, $user = null)
+    public function __construct($subject, $body)
     {
         $this->subject = $subject;
         $this->body = $body;
-        $this->user = $user;
     }
 
     /**

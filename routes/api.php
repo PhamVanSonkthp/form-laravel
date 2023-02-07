@@ -12,6 +12,7 @@ use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SliderController;
 use App\Http\Controllers\API\SystemBranchController;
+use App\Http\Controllers\API\VoucherController;
 use App\Http\Requests\Chat\ParticipantAddRequest;
 use App\Http\Requests\PusherChatRequest;
 use App\Models\Chat;
@@ -113,6 +114,12 @@ Route::prefix('user')->group(function () {
         Route::prefix('order')->group(function () {
             Route::get('/', [OrderController::class, 'list']);
             Route::post('/', [OrderController::class, 'store']);
+        });
+
+        Route::prefix('voucher')->group(function () {
+            Route::get('/', [VoucherController::class, 'list']);
+            Route::post('/', [VoucherController::class, 'store']);
+            Route::post('/check-with-carts', [VoucherController::class, 'checkWithCarts']);
         });
     });
 

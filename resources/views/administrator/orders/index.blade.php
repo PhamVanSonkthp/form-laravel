@@ -28,10 +28,13 @@
                             <table class="table table-hover ">
                                 <thead>
                                 <tr>
-                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
+                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent"
+                                               onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>#</th>
+                                    <th>Khách hàng</th>
                                     <th>Sản phẩm</th>
-                                    <th>Thời gian tạo</th>
+                                    <th></th>
+                                    <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
@@ -43,28 +46,44 @@
                                         </td>
                                         <td>{{$item->id}}</td>
                                         <td>
+                                            <a href="#">{{optional($item->user)->name}}</a>
+                                        </td>
+                                        <td>
                                             @foreach($item->products as $productItem)
-                                                <div class="row">
+                                                <div class="row mt-1">
                                                     <div class="col-2">
-                                                        <img class="rounded-circle" src="{{$productItem->avatar()}}" alt="">
+                                                        <img class="rounded-circle"
+                                                             src="{{$productItem->product_image}}" alt="">
                                                     </div>
-                                                    <div class="col-10">
+                                                    <div class="col-9" style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
                                                         <div>
                                                             {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->name)}}
                                                         </div>
-                                                        <div>
-                                                            Phân loại: {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->size)}} {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_size)}},{{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_color)}}
-                                                        </div>
+                                                        @if(!empty($productItem->order_size) || !empty($productItem->order_color))
+                                                            <div>
+                                                                Phân loại:
+                                                                <strong>{{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_size)}}</strong>,
+                                                                <strong>{{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_color)}}</strong>
+                                                            </div>
+                                                        @endif
                                                     </div>
 
+                                                    <div class="col-1" style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
+                                                        x{{\App\Models\Formatter::formatNumber($productItem->quantity)}}
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         </td>
                                         <td>
-                                            <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
+                                            @if($item->waitingConfirm())
+                                                <a href="#">Chuẩn bị hàng</a>
+                                            @endif
                                         </td>
-                                        <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
+                                            {{ optional($item->orderStatus)->name}}
+                                        </td>
+                                        <td>
+
                                             <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}"
                                                class="btn btn-outline-secondary btn-sm edit" title="Edit">
                                                 <i class="fa-solid fa-pen"></i>

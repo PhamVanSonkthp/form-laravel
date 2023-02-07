@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\Notifications;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use GuzzleHttp\Client;
@@ -388,5 +389,16 @@ class Helper extends Model
 
     public static function randomString(){
         return Str::random(10);
+    }
+
+    public static function sendEmailToShop($subject, $body){
+        $email = env('EMAIL_SHOP');
+
+        $user = (new User([
+            'email' => $email,
+            'name' => substr($email, 0, strpos($email, '@')), // here we take the name form email (string before "@")
+        ]));
+
+        $user->notify(new Notifications($subject, $body));
     }
 }

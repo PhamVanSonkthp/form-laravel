@@ -20,6 +20,7 @@ class CreateOrderProductsTable extends Migration
             $table->bigInteger('price');
             $table->integer('quantity');
             $table->text('name')->nullable();
+            $table->string('product_image')->nullable();
             $table->timestamps();
         });
     }

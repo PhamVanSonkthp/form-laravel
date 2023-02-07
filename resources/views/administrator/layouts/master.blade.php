@@ -96,6 +96,13 @@
         .simplebar-content-wrapper{
             overflow: visible;
         }
+
+        .rounded-circle {
+            height: 40px;
+            width: 40px;
+            object-fit: cover;
+        }
+
     </style>
     @yield('css')
 </head>

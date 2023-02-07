@@ -13,6 +13,7 @@ use App\Models\ParticipantChat;
 use App\Models\Product;
 use App\Models\RestfulAPI;
 use App\Models\User;
+use App\Models\UserCart;
 use App\Models\UserNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -47,6 +48,7 @@ class NotificationController extends Controller
             'message' => 'sucess',
             'code' => '200',
             'data' => $results,
+            'number_product_in_cart' => UserCart::where('user_id', auth()->id())->count(),
         ]);
     }
 

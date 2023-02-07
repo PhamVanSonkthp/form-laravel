@@ -31,6 +31,7 @@ class ProductController extends Controller
         $request->validate([
             'min_price' => 'numeric',
             'max_price' => 'numeric',
+            'empty_inventory' => 'numeric|min:0|max:2',
         ]);
 
         $queries = ['product_visibility_id' => 2];
@@ -48,6 +49,14 @@ class ProductController extends Controller
                 $query->where('price_client', '<=', $request->max_price)
                     ->orWhere('price_agent', '<=', $request->max_price);
             });
+        }
+
+        if (isset($request->empty_inventory) && $request->empty_inventory == 0){
+            $results = $results->where('inventory' , 0);
+        }
+
+        if (isset($request->empty_inventory) && $request->empty_inventory == 1){
+            $results = $results->where('inventory' ,'>', 0);
         }
 
         $results = $results->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateChatSeeder::class);
         $this->call(CreateParticipantChatSeeder::class);
         $this->call(CreateSettingSeeder::class);
+        $this->call(CreateOrderStatusSeeder::class);
 
     }
 }

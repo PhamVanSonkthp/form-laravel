@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Facades\Excel;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Order extends Model implements Auditable
+class OrderStatus extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
@@ -20,21 +20,7 @@ class Order extends Model implements Auditable
 
     // begin
 
-    public function products(){
-        return $this->hasMany(OrderProduct::class);
-    }
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-
-    public function orderStatus(){
-        return $this->belongsTo(OrderStatus::class);
-    }
-
-    public function waitingConfirm(){
-        return $this->order_status_id == 1;
-    }
 
     // end
 
@@ -48,7 +34,6 @@ class Order extends Model implements Auditable
         $array = parent::toArray();
         $array['image_path_avatar'] = $this->avatar();
         $array['path_images'] = $this->images;
-        $array['products'] = $this->products;
         return $array;
     }
 
@@ -71,9 +56,9 @@ class Order extends Model implements Auditable
         return $this->hasOne(User::class,'id','created_by_id');
     }
 
-    public function searchByQuery($request, $queries = [])
+    public function searchByQuery($request, $queries = [], $randomRecord = null, $makeHiddens = null, $isCustom = false)
     {
-        return Helper::searchByQuery($this, $request, $queries);
+        return Helper::searchByQuery($this, $request, $queries, $randomRecord, $makeHiddens, $isCustom);
     }
 
     public function storeByQuery($request)
