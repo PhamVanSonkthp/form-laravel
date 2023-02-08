@@ -102,6 +102,17 @@ Route::prefix('ajax/administrator')->group(function () {
         });
     });
 
+    Route::prefix('/orders')->group(function () {
+        Route::group(['middleware' => ['auth']], function () {
+            Route::put('/update-to-shipping/{id}', [
+                'as' => 'ajax.administrator.orders.update_to_shipping',
+                'uses' => 'App\Http\Controllers\Admin\OrderController@updateToShipping',
+                'middleware' => 'can:orders-edit',
+            ]);
+        });
+    });
+
+
     Route::prefix('/')->group(function () {
         Route::group(['middleware' => ['auth']], function () {
             Route::prefix('chat')->group(function () {

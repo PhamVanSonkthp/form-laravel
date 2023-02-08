@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
 
@@ -69,5 +70,13 @@ class OrderController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function updateToShipping(Request $request, $id)
+    {
+        $item = $this->model->find($id);
+        $item->updateToShipping();
+        $item->refresh();
+        return response()->json($item);
     }
 }

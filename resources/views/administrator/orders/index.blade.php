@@ -40,13 +40,13 @@
                                 </thead>
                                 <tbody>
                                 @foreach($items as $item)
-                                    <tr>
+                                    <tr data-id="{{$item->id}}">
                                         <td class="text-center">
                                             <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
                                         </td>
                                         <td>{{$item->id}}</td>
                                         <td>
-                                            <a href="#">{{optional($item->user)->name}}</a>
+                                            <a>{{optional($item->user)->name}}</a>
                                         </td>
                                         <td>
                                             @foreach($item->products as $productItem)
@@ -76,10 +76,10 @@
                                         </td>
                                         <td>
                                             @if($item->waitingConfirm())
-                                                <a href="#">Chuẩn bị hàng</a>
+                                                <a style="color: lightskyblue;cursor: pointer;" onclick="onReadyShip(this)">Chuẩn bị hàng</a>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td class="text-status">
                                             {{ optional($item->orderStatus)->name}}
                                         </td>
                                         <td>
@@ -116,6 +116,38 @@
 @endsection
 
 @section('js')
+    <script>
+        function onReadyShip(e){
 
+            let that = $(e)
+
+            const id = that.parent().parent().data('id')
+
+            let url = "{{route('ajax.administrator.orders.update_to_shipping' , ['id' => 0])}}"
+
+            url = url.replace("/0", "/" + id)
+
+            console.log(url)
+
+            callAjax(
+                "PUT",
+                url,
+                {
+                    order_status_id: 2
+                },
+                (response) => {
+
+                    that.parent().parent().find('.text-status').html('Đang giao')
+                    that.remove()
+
+                },
+                (error) => {
+
+                },
+                false,
+            )
+
+        }
+    </script>
 @endsection
 

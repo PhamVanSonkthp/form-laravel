@@ -51,8 +51,8 @@ class ProductController extends Controller
             });
         }
 
-        if (isset($request->empty_inventory) && $request->empty_inventory == 0){
-            $results = $results->where('inventory' , 0);
+        if (isset($request->empty_inventory) && $request->empty_inventory == 2){
+            $results = $results->where('inventory', '<=' , 0);
         }
 
         if (isset($request->empty_inventory) && $request->empty_inventory == 1){

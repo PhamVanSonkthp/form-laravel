@@ -36,6 +36,12 @@ class Order extends Model implements Auditable
         return $this->order_status_id == 1;
     }
 
+    public function updateToShipping(){
+        $this->update([
+            'order_status_id' => 2
+        ]);
+    }
+
     // end
 
     public function getTableName()
