@@ -84,6 +84,10 @@ class ProductController extends Controller
             $userProductRecent->increment('count');
         }
 
+        if (count($item['attributes_json']) == 0){
+            $item['attributes_json'] = null;
+        }
+
         return response()->json($item);
     }
 

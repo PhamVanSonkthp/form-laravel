@@ -89,139 +89,139 @@ Route::prefix('/')->group(function () {
 //        dd('123');
 //    });
 //
-//    Route::get('/product', function () {
+    Route::get('/product', function () {
+
+//        app('rinvex.attributes.attribute')->create([
+//            'slug' => 'size',
+//            'type' => 'varchar',
+//            'name' => ['vi' => 'Kích thước', 'en' => 'size'],
+//            'entities' => ['App\Models\Product'],
+//        ]);
 //
-////        app('rinvex.attributes.attribute')->create([
-////            'slug' => 'size',
-////            'type' => 'varchar',
-////            'name' => ['vi' => 'Kích thước', 'en' => 'size'],
-////            'entities' => ['App\Models\Product'],
-////        ]);
+//        app('rinvex.attributes.attribute')->create([
+//            'slug' => 'color',
+//            'type' => 'varchar',
+//            'name' => ['vi' => 'Màu sắc', 'en' => 'color'],
+//            'entities' => ['App\Models\Product'],
+//        ]);
+
+        // Mass assignment
+//        $product = \App\Models\Product::find(6);
+//        $product->fill(['size' => 123, 'color' => 'Đỏ'])->save();
+
+        set_time_limit(36000);
+
+        $path = "C:\Game\product.xlsx";
+
+        $reader = ReaderEntityFactory::createReaderFromFile($path);
+
+        $reader->open($path);
+
+        $slug = "";
+        $name = "";
+        $category = "";
+        $description = "";
+        $group_product_id = 2;
+
+        foreach ($reader->getSheetIterator() as $sheet) {
+            foreach ($sheet->getRowIterator() as $index => $row) {
+                // do stuff with the row
+
+
+                if ($index > 1) {
+                    $cells = $row->getCells();
+
+                    if ($cells[18]->getValue() == "") continue;
+
+                    $item = [];
+                    $item['slug'] = Formatter::trimer($cells[0]->getValue());
+
+                    $item['name'] = Formatter::trimer($cells[1]->getValue());
+                    if (empty($item['name'])) {
+                        $item['name'] = $name;
+                    } else {
+                        $name = $item['name'];
+                    }
+
+                    $item['category_id'] = Formatter::trimer($cells[4]->getValue());
+                    if (empty($item['category_id'])) {
+                        $item['category_id'] = $category;
+                    } else {
+                        $category = $item['category_id'];
+                    }
+
+                    if (!empty($category)) {
+                        $itemCategory = Category::firstOrCreate([
+                            'name' => $category
+                        ], [
+                            'name' => $category,
+                            'slug' => Helper::addSlug(new Category, 'slug', $category),
+                        ]);
+                        $item['category_id'] = $itemCategory->id;
+                    } else {
+                        $item['category_id'] = 0;
+                    }
+
+                    $item['description'] = Formatter::trimer($cells[2]->getValue());
+                    if (empty($item['description'])) {
+                        $item['description'] = $description;
+                    } else {
+                        $description = $item['description'];
+                    }
+
+                    $shortDescription = Formatter::getShortDescriptionAttribute($description, 30);
+
+                    $item['short_description'] = $shortDescription;
+                    $item['product_visibility_id'] = Formatter::trimer($cells[6]->getValue()) == 'TRUE' ? 2 : 1;
+                    $item['sku'] = Formatter::trimer($cells[13]->getValue());
+                    $item['inventory'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[15]->getValue()));
+                    $item['product_buy_empty_id'] = Formatter::trimer($cells[16]->getValue()) == 'continue' ? 2 : 1;
+                    $item['price_import'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[18]->getValue()));
+                    $item['price_client'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[18]->getValue()));
+                    $item['price_agent'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[18]->getValue()));
+                    $item['price_partner'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[18]->getValue()));
+                    $item['request_devilvery_id'] = Formatter::trimer($cells[20]->getValue()) == 'TRUE' ? 2 : 1;
+                    $item['bar_code'] = Formatter::trimer($cells[22]->getValue());
+                    $item['feature_image_path'] = Formatter::trimer($cells[23]->getValue());
+                    $item['seo_title'] = Formatter::trimer($cells[25]->getValue());
+                    $item['seo_description'] = Formatter::trimer($cells[26]->getValue());
+                    $item['weight'] = Formatter::trimer($cells[27]->getValue());
+                    $item['type_weight'] = Formatter::trimer($cells[28]->getValue());
+
+                    if ($item['slug'] != $slug) {
+                        $slug = Formatter::trimer($cells[0]->getValue());
+                        $group_product_id++;
+                    }
+
+                    $item['group_product_id'] = $group_product_id;
+
+                    $product = Product::create($item);
+
+                    $attr1 = Formatter::trimer($cells[8]->getValue());
+                    $attr2 = Formatter::trimer($cells[10]->getValue());
+
+                    $attr = [];
+
+                    if (!empty($attr1)) {
+                        $attr['size'] = $attr1;
+                    }
+
+                    if (!empty($attr2)) {
+                        $attr['color'] = $attr2;
+                    }
+                    $product->fill($attr)->save();
+                }
+            }
+        }
+
+        $reader->close();
+
+    });
 ////
-////        app('rinvex.attributes.attribute')->create([
-////            'slug' => 'color',
-////            'type' => 'varchar',
-////            'name' => ['vi' => 'Màu sắc', 'en' => 'color'],
-////            'entities' => ['App\Models\Product'],
-////        ]);
-//
-//        // Mass assignment
-////        $product = \App\Models\Product::find(6);
-////        $product->fill(['size' => 123, 'color' => 'Đỏ'])->save();
-//
-//        set_time_limit(36000);
-//
-//        $path = "C:\Game\product.xlsx";
-//
-//        $reader = ReaderEntityFactory::createReaderFromFile($path);
-//
-//        $reader->open($path);
-//
-//        $slug = "";
-//        $name = "";
-//        $category = "";
-//        $description = "";
-//        $group_product_id = 2;
-//
-//        foreach ($reader->getSheetIterator() as $sheet) {
-//            foreach ($sheet->getRowIterator() as $index => $row) {
-//                // do stuff with the row
-//
-//                if ($index > 1) {
-//                    $cells = $row->getCells();
-//
-//                    $item = [];
-//                    $item['slug'] = Formatter::trimer($cells[0]->getValue());
-//
-//                    $item['name'] = Formatter::trimer($cells[1]->getValue());
-//                    if (empty($item['name'])) {
-//                        $item['name'] = $name;
-//                    } else {
-//                        $name = $item['name'];
-//                    }
-//
-//                    $item['category_id'] = Formatter::trimer($cells[4]->getValue());
-//                    if (empty($item['category_id'])) {
-//                        $item['category_id'] = $category;
-//                    } else {
-//                        $category = $item['category_id'];
-//                    }
-//
-//                    if (!empty($category)) {
-//                        $itemCategory = Category::firstOrCreate([
-//                            'name' => $category
-//                        ], [
-//                            'name' => $category,
-//                            'slug' => Helper::addSlug(new Category, 'slug', $category),
-//                        ]);
-//                        $item['category_id'] = $itemCategory->id;
-//                    } else {
-//                        $item['category_id'] = 0;
-//                    }
-//
-//                    $item['description'] = Formatter::trimer($cells[2]->getValue());
-//                    if (empty($item['description'])) {
-//                        $item['description'] = $description;
-//                    } else {
-//                        $description = $item['description'];
-//                    }
-//
-//                    $shortDescription = Formatter::trimer($cells[30]->getValue());
-//
-//                    if (empty($shortDescription)) {
-//                        $shortDescription = Formatter::getShortDescriptionAttribute($description, 30);
-//                    }
-//
-//                    $item['short_description'] = $shortDescription;
-//                    $item['product_visibility_id'] = Formatter::trimer($cells[6]->getValue()) == 'TRUE' ? 2 : 1;
-//                    $item['sku'] = Formatter::trimer($cells[13]->getValue());
-//                    $item['inventory'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[15]->getValue()));
-//                    $item['product_buy_empty_id'] = Formatter::trimer($cells[16]->getValue()) == 'continue' ? 2 : 1;
-//                    $item['price_import'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[18]->getValue()));
-//                    $item['price_client'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[18]->getValue()));
-//                    $item['price_agent'] = Formatter::formatNumberToDatabase(Formatter::trimer($cells[18]->getValue()));
-//                    $item['request_devilvery_id'] = Formatter::trimer($cells[20]->getValue()) == 'TRUE' ? 2 : 1;
-//                    $item['bar_code'] = Formatter::trimer($cells[22]->getValue());
-//                    $item['feature_image_path'] = Formatter::trimer($cells[23]->getValue());
-//                    $item['seo_title'] = Formatter::trimer($cells[25]->getValue());
-//                    $item['seo_description'] = Formatter::trimer($cells[26]->getValue());
-//                    $item['weight'] = Formatter::trimer($cells[27]->getValue());
-//                    $item['type_weight'] = Formatter::trimer($cells[28]->getValue());
-//
-//                    if ($item['slug'] != $slug) {
-//                        $slug = Formatter::trimer($cells[0]->getValue());
-//                        $group_product_id++;
-//                    }
-//
-//                    $item['group_product_id'] = $group_product_id;
-//
-//                    $product = Product::create($item);
-//
-//                    $attr1 = Formatter::trimer($cells[8]->getValue());
-//                    $attr2 = Formatter::trimer($cells[10]->getValue());
-//
-//                    $attr = [];
-//
-//                    if (!empty($attr1)) {
-//                        $attr['size'] = $attr1;
-//                    }
-//
-//                    if (!empty($attr2)) {
-//                        $attr['color'] = $attr2;
-//                    }
-//                    $product->fill($attr)->save();
-//                }
-//            }
-//        }
-//
-//        $reader->close();
-//
-//    });
-//
 //    Route::get('/calendar', function () {
 //
 //        set_time_limit(36000);
-//        $path = "C:\Game\calendar.xlsx";
+//        $path = "C:\Game\8_2calendar.xlsx";
 //
 //        $reader = ReaderEntityFactory::createReaderFromFile($path);
 //
@@ -247,6 +247,8 @@ Route::prefix('/')->group(function () {
 //                    $item['weather'] = Formatter::trimer($cells[30]->getValue());
 //                    $item['score'] = Formatter::trimer($cells[31]->getValue());
 //                    $item['quotation_id'] = 1;
+//                    $item['note'] =  Formatter::trimer($cells[107]->getValue());
+//                    $item['description'] =  Formatter::trimer($cells[107]->getValue());
 //
 //                    $item = Calendar::create($item);
 //
