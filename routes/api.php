@@ -47,6 +47,14 @@ Route::prefix('public')->group(function () {
         Route::get('/{id}', [ProductController::class, 'get']);
     });
 
+    Route::prefix('cart')->group(function () {
+        Route::post('/', [CartController::class, 'listNotAuth']);
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::post('/', [OrderController::class, 'storeNotAuth']);
+    });
+
     Route::prefix('news')->group(function () {
         Route::get('/', [NewsController::class, 'list']);
         Route::get('/{id}', [NewsController::class, 'get']);

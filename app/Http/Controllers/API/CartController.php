@@ -36,6 +36,24 @@ class CartController extends Controller
         return response()->json($results);
     }
 
+    public function listNotAuth(Request $request)
+    {
+        $request->validate([
+            'product_ids' => 'required|array|min:1',
+            "product_ids.*" => "required|numeric|min:1",
+        ]);
+
+        $results = [];
+
+        foreach ($request->product_ids as $product_id){
+            $product = Product::find($product_id);
+            if (empty($product)) continue;
+            $results[] = $product;
+        }
+
+        return response()->json($results);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
