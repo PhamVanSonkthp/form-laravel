@@ -30,7 +30,7 @@ class AuthController extends Controller
             'name' => 'required|string',
             'phone' => 'required|string|unique:users',
             'password' => 'required|string',
-            'date_of_birth' => 'required|date_format:Y-m-d H:i',
+            'date_of_birth' => 'date_format:Y-m-d H:i',
             'firebase_uid' => 'required|string',
         ]);
 
@@ -185,7 +185,7 @@ class AuthController extends Controller
             'image_name' => 'waiting_update',
         ]);
 
-        $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image', 'single', auth()->id());
+        $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image', 'single', $item->id);
 
         $item->update([
             'image_path' => $dataUploadFeatureImage['file_path'],

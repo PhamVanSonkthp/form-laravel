@@ -1,46 +1,34 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Http\Controllers\Cronner;
 
+use App\Http\Controllers\Controller;
+use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\User;
+use App\Notifications\Notifications;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
-class JobNotification extends Command
+class CronnerController extends Controller
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'email:job_notification';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Send notification to user';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        parent::__construct();
+//        $this->middleware('XSS');
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
+    public function callback()
     {
+        $jobEmails = \App\Models\JobEmail::whereDate('time_send' , '<=', now())->limit(env('MAXIMUM_SEND_EMAIL_ONE_MINUTE', 10))->get();
+
+        foreach ($jobEmails as $jobEmail) {
+            if (!empty($jobEmail->user) && filter_var($jobEmail->user->email, FILTER_VALIDATE_EMAIL)){
+                $jobEmail->user->notify(new Notifications($jobEmail->title, $jobEmail->content));
+            }
+            $jobEmail->delete();
+        }
+
+        ///////----///////
 
         $sendAll = [];
 
@@ -54,7 +42,8 @@ class JobNotification extends Command
         $nowTime = $currentHour . ':' . date('i') . ":00";
 
         $nowTime = Carbon::parse($nowTime);
-//        $nowTime = $nowTime->addMinutes(6);
+        $nowTime = $nowTime->addHours(5);
+        $nowTime = $nowTime->addMinutes(30);
 
         $resultsCron = \App\Models\JobNotification::where('time', $nowTime)->where('notiable', 1)->get();
 
@@ -106,5 +95,11 @@ class JobNotification extends Command
             Helper::sendNotificationToTopic(env('FIREBASE_TOPIC_ALL_N1','app'), $item['title'], $item['description']);
         }
 
+        return response()->json([
+            'emails' => $jobEmails,
+            'users' => $resultCron,
+            'all' => $sendAll,
+            'nowTime' => Formatter::getDateTime($nowTime),
+        ]);
     }
 }

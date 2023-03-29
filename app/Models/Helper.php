@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use PHPUnit\Exception;
 
 class Helper extends Model
 {
@@ -69,13 +70,20 @@ class Helper extends Model
 
     public static function images($object)
     {
-        $item = $object->hasOne(SingleImage::class, 'relate_id', 'id')->where('table', $object->getTable());
+        $item = $object->hasMany(SingleImage::class, 'relate_id', 'id')->where('table', $object->getTable());
         $isSingle = SingleImage::where('relate_id', $object->id)->where('table', $object->getTable())->first();
-        if (!empty($isSingle)) {
-            return $item;
+
+        $images = $object->hasMany(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
+
+        if (!empty($images) && $images->count()) {
+            return $images;
         }
 
-        return $object->hasMany(Image::class, 'relate_id', 'id')->where('table', $object->getTable())->orderBy('index');
+//        if (!empty($isSingle)) {
+//            return $item;
+//        }
+
+        return $item;
     }
 
     public static function getAllColumsOfTable($object)
@@ -338,46 +346,53 @@ class Helper extends Model
         }
 
         if (env('FIREBASE_SERVER_NOTIFIABLE', true)) {
-            $client = new Client();
-            $client->post(
-                'https://fcm.googleapis.com/fcm/send',
-                [
-                    'headers' => [
-                        'Content-Type' => 'application/json',
-                        'Authorization' => env('FIREBASE_SERVER_KEY')],
-                    'json' => [
-                        'to' => '/topics/' . $topicName,
-                        'notification' => [
-                            'title' => $title,
-                            'body' => $body,
-                            "click_action" => "TOP_STORY_ACTIVITY",
-                        ],
-                        'apns' => [
-                            'headers' => [
-                                'apns-priority' => '10'
-                            ],
-                            'payload' => [
-                                'aps' => [
-                                    'sound' => 'notification'
-                                ]
-                            ],
-                        ],
-                        'android' => [
-                            'priority' => 'high',
+
+            try {
+                $client = new Client();
+                $client->post(
+                    'https://fcm.googleapis.com/fcm/send',
+                    [
+                        'headers' => [
+                            'Content-Type' => 'application/json',
+                            'Authorization' => env('FIREBASE_SERVER_KEY')],
+                        'json' => [
+                            'to' => '/topics/' . $topicName,
                             'notification' => [
-                                'sound' => 'notification'
+                                'title' => $title,
+                                'body' => $body,
+                                "click_action" => "TOP_STORY_ACTIVITY",
+                            ],
+                            'apns' => [
+                                'headers' => [
+                                    'apns-priority' => '10'
+                                ],
+                                'payload' => [
+                                    'aps' => [
+                                        'sound' => 'notification'
+                                    ]
+                                ],
+                            ],
+                            'android' => [
+                                'priority' => 'high',
+                                'notification' => [
+                                    'sound' => 'notification'
+                                ],
                             ],
                         ],
+                        'timeout' => 5, // Response timeout
+                        'connect_timeout' => 5, // Connection timeout
                     ],
-                    'timeout' => 1, // Response timeout
-                    'connect_timeout' => 1, // Connection timeout
-                ],
-            );
+                );
+            }catch (Exception $e){
+
+            }
+
         }
 
     }
 
     public static function errorAPI($code, $data, $message){
+        DB::rollBack();
         return [
             'success' => false,
             'code' => $code,

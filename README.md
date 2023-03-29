@@ -33,4 +33,6 @@ php artisan db:seed --class=CreatePermissionSeeder
 
 -- Begin --
 * Đối với App có sử dụng thông báo, cần đăng ký topic "app" khi vào app
+* thư viện Laravel-attribute lỗi, thay đổi ở đây "vendor/rinvex/laravel-attributes/src/Events"  
+&& ($values = \Illuminate\Support\Collection::wrap($entity->getRelationValue($relation))) && ! $values->isEmpty()) {
 -- End --

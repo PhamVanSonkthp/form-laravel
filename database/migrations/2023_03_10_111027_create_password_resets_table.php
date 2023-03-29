@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimeZodiacCalendarsTable extends Migration
+class CreatePasswordResetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateTimeZodiacCalendarsTable extends Migration
      */
     public function up()
     {
-        Schema::create('time_zodiac_calendars', function (Blueprint $table) {
+        Schema::create('password_resets', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->integer('min_hour');
-            $table->integer('max_hour');
-            $table->bigInteger('calendar_id');
+            $table->string('email')->index();
+            $table->string('token')->index();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateTimeZodiacCalendarsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('time_zodiac_calendars');
+        Schema::dropIfExists('password_resets');
     }
 }
