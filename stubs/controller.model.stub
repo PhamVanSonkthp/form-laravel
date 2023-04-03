@@ -29,7 +29,7 @@ class {{ class }} extends Controller
 
     public function get(Request $request, $id)
     {
-        return $this->model->findById($id);
+        return $this->model->findOrFail($id);
     }
 
     public function create()
