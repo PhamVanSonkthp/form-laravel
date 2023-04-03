@@ -28,51 +28,6 @@
                 </li>
             @endcan
 
-{{--            @can('chats-list')--}}
-{{--                <li class="sidebar-list">--}}
-{{--                    <a--}}
-{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/chats">--}}
-{{--                        <i class="fas fa-thin fa-comment"></i>--}}
-{{--                        <span>Chat</span>--}}
-{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
-
-            <li class="sidebar-list">
-                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                    <i class="fas fa-thin fa-bell"></i>
-                    <span class="">Lịch</span>
-                </a>
-                <ul class="sidebar-submenu" style="display: none;">
-
-                    @can('calendars-list')
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/calendars">
-                                <i class="fas fa-thin fa-envelope"></i>
-                                <span>Lịch vạn niên</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('quotations-list')
-                        <li>
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/quotations">
-                                <i class="fas fa-solid fa-newspaper"></i>
-                                <span>Danh ngôn</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                </ul>
-            </li>
-
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                     <i class="fas fa-thin fa-bell"></i>

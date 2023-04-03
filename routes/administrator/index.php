@@ -867,68 +867,6 @@ Route::prefix('administrator')->group(function () {
         ]);
     });
 
-    Route::prefix('calendars')->group(function () {
-        Route::get('/', [
-            'as' => 'administrator.calendars.index',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@index',
-            'middleware' => 'can:calendars-list',
-        ]);
-
-        Route::get('/create', [
-            'as' => 'administrator.calendars.create',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@create',
-            'middleware' => 'can:calendars-add',
-        ]);
-
-        Route::post('/store', [
-            'as' => 'administrator.calendars.store',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@store',
-            'middleware' => 'can:calendars-add',
-        ]);
-
-        Route::get('/edit/{id}', [
-            'as' => 'administrator.calendars.edit',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@edit',
-            'middleware' => 'can:calendars-edit',
-        ]);
-
-        Route::put('/update/{id}', [
-            'as' => 'administrator.calendars.update',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@update',
-            'middleware' => 'can:calendars-edit',
-        ]);
-
-        Route::delete('/delete/{id}', [
-            'as' => 'administrator.calendars.delete',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@delete',
-            'middleware' => 'can:calendars-delete',
-        ]);
-
-        Route::delete('/delete-many', [
-            'as' => 'administrator.calendars.delete_many',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@deleteManyByIds',
-            'middleware' => 'can:calendars-delete',
-        ]);
-
-        Route::get('/export', [
-            'as' => 'administrator.calendars.export',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@export',
-            'middleware' => 'can:calendars-list',
-        ]);
-
-        Route::get('/import', [
-            'as' => 'administrator.calendars.import',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@import',
-            'middleware' => 'can:calendars-list',
-        ]);
-
-        Route::get('/{id}', [
-            'as' => 'administrator.calendars.get',
-            'uses' => 'App\Http\Controllers\Admin\CalendarsController@get',
-            'middleware' => 'can:calendars-list',
-        ]);
-    });
-
     Route::prefix('orders')->group(function () {
         Route::get('/', [
             'as' => 'administrator.orders.index',
