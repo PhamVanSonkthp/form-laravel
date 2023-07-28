@@ -17,7 +17,7 @@ class CreateLogoSeeder extends Seeder
         SingleImage::create([
             'relate_id' => 1,
             'table' => 'logos',
-            'image_path' => '/assets/single/1/original/logo.png',
+            'image_path' => '/assets/single/1/1/original/wRxEjPjjl2jJA5zybhuc.png',
             'image_name' => 'Logo',
         ]);
     }
