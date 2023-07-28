@@ -20,7 +20,7 @@
 <script>
 
     $(document).ready(function () {
-        $('.open-jquery-date-time').flatpickr({
+        $('input[name="{{$name}}"]').flatpickr({
             enableTime: true,
             dateFormat: "{{config('_my_config.type_date_time_no_second')}}",
             defaultDate: "{{ $defaultDatetime }}",

@@ -103,6 +103,10 @@
             object-fit: cover;
         }
 
+        .simplebar-offset{
+            height: 100% !important;
+        }
+
     </style>
     @yield('css')
 </head>

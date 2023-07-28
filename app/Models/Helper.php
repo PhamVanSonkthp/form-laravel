@@ -416,4 +416,34 @@ class Helper extends Model
 
         $user->notify(new Notifications($subject, $body));
     }
+
+    public static function addZero($input){
+        $input = $input . "";
+
+        if (strlen($input) <= 1) return "0" . $input;
+
+        return $input;
+    }
+
+    public static function randomNumber($length = 6)
+    {
+        $key = "";
+        for ($i = 0 ; $i < $length; $i++){
+            $key .= random_int(0, 9);
+        }
+
+        return $key;
+    }
+
+
+    public static function convertDateVNToEng($input)
+    {
+        $str = explode(" ", $input);
+
+        $input = $str[0];
+        $input = str_replace("/", "-", $input);
+        $values = explode("-", $input);
+        return $values[2] . "-" . $values['1'] . "-" . $values[0] . " " . $str[1];
+    }
+
 }
