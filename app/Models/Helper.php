@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\Notifications;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
+use DateTime;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -444,6 +445,18 @@ class Helper extends Model
         $input = str_replace("/", "-", $input);
         $values = explode("-", $input);
         return $values[2] . "-" . $values['1'] . "-" . $values[0] . " " . $str[1];
+    }
+
+    public static function daysBetweenTwoDates($begin, $end){
+
+        $fdate = $begin;
+        $tdate = $end;
+        $datetime1 = new DateTime($fdate);
+        $datetime2 = new DateTime($tdate);
+        $interval = $datetime1->diff($datetime2);
+        $days = $interval->format('%a');
+
+        return $days;
     }
 
 }

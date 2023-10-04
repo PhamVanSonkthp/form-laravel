@@ -16,7 +16,12 @@ class ImagesController extends Controller
         }
 
         if (empty($item)){
-            return abort(404);
+            try {
+                $storagePath = storage_path('/assets/'.$type.'/' .$user_id. '/' . $id . '/' . $size . '/' . $slug);
+                return Image::make($storagePath)->response();
+            }catch (\Exception $exception){
+                return abort(404);
+            }
         }
 
         if ($item->isPublic()){

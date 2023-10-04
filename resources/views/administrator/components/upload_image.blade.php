@@ -110,12 +110,22 @@
 
 <script>
     @if(isset($image))
-        $('#single-drop-message').hide()
+    $('#single-drop-message').hide()
     @endif
 
-    const single_url_upload_file = "{{$post_api}}"
-    const single_maximum_upload_file = 10e6
-    const single_accept_upload_file = ['image/jpeg', 'image/png', 'image/gif']
+    if (typeof single_url_upload_file === 'undefined') {
+        var single_url_upload_file = "{{$post_api}}"
+    }else{
+        single_url_upload_file = "{{$post_api}}"
+    }
+
+    if (typeof single_maximum_upload_file === 'undefined') {
+        var single_maximum_upload_file = 10e6
+    }
+
+    if (typeof single_accept_upload_file === 'undefined') {
+        var single_accept_upload_file = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+    }
 
     var // where files are dropped + file selector is opened
         single_dropRegion = document.getElementById("single-drop-region"),
