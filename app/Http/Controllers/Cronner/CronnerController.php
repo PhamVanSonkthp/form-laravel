@@ -42,8 +42,8 @@ class CronnerController extends Controller
         $nowTime = $currentHour . ':' . date('i') . ":00";
 
         $nowTime = Carbon::parse($nowTime);
-        $nowTime = $nowTime->addHours(5);
-        $nowTime = $nowTime->addMinutes(30);
+//        $nowTime = $nowTime->addHours(5);
+//        $nowTime = $nowTime->addMinutes(30);
 
         $resultsCron = \App\Models\JobNotification::where('time', $nowTime)->where('notiable', 1)->get();
 
@@ -70,10 +70,10 @@ class CronnerController extends Controller
                             foreach ($item->userScheduleCron as $itemUserScheduleCron) {
                                 if (!empty(optional($itemUserScheduleCron->user)->id)) {
                                     $resultCron[] = [
-                                        'topic' => optional($item->user)->id,
+                                        'topic' => optional($itemUserScheduleCron->user)->id,
                                         'title' => $item->title,
                                         'description' => $item->description,
-                                        'user_id' => optional($item->user)->id,
+                                        'user_id' => optional($itemUserScheduleCron->user)->id,
                                     ];
                                     //
                                     $scheduleRepeatItem->update([

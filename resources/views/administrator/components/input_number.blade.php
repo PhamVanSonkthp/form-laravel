@@ -1,5 +1,7 @@
 @php
-    if(isset($item)){
+    if(isset($value)){
+
+    }elseif(isset($item)){
         $value = $item->$name;
     }else{
         $value = old($name) ?? request($name);

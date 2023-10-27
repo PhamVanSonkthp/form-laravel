@@ -1,5 +1,7 @@
 @php
-    if(isset($item)){
+    if(isset($value)){
+
+    }else if(isset($item)){
         $value = $item->$name;
     }else{
         $value = old($name);
@@ -14,3 +16,10 @@
     <div class="alert alert-danger">{{$message}}</div>
     @enderror
 </div>
+
+<script>
+
+    $("input.number").maskNumber({
+        integer: true
+    })
+</script>

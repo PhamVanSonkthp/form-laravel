@@ -1,4 +1,11 @@
-<button id="btn_delete_checkbox_item" onclick="onDeleteItemByCheckbox()" type="button" class="btn btn-danger" style="display: none">
+<button id="btn_delete_checkbox_item" onclick="onDeleteItemByCheckbox()" type="button" style="display: none;position: absolute;
+    width: 35px;
+    background: red;
+    color: white;
+    border: aliceblue;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 20px;">
     <i class="fa-solid fa-x"></i>
 </button>
 

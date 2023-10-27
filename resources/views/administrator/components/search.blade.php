@@ -30,6 +30,7 @@
             {name: "search_query", value: $('#input_search_query').val()},
             {name: "from", value: input_query_from},
             {name: "to", value: input_query_to},
+            {name: "page", value: 1},
         ])
     }
 

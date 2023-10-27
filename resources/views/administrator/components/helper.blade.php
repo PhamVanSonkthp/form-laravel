@@ -13,7 +13,7 @@
     $(document).ready(function () {
         $('.open-jquery-date-range').flatpickr({
             mode: "range",
-            dateFormat: "{{config('_my_config.type_date')}}",
+            dateFormat: "Y-m-d",
             onClose: function (selectedDates, dateStr, instance) {
                 var dateStart = instance.formatDate(selectedDates[0], "{{config('_my_config.type_date')}}");
                 var dateEnd = instance.formatDate(selectedDates[1], "{{config('_my_config.type_date')}}");
@@ -29,12 +29,12 @@
 
         $('.open-jquery-date-time').flatpickr({
             enableTime: true,
-            dateFormat: "{{config('_my_config.type_date_time_no_second')}}",
+            dateFormat: "Y-m-d H:i",
             defaultDate: "{{ \App\Models\Formatter::getDateTime(now()) }}",
         });
 
         $('.open-jquery-date').flatpickr({
-            dateFormat: "{{config('_my_config.type_date')}}",
+            dateFormat: "Y-m-d",
             defaultDate: "{{ \App\Models\Formatter::getDateTime(now()) }}",
         });
 

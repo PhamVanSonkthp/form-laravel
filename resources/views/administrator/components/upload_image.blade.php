@@ -110,7 +110,7 @@
 
 <script>
     @if(isset($image))
-    $('#single-drop-message').hide()
+        $('#single-drop-message').hide()
     @endif
 
     if (typeof single_url_upload_file === 'undefined') {

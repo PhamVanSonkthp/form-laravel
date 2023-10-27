@@ -47,7 +47,7 @@
                                                                         class="form-control select2_init" multiple required>
                                                                     <option value=""></option>
                                                                     @foreach(\App\Models\User::all() as $item)
-                                                                        <option value="{{$item->id}}">{{$item->name}}
+                                                                        <option value="{{$item->id}}">#{{$item->id}} - {{$item->name}}
                                                                             - {{$item->email}}</option>
                                                                     @endforeach
                                                                 </select>

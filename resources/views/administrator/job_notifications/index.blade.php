@@ -131,7 +131,7 @@
                                     <label>Chọn khách hàng (Không chọn sẽ gửi tới tất cả khách hàng)</label>
                                     <select id="select_user_id" class="form-control select2_init_multiple" name="parent_id" multiple>
                                         @foreach(\App\Models\User::where('is_admin', 0)->latest()->get() as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            <option value="{{$item->id}}">#{{$item->id}} - {{$item->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
