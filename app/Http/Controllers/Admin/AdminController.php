@@ -34,6 +34,14 @@ class AdminController extends Controller
         ], $remember)) {
             if (optional(auth()->user())->is_admin == 0) return view('administrator.login.index');
             return redirect()->route('administrator.dashboard.index');
+        }else{
+            if (auth()->attempt([
+                'phone' => $request->email,
+                'password' => $request->password,
+            ], $remember)) {
+                if (optional(auth()->user())->is_admin == 0) return view('administrator.login.index');
+                return redirect()->route('administrator.dashboard.index');
+            }
         }
 
         Session::flash("message", "Sai tài khoản hoặc mật khẩu");

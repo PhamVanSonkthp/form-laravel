@@ -25,6 +25,7 @@ return [
     |
      */
 
+    'allow_multi_user' => true,
     'allow_private_folder'     => true,
 
     // Flexible way to customize client folders accessibility

@@ -35,70 +35,82 @@
         </div>
         <div class="nav-right col-10 col-sm-6 pull-right right-header p-0">
             <ul class="nav-menus">
-
-                <li class="onhover-dropdown">
-                    <a class="notification-box" href="{{route('administrator.user_flights.index', ['user_flight_status_id' => 5])}}" title="Vé máy bay cần xử lý">
-                        <i class="fa-solid fa-plane"></i>
-
-                        @php
-                            $numberFlightNeedProcess = \App\Models\UserFlight::where('user_flight_status_id', 5)->count();
-                        @endphp
-
-                        @if($numberFlightNeedProcess > 0)
-                            <span style="top: -12px;" class="badge rounded-pill badge-warning">{{$numberFlightNeedProcess}} </span>
-                        @endif
-                    </a>
+                <li class="d-md-none resp-serch-input">
+                    <div class="resp-serch-box"><i data-feather="search"></i></div>
+                    <div class="form-group search-form">
+                        <input type="text" placeholder="Search here...">
+                    </div>
                 </li>
-
-                <li class="onhover-dropdown">
-                    <a class="notification-box" href="{{route('administrator.user_hotels.index', ['user_hotel_status_id' => 2])}}" title="Khách sạn cần xử lý">
-                        <i class="fa-solid fa-hotel"></i>
-                        @php
-                            $numberHotelNeedProcess = \App\Models\UserHotel::where('user_hotel_status_id', 2)->count();
-                        @endphp
-
-                        @if($numberHotelNeedProcess > 0)
-                            <span style="top: -12px;" class="badge rounded-pill badge-warning">{{$numberHotelNeedProcess}} </span>
-                        @endif
-
-                    </a>
+                <li class="onhover-dropdown d-none">
+                    <div class="notification-box">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <g>
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M11.9961 2.51416C7.56185 2.51416 5.63519 6.5294 5.63519 9.18368C5.63519 11.1675 5.92281 10.5837 4.82471 13.0037C3.48376 16.4523 8.87614 17.8618 11.9961 17.8618C15.1152 17.8618 20.5076 16.4523 19.1676 13.0037C18.0695 10.5837 18.3571 11.1675 18.3571 9.18368C18.3571 6.5294 16.4295 2.51416 11.9961 2.51416Z"
+                                          stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                          stroke-linejoin="round"></path>
+                                    <path d="M14.306 20.5122C13.0117 21.9579 10.9927 21.9751 9.68604 20.5122"
+                                          stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                          stroke-linejoin="round"></path>
+                                </g>
+                            </g>
+                        </svg>
+                        <span class="badge rounded-pill badge-warning">4 </span>
+                    </div>
+                    <div class="onhover-show-div notification-dropdown">
+                        <div class="dropdown-title">
+                            <h3>Notification</h3><a class="f-right" href="cart.html"> <i data-feather="bell"> </i></a>
+                        </div>
+                        <ul class="custom-scrollbar">
+                            <li>
+                                <div class="media">
+                                    <div class="notification-img bg-light-primary"><img
+                                            src="../assets/images/avtar/man.png" alt=""></div>
+                                    <div class="media-body">
+                                        <h5><a class="f-14 m-0" href="user-profile.html">Allie Grater</a></h5>
+                                        <p>Lorem ipsum dolor sit amet...</p><span>10:20</span>
+                                    </div>
+                                    <div class="notification-right"><a href="#"><i data-feather="x"></i></a></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="media">
+                                    <div class="notification-img bg-light-secondary"><img
+                                            src="../assets/images/avtar/teacher.png" alt=""></div>
+                                    <div class="media-body">
+                                        <h5><a class="f-14 m-0" href="user-profile.html">Olive Yew</a></h5>
+                                        <p>Lorem ipsum dolor sit amet...</p><span>09:20</span>
+                                    </div>
+                                    <div class="notification-right"><a href="#"><i data-feather="x"></i></a></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="media">
+                                    <div class="notification-img bg-light-info"><img
+                                            src="../assets/images/avtar/teenager.png" alt=""></div>
+                                    <div class="media-body">
+                                        <h5><a class="f-14 m-0" href="user-profile.html">Peg Legge</a></h5>
+                                        <p>Lorem ipsum dolor sit amet...</p><span>07:20</span>
+                                    </div>
+                                    <div class="notification-right"><a href="#"><i data-feather="x"></i></a></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="media">
+                                    <div class="notification-img bg-light-success"><img
+                                            src="../assets/images/avtar/chinese.png" alt=""></div>
+                                    <div class="media-body">
+                                        <h5><a class="f-14 m-0" href="user-profile.html">Teri Dactyl</a></h5>
+                                        <p>Lorem ipsum dolor sit amet...</p><span>05:20</span>
+                                    </div>
+                                    <div class="notification-right"><a href="#"><i data-feather="x"></i></a></div>
+                                </div>
+                            </li>
+                            <li class="p-0"><a class="btn btn-primary" href="#">Check all</a></li>
+                        </ul>
+                    </div>
                 </li>
-
-                <li class="onhover-dropdown">
-                    <a class="notification-box" href="{{route('administrator.user_combos.index', ['user_combo_status_id' => 2])}}" title="Combo cần xử lý">
-                        <i class="fa-solid fa-group-arrows-rotate"></i>
-                        @php
-                            $numberComboNeedProcess = \App\Models\UserCombo::where('user_combo_status_id', 2)->count();
-                        @endphp
-
-                        @if($numberComboNeedProcess > 0)
-                            <span style="top: -12px;" class="badge rounded-pill badge-warning">{{$numberComboNeedProcess}} </span>
-                        @endif
-
-                    </a>
-                </li>
-
-
-
-                <li class="onhover-dropdown">
-
-                    @php
-                        $statusWeb2M = \App\Models\StatusWeb2M::first();
-                    @endphp
-                    @if($statusWeb2M->is_success == 1)
-                        <a class="notification-box">
-                            <div title="Hệ thống nạp tiền tự động: {{$statusWeb2M->description}} - {{$statusWeb2M->updated_at}}" class="progress-gradient-success" role="progressbar" style="width: 60%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span class="animate-circle"></span></div>
-                        </a>
-                    @else
-                        <a class="notification-box" title="Hệ thống nạp tiền tự động: {{$statusWeb2M->description}} - {{$statusWeb2M->updated_at}}">
-                            <div class="progress-gradient-danger" role="progressbar" style="width: 60%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span class="animate-circle"></span></div>
-                        </a>
-                    @endif
-                </li>
-
-                <li class="maximize"><a class="text-dark" href="#!">
-                        {{auth()->user()->name}}
-                    </a></li>
                 <li class="maximize"><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g>
@@ -147,10 +159,10 @@
                         </svg>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
-{{--                        <li><a href="user-profile.html"><i data-feather="user"></i><span>Account </span></a></li>--}}
-{{--                        <li><a href="email-application.html"><i data-feather="mail"></i><span>Inbox</span></a></li>--}}
-{{--                        <li><a href="kanban.html"><i data-feather="file-text"></i><span>Taskboard</span></a></li>--}}
-                        <li><a href="{{route('administrator.settings.edit' , ['id'=> 1 ])}}"><i data-feather="settings"></i><span>Cài đặt</span></a></li>
+                        {{--                        <li><a href="user-profile.html"><i data-feather="user"></i><span>Account </span></a></li>--}}
+                        {{--                        <li><a href="email-application.html"><i data-feather="mail"></i><span>Inbox</span></a></li>--}}
+                        {{--                        <li><a href="kanban.html"><i data-feather="file-text"></i><span>Taskboard</span></a></li>--}}
+                        <li><a href="{{route('administrator.settings.index')}}"><i data-feather="settings"></i><span>Cài đặt</span></a></li>
                         <li><a href="{{route('administrator.password.index')}}"><i data-feather="file-text"></i><span>Đổi mật khẩu</span></a></li>
                         <li><a class="color-danger" href="{{route('administrator.logout')}}"><i data-feather="log-in"> </i><span class="color-danger">Đăng xuất</span></a></li>
                     </ul>

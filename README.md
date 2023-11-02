@@ -33,6 +33,26 @@ php artisan db:seed --class=CreatePermissionSeeder
 
 -- Begin --
 * Đối với App có sử dụng thông báo, cần đăng ký topic "app" khi vào app
-* thư viện Laravel-attribute lỗi, thay đổi ở đây "vendor/rinvex/laravel-attributes/src/Events"  
+
+* Thư viện Laravel-attribute lỗi, thay đổi ở đây "vendor/rinvex/laravel-attributes/src/Events"  
 && ($values = \Illuminate\Support\Collection::wrap($entity->getRelationValue($relation))) && ! $values->isEmpty()) {
+
+* Thư viện Laravel-File-Manager lỗi, thay đổi ở đây "vendor/unisharp/laravel-filemanager/src/Lfm.php"
+$rInput = [];
+if ($this->isRunningOnWindows()) {
+    // $input = iconv('UTF-8', mb_detect_encoding($input), $input);
+
+    if (is_array($input)) {
+        foreach ($input as $k => $i) {
+            $rInput[] = iconv('UTF-8', mb_detect_encoding($i), $i);
+        }
+    } else {
+        $rInput = $input;
+    }
+} else {
+    $rInput = $input;
+}
+return $rInput;
+// return $input;
+
 -- End --

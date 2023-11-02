@@ -57,7 +57,6 @@
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>#</th>
                                     <th>Tên</th>
-                                    <th>Mô tả</th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
