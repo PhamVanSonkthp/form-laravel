@@ -55,4 +55,8 @@ if ($this->isRunningOnWindows()) {
 return $rInput;
 // return $input;
 
+* Thư viện Laravel-File-Manager lỗi, thay đổi ở đây "vendor/unisharp/laravel-filemanager/src/Controllers/DeleteController.php"
+//                    array_push($errors, parent::error('delete-folder'));
+//                    continue;
+
 -- End --

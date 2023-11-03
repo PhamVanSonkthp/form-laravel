@@ -16,6 +16,7 @@ return [
      */
 
     'use_package_routes'       => true,
+
     /*
     |--------------------------------------------------------------------------
     | Shared folder / Private folder
@@ -25,7 +26,6 @@ return [
     |
      */
 
-    'allow_multi_user' => true,
     'allow_private_folder'     => true,
 
     // Flexible way to customize client folders accessibility
@@ -38,6 +38,7 @@ return [
     'allow_shared_folder'      => true,
 
     'shared_folder_name'       => 'shares',
+
     /*
     |--------------------------------------------------------------------------
     | Folder Names
@@ -49,6 +50,9 @@ return [
             'folder_name'  => 'files',
             'startup_view' => 'list',
             'max_size'     => 50000, // size in KB
+            'thumb' => true,
+            'thumb_width' => 80,
+            'thumb_height' => 80,
             'valid_mime'   => [
                 'image/jpeg',
                 'image/pjpeg',
@@ -62,6 +66,9 @@ return [
             'folder_name'  => 'photos',
             'startup_view' => 'grid',
             'max_size'     => 50000, // size in KB
+            'thumb' => true,
+            'thumb_width' => 80,
+            'thumb_height' => 80,
             'valid_mime'   => [
                 'image/jpeg',
                 'image/pjpeg',
@@ -105,6 +112,9 @@ return [
     // setting it to true cause old file replace with new one
     // setting it to false show `error-file-exist` error and stop upload
     'over_write_on_duplicate'  => false,
+
+    // mimetypes of executables to prevent from uploading
+    'disallowed_mimetypes' => ['text/x-php', 'text/html', 'text/plain'],
 
     // Item Columns
     'item_columns' => ['name', 'url', 'time', 'icon', 'is_file', 'is_image', 'thumb_url'],
