@@ -23,7 +23,7 @@
                         @include('administrator.components.checkbox_delete_table')
 
                         <div class="table-responsive product-table">
-                            <table class="table table-hover">
+                            <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
@@ -47,16 +47,20 @@
                                         <td>{{ optional($item->category)->name}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
-                                            <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}"
-                                               class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                                                <i class="fa-solid fa-pen"></i>
+                                            <a class="btn btn-outline-secondary btn-sm edit" title="Sửa"
+                                               href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"
+                                               data-id="{{$item->id}}"><i class="fa-solid fa-pen"></i></a>
+
+                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}" title="Xóa"
+                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
+                                               class="btn btn-outline-danger btn-sm delete action_delete">
+                                                <i class="fa-solid fa-x"></i>
                                             </a>
 
-                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-danger btn-sm delete action_delete"
-                                               title="Delete">
-                                                <i class="fa-solid fa-x"></i>
+                                            <a href="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}" title="Lịch sử tác động"
+                                               data-url="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}"
+                                               class="btn btn-outline-info btn-sm action_audit">
+                                                <i class="fa-solid fa-circle-info"></i>
                                             </a>
                                         </td>
                                     </tr>

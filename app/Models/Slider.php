@@ -6,6 +6,7 @@ use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -57,7 +58,7 @@ class Slider extends Model implements Auditable
         return Helper::searchByQuery($this, $request, $queries);
     }
 
-    public function storeByQuery($request)
+    public function storeByQuery(Request $request)
     {
         $dataInsert = [
             'link' => $request->link,
@@ -68,12 +69,11 @@ class Slider extends Model implements Auditable
         return $this->findById($item->id);
     }
 
-    public function updateByQuery($request, $id)
+    public function updateByQuery(Request $request, $id)
     {
         $dataUpdate = [
             'link' => $request->link,
         ];
-
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);
     }

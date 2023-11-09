@@ -5,6 +5,7 @@ namespace {{ namespace }};
 use {{ namespacedModel }};
 use {{ rootNamespace }}Http\Controllers\Controller;
 use {{ namespacedRequests }}
+use App\Models\Audit;
 use App\Traits\BaseControllerTrait;
 use App\Exports\ModelExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -68,5 +69,20 @@ class {{ class }} extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function audit(Request $request, $id)
+    {
+        $auditModel = new Audit();
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\{{ model }}'], null, null, true);
+
+        $items = $items->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
     }
 }

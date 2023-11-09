@@ -20,7 +20,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive product-table">
-                            <table class="table table-hover ">
+                            <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
                                     <th>IP Address</th>

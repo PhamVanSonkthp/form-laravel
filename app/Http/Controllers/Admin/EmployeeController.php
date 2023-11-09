@@ -7,6 +7,7 @@ use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserEditRequest;
+use App\Models\Audit;
 use App\Models\Role;
 use App\Models\User;
 use App\Traits\BaseControllerTrait;
@@ -47,7 +48,7 @@ class EmployeeController extends Controller
         return view('administrator.'.$this->prefixView.'.add');
     }
 
-    public function store(UserAddRequest $request)
+    public function store(Request $request)
     {
         $item = $this->model->storeByQuery($request);
         return redirect()->route('administrator.'.$this->prefixView.'.index');
@@ -60,15 +61,15 @@ class EmployeeController extends Controller
         return view('administrator.'.$this->prefixView.'.edit', compact('item','rolesOfUser'));
     }
 
-    public function update($id, UserEditRequest $request)
+    public function update($id, Request $request)
     {
-        $item = $this->model->updateByQuery($id,$request);
+        $item = $this->model->updateByQuery($request, $id);
         return back();
     }
 
     public function delete($id)
     {
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->model->deleteModelTrait($id, $this->model);
     }
 
     public function deleteManyByIds(Request $request)
@@ -79,5 +80,20 @@ class EmployeeController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function audit(Request $request, $id)
+    {
+        $auditModel = new Audit();
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\User'], null, null, true);
+
+        $items = $items->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
     }
 }

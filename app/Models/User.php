@@ -12,9 +12,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     use UserTrait;
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     use \Awobaz\Compoships\Compoships;

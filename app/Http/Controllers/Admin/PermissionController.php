@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PermissionAddRequest;
+use App\Models\Audit;
 use App\Models\Permission;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use function view;
 
 class PermissionController extends Controller
@@ -41,5 +44,20 @@ class PermissionController extends Controller
         }
 
         return redirect()->route('administrator.roles.index');
+    }
+
+    public function audit(Request $request, $id)
+    {
+        $auditModel = new Audit();
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\Permission'], null, null, true);
+
+        $items = $items->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
     }
 }

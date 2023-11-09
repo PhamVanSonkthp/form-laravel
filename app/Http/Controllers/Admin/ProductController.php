@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
+use App\Models\Audit;
 use App\Models\Category;
 use App\Models\Formatter;
 use App\Models\Helper;
@@ -87,6 +88,21 @@ class ProductController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function audit(Request $request, $id)
+    {
+        $auditModel = new Audit();
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\Product'], null, null, true);
+
+        $items = $items->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
     }
 
     public function import(Request $request)

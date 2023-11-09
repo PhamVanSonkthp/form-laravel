@@ -104,6 +104,11 @@ return [
         'vouchers-edit' => 'vouchers_edit',
         'vouchers-delete' => 'vouchers_delete',
 
+        'medias-list' => 'medias_list',
+        'medias-add' => 'medias_add',
+        'medias-edit' => 'medias_edit',
+        'medias-delete' => 'medias_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -126,6 +131,7 @@ return [
         'calendars',
         'orders',
         'vouchers',
+        'medias',
     ],
 
     'table_module_name'=>[
@@ -149,6 +155,7 @@ return [
         'Quản lý lịch',
         'Quản lý đơn hàng',
         'Quản lý mã giảm giá',
+        'Quản lý file',
     ],
 
     'module_children'=>[

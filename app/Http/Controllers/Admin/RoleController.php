@@ -6,6 +6,7 @@ use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleAddRequest;
 use App\Http\Requests\RoleEditRequest;
+use App\Models\Audit;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Traits\BaseControllerTrait;
@@ -84,7 +85,7 @@ class RoleController extends Controller
     }
 
     public function delete($id){
-        return $this->deleteModelTrait($id, $this->model);
+        return $this->model->deleteModelTrait($id, $this->model);
     }
 
     public function deleteManyByIds(Request $request)
@@ -95,5 +96,20 @@ class RoleController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function audit(Request $request, $id)
+    {
+        $auditModel = new Audit();
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\Role'], null, null, true);
+
+        $items = $items->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
     }
 }

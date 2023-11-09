@@ -166,6 +166,24 @@
     </div>
 </div>
 
+<!--Modal-->
+
+<div class="modal fade" id="modal_audit" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Lịch sử</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="content_modal_audit">
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap js-->
 <script src="{{asset('/assets/administrator/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
 <!-- feather icon js-->

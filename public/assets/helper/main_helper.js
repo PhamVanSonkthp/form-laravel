@@ -162,6 +162,43 @@ function actionDelete(event, url = null, table = null, target_remove = null) {
     })
 }
 
+function actionAudit(event, url = null, table = null, target_remove = null) {
+    event.preventDefault()
+    let urlRequest = $(this).data('url')
+    let that = $(this)
+
+    if (!urlRequest) {
+        urlRequest = url
+    }
+
+    $.ajax({
+        type: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: urlRequest,
+        beforeSend: function () {
+            showLoading()
+        },
+        success: function (response) {
+            hideLoading()
+            $('#content_modal_audit').html(response.html)
+            showModal('modal_audit')
+        },
+        error: function (err) {
+            console.log(err)
+            hideLoading()
+            Swal.fire(
+                {
+                    icon: 'error',
+                    title: err.responseText,
+                }
+            );
+        },
+    })
+
+}
+
 let editor_config = {
     path_absolute : "/",
     selector: 'textarea.tinymce_editor_init',
@@ -817,6 +854,7 @@ function addUrlParameterObjects($params) {
 
 $(document).ready(function () {
     $(document).on('click', '.action_delete', actionDelete);
+    $(document).on('click', '.action_audit', actionAudit);
     $("input").attr("autocomplete", "off");
 });
 

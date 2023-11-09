@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
+use App\Models\Audit;
 use App\Models\JobEmail;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
 use function view;
 
@@ -74,6 +76,21 @@ class JobEmailController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function audit(Request $request, $id)
+    {
+        $auditModel = new Audit();
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\JobEmail'], null, null, true);
+
+        $items = $items->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
     }
 
 }

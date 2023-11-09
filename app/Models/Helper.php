@@ -269,23 +269,12 @@ class Helper extends Model
 
     public static function storeByQuery($object, $request, $dataCreate)
     {
-//        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
-//        if (!empty($dataUploadFeatureImage)) {
-//            $dataCreate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-//            $dataCreate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-//        }
-
         $item = $object->create($dataCreate);
         return $item;
     }
 
     public static function updateByQuery($object, $request, $id, $dataUpdate)
     {
-//        $dataUploadFeatureImage = $object->storageTraitUpload($request, 'feature_image_path', $object->getTableName());
-//        if (!empty($dataUploadFeatureImage)) {
-//            $dataUpdate['feature_image_name'] = $dataUploadFeatureImage['file_name'];
-//            $dataUpdate['feature_image_path'] = $dataUploadFeatureImage['file_path'];
-//        }
         $object->find($id)->update($dataUpdate);
         $item = $object->find($id);
         return $item;

@@ -28,6 +28,14 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateCalendars();
         $this->defineGateOrders();
         $this->defineGateVouchers();
+        $this->defineGateMedias();
+    }
+
+    public function defineGateMedias(){
+        Gate::define('medias-list','App\Policies\MediaPolicy@view');
+        Gate::define('medias-add','App\Policies\MediaPolicy@create');
+        Gate::define('medias-edit','App\Policies\MediaPolicy@update');
+        Gate::define('medias-delete','App\Policies\MediaPolicy@delete');
     }
 
     public function defineGateJobNotification(){

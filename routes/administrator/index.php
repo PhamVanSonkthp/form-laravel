@@ -116,6 +116,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:users-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.users.audit',
+            'uses'=>'App\Http\Controllers\Admin\UserController@audit',
+            'middleware'=>'can:users-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.users.get',
             'uses' => 'App\Http\Controllers\Admin\UserController@get',
@@ -171,6 +177,12 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.chats.export',
             'uses' => 'App\Http\Controllers\Admin\ChatController@export',
             'middleware' => 'can:chats-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.chats.audit',
+            'uses'=>'App\Http\Controllers\Admin\ChatController@audit',
+            'middleware'=>'can:chats-list',
         ]);
 
         Route::get('/{id}', [
@@ -230,6 +242,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:employees-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.employees.audit',
+            'uses'=>'App\Http\Controllers\Admin\EmployeeController@audit',
+            'middleware'=>'can:employees-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.employees.get',
             'uses' => 'App\Http\Controllers\Admin\EmployeeController@get',
@@ -285,6 +303,12 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.roles.export',
             'uses' => 'App\Http\Controllers\Admin\RoleController@export',
             'middleware' => 'can:roles-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.roles.audit',
+            'uses'=>'App\Http\Controllers\Admin\RoleController@audit',
+            'middleware'=>'can:roles-list',
         ]);
 
         Route::get('/{id}', [
@@ -359,6 +383,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:sliders-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.sliders.audit',
+            'uses'=>'App\Http\Controllers\Admin\SliderController@audit',
+            'middleware'=>'can:sliders-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.sliders.get',
             'uses' => 'App\Http\Controllers\Admin\SliderController@get',
@@ -416,6 +446,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:news-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.news.audit',
+            'uses'=>'App\Http\Controllers\Admin\NewsController@audit',
+            'middleware'=>'can:news-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.news.get',
             'uses' => 'App\Http\Controllers\Admin\NewsController@get',
@@ -453,6 +489,12 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.job_emails.export',
             'uses' => 'App\Http\Controllers\Admin\JobEmailController@export',
             'middleware' => 'can:job_emails-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.job_emails.audit',
+            'uses'=>'App\Http\Controllers\Admin\JobEmailController@audit',
+            'middleware'=>'can:job_emails-list',
         ]);
 
         Route::get('/{id}', [
@@ -512,6 +554,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:job_notifications-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.job_notifications.audit',
+            'uses'=>'App\Http\Controllers\Admin\JobNotificationController@audit',
+            'middleware'=>'can:job_notifications-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.job_notifications.get',
             'uses' => 'App\Http\Controllers\Admin\JobNotificationController@get',
@@ -569,6 +617,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:categories-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.categories.audit',
+            'uses'=>'App\Http\Controllers\Admin\CategoryController@audit',
+            'middleware'=>'can:categories-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.categories.get',
             'uses' => 'App\Http\Controllers\Admin\CategoryController@get',
@@ -623,6 +677,12 @@ Route::prefix('administrator')->group(function () {
         Route::get('/export', [
             'as'=>'administrator.products.export',
             'uses'=>'App\Http\Controllers\Admin\ProductController@export',
+            'middleware'=>'can:products-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.products.audit',
+            'uses'=>'App\Http\Controllers\Admin\ProductController@audit',
             'middleware'=>'can:products-list',
         ]);
 
@@ -689,6 +749,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:settings-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.settings.audit',
+            'uses'=>'App\Http\Controllers\Admin\SettingController@audit',
+            'middleware'=>'can:settings-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.settings.get',
             'uses' => 'App\Http\Controllers\Admin\SettingController@get',
@@ -744,6 +810,12 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.category_news.export',
             'uses' => 'App\Http\Controllers\Admin\CategoryNewController@export',
             'middleware' => 'can:category_news-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.category_news.audit',
+            'uses'=>'App\Http\Controllers\Admin\CategoryNewController@audit',
+            'middleware'=>'can:category_news-list',
         ]);
 
         Route::get('/{id}', [
@@ -803,6 +875,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:system_branches-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.system_branches.audit',
+            'uses'=>'App\Http\Controllers\Admin\SystemBranchController@audit',
+            'middleware'=>'can:system_branches-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.system_branches.get',
             'uses' => 'App\Http\Controllers\Admin\SystemBranchController@get',
@@ -859,6 +937,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:quotations-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.quotations.audit',
+            'uses'=>'App\Http\Controllers\Admin\QuotationController@audit',
+            'middleware'=>'can:quotations-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.quotations.get',
             'uses' => 'App\Http\Controllers\Admin\QuotationController@get',
@@ -913,6 +997,12 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.orders.export',
             'uses' => 'App\Http\Controllers\Admin\OrderController@export',
             'middleware' => 'can:orders-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.orders.audit',
+            'uses'=>'App\Http\Controllers\Admin\OrderController@audit',
+            'middleware'=>'can:orders-list',
         ]);
 
         Route::get('/import', [
@@ -977,6 +1067,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:vouchers-list',
         ]);
 
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.vouchers.audit',
+            'uses'=>'App\Http\Controllers\Admin\VoucherController@audit',
+            'middleware'=>'can:vouchers-list',
+        ]);
+
         Route::get('/import', [
             'as' => 'administrator.vouchers.import',
             'uses' => 'App\Http\Controllers\Admin\VoucherController@import',
@@ -991,65 +1087,13 @@ Route::prefix('administrator')->group(function () {
     });
 
     Route::prefix('medias')->group(function () {
+
         Route::get('/', [
             'as' => 'administrator.medias.index',
             'uses' => 'App\Http\Controllers\Admin\MediaController@index',
-            'middleware' => 'can:vouchers-list',
+            'middleware' => 'can:medias-list',
         ]);
 
-        Route::get('/create', [
-            'as' => 'administrator.vouchers.create',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@create',
-            'middleware' => 'can:vouchers-add',
-        ]);
-
-        Route::post('/store', [
-            'as' => 'administrator.vouchers.store',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@store',
-            'middleware' => 'can:vouchers-add',
-        ]);
-
-        Route::get('/edit/{id}', [
-            'as' => 'administrator.vouchers.edit',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@edit',
-            'middleware' => 'can:vouchers-edit',
-        ]);
-
-        Route::put('/update/{id}', [
-            'as' => 'administrator.vouchers.update',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@update',
-            'middleware' => 'can:vouchers-edit',
-        ]);
-
-        Route::delete('/delete/{id}', [
-            'as' => 'administrator.vouchers.delete',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@delete',
-            'middleware' => 'can:vouchers-delete',
-        ]);
-
-        Route::delete('/delete-many', [
-            'as' => 'administrator.vouchers.delete_many',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@deleteManyByIds',
-            'middleware' => 'can:vouchers-delete',
-        ]);
-
-        Route::get('/export', [
-            'as' => 'administrator.vouchers.export',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@export',
-            'middleware' => 'can:vouchers-list',
-        ]);
-
-        Route::get('/import', [
-            'as' => 'administrator.vouchers.import',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@import',
-            'middleware' => 'can:vouchers-list',
-        ]);
-
-        Route::get('/{id}', [
-            'as' => 'administrator.vouchers.get',
-            'uses' => 'App\Http\Controllers\Admin\VoucherController@get',
-            'middleware' => 'can:vouchers-list',
-        ]);
     });
 
 });

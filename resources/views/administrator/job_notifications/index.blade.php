@@ -23,7 +23,7 @@
                         @include('administrator.components.checkbox_delete_table')
 
                         <div class="table-responsive product-table">
-                            <table class="table table-hover ">
+                            <table class="table table-hover table-bordered">
                                 <thead>
                                 <tr>
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
@@ -85,6 +85,12 @@
                                                class="btn btn-outline-danger btn-sm delete action_delete"
                                                title="Delete">
                                                 <i class="fa-solid fa-x"></i>
+                                            </a>
+
+                                            <a href="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}" title="Lịch sử tác động"
+                                               data-url="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}"
+                                               class="btn btn-outline-info btn-sm action_audit">
+                                                <i class="fa-solid fa-circle-info"></i>
                                             </a>
                                         </td>
                                     </tr>

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ModelExport;
+use App\Models\Audit;
 use App\Models\News;
 use App\Http\Controllers\Controller;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
@@ -68,5 +70,20 @@ class NewsController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function audit(Request $request, $id)
+    {
+        $auditModel = new Audit();
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\News'], null, null, true);
+
+        $items = $items->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
     }
 }

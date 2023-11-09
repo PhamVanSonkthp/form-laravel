@@ -19,9 +19,9 @@
 
                     <div class="form-group">
                         <label>Link</label>
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                        <input type="text" name="link" class="form-control @error('link') is-invalid @enderror"
                                value="{{$item->link}}" required>
-                        @error('name')
+                        @error('link')
                         <div class="alert alert-danger">{{$message}}</div>
                         @enderror
                     </div>

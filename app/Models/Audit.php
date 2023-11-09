@@ -17,6 +17,14 @@ class Audit extends Model
         return $this->hasOne(User::class , 'id' , 'user_id');
     }
 
+    public function oldValues(){
+        return json_decode($this->old_values, true);
+    }
+
+    public function newValues(){
+        return json_decode($this->new_values, true);
+    }
+
     // end
 
     public function getTableName()
@@ -43,9 +51,9 @@ class Audit extends Model
         return $this->hasOne(User::class,'id','created_by_id');
     }
 
-    public function searchByQuery($request, $queries = [])
+    public function searchByQuery($request, $queries = [], $randomRecord = null, $makeHiddens = null, $isCustom = false)
     {
-        return Helper::searchByQuery($this, $request, $queries);
+        return Helper::searchByQuery($this, $request, $queries, $randomRecord, $makeHiddens, $isCustom);
     }
 
     public function storeByQuery($request)
