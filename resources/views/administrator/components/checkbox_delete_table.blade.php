@@ -1,4 +1,4 @@
-<button id="btn_delete_checkbox_item" onclick="onDeleteItemByCheckbox()" type="button" style="display: none;position: absolute;
+<button id="btn_delete_checkbox_item" onclick="onDeleteItemByCheckbox()" type="button" style="display: none;position: unset;
     width: 35px;
     background: red;
     color: white;

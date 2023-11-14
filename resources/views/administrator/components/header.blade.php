@@ -111,6 +111,10 @@
                         </ul>
                     </div>
                 </li>
+                <li class="maximize"><a class="text-dark" href="#!">
+                        {{auth()->user()->name}}
+                    </a></li>
+
                 <li class="maximize"><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g>
@@ -158,7 +162,7 @@
                             </g>
                         </svg>
                     </div>
-                    <ul class="profile-dropdown onhover-show-div">
+                    <ul class="profile-dropdown onhover-show-div" style="top: 35px;">
                         {{--                        <li><a href="user-profile.html"><i data-feather="user"></i><span>Account </span></a></li>--}}
                         {{--                        <li><a href="email-application.html"><i data-feather="mail"></i><span>Inbox</span></a></li>--}}
                         {{--                        <li><a href="kanban.html"><i data-feather="file-text"></i><span>Taskboard</span></a></li>--}}

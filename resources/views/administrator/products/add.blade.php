@@ -11,60 +11,63 @@
     <form action="{{route('administrator.'.$prefixView.'.store')}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên'])
 
-            @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên'])
+                    @if($isSingleImage)
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_image', ['post_api' => $imagePostUrl, 'table' => $table, 'image' => $imagePathSingple , 'relate_id' => $relateImageTableId])
+                        </div>
+                    @endif
 
-            @if($isSingleImage)
-                <div class="mt-3 mb-3">
-                    @include('administrator.components.upload_image', ['post_api' => $imagePostUrl, 'table' => $table, 'image' => $imagePathSingple , 'relate_id' => $relateImageTableId])
+                    @if($isMultipleImages)
+                        <div class="mt-3 mb-3">
+                            @include('administrator.components.upload_multiple_images', ['post_api' => $imageMultiplePostUrl, 'delete_api' => $imageMultipleDeleteUrl , 'sort_api' => $imageMultipleSortUrl, 'table' => $table , 'images' => $imagesPath,'relate_id' => $relateImageTableId])
+                        </div>
+                    @endif
+
+                    @include('administrator.components.require_input_text' , ['name' => 'short_description' , 'label' => 'Mô tả ngắn'])
+
+                    @include('administrator.components.require_textarea_description', ['name' => 'description' , 'label' => 'Mô tả'])
+
+                    @include('administrator.components.select_category' , ['name' => 'category_id' ,'html_category' => \App\Models\Category::getCategory(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])
+
+                    <div id="container_infor__attributes" class="p-3">
+                        <label>
+                            Sản phẩm có biển thể
+                        </label>
+                        <button onclick="addValueAttribute()" type="button" class="btn btn-outline-success"><i
+                                class="fa-solid fa-plus"></i></button>
+                    </div>
+
+                    <div id="bassic_price">
+
+                    </div>
+
+                    <input id="_headers" name="_headers" type="text" value="" class="hidden">
+
+                    <input id="_attributes" name="_attributes" type="text" value="" class="hidden">
+
+                    <div id="table_bassic_price" class="card p-3 m-3" style="display: none;">
+
+                    </div>
+
+                    <div id="price">
+                        @include('administrator.components.input_number' , ['name' => 'price_import' , 'label' => 'Giá nhập'])
+
+                        @include('administrator.components.input_number' , ['name' => 'price_client' , 'label' => 'Giá bán lẻ'])
+
+                        @include('administrator.components.input_number' , ['name' => 'price_agent' , 'label' => 'Giá bán buôn (đại lý)'])
+
+                        @include('administrator.components.input_number' , ['name' => 'price_partner' , 'label' => 'Giá CTV (Cộng tác viên)'])
+
+                        @include('administrator.components.input_number' , ['name' => 'inventory' , 'label' => 'Tồn kho'])
+                    </div>
+
+                    @include('administrator.components.button_save')
                 </div>
-            @endif
-
-            @if($isMultipleImages)
-                <div class="mt-3 mb-3">
-                    @include('administrator.components.upload_multiple_images', ['post_api' => $imageMultiplePostUrl, 'delete_api' => $imageMultipleDeleteUrl , 'sort_api' => $imageMultipleSortUrl, 'table' => $table , 'images' => $imagesPath,'relate_id' => $relateImageTableId])
-                </div>
-            @endif
-
-            @include('administrator.components.require_input_text' , ['name' => 'short_description' , 'label' => 'Mô tả ngắn'])
-
-            @include('administrator.components.require_textarea_description', ['name' => 'description' , 'label' => 'Mô tả'])
-
-            @include('administrator.components.select_category' , ['name' => 'category_id' ,'html_category' => \App\Models\Category::getCategory(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])
-
-            <div id="container_infor__attributes" class="p-3">
-                <label>
-                    Sản phẩm có biển thể
-                </label>
-                <button onclick="addValueAttribute()" type="button" class="btn btn-outline-success"><i
-                        class="fa-solid fa-plus"></i></button>
             </div>
-
-            <div id="bassic_price">
-
-            </div>
-
-            <input id="_headers" name="_headers" type="text" value="" class="hidden">
-
-            <input id="_attributes" name="_attributes" type="text" value="" class="hidden">
-
-            <div id="table_bassic_price" class="card p-3 m-3" style="display: none;">
-
-            </div>
-
-            <div id="price">
-                @include('administrator.components.input_number' , ['name' => 'price_import' , 'label' => 'Giá nhập'])
-
-                @include('administrator.components.input_number' , ['name' => 'price_client' , 'label' => 'Giá bán lẻ'])
-
-                @include('administrator.components.input_number' , ['name' => 'price_agent' , 'label' => 'Giá bán buôn (đại lý)'])
-
-                @include('administrator.components.input_number' , ['name' => 'price_partner' , 'label' => 'Giá CTV (Cộng tác viên)'])
-
-                @include('administrator.components.input_number' , ['name' => 'inventory' , 'label' => 'Tồn kho'])
-            </div>
-
-            @include('administrator.components.button_save')
         </div>
     </form>
 
@@ -258,7 +261,7 @@
 
             $('#table_bassic_price').html('')
 
-            if (_headers.length == 1){
+            if (_headers.length == 1) {
 
                 let header = `<div class="row mt-2">
                         <div class="col-4">
@@ -286,7 +289,7 @@
 
                 $('#table_bassic_price').append(header)
 
-                for (let i = 0 ; i < _attributes[0].length;i++){
+                for (let i = 0; i < _attributes[0].length; i++) {
                     let row = '<div class="row mt-2">'
                     row += `<div class="col-4">${_attributes[0][i]}</div>`
                     row += `<div class="col-1">
@@ -312,7 +315,7 @@
 
                     $('#table_bassic_price').append(row)
                 }
-            }else{
+            } else {
                 let header = `<div class="row mt-2">
                         <div class="col-2">
                             ${_headers[0]}
@@ -342,8 +345,8 @@
 
                 $('#table_bassic_price').append(header)
 
-                for (let i = 0 ; i < _attributes[0].length;i++){
-                    for(let j = 0 ; j < _attributes[1].length;j++){
+                for (let i = 0; i < _attributes[0].length; i++) {
+                    for (let j = 0; j < _attributes[1].length; j++) {
                         let row = '<div class="row mt-2">'
                         row += `<div class="col-2">${_attributes[0][i]}</div>`
                         row += `<div class="col-2">${_attributes[1][j]}</div>`

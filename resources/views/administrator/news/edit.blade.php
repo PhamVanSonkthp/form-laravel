@@ -17,12 +17,9 @@
                 @csrf
                 <div class="col-md-12">
                     <div class="form-group mt-3">
-                        <label>Tiêu đề</label>
-                        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
-                               value="{{$item->title}}" required>
-                        @error('name')
-                        <div class="alert alert-danger">{{$message}}</div>
-                        @enderror
+
+                        @include('administrator.components.require_input_text' , ['name' => 'title' , 'label' => 'Tiêu đề'])
+
                     </div>
 
                     @include('administrator.components.select_category' , ['name' => 'category_id' ,'html_category' => \App\Models\CategoryNew::getCategory(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])

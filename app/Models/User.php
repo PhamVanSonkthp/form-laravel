@@ -172,6 +172,14 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
             $dataUpdate['date_of_birth'] = $request->date_of_birth;
         }
 
+        if (!empty($request->email)){
+            $dataUpdate['email'] = $request->email;
+        }
+
+        if (!empty($request->phone)){
+            $dataUpdate['phone'] = $request->phone;
+        }
+
         if (!empty($request->gender_id)){
             $dataUpdate['gender_id'] = $request->gender_id;
         }

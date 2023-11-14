@@ -30,7 +30,7 @@
 
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                    <i class="fas fa-thin fa-bell"></i>
+                    <i class="fa-solid fa-scale-unbalanced-flip"></i>
                     <span class="">Bán hàng</span>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
@@ -40,7 +40,7 @@
                             <a
                                 class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/categories">
-                                <i class="fas fa-thin fa-envelope"></i>
+                                <i class="fa-solid fa-stairs"></i>
                                 <span>Danh mục sản phẩm</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -52,7 +52,7 @@
                             <a
                                 class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/products">
-                                <i class="fas fa-light fa-clock"></i>
+                                <i class="fa-solid fa-shapes"></i>
                                 <span>Sản phẩm</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -64,7 +64,7 @@
                             <a
                                 class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/orders">
-                                <i class="fas fa-light fa-clock"></i>
+                                <i class="fa-solid fa-file-invoice"></i>
                                 <span>Đơn hàng</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -76,7 +76,7 @@
                             <a
                                 class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/vouchers">
-                                <i class="fas fa-light fa-clock"></i>
+                                <i class="fa-solid fa-percent"></i>
                                 <span>Mã giảm giá</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -166,7 +166,7 @@
                         <li>
                             <a
                                 class="sidebar-link sidebar-title link-nav" href="/administrator/sliders">
-                                <i class="fas fa-thin fa-pager"></i>
+                                <i class="fa-solid fa-sliders"></i>
                                 <span>Slider</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -177,7 +177,7 @@
                         <li>
                             <a
                                 class="sidebar-link sidebar-title link-nav" href="/administrator/system-branches">
-                                <i class="fas fa-thin fa-pager"></i>
+                                <i class="fa-solid fa-code-branch"></i>
                                 <span>Hệ thống cửa hàng</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -188,7 +188,7 @@
                         <li>
                             <a
                                 class="sidebar-link sidebar-title link-nav" href="/administrator/logos">
-                                <i class="fas fa-brands fa-pied-piper"></i>
+                                <i class="fa-brands fa-laravel"></i>
                                 <span>Logo</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -200,7 +200,7 @@
                             <a
                                 class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/category-news">
-                                <i class="fas fa-solid fa-newspaper"></i>
+                                <i class="fa-solid fa-earth-oceania"></i>
                                 <span>Danh mục tin tức</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -212,7 +212,7 @@
                             <a
                                 class="sidebar-link sidebar-title link-nav"
                                 href="/administrator/news">
-                                <i class="fas fa-solid fa-newspaper"></i>
+                                <i class="fa-regular fa-newspaper"></i>
                                 <span>Tin tức</span>
                                 <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                             </a>
@@ -226,7 +226,7 @@
                 <li class="sidebar-list">
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/medias">
-                        <i class="fas fa-thin fa-users"></i>
+                        <i class="fa-regular fa-folder-open"></i>
                         <span>Quản lý file</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
