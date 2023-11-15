@@ -852,6 +852,16 @@ function addUrlParameterObjects($params) {
     window.location.search = searchParams.toString()
 }
 
+function showToastSuccess(content = null, duration = null){
+    Toastify({
+
+        text: content ?? "Đã lưu thay đổi",
+
+        duration: duration ?? 3000
+
+    }).showToast();
+}
+
 $(document).ready(function () {
     $(document).on('click', '.action_delete', actionDelete);
     $(document).on('click', '.action_audit', actionAudit);

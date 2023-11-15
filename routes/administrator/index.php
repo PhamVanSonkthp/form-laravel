@@ -1096,5 +1096,73 @@ Route::prefix('administrator')->group(function () {
 
     });
 
+    Route::prefix('payment-methods')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.payment_methods.index',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@index',
+            'middleware' => 'can:payment_methods-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.payment_methods.create',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@create',
+            'middleware' => 'can:payment_methods-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.payment_methods.store',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@store',
+            'middleware' => 'can:payment_methods-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.payment_methods.edit',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@edit',
+            'middleware' => 'can:payment_methods-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.payment_methods.update',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@update',
+            'middleware' => 'can:payment_methods-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.payment_methods.delete',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@delete',
+            'middleware' => 'can:payment_methods-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.payment_methods.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@deleteManyByIds',
+            'middleware' => 'can:payment_methods-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.payment_methods.export',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@export',
+            'middleware' => 'can:payment_methods-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.payment_methods.audit',
+            'uses'=>'App\Http\Controllers\Admin\PaymentMethodController@audit',
+            'middleware'=>'can:payment_methods-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.payment_methods.import',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@import',
+            'middleware' => 'can:payment_methods-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.payment_methods.get',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@get',
+            'middleware' => 'can:payment_methods-list',
+        ]);
+    });
+
 });
 

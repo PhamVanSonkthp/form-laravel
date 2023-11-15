@@ -29,15 +29,10 @@ class CreateProductsTable extends Migration
             $table->bigInteger('group_product_id');
             $table->text('sku')->nullable();
             $table->bigInteger('provider_id')->default(0);
-            $table->tinyInteger('product_buy_empty_id')->default(1);
-            $table->tinyInteger('request_devilvery_id')->default(1);
-            $table->tinyInteger('vat_id')->default(1);
             $table->string('bar_code')->nullable();
             $table->text('seo_title')->nullable();
             $table->text('seo_description')->nullable();
-            $table->float('weight')->default(0);
-            $table->string('type_weight')->default('kg');
-            $table->string('feature_image_path')->nullable();
+            $table->tinyInteger('is_feature')->default(0);
             $table->timestamps();
         });
     }

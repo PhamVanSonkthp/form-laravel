@@ -109,6 +109,11 @@ return [
         'medias-edit' => 'medias_edit',
         'medias-delete' => 'medias_delete',
 
+        'payment_methods-list' => 'payment_methods_list',
+        'payment_methods-add' => 'payment_methods_add',
+        'payment_methods-edit' => 'payment_methods_edit',
+        'payment_methods-delete' => 'payment_methods_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -132,6 +137,7 @@ return [
         'orders',
         'vouchers',
         'medias',
+        'payment_methods',
     ],
 
     'table_module_name'=>[
@@ -156,6 +162,7 @@ return [
         'Quản lý đơn hàng',
         'Quản lý mã giảm giá',
         'Quản lý file',
+        'Quản lý phương thức thanh toán',
     ],
 
     'module_children'=>[

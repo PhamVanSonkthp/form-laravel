@@ -253,11 +253,25 @@
                 }
             }
 
-            console.log(_headers)
-            console.log(_attributes)
+            // console.log(_headers)
+            // console.log(_attributes)
 
             $('#_headers').val(JSON.stringify(_headers))
             $('#_attributes').val(JSON.stringify(_attributes))
+
+            //
+
+            let valuesTable = []
+
+            let inputsTable = document.querySelectorAll('.input-table')
+
+            for (let i = 0; i < inputsTable.length; i++) {
+                valuesTable.push(inputsTable[i].value)
+            }
+
+            console.log(valuesTable)
+
+            //
 
             $('#table_bassic_price').html('')
 
@@ -293,22 +307,22 @@
                     let row = '<div class="row mt-2">'
                     row += `<div class="col-4">${_attributes[0][i]}</div>`
                     row += `<div class="col-1">
-                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)] ?? ''}" required>
                         </div>
                         <div class="col-1">
-                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+1] ?? ''}" required>
                         </div>
                         <div class="col-1">
-                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+2] ?? ''}" required>
                         </div>
                         <div class="col-1">
-                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+3] ?? ''}" required>
                         </div>
                         <div class="col-2">
-                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+4] ?? ''}" required>
                         </div>
                         <div class="col-2">
-                            <input name="skus[]" type="text" autocomplete="off" class="form-control" value="">
+                            <input name="skus[]" type="text" autocomplete="off" class="form-control input-table" value="${valuesTable[i + (i*5)+5] ?? ''}">
                         </div>`
 
                     row += "</div>"
@@ -351,22 +365,22 @@
                         row += `<div class="col-2">${_attributes[0][i]}</div>`
                         row += `<div class="col-2">${_attributes[1][j]}</div>`
                         row += `<div class="col-1">
-                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
                         <div class="col-1">
-                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
                         <div class="col-1">
-                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
                         <div class="col-1">
-                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
                         <div class="col-2">
-                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number" value="" required>
+                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
                         <div class="col-2">
-                            <input name="skus[]" type="text" autocomplete="off" class="form-control" value="">
+                            <input name="skus[]" type="text" autocomplete="off" class="form-control input-table" value="">
                         </div>`
 
                         row += "</div>"

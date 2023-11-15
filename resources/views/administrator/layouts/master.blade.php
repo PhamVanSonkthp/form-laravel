@@ -63,6 +63,10 @@
     <script src="{{asset('/vendor/jquery-ui-1.13.2/jquery-ui.js')}}"></script>
     <script src="{{asset('/vendor/masknumber/jquery.masknumber.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     @include('administrator.components.helper')
 
     <style>

@@ -29,6 +29,14 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateOrders();
         $this->defineGateVouchers();
         $this->defineGateMedias();
+        $this->defineGatePaymentMethods();
+    }
+
+    public function defineGatePaymentMethods(){
+        Gate::define('payment_methods-list','App\Policies\PaymentMethodPolicy@view');
+        Gate::define('payment_methods-add','App\Policies\PaymentMethodPolicy@create');
+        Gate::define('payment_methods-edit','App\Policies\PaymentMethodPolicy@update');
+        Gate::define('payment_methods-delete','App\Policies\PaymentMethodPolicy@delete');
     }
 
     public function defineGateMedias(){

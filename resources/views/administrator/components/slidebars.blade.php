@@ -222,12 +222,23 @@
                 </ul>
             </li>
 
-            @can('users-list')
+            @can('medias-list')
                 <li class="sidebar-list">
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/medias">
                         <i class="fa-regular fa-folder-open"></i>
                         <span>Quản lý file</span>
+                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                    </a>
+                </li>
+            @endcan
+
+            @can('medias-list')
+                <li class="sidebar-list">
+                    <a
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/payment-methods">
+                        <i class="fa-regular fa-credit-card"></i>
+                        <span>Quản lý thanh toán</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
                 </li>

@@ -18,6 +18,30 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('ajax/administrator')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
 
+        Route::prefix('/orders')->group(function () {
+            Route::put('/update-to-shipping/{id}', [
+                'as' => 'ajax.administrator.orders.update_to_shipping',
+                'uses' => 'App\Http\Controllers\Admin\OrderController@updateToShipping',
+                'middleware' => 'can:orders-edit',
+            ]);
+        });
+
+        Route::prefix('/products')->group(function () {
+
+            Route::get('/', [
+                'as' => 'ajax.administrator.products.search',
+                'uses' => 'App\Http\Controllers\Ajax\ProductController@search',
+                'middleware' => 'can:products-list',
+            ]);
+
+            Route::put('/update', [
+                'as' => 'ajax.administrator.products.update',
+                'uses' => 'App\Http\Controllers\Ajax\ProductController@update',
+                'middleware' => 'can:products-edit',
+            ]);
+
+        });
+
         Route::prefix('upload-image')->group(function () {
             Route::post('/store', function (Request $request) {
 

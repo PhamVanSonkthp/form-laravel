@@ -9,6 +9,7 @@ use App\Models\Audit;
 use App\Traits\BaseControllerTrait;
 use App\Exports\ModelExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\View;
 use function redirect;
 use function view;
 

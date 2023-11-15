@@ -34,32 +34,11 @@ class ProductController extends Controller
             'empty_inventory' => 'numeric|min:0|max:2',
         ]);
 
-        $queries = ['product_visibility_id' => 2];
-        $results = RestfulAPI::response($this->model, $request, $queries, null, ['price_import'], true);
+        $results = $this->model->search($request);
 
-        if (isset($request->min_price)){
-            $results = $results->where(function ($query) use ($request) {
-                $query->where('price_client', '>=', $request->min_price)
-                    ->orWhere('price_agent', '>=', $request->min_price);
-            });
-        }
+        $results = $results->toArray();
 
-        if (isset($request->max_price)){
-            $results = $results->where(function ($query) use ($request) {
-                $query->where('price_client', '<=', $request->max_price)
-                    ->orWhere('price_agent', '<=', $request->max_price);
-            });
-        }
-
-        if (isset($request->empty_inventory) && $request->empty_inventory == 2){
-            $results = $results->where('inventory', '<=' , 0);
-        }
-
-        if (isset($request->empty_inventory) && $request->empty_inventory == 1){
-            $results = $results->where('inventory' ,'>', 0);
-        }
-
-        $results = $results->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
+        $results['search_query'] = $request->search_query;
 
         return response()->json($results);
     }

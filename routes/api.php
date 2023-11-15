@@ -2,7 +2,6 @@
 
 use App\Events\ChatPusherEvent;
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\CalendarController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryNewsController;
 use App\Http\Controllers\API\CategoryProductsController;
