@@ -1,15 +1,5 @@
 <?php
 
-use App\Events\ChatPusherEvent;
-use App\Http\Requests\PusherChatRequest;
-use App\Models\Chat;
-use App\Models\ChatImage;
-use App\Models\Notification;
-use App\Models\ParticipantChat;
-use App\Models\RestfulAPI;
-use App\Models\User;
-use App\Traits\StorageImageTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin', 'App\Http\Controllers\Admin\AdminController@loginAdmin')->name('login');
@@ -1161,6 +1151,278 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.payment_methods.get',
             'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@get',
             'middleware' => 'can:payment_methods-list',
+        ]);
+    });
+
+    Route::prefix('user-transactions')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.user_transactions.index',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@index',
+            'middleware' => 'can:user_transactions-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.user_transactions.create',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@create',
+            'middleware' => 'can:user_transactions-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.user_transactions.store',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@store',
+            'middleware' => 'can:user_transactions-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.user_transactions.edit',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@edit',
+            'middleware' => 'can:user_transactions-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.user_transactions.update',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@update',
+            'middleware' => 'can:user_transactions-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.user_transactions.delete',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@delete',
+            'middleware' => 'can:user_transactions-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.user_transactions.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@deleteManyByIds',
+            'middleware' => 'can:user_transactions-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.user_transactions.export',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@export',
+            'middleware' => 'can:user_transactions-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.user_transactions.audit',
+            'uses'=>'App\Http\Controllers\Admin\UserTransactionController@audit',
+            'middleware'=>'can:user_transactions-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.user_transactions.import',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@import',
+            'middleware' => 'can:user_transactions-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.user_transactions.get',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@get',
+            'middleware' => 'can:user_transactions-list',
+        ]);
+    });
+
+    Route::prefix('user-points')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.user_points.index',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@index',
+            'middleware' => 'can:user_points-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.user_points.create',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@create',
+            'middleware' => 'can:user_points-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.user_points.store',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@store',
+            'middleware' => 'can:user_points-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.user_points.edit',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@edit',
+            'middleware' => 'can:user_points-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.user_points.update',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@update',
+            'middleware' => 'can:user_points-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.user_points.delete',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@delete',
+            'middleware' => 'can:user_points-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.user_points.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@deleteManyByIds',
+            'middleware' => 'can:user_points-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.user_points.export',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@export',
+            'middleware' => 'can:user_points-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.user_points.audit',
+            'uses'=>'App\Http\Controllers\Admin\UserPointController@audit',
+            'middleware'=>'can:user_points-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.user_points.import',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@import',
+            'middleware' => 'can:user_points-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.user_points.get',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@get',
+            'middleware' => 'can:user_points-list',
+        ]);
+    });
+
+    Route::prefix('banks')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.banks.index',
+            'uses' => 'App\Http\Controllers\Admin\BankController@index',
+            'middleware' => 'can:banks-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.banks.create',
+            'uses' => 'App\Http\Controllers\Admin\BankController@create',
+            'middleware' => 'can:banks-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.banks.store',
+            'uses' => 'App\Http\Controllers\Admin\BankController@store',
+            'middleware' => 'can:banks-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.banks.edit',
+            'uses' => 'App\Http\Controllers\Admin\BankController@edit',
+            'middleware' => 'can:banks-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.banks.update',
+            'uses' => 'App\Http\Controllers\Admin\BankController@update',
+            'middleware' => 'can:banks-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.banks.delete',
+            'uses' => 'App\Http\Controllers\Admin\BankController@delete',
+            'middleware' => 'can:banks-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.banks.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\BankController@deleteManyByIds',
+            'middleware' => 'can:banks-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.banks.export',
+            'uses' => 'App\Http\Controllers\Admin\BankController@export',
+            'middleware' => 'can:banks-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.banks.audit',
+            'uses'=>'App\Http\Controllers\Admin\BankController@audit',
+            'middleware'=>'can:banks-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.banks.import',
+            'uses' => 'App\Http\Controllers\Admin\BankController@import',
+            'middleware' => 'can:banks-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.banks.get',
+            'uses' => 'App\Http\Controllers\Admin\BankController@get',
+            'middleware' => 'can:banks-list',
+        ]);
+    });
+
+    Route::prefix('bank-cash-ins')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.bank_cash_ins.index',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@index',
+            'middleware' => 'can:bank_cash_ins-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.bank_cash_ins.create',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@create',
+            'middleware' => 'can:bank_cash_ins-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.bank_cash_ins.store',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@store',
+            'middleware' => 'can:bank_cash_ins-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.bank_cash_ins.edit',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@edit',
+            'middleware' => 'can:bank_cash_ins-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.bank_cash_ins.update',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@update',
+            'middleware' => 'can:bank_cash_ins-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.bank_cash_ins.delete',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@delete',
+            'middleware' => 'can:bank_cash_ins-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.bank_cash_ins.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@deleteManyByIds',
+            'middleware' => 'can:bank_cash_ins-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.bank_cash_ins.export',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@export',
+            'middleware' => 'can:bank_cash_ins-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.bank_cash_ins.audit',
+            'uses'=>'App\Http\Controllers\Admin\BankCashInController@audit',
+            'middleware'=>'can:bank_cash_ins-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.bank_cash_ins.import',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@import',
+            'middleware' => 'can:bank_cash_ins-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.bank_cash_ins.get',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@get',
+            'middleware' => 'can:bank_cash_ins-list',
         ]);
     });
 

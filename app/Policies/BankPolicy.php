@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class QuotationPolicy
+class BankPolicy
 {
     use HandlesAuthorization;
 
@@ -24,12 +24,12 @@ class QuotationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $quotations
+     * @param  \App\Models\  $banks
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.quotations-list'));
+        return $user->checkPermissionAccess(config('permissions.access.banks-list'));
     }
 
     /**
@@ -40,41 +40,41 @@ class QuotationPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.quotations-add'));
+        return $user->checkPermissionAccess(config('permissions.access.banks-add'));
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $quotations
+     * @param  \App\Models\  $banks
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.quotations-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.banks-edit'));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $quotations
+     * @param  \App\Models\  $banks
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.quotations-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.banks-delete'));
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $quotations
+     * @param  \App\Models\  $banks
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user,  $quotations)
+    public function restore(User $user,  $banks)
     {
         //
     }
@@ -83,10 +83,10 @@ class QuotationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $quotations
+     * @param  \App\Models\  $banks
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user,  $quotations)
+    public function forceDelete(User $user,  $banks)
     {
         //
     }

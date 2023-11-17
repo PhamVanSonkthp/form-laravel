@@ -12,7 +12,7 @@
     <label>{{$label}}</label>
     <select name="{{$name}}" class="form-control select2_init">
         @foreach($select2Items as $select2Item)
-            <option value="{{$select2Item->id}}" {{$value == $select2Item->id ? 'selected' : ''}}>{{$select2Item->name ?? $select2Item->title}}</option>
+            <option value="{{$select2Item->id}}" {{$value == $select2Item->id ? 'selected' : ''}}>{{($select2Item->name ?? $select2Item->title) ?? $select2Item->$name_option}}</option>
         @endforeach
     </select>
 </div>

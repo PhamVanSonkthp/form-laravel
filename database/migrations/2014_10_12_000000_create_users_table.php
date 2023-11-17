@@ -34,6 +34,9 @@ class CreateUsersTable extends Migration
 //            $table->string('avatar')->nullable();
 
             $table->integer('user_type_id')->default(1);
+            $table->bigInteger('referral_id')->default(0);
+            $table->bigInteger('point')->default(0);
+            $table->bigInteger('amount')->default(0);
 
             $table->rememberToken();
             $table->timestamps();

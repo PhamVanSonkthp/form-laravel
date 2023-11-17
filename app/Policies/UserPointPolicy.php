@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CalendarPolicy
+class UserPointPolicy
 {
     use HandlesAuthorization;
 
@@ -24,12 +24,12 @@ class CalendarPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $calendars
+     * @param  \App\Models\  $user_points
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.calendars-list'));
+        return $user->checkPermissionAccess(config('permissions.access.user_points-list'));
     }
 
     /**
@@ -40,41 +40,41 @@ class CalendarPolicy
      */
     public function create(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.calendars-add'));
+        return $user->checkPermissionAccess(config('permissions.access.user_points-add'));
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $calendars
+     * @param  \App\Models\  $user_points
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function update(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.calendars-edit'));
+        return $user->checkPermissionAccess(config('permissions.access.user_points-edit'));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $calendars
+     * @param  \App\Models\  $user_points
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user)
     {
-        return $user->checkPermissionAccess(config('permissions.access.calendars-delete'));
+        return $user->checkPermissionAccess(config('permissions.access.user_points-delete'));
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $calendars
+     * @param  \App\Models\  $user_points
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user,  $calendars)
+    public function restore(User $user,  $user_points)
     {
         //
     }
@@ -83,10 +83,10 @@ class CalendarPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\  $calendars
+     * @param  \App\Models\  $user_points
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user,  $calendars)
+    public function forceDelete(User $user,  $user_points)
     {
         //
     }

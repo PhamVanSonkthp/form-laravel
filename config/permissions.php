@@ -114,6 +114,26 @@ return [
         'payment_methods-edit' => 'payment_methods_edit',
         'payment_methods-delete' => 'payment_methods_delete',
 
+        'user_transactions-list' => 'user_transactions_list',
+        'user_transactions-add' => 'user_transactions_add',
+        'user_transactions-edit' => 'user_transactions_edit',
+        'user_transactions-delete' => 'user_transactions_delete',
+
+        'user_points-list' => 'user_points_list',
+        'user_points-add' => 'user_points_add',
+        'user_points-edit' => 'user_points_edit',
+        'user_points-delete' => 'user_points_delete',
+
+        'banks-list' => 'banks_list',
+        'banks-add' => 'banks_add',
+        'banks-edit' => 'banks_edit',
+        'banks-delete' => 'banks_delete',
+
+        'banks_cash_ins-list' => 'banks_list',
+        'banks_cash_ins-add' => 'banks_add',
+        'banks_cash_ins-edit' => 'banks_edit',
+        'banks_cash_ins-delete' => 'banks_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -138,6 +158,10 @@ return [
         'vouchers',
         'medias',
         'payment_methods',
+        'user_transactions',
+        'user_points',
+        'banks',
+        'banks_cash_ins',
     ],
 
     'table_module_name'=>[
@@ -163,6 +187,10 @@ return [
         'Quản lý mã giảm giá',
         'Quản lý file',
         'Quản lý phương thức thanh toán',
+        'Quản lý giao dịch',
+        'Quản lý điểm',
+        'Quản lý ngân hàng',
+        'Quản lý ngân hàng nạp tiền',
     ],
 
     'module_children'=>[

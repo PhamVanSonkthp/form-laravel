@@ -10,13 +10,62 @@ use App\Models\ParticipantChat;
 use App\Models\RestfulAPI;
 use App\Models\SingleImage;
 use App\Models\User;
+use App\Models\UserPoint;
+use App\Models\UserTransaction;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 // ajax
 Route::prefix('ajax/administrator')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
+
+        Route::prefix('user-points')->group(function () {
+
+            Route::post('/', function (Request $request) {
+
+                $request->validate([
+                    'user_id' => 'required',
+                    'amount' => 'required',
+                ]);
+
+                $user = User::findOrFail($request->user_id);
+
+                $user->addPoint($request->amount, $request->description ?? 'Admin GD');
+
+                $item = UserPoint::where('user_id', $request->user_id)->latest()->first();
+
+                $item['html_row'] = View::make('administrator.user_points.row', compact('item'))->render();
+
+                return response()->json($item);
+
+            })->name('ajax.administrator.user_points.store');
+
+        });
+
+        Route::prefix('user-transaction')->group(function () {
+
+            Route::post('/', function (Request $request) {
+
+                $request->validate([
+                    'user_id' => 'required',
+                    'amount' => 'required|numeric',
+                ]);
+
+                $user = User::findOrFail($request->user_id);
+
+                $user->addAmount($request->amount, $request->description ?? 'Admin GD');
+
+                $item = UserTransaction::where('user_id', $request->user_id)->latest()->first();
+
+                $item['html_row'] = View::make('administrator.user_transactions.row', compact('item'))->render();
+
+                return response()->json($item);
+
+            })->name('ajax.administrator.user_transaction.store');
+
+        });
 
         Route::prefix('/orders')->group(function () {
             Route::put('/update-to-shipping/{id}', [

@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateSettingSeeder::class);
         $this->call(CreateOrderStatusSeeder::class);
         $this->call(CreateUserTypeSeeder::class);
+        $this->call(CreateBankSeeder::class);
 
     }
 }

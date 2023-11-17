@@ -28,6 +28,19 @@
                 </li>
             @endcan
 
+            @can('chats-list')
+                <li class="sidebar-list">
+                    <label style="color: #000000;background-color: #ffc500;"
+                           class="badge badge-light-danger"></label>
+                    <a
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/chats">
+                        <i class="fa-regular fa-comment"></i>
+                        <span>Chat</span>
+                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                    </a>
+                </li>
+            @endcan
+
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                     <i class="fa-solid fa-scale-unbalanced-flip"></i>
@@ -85,6 +98,58 @@
 
                 </ul>
             </li>
+
+            @can('user_transactions-list')
+                <li class="sidebar-list">
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
+                        <i class="fa-solid fa-money-bill-transfer"></i>
+                        <span class="">Giao dịch</span>
+                    </a>
+                    <ul class="sidebar-submenu" style="display: none;">
+
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/user-transactions">
+                                <i class="fa-solid fa-money-bill-transfer"></i>
+                                <span>Giao dịch khách</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/user-points">
+                                <i class="fa-regular fa-star"></i>
+                                <span>Điểm</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/banks">
+                                <i class="fa-solid fa-building-columns"></i>
+                                <span>Ngân hàng</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/bank-cash-ins">
+                                <i class="fa-solid fa-wallet"></i>
+                                <span>Ngân hàng nạp tiền</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            @endcan
 
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">

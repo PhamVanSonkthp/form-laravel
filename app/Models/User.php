@@ -30,7 +30,6 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
      */
 
     protected $guarded = [
-//        'is_admin',
     ];
 
 //    protected $guarded = [];
@@ -55,6 +54,85 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     ];
 
     // begin
+
+    public static function htmlStatus($input)
+    {
+        if ($input == "Đang giữ chỗ") {
+            return "<span style=\"display: flex;align-items: center;background-color: #fffcf9;padding: 5px;border-radius: 15px;color: #ffc500;\"><a class='ms-1 me-1'>{$input}</a><i class=\"fa-solid fa-rotate\"></i></span>";
+        } else if ($input == "Thành công") {
+            return "<span style=\"display: flex;align-items: center;background-color: #d0ffef;padding: 5px;border-radius: 15px;color: #03a900;\"><a class='ms-1 me-1'>{$input}</a><i class=\"fa-solid fa-rotate\"></i></span>";
+        } else {
+            return "<span style=\"display: flex;align-items: center;background-color: #ffdbdb;padding: 5px;border-radius: 15px;color: #ff0000;\"><a class='ms-1 me-1'>{$input}</a><i class=\"fa-solid fa-rotate\"></i></span>";
+        }
+    }
+
+    public function exchangePointToAmount($point)
+    {
+
+        $point = Formatter::getOnlyNumber($point);
+
+        $item = Setting::first();
+
+        $pointSetting = $item->point;
+        $amountSetting = $item->amount;
+
+        $exchanged = round(($point / $pointSetting) * $amountSetting);
+
+        $this->addPoint(-$point, "Đổi " . $point . " điểm thành " . $exchanged . " vnđ");
+
+        $this->addAmount($exchanged, "Đổi " . $point . " điểm thành " . $exchanged . " vnđ");
+
+    }
+
+    public function addPoint($point, $description)
+    {
+        $point = Formatter::getOnlyNumber($point);
+
+        UserPoint::create([
+            'user_id' => $this->id,
+            'point' => $point,
+            'description' => $description,
+        ]);
+
+        $this->increment('point', $point);
+    }
+
+    public function addAmount($amount, $description)
+    {
+
+        $amount = Formatter::getOnlyNumber($amount);
+        $amountNow = $this->amount + ($amount);
+
+        UserTransaction::create([
+            'user_id' => $this->id,
+            'amount' => $amount,
+            'description' => $description,
+            'amount_now' => $amountNow,
+        ]);
+
+        $this->increment('amount', $amount);
+    }
+
+    // số lượng người giới thiệu
+    public function numberInvited()
+    {
+        return User::where('referral_id', $this->id)->count();
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(User::class, 'referral_id', 'id');
+    }
+
+    public function referralIDs()
+    {
+        return User::where('referral_id', $this->id)->pluck('id');
+    }
+
+    public function status()
+    {
+        return $this->hasOne(UserStatus::class, 'id', 'user_status_id');
+    }
 
     public function userType(){
         return $this->hasOne(UserType::class,'id','user_type_id');

@@ -30,6 +30,38 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateVouchers();
         $this->defineGateMedias();
         $this->defineGatePaymentMethods();
+        $this->defineGateUserTransactions();
+        $this->defineGateUserPoints();
+        $this->defineGateBanks();
+        $this->defineGateBankCashIns();
+    }
+
+    public function defineGateBankCashIns(){
+        Gate::define('bank_cash_ins-list','App\Policies\BankCashInPolicy@view');
+        Gate::define('bank_cash_ins-add','App\Policies\BankCashInPolicy@create');
+        Gate::define('bank_cash_ins-edit','App\Policies\BankCashInPolicy@update');
+        Gate::define('bank_cash_ins-delete','App\Policies\BankCashInPolicy@delete');
+    }
+
+    public function defineGateBanks(){
+        Gate::define('banks-list','App\Policies\BankPolicy@view');
+        Gate::define('banks-add','App\Policies\BankPolicy@create');
+        Gate::define('banks-edit','App\Policies\BankPolicy@update');
+        Gate::define('banks-delete','App\Policies\BankPolicy@delete');
+    }
+
+    public function defineGateUserPoints(){
+        Gate::define('user_points-list','App\Policies\UserPointPolicy@view');
+        Gate::define('user_points-add','App\Policies\UserPointPolicy@create');
+        Gate::define('user_points-edit','App\Policies\UserPointPolicy@update');
+        Gate::define('user_points-delete','App\Policies\UserPointPolicy@delete');
+    }
+
+    public function defineGateUserTransactions(){
+        Gate::define('user_transactions-list','App\Policies\UserTransactionPolicy@view');
+        Gate::define('user_transactions-add','App\Policies\UserTransactionPolicy@create');
+        Gate::define('user_transactions-edit','App\Policies\UserTransactionPolicy@update');
+        Gate::define('user_transactions-delete','App\Policies\UserTransactionPolicy@delete');
     }
 
     public function defineGatePaymentMethods(){
