@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateOrderStatusSeeder::class);
         $this->call(CreateUserTypeSeeder::class);
         $this->call(CreateBankSeeder::class);
+        $this->call(CreateMembershipSeeder::class);
+        $this->call(CreateAddressSeeder::class);
 
     }
 }

@@ -29,7 +29,7 @@ $(".select2_init_tag").select2({
 function tryParseInt(val) {
     try {
         val = val.toString()
-        return parseInt(val.replace(/,/g, "").replace(/$/g, "").replace(/đ/g, "")) || 0
+        return parseInt(val.replace(/\D/g, "")) || 0
     } catch (e) {
         return 0
     }
@@ -468,15 +468,6 @@ function formatMoney(nStr) {
     return (x1 + x2).split(".")[0]
 }
 
-function tryParseInt(val) {
-    try {
-        val = val.toString()
-        return parseInt(val.replace(",", "").replace("$", ""))
-    } catch (e) {
-        return 0
-    }
-}
-
 function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(String(email).toLowerCase())
@@ -856,6 +847,16 @@ function showToastSuccess(content = null, duration = null){
     Toastify({
 
         text: content ?? "Đã lưu thay đổi",
+
+        duration: duration ?? 3000
+
+    }).showToast();
+}
+
+function showToastError(content = null, duration = null){
+    Toastify({
+
+        text: content ?? "Có lỗi",
 
         duration: duration ?? 3000
 

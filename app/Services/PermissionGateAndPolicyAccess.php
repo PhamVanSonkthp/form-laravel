@@ -34,6 +34,14 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateUserPoints();
         $this->defineGateBanks();
         $this->defineGateBankCashIns();
+        $this->defineGateMemberships();
+    }
+
+    public function defineGateMemberships(){
+        Gate::define('memberships-list','App\Policies\MembershipPolicy@view');
+        Gate::define('memberships-add','App\Policies\MembershipPolicy@create');
+        Gate::define('memberships-edit','App\Policies\MembershipPolicy@update');
+        Gate::define('memberships-delete','App\Policies\MembershipPolicy@delete');
     }
 
     public function defineGateBankCashIns(){

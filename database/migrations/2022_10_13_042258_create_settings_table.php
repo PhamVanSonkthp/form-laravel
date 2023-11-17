@@ -15,9 +15,15 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->integer('number_trail');
-            $table->string('feature_image_name')->nullable();
-            $table->string('feature_image_path')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('bank_number')->nullable();
+            $table->string('bank_image')->nullable();
+            $table->string('phone_contact')->nullable();
+            $table->string('about_contact')->nullable();
+            $table->string('address_contact')->nullable();
+            $table->string('email_contact')->nullable();
+            $table->integer('point')->default(1);
+            $table->integer('amount')->default(1);
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@
                 <li class="sidebar-list">
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/users">
-                        <i class="fas fa-thin fa-users"></i>
+                        <i class="fa-regular fa-user"></i>
                         <span>Khách hàng</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
@@ -148,6 +148,18 @@
                         </li>
 
                     </ul>
+                </li>
+            @endcan
+
+            @can('memberships-list')
+                <li class="sidebar-list">
+                    <a
+                        class="sidebar-link sidebar-title link-nav"
+                        href="/administrator/memberships">
+                        <i class="fa-regular fa-star"></i>
+                        <span>Hạng thành viên</span>
+                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                    </a>
                 </li>
             @endcan
 
@@ -308,6 +320,28 @@
                     </a>
                 </li>
             @endcan
+
+            <li class="sidebar-list">
+                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="">Cài đặt</span>
+                    <div class="according-menu"><i class="fa fa-angle-right"></i>
+                    </div>
+                </a>
+                <ul class="sidebar-submenu" style="display: none;">
+
+                    @can('settings-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/settings/edit/1">
+                                <span>Cài đặt chung</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
+                </ul>
+            </li>
 
             @can('history_datas-list')
                 <li class="sidebar-list">

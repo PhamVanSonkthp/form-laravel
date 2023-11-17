@@ -34,7 +34,6 @@
                                     <th>Khách hàng</th>
                                     <th>Sản phẩm</th>
                                     <th>Tổng tiền</th>
-                                    <th></th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
                                 </tr>

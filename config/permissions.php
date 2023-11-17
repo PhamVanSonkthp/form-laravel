@@ -134,6 +134,11 @@ return [
         'banks_cash_ins-edit' => 'banks_edit',
         'banks_cash_ins-delete' => 'banks_delete',
 
+        'memberships-list' => 'banks_list',
+        'memberships-add' => 'banks_add',
+        'memberships-edit' => 'banks_edit',
+        'memberships-delete' => 'banks_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -162,6 +167,7 @@ return [
         'user_points',
         'banks',
         'banks_cash_ins',
+        'memberships',
     ],
 
     'table_module_name'=>[
@@ -191,6 +197,7 @@ return [
         'Quản lý điểm',
         'Quản lý ngân hàng',
         'Quản lý ngân hàng nạp tiền',
+        'Quản lý hạng thành viên',
     ],
 
     'module_children'=>[

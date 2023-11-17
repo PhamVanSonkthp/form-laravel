@@ -30,29 +30,34 @@
                 @csrf
                 <div class="col-md-6">
 
-                    <div class="form-group">
-                        <label>Mật khẩu cũ</label>
-                        <input type="password" name="old_password" class="form-control @error('old_password') is-invalid @enderror" required>
-                        @error('old_password')
-                        <div class="alert alert-danger">{{$message}}</div>
-                        @enderror
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Mật khẩu cũ</label>
+                                <input type="password" name="old_password" class="form-control @error('old_password') is-invalid @enderror" required>
+                                @error('old_password')
+                                <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label>Mật khẩu mới</label>
+                                <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" required>
+                                @error('new_password')
+                                <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label>Xác nhận mật khẩu</label>
+                                <input type="password" name="new_password_confirm" class="form-control @error('new_password_confirm') is-invalid @enderror" required>
+                                @error('new_password_confirm')
+                                <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        <label>Mật khẩu mới</label>
-                        <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" required>
-                        @error('new_password')
-                        <div class="alert alert-danger">{{$message}}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group mt-3">
-                        <label>Xác nhận mật khẩu</label>
-                        <input type="password" name="new_password_confirm" class="form-control @error('new_password_confirm') is-invalid @enderror" required>
-                        @error('new_password_confirm')
-                        <div class="alert alert-danger">{{$message}}</div>
-                        @enderror
-                    </div>
 
                     <button type="submit" class="btn btn-primary mt-3">Lưu thay đổi</button>
 

@@ -32,7 +32,7 @@ class ProductController extends Controller
     public function search(Request $request){
         $results = $this->model->search($request);
 
-        $html = View::make('administrator.products.result_search', compact('results'))->render();
+        $html = View::make('administrator.orders.result_search', compact('results'))->render();
 
         $results = $results->toArray();
 

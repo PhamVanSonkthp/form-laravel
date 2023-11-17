@@ -6,7 +6,12 @@
 
         <img src="{{$result->avatar()}}" class="rounded-circle">
 
-        <div>
+        <div class="{{!$result->isProductVariation() ? 'item-product' : ''}}"
+             @if(!$result->isProductVariation())
+             onclick="onAddProduct('{{$result->id}}', '{{ \App\Models\Formatter::getShortDescriptionAttribute($result->name) }}','','{{$result->price_client}}')"
+                 @endif
+
+        >
             <div>
                 <p class="ms-2">
                     {{\App\Models\Formatter::getShortDescriptionAttribute($result->name)}}
@@ -15,7 +20,7 @@
 
             @if($result->isProductVariation())
                 @foreach($result->attributes() as $key => $itemAttribute)
-                    <div class="ms-4 item-product">
+                    <div class="ms-4 item-product" onclick="onAddProduct('{{$itemAttribute['id']}}', '{{  \App\Models\Formatter::getShortDescriptionAttribute(optional(optional(\App\Models\Product::find($itemAttribute['id']))->parent)->name) }}', '{{$itemAttribute["size"]}}, {{$itemAttribute["color"]}}','{{\App\Models\Formatter::formatMoney(optional(\App\Models\Product::find($itemAttribute["id"]))->price_client)}}')">
                         <div>
                             <span>
                                 <strong>{{\App\Models\Formatter::formatMoney(optional(\App\Models\Product::find($itemAttribute['id']))->price_client)}}</strong>

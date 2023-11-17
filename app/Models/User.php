@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use App\Traits\UserTrait;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -138,6 +139,61 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         return $this->hasOne(UserType::class,'id','user_type_id');
     }
 
+    public function membership()
+    {
+
+        $from = Carbon::parse($this->created_at)->toDateString();
+        $to = Carbon::parse($this->created_at)->addYear()->toDateString();
+
+        $numberTicketSuccess = 0;
+
+        $memberships = Membership::orderBy('require_number_ticket', 'DESC')->get();
+
+        foreach ($memberships as $membership) {
+            if ($numberTicketSuccess >= $membership->require_number_ticket) {
+                return $membership;
+            }
+        }
+
+        return [
+            "id" => 0,
+            "name" => "Bạn chưa có hạng",
+            "require_number_ticket" => 0,
+            "created_at" => "2023-08-04T08:20:22.000000Z",
+            "updated_at" => "2023-10-21T02:52:55.000000Z",
+            "image_path_avatar" => "/assets/multiple/1/36/100x100/LOTcD7WmeqBiYMG0Tbtx.png",
+            "path_images" => [
+                [
+                    "id" => 36,
+                    "uuid" => "75b1309d-d783-492f-b970-075ce49a3faf",
+                    "image_path" => "/assets/multiple/1/36/original/LOTcD7WmeqBiYMG0Tbtx.png",
+                    "image_name" => "rank-dong-doan.png",
+                    "table" => "memberships",
+                    "relate_id" => 1,
+                    "index" => 0,
+                    "status_image_id" => 0,
+                    "created_at" => "2023-08-04T08:28:33.000000Z",
+                    "updated_at" => "2023-08-04T08:28:34.000000Z"
+                ]
+            ]
+        ];
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(RegisterCity::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(RegisterDistrict::class);
+    }
+
+    public function ward()
+    {
+        return $this->belongsTo(RegisterWard::class);
+    }
+
     // end
 
     public function getTableName()
@@ -150,6 +206,12 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         $array = parent::toArray();
         $array['image_path_avatar'] = $this->avatar();
         $array['path_images'] = $this->images;
+        $array['user_type'] = $this->userType;
+        $array['status'] = $this->status;
+        $array['membership'] = $this->membership();
+        $array['city'] = $this->city;
+        $array['district'] = $this->district;
+        $array['ward'] = $this->ward;
         return $array;
     }
 

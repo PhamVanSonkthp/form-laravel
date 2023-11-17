@@ -1,65 +1,254 @@
 [
-  {"idCity": 1, "name": "Hà Nội"},
-  {"idCity": 2, "name": "Hà Giang"},
-  {"idCity": 4, "name": "Cao Bằng"},
-  {"idCity": 6, "name": "Bắc Kạn"},
-  {"idCity": 8, "name": "Tuyên Quang"},
-  {"idCity": 10, "name": "Lào Cai"},
-  {"idCity": 11, "name": "Điện Biên"},
-  {"idCity": 12, "name": "Lai Châu"},
-  {"idCity": 14, "name": "Sơn La"},
-  {"idCity": 15, "name": "Yên Bái"},
-  {"idCity": 17, "name": "Hoà Bình"},
-  {"idCity": 19, "name": "Thái Nguyên"},
-  {"idCity": 20, "name": "Lạng Sơn"},
-  {"idCity": 22, "name": "Quảng Ninh"},
-  {"idCity": 24, "name": "Bắc Giang"},
-  {"idCity": 25, "name": "Phú Thọ"},
-  {"idCity": 26, "name": "Vĩnh Phúc"},
-  {"idCity": 27, "name": "Bắc Ninh"},
-  {"idCity": 30, "name": "Hải Dương"},
-  {"idCity": 31, "name": "Hải Phòng"},
-  {"idCity": 33, "name": "Hưng Yên"},
-  {"idCity": 34, "name": "Thái Bình"},
-  {"idCity": 35, "name": "Hà Nam"},
-  {"idCity": 36, "name": "Nam Định"},
-  {"idCity": 37, "name": "Ninh Bình"},
-  {"idCity": 38, "name": "Thanh Hóa"},
-  {"idCity": 40, "name": "Nghệ An"},
-  {"idCity": 42, "name": "Hà Tĩnh"},
-  {"idCity": 44, "name": "Quảng Bình"},
-  {"idCity": 45, "name": "Quảng Trị"},
-  {"idCity": 46, "name": "Thừa Thiên Huế"},
-  {"idCity": 48, "name": "Đà Nẵng"},
-  {"idCity": 49, "name": "Quảng Nam"},
-  {"idCity": 51, "name": "Quảng Ngãi"},
-  {"idCity": 52, "name": "Bình Định"},
-  {"idCity": 54, "name": "Phú Yên"},
-  {"idCity": 56, "name": "Khánh Hòa"},
-  {"idCity": 58, "name": "Ninh Thuận"},
-  {"idCity": 60, "name": "Bình Thuận"},
-  {"idCity": 62, "name": "Kon Tum"},
-  {"idCity": 64, "name": "Gia Lai"},
-  {"idCity": 66, "name": "Đắk Lắk"},
-  {"idCity": 67, "name": "Đắk Nông"},
-  {"idCity": 68, "name": "Lâm Đồng"},
-  {"idCity": 70, "name": "Bình Phước"},
-  {"idCity": 72, "name": "Tây Ninh"},
-  {"idCity": 74, "name": "Bình Dương"},
-  {"idCity": 75, "name": "Đồng Nai"},
-  {"idCity": 77, "name": "Bà Rịa - Vũng Tàu"},
-  {"idCity": 79, "name": "Hồ Chí Minh"},
-  {"idCity": 80, "name": "Long An"},
-  {"idCity": 82, "name": "Tiền Giang"},
-  {"idCity": 83, "name": "Bến Tre"},
-  {"idCity": 84, "name": "Trà Vinh"},
-  {"idCity": 86, "name": "Vĩnh Long"},
-  {"idCity": 87, "name": "Đồng Tháp"},
-  {"idCity": 89, "name": "An Giang"},
-  {"idCity": 91, "name": "Kiên Giang"},
-  {"idCity": 92, "name": "Cần Thơ"},
-  {"idCity": 93, "name": "Hậu Giang"},
-  {"idCity": 94, "name": "Sóc Trăng"},
-  {"idCity": 95, "name": "Bạc Liêu"},
-  {"idCity": 96, "name": "Cà Mau"}
-]
+    {
+     "province_id": 1,
+     "name": " Hà Nội"
+    },
+    {
+     "province_id": 2,
+     "name": " Hà Giang"
+    },
+    {
+     "province_id": 3,
+     "name": " Cao Bằng"
+    },
+    {
+     "province_id": 4,
+     "name": " Bắc Kạn"
+    },
+    {
+     "province_id": 5,
+     "name": " Tuyên Quang"
+    },
+    {
+     "province_id": 6,
+     "name": " Lào Cai"
+    },
+    {
+     "province_id": 7,
+     "name": " Điện Biên"
+    },
+    {
+     "province_id": 8,
+     "name": " Lai Châu"
+    },
+    {
+     "province_id": 9,
+     "name": " Sơn La"
+    },
+    {
+     "province_id": 10,
+     "name": " Yên Bái"
+    },
+    {
+     "province_id": 11,
+     "name": " Hoà Bình"
+    },
+    {
+     "province_id": 12,
+     "name": " Thái Nguyên"
+    },
+    {
+     "province_id": 13,
+     "name": " Lạng Sơn"
+    },
+    {
+     "province_id": 14,
+     "name": " Quảng Ninh"
+    },
+    {
+     "province_id": 15,
+     "name": " Bắc Giang"
+    },
+    {
+     "province_id": 16,
+     "name": " Phú Thọ"
+    },
+    {
+     "province_id": 17,
+     "name": " Vĩnh Phúc"
+    },
+    {
+     "province_id": 18,
+     "name": " Bắc Ninh"
+    },
+    {
+     "province_id": 19,
+     "name": " Hải Dương"
+    },
+    {
+     "province_id": 20,
+     "name": " Hải Phòng"
+    },
+    {
+     "province_id": 21,
+     "name": " Hưng Yên"
+    },
+    {
+     "province_id": 22,
+     "name": " Thái Bình"
+    },
+    {
+     "province_id": 23,
+     "name": " Hà Nam"
+    },
+    {
+     "province_id": 24,
+     "name": " Nam Định"
+    },
+    {
+     "province_id": 25,
+     "name": " Ninh Bình"
+    },
+    {
+     "province_id": 26,
+     "name": " Thanh Hóa"
+    },
+    {
+     "province_id": 27,
+     "name": " Nghệ An"
+    },
+    {
+     "province_id": 28,
+     "name": " Hà Tĩnh"
+    },
+    {
+     "province_id": 29,
+     "name": " Quảng Bình"
+    },
+    {
+     "province_id": 30,
+     "name": " Quảng Trị"
+    },
+    {
+     "province_id": 31,
+     "name": " Thừa Thiên Huế"
+    },
+    {
+     "province_id": 32,
+     "name": " Đà Nẵng"
+    },
+    {
+     "province_id": 33,
+     "name": " Quảng Nam"
+    },
+    {
+     "province_id": 34,
+     "name": " Quảng Ngãi"
+    },
+    {
+     "province_id": 35,
+     "name": " Bình Định"
+    },
+    {
+     "province_id": 36,
+     "name": " Phú Yên"
+    },
+    {
+     "province_id": 37,
+     "name": " Khánh Hòa"
+    },
+    {
+     "province_id": 38,
+     "name": " Ninh Thuận"
+    },
+    {
+     "province_id": 39,
+     "name": " Bình Thuận"
+    },
+    {
+     "province_id": 40,
+     "name": " Kon Tum"
+    },
+    {
+     "province_id": 41,
+     "name": " Gia Lai"
+    },
+    {
+     "province_id": 42,
+     "name": " Đắk Lắk"
+    },
+    {
+     "province_id": 43,
+     "name": " Đắk Nông"
+    },
+    {
+     "province_id": 44,
+     "name": " Lâm Đồng"
+    },
+    {
+     "province_id": 45,
+     "name": " Bình Phước"
+    },
+    {
+     "province_id": 46,
+     "name": " Tây Ninh"
+    },
+    {
+     "province_id": 47,
+     "name": " Bình Dương"
+    },
+    {
+     "province_id": 48,
+     "name": " Đồng Nai"
+    },
+    {
+     "province_id": 49,
+     "name": " Bà Rịa - Vũng Tàu"
+    },
+    {
+     "province_id": 50,
+     "name": " Hồ Chí Minh"
+    },
+    {
+     "province_id": 51,
+     "name": " Long An"
+    },
+    {
+     "province_id": 52,
+     "name": " Tiền Giang"
+    },
+    {
+     "province_id": 53,
+     "name": " Bến Tre"
+    },
+    {
+     "province_id": 54,
+     "name": " Trà Vinh"
+    },
+    {
+     "province_id": 55,
+     "name": " Vĩnh Long"
+    },
+    {
+     "province_id": 56,
+     "name": " Đồng Tháp"
+    },
+    {
+     "province_id": 57,
+     "name": " An Giang"
+    },
+    {
+     "province_id": 58,
+     "name": " Kiên Giang"
+    },
+    {
+     "province_id": 59,
+     "name": " Cần Thơ"
+    },
+    {
+     "province_id": 60,
+     "name": " Hậu Giang"
+    },
+    {
+     "province_id": 61,
+     "name": " Sóc Trăng"
+    },
+    {
+     "province_id": 62,
+     "name": " Bạc Liêu"
+    },
+    {
+     "province_id": 63,
+     "name": " Cà Mau"
+    }
+   ]

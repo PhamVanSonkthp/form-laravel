@@ -15,11 +15,11 @@ Route::prefix('administrator')->group(function () {
     Route::prefix('password')->group(function () {
         Route::get('/', [
             'as' => 'administrator.password.index',
-            'uses' => 'App\Http\Controllers\Admin\Controller@password',
+            'uses' => 'App\Http\Controllers\Admin\AdminController@password',
         ]);
         Route::put('/', [
             'as' => 'administrator.password.update',
-            'uses' => 'App\Http\Controllers\Admin\Controller@updatePassword',
+            'uses' => 'App\Http\Controllers\Admin\AdminController@updatePassword',
         ]);
 
     });
@@ -1423,6 +1423,74 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.bank_cash_ins.get',
             'uses' => 'App\Http\Controllers\Admin\BankCashInController@get',
             'middleware' => 'can:bank_cash_ins-list',
+        ]);
+    });
+
+    Route::prefix('memberships')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.memberships.index',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@index',
+            'middleware' => 'can:memberships-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.memberships.create',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@create',
+            'middleware' => 'can:memberships-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.memberships.store',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@store',
+            'middleware' => 'can:memberships-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.memberships.edit',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@edit',
+            'middleware' => 'can:memberships-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.memberships.update',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@update',
+            'middleware' => 'can:memberships-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.memberships.delete',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@delete',
+            'middleware' => 'can:memberships-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.memberships.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@deleteManyByIds',
+            'middleware' => 'can:memberships-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.memberships.export',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@export',
+            'middleware' => 'can:memberships-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.memberships.audit',
+            'uses'=>'App\Http\Controllers\Admin\MembershipController@audit',
+            'middleware'=>'can:memberships-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.memberships.import',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@import',
+            'middleware' => 'can:memberships-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.memberships.get',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@get',
+            'middleware' => 'can:memberships-list',
         ]);
     });
 

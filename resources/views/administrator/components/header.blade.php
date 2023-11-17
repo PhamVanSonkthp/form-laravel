@@ -166,7 +166,7 @@
                         {{--                        <li><a href="user-profile.html"><i data-feather="user"></i><span>Account </span></a></li>--}}
                         {{--                        <li><a href="email-application.html"><i data-feather="mail"></i><span>Inbox</span></a></li>--}}
                         {{--                        <li><a href="kanban.html"><i data-feather="file-text"></i><span>Taskboard</span></a></li>--}}
-                        <li><a href="{{route('administrator.settings.index')}}"><i data-feather="settings"></i><span>Cài đặt</span></a></li>
+                        <li><a href="{{route('administrator.settings.edit', ['id' => 1])}}"><i data-feather="settings"></i><span>Cài đặt</span></a></li>
                         <li><a href="{{route('administrator.password.index')}}"><i data-feather="file-text"></i><span>Đổi mật khẩu</span></a></li>
                         <li><a class="color-danger" href="{{route('administrator.logout')}}"><i data-feather="log-in"> </i><span class="color-danger">Đăng xuất</span></a></li>
                     </ul>
