@@ -256,7 +256,7 @@
         return false
     }
 
-    function callAjaxMultipart(method = "GET", url, data, success, error, on_process = null, is_loading = true){
+    function callAjaxMultipart(method = "GET", url, data, success, error, on_process = null, is_loading = true, is_show_sweet_alert_error = true){
         $.ajax({
             type: method,
             headers: {
@@ -282,12 +282,16 @@
                 if(is_loading){
                     hideLoading()
                 }
-                Swal.fire(
-                    {
-                        icon: 'error',
-                        title: err.responseText,
-                    }
-                );
+
+                if (is_show_sweet_alert_error){
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                }
+
                 error(err)
             },
             xhr:function (){
@@ -313,7 +317,7 @@
         });
     }
 
-    function callAjax(method = "GET", url, data, success, error, is_loading = true){
+    function callAjax(method = "GET", url, data, success, error, is_loading = true, is_show_sweet_alert_error = true){
         $.ajax({
             type: method,
             headers: {
@@ -337,12 +341,15 @@
                 if(is_loading){
                     hideLoading()
                 }
-                Swal.fire(
-                    {
-                        icon: 'error',
-                        title: err.responseText,
-                    }
-                );
+
+                if (is_show_sweet_alert_error){
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                }
                 error(err)
             },
         });

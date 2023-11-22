@@ -81,10 +81,6 @@ Route::prefix('public')->group(function () {
         Route::get('/', [SliderController::class, 'list']);
     });
 
-    Route::prefix('calendars')->group(function () {
-        Route::get('/{id}', [CalendarController::class, 'get']);
-    });
-
     Route::prefix('auth')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/sign-in', [AuthController::class, 'signIn']);
@@ -133,6 +129,7 @@ Route::prefix('user')->group(function () {
             Route::get('/', [VoucherController::class, 'list']);
             Route::post('/', [VoucherController::class, 'store']);
             Route::post('/check-with-carts', [VoucherController::class, 'checkWithCarts']);
+            Route::post('/check-with-products', [VoucherController::class, 'checkWithProducts']);
         });
     });
 

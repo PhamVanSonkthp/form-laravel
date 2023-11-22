@@ -1001,11 +1001,18 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:orders-list',
         ]);
 
+        Route::get('/print/{id}', [
+            'as' => 'administrator.orders.print',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@print',
+            'middleware' => 'can:orders-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.orders.get',
             'uses' => 'App\Http\Controllers\Admin\OrderController@get',
             'middleware' => 'can:orders-list',
         ]);
+
     });
 
     Route::prefix('vouchers')->group(function () {

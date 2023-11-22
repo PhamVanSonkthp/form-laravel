@@ -33,6 +33,7 @@
                                     <th>#</th>
                                     <th>Khách hàng</th>
                                     <th>Sản phẩm</th>
+                                    <th>Voucher</th>
                                     <th>Tổng tiền</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>
@@ -40,69 +41,9 @@
                                 </thead>
                                 <tbody>
                                 @foreach($items as $item)
-                                    <tr data-id="{{$item->id}}">
-                                        <td class="text-center">
-                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
-                                        </td>
-                                        <td>{{$item->id}}</td>
-                                        <td>
-                                            <a>{{optional($item->user)->name}}</a>
-                                        </td>
-                                        <td>
-                                            @foreach($item->products as $productItem)
-                                                <div class="row mt-1">
-                                                    <div class="col-2">
-                                                        <img class="rounded-circle"
-                                                             src="{{$productItem->product_image}}" alt="">
-                                                    </div>
-                                                    <div class="col-9" style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
-                                                        <div>
-                                                            {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->name)}}
-                                                        </div>
-                                                        @if(!empty($productItem->order_size) || !empty($productItem->order_color))
-                                                            <div>
-                                                                Phân loại:
-                                                                <strong>{{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_size)}}</strong>,
-                                                                <strong>{{\App\Models\Formatter::getShortDescriptionAttribute($productItem->order_color)}}</strong>
-                                                            </div>
-                                                        @endif
-                                                    </div>
 
-                                                    <div class="col-1" style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
-                                                        x{{\App\Models\Formatter::formatNumber($productItem->quantity)}}
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            <a>{{\App\Models\Formatter::formatMoney($item->amount)}}</a>
-                                        </td>
-                                        <td>
-                                            @if($item->waitingConfirm())
-                                                <a style="color: lightskyblue;cursor: pointer;" onclick="onReadyShip(this)">Chuẩn bị hàng</a>
-                                            @endif
-                                        </td>
-                                        <td class="text-status">
-                                            {{ optional($item->orderStatus)->name}}
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-outline-secondary btn-sm edit" title="Sửa"
-                                               href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id])}}"
-                                               data-id="{{$item->id}}"><i class="fa-solid fa-pen"></i></a>
+                                    @include('administrator.orders.row' , ['item' => $item])
 
-                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}" title="Xóa"
-                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-danger btn-sm delete action_delete">
-                                                <i class="fa-solid fa-x"></i>
-                                            </a>
-
-                                            <a href="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}" title="Lịch sử tác động"
-                                               data-url="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-info btn-sm action_audit">
-                                                <i class="fa-solid fa-circle-info"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
                                 @endforeach
 
                                 </tbody>
@@ -123,29 +64,16 @@
 
 @section('js')
     <script>
-        function onReadyShip(e){
-
-            let that = $(e)
-
-            const id = that.parent().parent().data('id')
-
-            let url = "{{route('ajax.administrator.orders.update_to_shipping' , ['id' => 0])}}"
-
-            url = url.replace("/0", "/" + id)
-
-            console.log(url)
+        function onReadyShip(id){
 
             callAjax(
                 "PUT",
-                url,
+                "{{route('ajax.administrator.orders.update_to_shipping')}}",
                 {
-                    order_status_id: 2
+                    id: id
                 },
                 (response) => {
-
-                    that.parent().parent().find('.text-status').html('Đang giao')
-                    that.remove()
-
+                    $('#row_' + id).after(response.html).remove();
                 },
                 (error) => {
 

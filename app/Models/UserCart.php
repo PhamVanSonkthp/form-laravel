@@ -25,16 +25,26 @@ class UserCart extends Model implements Auditable
         return $this->belongsTo(Product::class);
     }
 
-    public static function calculateAmountByIds($ids)
+    public static function calculateAmountByIds($ids, $isCartId = true)
     {
 
         $amount = 0;
 
-        foreach ($ids as $id) {
-            $userCart = UserCart::find($id);
+        if ($isCartId){
+            foreach ($ids as $id) {
+                $userCart = UserCart::find($id);
 
-            if (!empty($userCart)) {
-                $amount += optional($userCart->product)->priceByUser() ?? 0;
+                if (!empty($userCart)) {
+                    $amount += optional($userCart->product)->priceByUser() ?? 0;
+                }
+            }
+        }else{
+            foreach ($ids as $id) {
+                $product = Product::find($id);
+
+                if (!empty($product)) {
+                    $amount += $product->priceByUser() ?? 0;
+                }
             }
         }
 

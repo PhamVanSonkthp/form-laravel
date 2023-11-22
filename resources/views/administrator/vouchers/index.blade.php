@@ -31,12 +31,13 @@
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>#</th>
                                     <th>Tiêu đề</th>
+                                    <th>Code</th>
                                     <th>Ngày bắt đầu</th>
                                     <th>Ngày kết thúc</th>
                                     <th>Đã dùng</th>
                                     <th>Lượt dùng tối đa</th>
                                     <th>Loại mã</th>
-                                    <th></th>
+                                    <th>Giảm</th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
@@ -48,6 +49,11 @@
                                         </td>
                                         <td>{{$item->id}}</td>
                                         <td>{{$item->name}}</td>
+                                        <td>
+                                            <strong>
+                                                {{$item->code}}
+                                            </strong>
+                                        </td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->begin)}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->end)}}</td>
                                         <td>{{\App\Models\Formatter::formatNumber($item->used)}}</td>

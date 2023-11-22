@@ -287,17 +287,14 @@
                         <div class="col-1">
                             Giá bán lẻ
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             Giá bán buôn
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             Giá CTV
                         </div>
                         <div class="col-2">
                             Kho hàng
-                        </div>
-                        <div class="col-2">
-                            SKU
                         </div>
                     </div>`
 
@@ -307,22 +304,19 @@
                     let row = '<div class="row mt-2">'
                     row += `<div class="col-4">${_attributes[0][i]}</div>`
                     row += `<div class="col-1">
-                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)] ?? ''}" required>
+                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*4)] ?? ''}" required>
                         </div>
                         <div class="col-1">
-                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+1] ?? ''}" required>
-                        </div>
-                        <div class="col-1">
-                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+2] ?? ''}" required>
-                        </div>
-                        <div class="col-1">
-                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+3] ?? ''}" required>
+                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*4)+1] ?? ''}" required>
                         </div>
                         <div class="col-2">
-                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*5)+4] ?? ''}" required>
+                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*4)+2] ?? ''}" required>
                         </div>
                         <div class="col-2">
-                            <input name="skus[]" type="text" autocomplete="off" class="form-control input-table" value="${valuesTable[i + (i*5)+5] ?? ''}">
+                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*4)+3] ?? ''}" required>
+                        </div>
+                        <div class="col-2">
+                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + (i*4)+4] ?? ''}" required>
                         </div>`
 
                     row += "</div>"
@@ -343,17 +337,14 @@
                         <div class="col-1">
                             Giá bán lẻ
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             Giá bán buôn
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             Giá CTV
                         </div>
                         <div class="col-2">
                             Kho hàng
-                        </div>
-                        <div class="col-2">
-                            SKU
                         </div>
                     </div>`
 
@@ -370,17 +361,14 @@
                         <div class="col-1">
                             <input name="client_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
-                        <div class="col-1">
+                        <div class="col-2">
                             <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
                         </div>
                         <div class="col-2">
                             <input name="inventories[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
-                        </div>
-                        <div class="col-2">
-                            <input name="skus[]" type="text" autocomplete="off" class="form-control input-table" value="">
                         </div>`
 
                         row += "</div>"

@@ -42,8 +42,8 @@ class Voucher extends Model implements Auditable
 
     public function isLimited(): bool
     {
-        if ($this->used >= $this->max_use_by_time) return false;
-        if ($this->used >= $this->max_use_by_user) return false;
+        if ($this->used < $this->max_use_by_time) return false;
+        if ($this->used < $this->max_use_by_user) return false;
 
         return true;
     }
@@ -116,19 +116,19 @@ class Voucher extends Model implements Auditable
             'code' => $request->code ?? strtoupper(Helper::randomString()),
             'begin' => $request->begin,
             'end' => $request->end,
-            'min_amount' => $request->min_amount,
-            'max_use_by_time' => $request->max_use_by_time,
-            'max_use_by_user' => $request->max_use_by_user,
+            'min_amount' => Formatter::formatNumberToDatabase($request->min_amount),
+            'max_use_by_time' => Formatter::formatNumberToDatabase($request->max_use_by_time),
+            'max_use_by_user' => Formatter::formatNumberToDatabase($request->max_use_by_user),
         ];
 
         if (isset($request->discount_amount) && !empty($request->discount_amount)){
-            $dataInsert['discount_amount'] = $request->discount_amount;
+            $dataInsert['discount_amount'] = Formatter::formatNumberToDatabase($request->discount_amount);
             $dataInsert['discount_percent'] = 0;
             $dataInsert['max_discount_percent_amount'] = 0;
         }else{
             $dataInsert['discount_amount'] = 0;
-            $dataInsert['discount_percent'] = $request->discount_percent;
-            $dataInsert['max_discount_percent_amount'] = $request->max_discount_percent_amount;
+            $dataInsert['discount_percent'] = Formatter::formatNumberToDatabase($request->discount_percent);
+            $dataInsert['max_discount_percent_amount'] = Formatter::formatNumberToDatabase($request->max_discount_percent_amount);
         }
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -143,19 +143,19 @@ class Voucher extends Model implements Auditable
             'code' => $request->code ?? strtoupper(Helper::randomString()),
             'begin' => $request->begin,
             'end' => $request->end,
-            'min_amount' => $request->min_amount,
-            'max_use_by_time' => $request->max_use_by_time,
-            'max_use_by_user' => $request->max_use_by_user,
+            'min_amount' => Formatter::formatNumberToDatabase($request->min_amount),
+            'max_use_by_time' => Formatter::formatNumberToDatabase($request->max_use_by_time),
+            'max_use_by_user' => Formatter::formatNumberToDatabase($request->max_use_by_user),
         ];
 
         if (isset($request->discount_amount) && !empty($request->discount_amount)){
-            $dataUpdate['discount_amount'] = $request->discount_amount;
+            $dataUpdate['discount_amount'] = Formatter::formatNumberToDatabase($request->discount_amount);
             $dataUpdate['discount_percent'] = 0;
             $dataUpdate['max_discount_percent_amount'] = 0;
         }else{
             $dataUpdate['discount_amount'] = 0;
-            $dataUpdate['discount_percent'] = $request->discount_percent;
-            $dataUpdate['max_discount_percent_amount'] = $request->max_discount_percent_amount;
+            $dataUpdate['discount_percent'] = Formatter::formatNumberToDatabase($request->discount_percent);
+            $dataUpdate['max_discount_percent_amount'] = Formatter::formatNumberToDatabase($request->max_discount_percent_amount);
         }
 
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);

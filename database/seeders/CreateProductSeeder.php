@@ -24,5 +24,33 @@ class CreateProductSeeder extends Seeder
 //                'price' => 100000,
 //            ],
 //        ]);
+
+        app('rinvex.attributes.attribute')->create([
+            'slug' => 'size',
+            'type' => 'varchar',
+            'name' => 'Product Size',
+            'entities' => ['App\Models\Product'],
+        ]);
+
+        app('rinvex.attributes.attribute')->create([
+            'slug' => 'color',
+            'type' => 'varchar',
+            'name' => 'Product Color',
+            'entities' => ['App\Models\Product'],
+        ]);
+
+        app('rinvex.attributes.attribute')->create([
+            'slug' => 'order_size',
+            'type' => 'varchar',
+            'name' => 'Product Size',
+            'entities' => ['App\Models\OrderProduct'],
+        ]);
+
+        app('rinvex.attributes.attribute')->create([
+            'slug' => 'order_color',
+            'type' => 'varchar',
+            'name' => 'Product Color',
+            'entities' => ['App\Models\OrderProduct'],
+        ]);
     }
 }

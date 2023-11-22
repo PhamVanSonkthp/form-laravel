@@ -28,7 +28,13 @@ class Product extends Model implements Auditable
     // begin
 
     public function parent(){
-        return $this->hasOne(Product::class, 'group_product_id', 'group_product_id')->where('product_visibility_id', 2);
+        $item = $this->hasOne(Product::class, 'group_product_id', 'group_product_id')->where('product_visibility_id', 2);
+
+        if (empty($item)){
+            return $this;
+        }
+
+        return $item;
     }
 
     public static function search($request)

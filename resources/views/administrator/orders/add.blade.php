@@ -76,6 +76,22 @@
 
                                 </tbody>
 
+                                <tbody id="container_voucher" style="display: none">
+                                <tr>
+                                    <td colspan="5">
+                                        <strong class="text-danger">
+                                            Mã giảm giá
+                                        </strong>
+                                    </td>
+
+                                    <td class="text-end" colspan="2">
+                                        <strong class="text-warning" id="label_amount_discount">
+                                            0
+                                        </strong>
+                                    </td>
+                                </tr>
+                                </tbody>
+
                                 <tbody>
                                 <tr>
                                     <td colspan="4">
@@ -104,8 +120,14 @@
 
                         <div class="form-group mt-3">
                             <label>Mã giảm giá (Nếu có)</label>
-                            <input id="" type="text" autocomplete="off"
+                            <input disabled id="input_voucher" type="text" autocomplete="off" onchange="onApplyVoucher()"
                                    class="form-control " value="" placeholder="Mã giảm giá">
+                        </div>
+
+                        <div>
+                            <strong id="lable_message_voucher">
+
+                            </strong>
                         </div>
 
                         <button class="btn btn-primary mt-3" onclick="onCreateOrder()">Tạo đơn</button>
@@ -125,6 +147,7 @@
     <script>
 
         let keywordSearch = "";
+        let discount = 0;
 
         function onSearchProduct() {
             keywordSearch = $('#input_search_product').val()
@@ -175,12 +198,16 @@
             $('.prices').each(function() { ek.push($(this).html()); });
 
 
+            $('#input_voucher').prop('disabled', ek.length == 0);
+
+
             $('.input_products').each(function(i, obj) {
                 totalNumberProduct += tryParseInt($(obj).val())
                 totalPriceProduct += tryParseInt(ek[i])
             });
 
-            console.log('-----')
+            totalPriceProduct -= discount
+
             $('#total_number').html(totalNumberProduct)
             $('#total_price').html(formatMoney(totalPriceProduct) + "đ")
         }
@@ -197,10 +224,10 @@
 
                                     <td class="index_product">
                                         1
-                                        <input class="product_ids" value="${id}"/>
                                     </td>
 
                                     <td>
+                                        <input class="product_ids d-none" value="${id}"/>
                                         ${name}
                                     </td>
                                     <td>
@@ -212,7 +239,7 @@
                                     </td>
 
                                     <td>
-                                        <input id="input_number_product_${id}" type="text" class="form-control input_products" value="1" oninput="onChangeNumberProduct('${id}')">
+                                        <input id="input_number_product_${id}" type="text" class="form-control number input_products quantities" value="1" oninput="onChangeNumberProduct('${id}')">
                                     </td>
 
                                     <td>
@@ -252,17 +279,110 @@
         function onCreateOrder() {
 
             const product_ids = [];
-            $('.product_ids').each(function() { ek.push($(this).val()); });
+            const quantities = [];
 
-            if (product_ids.length == 0){
+            $('.product_ids').each(function() {
+                product_ids.push($(this).val());
+            });
 
-                
-                showToastError("Vui lòng chọn sản phẩm")
+            $('.quantities').each(function() { quantities.push($(this).val()); });
 
-                return;
+            if (product_ids.length == 0) return showToastError("Vui lòng chọn sản phẩm")
+
+            callAjax(
+                "POST",
+                "{{route('ajax.administrator.orders.store')}}",
+                {
+                    product_ids: product_ids,
+                    quantities: quantities,
+                    user_id: $('select[name="user_id"]').val(),
+                    voucher_id: $('#input_voucher').val(),
+                },
+                (response) => {
+
+                    Swal.fire({
+                        title: 'Tạo đơn thành công',
+                        allowOutsideClick: false,
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: `Tạo đơn mới`,
+                        denyButtonText: `Quay lại`,
+                        cancelButtonText: `In đơn`,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "{{route('administrator.orders.create')}}"
+                        } else if (result.isDenied) {
+                            window.location.href = "{{route('administrator.orders.index')}}"
+                        }else{
+                            const url = "{{ env('APP_URL') . "/administrator/orders/print/" }}" + response.id;
+
+                            window.open(url, '_blank').focus();
+
+                            window.location.reload()
+                        }
+                    })
+
+                    console.log(response)
+
+                },
+                (error) => {
+
+                },
+                true,
+            )
+
+        }
+
+        function onApplyVoucher() {
+
+            const product_ids = [];
+
+            $('.product_ids').each(function() {
+                product_ids.push($(this).val());
+            });
+
+            if (product_ids.length == 0) return
+
+            const code = $('#input_voucher').val()
+
+            if (code.length == 0) {
+                $('#container_voucher').hide()
+                $('#lable_message_voucher').html("")
+                discount = 0
+                return
             }
 
+            callAjax(
+                "POST",
+                "{{route('ajax.administrator.voucher.check_with_products')}}",
+                {
+                    voucher_id: code,
+                    product_ids: product_ids,
+                },
+                (response) => {
+                    $('#container_voucher').show()
+                    $('#label_amount_discount').html("-" + formatMoney(response.discount))
+                    $('#lable_message_voucher').html("Giảm: " + formatMoney(response.discount))
+                    $('#lable_message_voucher').addClass("text-success")
+                    $('#lable_message_voucher').removeClass("text-danger")
+                    discount = response.discount
+                    renderTotalPrice()
+                    console.log(response)
 
+                },
+                (error) => {
+                    console.log(error)
+                    $('#container_voucher').hide()
+                    $('#lable_message_voucher').html(error.responseJSON['data']['message'])
+                    $('#lable_message_voucher').addClass("text-danger")
+                    $('#lable_message_voucher').removeClass("text-success")
+                    discount = 0
+                    renderTotalPrice()
+                },
+                true,
+                false,
+                false,
+            )
         }
     </script>
 

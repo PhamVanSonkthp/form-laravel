@@ -20,6 +20,18 @@ class Order extends Model implements Auditable
 
     // begin
 
+    public function voucher(){
+        return $this->belongsTo(Voucher::class);
+    }
+
+    public function totalAmount(){
+        $amount = 0;
+        foreach ($this->products as $product){
+            $amount += $product->price * $product->quantity;
+        }
+        return $amount;
+    }
+
     public function products(){
         return $this->hasMany(OrderProduct::class);
     }

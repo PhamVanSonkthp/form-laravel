@@ -18,7 +18,13 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('user_id')->index();
             $table->integer('order_status_id')->default(1);
             $table->bigInteger('amount')->default(0);
+            $table->bigInteger('amount_voucher')->default(0);
             $table->bigInteger('voucher_id')->default(0);
+            $table->string('user_name')->nullable();
+            $table->string('user_phone')->nullable();
+            $table->string('user_address')->nullable();
+            $table->string('user_email')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

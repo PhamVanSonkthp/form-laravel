@@ -74,18 +74,16 @@ class OrderController extends Controller
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 
-    public function updateToShipping(Request $request, $id)
+    public function print(Request $request, $id)
     {
-        $item = $this->model->find($id);
-        $item->updateToShipping();
-        $item->refresh();
-        return response()->json($item);
+        $item = $this->model->findOrFail($id);
+        return view('administrator.' . $this->prefixView . '.print', compact('item'));
     }
 
     public function audit(Request $request, $id)
     {
         $auditModel = new Audit();
-        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\Product'], null, null, true);
+        $items = $auditModel->searchByQuery($request, ['auditable_id' => $id, 'auditable_type' => 'App\Models\Order'], null, null, true);
 
         $items = $items->latest()->get();
         $content = [

@@ -1,25 +1,223 @@
 <?php
 
 use App\Events\ChatPusherEvent;
+use App\Http\Controllers\API\VoucherController;
 use App\Http\Requests\PusherChatRequest;
 use App\Models\Chat;
 use App\Models\ChatImage;
+use App\Models\Helper;
 use App\Models\Image;
 use App\Models\Notification;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\ParticipantChat;
+use App\Models\Product;
 use App\Models\RestfulAPI;
 use App\Models\SingleImage;
 use App\Models\User;
+use App\Models\UserCart;
 use App\Models\UserPoint;
 use App\Models\UserTransaction;
+use App\Models\Voucher;
+use App\Models\VoucherUsed;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
 // ajax
 Route::prefix('ajax/administrator')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
+
+        Route::prefix('orders')->group(function () {
+
+            Route::post('/', function (Request $request) {
+
+                $request->validate([
+                    'quantities' => 'required|array|min:1',
+                    "quantities.*" => "required|numeric|min:1",
+                    'product_ids' => 'required|array|min:1',
+                    "product_ids.*" => "required|numeric|min:1",
+                ]);
+
+                if (count($request->quantities) != count($request->product_ids)) {
+                    return response()->json(Helper::errorAPI(99, [], "2 mảng phải bằng nhau"), 400);
+                }
+
+                DB::beginTransaction();
+
+
+                $model = new Order();
+
+                $user = User::find($request->user_id);
+
+                $item = $model->create([
+                    'user_id' => $request->user_id ?? 0,
+                    'user_name' => optional($user)->name ?? "Khách lẻ",
+                    'user_phone' => optional($user)->phone,
+                    'user_address' => optional($user)->address,
+                    'user_email' => optional($user)->email,
+                ]);
+
+                $amount = 0;
+
+                foreach ($request->product_ids as $index => $product_id) {
+
+                    $product = Product::find($product_id);
+
+                    if (empty($product)) continue;
+
+                    $amount += $product->priceByUser() * $request->quantities[$index];
+
+                    $orderProduct = OrderProduct::create([
+                        'order_id' => $item->id,
+                        'product_id' => $product->id,
+                        'quantity' => $request->quantities[$index],
+                        'price' => $product->priceByUser(),
+                        'name' => $product->parent->name,
+                        'product_image' => $product->parent->avatar(),
+                    ]);
+
+                    $orderProduct->fill(['order_size' => $product->size, 'order_color' => $product->color])->save();
+                }
+
+                if (isset($request->voucher_id) && !empty($request->voucher_id)) {
+                    $voucher = Voucher::find($request->voucher_id);
+
+                    if (empty($voucher)) {
+                        $voucher = Voucher::where('code', $request->voucher_id)->first();
+                    }
+
+                    if (empty($voucher)) return response()->json(Helper::errorAPI(99, [], "voucher_id invalid"), 400);
+
+                    if ($voucher->isLimited()) return response()->json(Helper::errorAPI(99, [], "voucher is limited"), 400);
+
+                    if ($voucher->isLimitedByUser()) return response()->json(Helper::errorAPI(99, [], "voucher is limited by user"), 400);
+
+                    if ($voucher->isExpired()) return response()->json(Helper::errorAPI(99, [], "voucher is is expired"), 400);
+
+                    if ($voucher->isUnavailable()) return response()->json(Helper::errorAPI(99, [], "voucher is is unavailable"), 400);
+
+                    $amount = UserCart::calculateAmountByIds($request->product_ids, false);
+
+                    if ($voucher->isAcceptAmount($amount)) return response()->json(Helper::errorAPI(99, [], "voucher is is required min amount " . $voucher->min_amount), 400);
+
+                    $discount = $voucher->amountDiscount($amount);
+
+                    $amount = $amount - $discount;
+
+                    if ($amount < 0) $amount = 0;
+
+                    VoucherUsed::create([
+                        'user_id' => $request->user_id ?? 0,
+                        'voucher_id' => $voucher->id,
+                    ]);
+
+                    $voucher->increment('used');
+                }
+
+                $item->update([
+                    'amount' => $amount
+                ]);
+
+                DB::commit();
+
+                return response()->json($item);
+
+            })->name('ajax.administrator.orders.store');
+
+            Route::put('/', function (Request $request) {
+
+                $request->validate([
+                    'id' => 'required|min:1',
+                    'quantities' => 'required|array|min:1',
+                    "quantities.*" => "required|numeric|min:1",
+                    'product_ids' => 'required|array|min:1',
+                    "product_ids.*" => "required|numeric|min:1",
+                ]);
+
+                if (count($request->quantities) != count($request->product_ids)) {
+                    return response()->json(Helper::errorAPI(99, [], "2 mảng phải bằng nhau"), 400);
+                }
+
+                DB::beginTransaction();
+
+
+
+                $model = new Order();
+
+                $user = User::find($request->user_id);
+
+                $item = $model->findOrFail($request->id);
+
+                $item->products()->delete();
+
+                $item->update([
+                    'user_id' => $request->user_id ?? 0,
+                    'user_name' => optional($user)->name ?? "Khách lẻ",
+                    'user_phone' => optional($user)->phone,
+                    'user_address' => optional($user)->address,
+                    'user_email' => optional($user)->email,
+                ]);
+
+                $amount = 0;
+
+                foreach ($request->product_ids as $index => $product_id) {
+
+                    $product = Product::find($product_id);
+
+                    if (empty($product)) continue;
+
+                    $amount += $product->priceByUser() * $request->quantities[$index];
+
+                    $orderProduct = OrderProduct::create([
+                        'order_id' => $item->id,
+                        'product_id' => $product->id,
+                        'quantity' => $request->quantities[$index],
+                        'price' => $product->priceByUser(),
+                        'name' => $product->parent->name,
+                        'product_image' => $product->parent->avatar(),
+                    ]);
+
+                    $orderProduct->fill(['order_size' => $product->size, 'order_color' => $product->color])->save();
+                }
+
+                $item->update([
+                    'amount' => $amount - $item->amount_voucher,
+                ]);
+
+                DB::commit();
+
+                return response()->json($item);
+
+            })->name('ajax.administrator.orders.update');
+
+            Route::put('/update-to-shipping', function (Request $request){
+
+                $request->validate([
+                    'id' => 'required|min:1',
+                ]);
+
+                $item = Order::findOrFail($request->id);
+
+                $item->update([
+                    'order_status_id' => 2
+                ]);
+
+                $item->refresh();
+
+                $item['html'] = View::make('administrator.orders.row', ['item' => $item , 'prefixView' => 'orders'])->render();
+                return response()->json($item);
+
+            })->name('ajax.administrator.orders.update_to_shipping');
+
+        });
+
+
+        Route::prefix('voucher')->group(function () {
+            Route::post('/check-with-products', [VoucherController::class, 'checkWithProducts'])->name('ajax.administrator.voucher.check_with_products');
+        });
 
         Route::prefix('user-points')->group(function () {
 
@@ -67,13 +265,6 @@ Route::prefix('ajax/administrator')->group(function () {
 
         });
 
-        Route::prefix('/orders')->group(function () {
-            Route::put('/update-to-shipping/{id}', [
-                'as' => 'ajax.administrator.orders.update_to_shipping',
-                'uses' => 'App\Http\Controllers\Admin\OrderController@updateToShipping',
-                'middleware' => 'can:orders-edit',
-            ]);
-        });
 
         Route::prefix('/products')->group(function () {
 
@@ -172,16 +363,6 @@ Route::prefix('ajax/administrator')->group(function () {
                 return response()->json($request->ids);
             })->name('ajax,administrator.upload_multiple_images.sort');
 
-        });
-    });
-
-    Route::prefix('/orders')->group(function () {
-        Route::group(['middleware' => ['auth']], function () {
-            Route::put('/update-to-shipping/{id}', [
-                'as' => 'ajax.administrator.orders.update_to_shipping',
-                'uses' => 'App\Http\Controllers\Admin\OrderController@updateToShipping',
-                'middleware' => 'can:orders-edit',
-            ]);
         });
     });
 
