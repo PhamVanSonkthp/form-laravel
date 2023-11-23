@@ -53,14 +53,17 @@
 
             <div
                 style="flex: 5; justify-content: center; flex: 5; display: flex; align-items: start; flex-direction: column">
-                <div style="font-weight: bold; font-size: 5mm; line-height: 21px; text-align: center;">Công Ty TNHH {{env('APP_NAME')}}
+                <div style="font-weight: bold; font-size: 5mm; line-height: 21px; text-align: center;">Công Ty
+                    TNHH {{env('APP_NAME')}}
                 </div>
-                <div style="font-size: 4mm; text-align: center; margin-top: 1mm">Địa chỉ: {{ optional(\App\Models\Setting::first())->address_contact}}
+                <div style="font-size: 4mm; text-align: center; margin-top: 1mm">Địa
+                    chỉ: {{ optional(\App\Models\Setting::first())->address_contact}}
                 </div>
                 <div style="font-size: 4mm; text-align: center; margin-top: 1mm">Số điện thoại:
                     {{ optional(\App\Models\Setting::first())->phone_contact}}
                 </div>
-                <div style="font-size: 4mm; text-align: center; margin-top: 1mm">Email: {{ optional(\App\Models\Setting::first())->email_contact}}
+                <div style="font-size: 4mm; text-align: center; margin-top: 1mm">
+                    Email: {{ optional(\App\Models\Setting::first())->email_contact}}
                 </div>
             </div>
 
@@ -144,6 +147,32 @@
             </tbody>
 
             <tfoot>
+
+            @if($item->voucher)
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <strong>
+                            Mã giảm giá
+                        </strong>
+                    </td>
+                    <td colspan="1" style="text-align: center;">
+
+                        <div>
+                            <strong>{{$item->voucher->name}}</strong>
+                        </div>
+                        <div>
+                            <strong>{{$item->voucher->code}}</strong>
+                        </div>
+
+                    </td>
+                    <td colspan="3" style="text-align: center;">
+                        <strong>
+                            {{number_format($item->amount_voucher)}}
+                        </strong>
+                    </td>
+                </tr>
+            @endif
+
             <tr>
                 <td colspan="3" style="text-align: center;">
                     <strong>
@@ -152,7 +181,7 @@
                 </td>
                 <td colspan="3" style="text-align: center;">
                     <strong>
-                        {{number_format($item->totalAmount())}}
+                        {{number_format($item->amount)}}
                     </strong>
                 </td>
             </tr>
@@ -193,7 +222,7 @@
         correctLevel: QRCode.CorrectLevel.H,
     })
 
-    if("{{request('print')}}" == "true"){
+    if ("{{request('print')}}" == "true") {
         window.print()
     }
 

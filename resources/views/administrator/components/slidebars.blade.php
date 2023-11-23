@@ -340,6 +340,16 @@
                         </li>
                     @endcan
 
+                    @can('shipping_methods-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/shipping-methods">
+                                <span>Phương thức vận chuyển</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
                 </ul>
             </li>
 

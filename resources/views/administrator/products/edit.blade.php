@@ -132,6 +132,8 @@
 
                     </div>
 
+                    @include('administrator.components.input_text' , ['name' => 'sku' , 'label' => 'SKU'])
+
                     @include('administrator.components.button_save')
 
                 </div>

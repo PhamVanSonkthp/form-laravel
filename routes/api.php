@@ -67,18 +67,22 @@ Route::prefix('public')->group(function () {
 
     Route::prefix('categories-news')->group(function () {
         Route::get('/', [CategoryNewsController::class, 'list']);
+        Route::get('/{id}', [CategoryNewsController::class, 'get']);
     });
 
     Route::prefix('categories-products')->group(function () {
         Route::get('/', [CategoryProductsController::class, 'list']);
+        Route::get('/{id}', [CategoryProductsController::class, 'get']);
     });
 
     Route::prefix('system-branches')->group(function () {
         Route::get('/', [SystemBranchController::class, 'list']);
+        Route::get('/{id}', [SystemBranchController::class, 'get']);
     });
 
-    Route::prefix('slider')->group(function () {
+    Route::prefix('sliders')->group(function () {
         Route::get('/', [SliderController::class, 'list']);
+        Route::get('/{id}', [SliderController::class, 'get']);
     });
 
     Route::prefix('auth')->group(function () {
@@ -98,8 +102,7 @@ Route::prefix('user')->group(function () {
         });
 
         Route::prefix('profile')->group(function () {
-            Route::put('/', [AuthController::class, 'update']);
-            Route::post('/avatar', [AuthController::class, 'updateAvatar']);
+            Route::post('/', [AuthController::class, 'update']);
             Route::delete('/', [AuthController::class, 'delete']);
         });
 

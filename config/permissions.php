@@ -129,15 +129,20 @@ return [
         'banks-edit' => 'banks_edit',
         'banks-delete' => 'banks_delete',
 
-        'banks_cash_ins-list' => 'banks_list',
-        'banks_cash_ins-add' => 'banks_add',
-        'banks_cash_ins-edit' => 'banks_edit',
-        'banks_cash_ins-delete' => 'banks_delete',
+        'banks_cash_ins-list' => 'banks_cash_ins_list',
+        'banks_cash_ins-add' => 'banks_cash_ins_add',
+        'banks_cash_ins-edit' => 'banks_cash_ins_edit',
+        'banks_cash_ins-delete' => 'banks_cash_ins_delete',
 
-        'memberships-list' => 'banks_list',
-        'memberships-add' => 'banks_add',
-        'memberships-edit' => 'banks_edit',
-        'memberships-delete' => 'banks_delete',
+        'memberships-list' => 'memberships_list',
+        'memberships-add' => 'memberships_add',
+        'memberships-edit' => 'memberships_edit',
+        'memberships-delete' => 'memberships_delete',
+
+        'shipping_methods-list' => 'shipping_methods_list',
+        'shipping_methods-add' => 'shipping_methods_add',
+        'shipping_methods-edit' => 'shipping_methods_edit',
+        'shipping_methods-delete' => 'shipping_methods_delete',
 
     ],
     'table_module'=>[
@@ -168,6 +173,7 @@ return [
         'banks',
         'banks_cash_ins',
         'memberships',
+        'shipping_methods',
     ],
 
     'table_module_name'=>[
@@ -198,6 +204,7 @@ return [
         'Quản lý ngân hàng',
         'Quản lý ngân hàng nạp tiền',
         'Quản lý hạng thành viên',
+        'Quản lý phương thức thanh toán',
     ],
 
     'module_children'=>[

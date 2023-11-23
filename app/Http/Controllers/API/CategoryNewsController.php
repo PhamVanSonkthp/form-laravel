@@ -17,16 +17,22 @@ use Illuminate\Support\Facades\Hash;
 class CategoryNewsController extends Controller
 {
 
-    private $modelCategoryNew;
+    private $model;
 
     public function __construct(CategoryNew $categoryNew)
     {
-        $this->modelCategoryNew = $categoryNew;
+        $this->model = $categoryNew;
+    }
+
+    public function get(Request $request, $id)
+    {
+        $result = $this->model->findOrFail($id);
+        return response()->json($result);
     }
 
     public function list(Request $request)
     {
-        $results = RestfulAPI::response($this->modelCategoryNew, $request);
+        $results = RestfulAPI::response($this->model, $request);
         return response()->json($results);
     }
 }

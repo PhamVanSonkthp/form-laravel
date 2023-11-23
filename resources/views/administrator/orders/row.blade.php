@@ -17,12 +17,11 @@
     </td>
     <td>
         @foreach($item->products as $productItem)
-            <div class="row mt-1">
-                <div class="col-2">
-                    <img class="rounded-circle"
-                         src="{{$productItem->product_image}}" alt="">
-                </div>
-                <div class="col-9" style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
+            <div class="mt-1 d-flex">
+                <img class="rounded-circle"
+                     src="{{$productItem->product_image}}" alt="">
+
+                <div class="ms-1" style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
                     <div>
                         {{\App\Models\Formatter::getShortDescriptionAttribute($productItem->name)}}
                     </div>
@@ -43,7 +42,7 @@
                     </div>
                 </div>
 
-                <div class="col-1" style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
+                <div style="border-bottom: solid 1px aliceblue;border-top: solid 1px aliceblue;">
                     x{{\App\Models\Formatter::formatNumber($productItem->quantity)}}
                 </div>
             </div>

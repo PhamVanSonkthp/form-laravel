@@ -22,7 +22,6 @@ class CreateUsersTable extends Migration
             $table->dateTime('date_of_birth')->nullable();
             $table->string('password');
             $table->string('firebase_uid')->nullable();
-            $table->text('address')->nullable();
             $table->bigInteger('user_status_id')->default(1);
             $table->bigInteger('role_id');
             $table->tinyInteger('is_admin')->default(0);
@@ -37,6 +36,11 @@ class CreateUsersTable extends Migration
             $table->bigInteger('referral_id')->default(0);
             $table->bigInteger('point')->default(0);
             $table->bigInteger('amount')->default(0);
+
+            $table->bigInteger('city_id')->default(0);
+            $table->bigInteger('district_id')->default(0);
+            $table->bigInteger('ward_id')->default(0);
+            $table->string('address')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

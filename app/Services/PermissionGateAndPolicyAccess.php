@@ -35,6 +35,14 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateBanks();
         $this->defineGateBankCashIns();
         $this->defineGateMemberships();
+        $this->defineGateShippingMethods();
+    }
+
+    public function defineGateShippingMethods(){
+        Gate::define('shipping_methods-list','App\Policies\ShippingMethodPolicy@view');
+        Gate::define('shipping_methods-add','App\Policies\ShippingMethodPolicy@create');
+        Gate::define('shipping_methods-edit','App\Policies\ShippingMethodPolicy@update');
+        Gate::define('shipping_methods-delete','App\Policies\ShippingMethodPolicy@delete');
     }
 
     public function defineGateMemberships(){

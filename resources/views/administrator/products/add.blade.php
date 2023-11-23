@@ -63,6 +63,8 @@
                         @include('administrator.components.input_number' , ['name' => 'price_partner' , 'label' => 'Giá CTV (Cộng tác viên)'])
 
                         @include('administrator.components.input_number' , ['name' => 'inventory' , 'label' => 'Tồn kho'])
+
+                        @include('administrator.components.input_text' , ['name' => 'sku' , 'label' => 'SKU'])
                     </div>
 
                     @include('administrator.components.button_save')
@@ -269,8 +271,6 @@
                 valuesTable.push(inputsTable[i].value)
             }
 
-            console.log(valuesTable)
-
             //
 
             $('#table_bassic_price').html('')
@@ -356,19 +356,19 @@
                         row += `<div class="col-2">${_attributes[0][i]}</div>`
                         row += `<div class="col-2">${_attributes[1][j]}</div>`
                         row += `<div class="col-1">
-                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
+                            <input name="import_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + j + ((i+j)*4)] ?? ''}" required>
                         </div>
                         <div class="col-1">
-                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
+                            <input name="client_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + j + ((i+j)*4)+1] ?? ''}" required>
                         </div>
                         <div class="col-2">
-                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
+                            <input name="agent_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + j + ((i+j)*4)+2] ?? ''}" required>
                         </div>
                         <div class="col-2">
-                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
+                            <input name="partner_prices[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + j + ((i+j)*4)+3] ?? ''}" required>
                         </div>
                         <div class="col-2">
-                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number input-table" value="" required>
+                            <input name="inventories[]" type="text" autocomplete="off" class="form-control number input-table" value="${valuesTable[i + j + ((i+j)*4)+4] ?? ''}" required>
                         </div>`
 
                         row += "</div>"

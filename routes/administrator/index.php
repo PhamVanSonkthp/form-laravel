@@ -1501,5 +1501,73 @@ Route::prefix('administrator')->group(function () {
         ]);
     });
 
+    Route::prefix('shipping-methods')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.shipping_methods.index',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@index',
+            'middleware' => 'can:shipping_methods-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.shipping_methods.create',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@create',
+            'middleware' => 'can:shipping_methods-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.shipping_methods.store',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@store',
+            'middleware' => 'can:shipping_methods-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.shipping_methods.edit',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@edit',
+            'middleware' => 'can:shipping_methods-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.shipping_methods.update',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@update',
+            'middleware' => 'can:shipping_methods-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.shipping_methods.delete',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@delete',
+            'middleware' => 'can:shipping_methods-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.shipping_methods.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@deleteManyByIds',
+            'middleware' => 'can:shipping_methods-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.shipping_methods.export',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@export',
+            'middleware' => 'can:shipping_methods-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.shipping_methods.audit',
+            'uses'=>'App\Http\Controllers\Admin\ShippingMethodController@audit',
+            'middleware'=>'can:shipping_methods-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.shipping_methods.import',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@import',
+            'middleware' => 'can:shipping_methods-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.shipping_methods.get',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@get',
+            'middleware' => 'can:shipping_methods-list',
+        ]);
+    });
+
 });
 

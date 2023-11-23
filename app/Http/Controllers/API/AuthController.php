@@ -31,8 +31,12 @@ class AuthController extends Controller
             'name' => 'required|string',
             'phone' => 'required|string|unique:users',
             'password' => 'required|string',
-            'date_of_birth' => 'date_format:Y-m-d H:i',
+            'date_of_birth' => 'date_format:Y-m-d',
             'firebase_uid' => 'required|string',
+            'city_id' => 'required',
+            'district_id' => 'required',
+            'ward_id' => 'required',
+            'address' => 'required',
         ]);
 
         $user = User::updateOrCreate([
@@ -43,6 +47,10 @@ class AuthController extends Controller
             'password' => Formatter::hash($request->password),
             'date_of_birth' => $request->date_of_birth,
             'firebase_uid' => $request->firebase_uid,
+            'city_id' => $request->city_id,
+            'district_id' => $request->district_id,
+            'ward_id' => $request->ward_id,
+            'address' => $request->address,
         ]);
 
         $user->refresh();
@@ -151,15 +159,16 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'firebase_uid' => 'required|string',
-            'new_password' => 'required|string',
+            'phone' => 'required',
+            'firebase_uid' => 'required',
+            'password' => 'required',
         ]);
 
-        $user = User::where('firebase_uid', $request->firebase_uid)->first();
+        $user = User::where(['firebase_uid'=> $request->firebase_uid, 'phone'=> $request->phone])->first();
 
         if (empty($user)) {
             return response()->json([
-                'message' => "uid is not exist",
+                'message' => "phone or firebase_uid is not exist",
                 'code' => 400,
             ], 400);
         }
@@ -170,37 +179,11 @@ class AuthController extends Controller
         return response($user, 200);
     }
 
-    public function updateAvatar(Request $request)
-    {
-        $request->validate([
-            'image' => 'required|mimes:jpg,jpeg,png',
-        ]);
-
-        $item = SingleImage::firstOrCreate([
-            'relate_id' => auth()->id(),
-            'table' => auth()->user()->getTableName(),
-        ],[
-            'relate_id' => auth()->id(),
-            'table' => auth()->user()->getTableName(),
-            'image_path' => 'waiting_update',
-            'image_name' => 'waiting_update',
-        ]);
-
-        $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image', 'single', $item->id);
-
-        $item->update([
-            'image_path' => $dataUploadFeatureImage['file_path'],
-            'image_name' => $dataUploadFeatureImage['file_name'],
-        ]);
-        $item->refresh();
-
-        return response()->json(auth()->user());
-    }
-
     public function update(Request $request)
     {
         $request->validate([
-            'date_of_birth' => 'date_format:Y-m-d H:i',
+            'date_of_birth' => 'date_format:Y-m-d',
+            'image' => 'nullable|mimes:jpg,jpeg,png',
         ]);
 
         $dataUpdate = [];
@@ -222,6 +205,27 @@ class AuthController extends Controller
         }
 
         auth()->user()->update($dataUpdate);
+
+        if ($request->hasFile('image')){
+            $item = SingleImage::firstOrCreate([
+                'relate_id' => auth()->id(),
+                'table' => auth()->user()->getTableName(),
+            ],[
+                'relate_id' => auth()->id(),
+                'table' => auth()->user()->getTableName(),
+                'image_path' => 'waiting_update',
+                'image_name' => 'waiting_update',
+            ]);
+
+            $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, 'image', 'single', $item->id);
+
+            $item->update([
+                'image_path' => $dataUploadFeatureImage['file_path'],
+                'image_name' => $dataUploadFeatureImage['file_name'],
+            ]);
+            $item->refresh();
+
+        }
 
         return auth()->user();
     }

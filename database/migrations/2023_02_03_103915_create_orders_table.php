@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->string('user_address')->nullable();
             $table->string('user_email')->nullable();
             $table->text('note')->nullable();
+            $table->bigInteger('shipping_method_id')->default(1);
             $table->timestamps();
         });
     }

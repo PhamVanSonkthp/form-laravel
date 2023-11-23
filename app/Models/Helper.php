@@ -97,7 +97,7 @@ class Helper extends Model
         $columns = Schema::getColumnListing($object->getTableName());
         $query = $object->query();
 
-        $searchLikeColumns = ['name', 'title', 'search_query'];
+        $searchLikeColumns = ['name', 'title', 'search_query', 'id', 'sku', 'phone', 'email', 'code'];
         $searchColumnBanned = ['limit', 'page', 'with_trashed'];
 
         foreach ($request->all() as $key => $item) {
@@ -296,12 +296,19 @@ class Helper extends Model
         return $items;
     }
 
-    public static function addSlug($object, $key, $value)
+    public static function addSlug($object, $key, $value, $isNew = false)
     {
-        $item = $object->where($key, Str::slug($value))->first();
+
+        $slug = Str::slug($value);
+
+        if (empty($slug)) $slug = $object->latest()->first() ? optional($object->latest()->first())->id + 1 : 1;
+
+        $item = $object->where($key, $slug)->first();
+
         if (empty($item)) {
-            return Str::slug($value);
+            return $slug;
         }
+
         for ($i = 1; $i < 100000; $i++) {
             $item = $object->where($key, Str::slug($value) . '-' . $i)->first();
             if (empty($item)) {
@@ -373,7 +380,7 @@ class Helper extends Model
                         'connect_timeout' => 5, // Connection timeout
                     ],
                 );
-            }catch (Exception $e){
+            } catch (Exception $e) {
 
             }
 
@@ -381,7 +388,8 @@ class Helper extends Model
 
     }
 
-    public static function errorAPI($code, $data, $message){
+    public static function errorAPI($code, $data, $message)
+    {
         DB::rollBack();
         return [
             'success' => false,
@@ -392,11 +400,13 @@ class Helper extends Model
 
     }
 
-    public static function randomString(){
+    public static function randomString()
+    {
         return Str::random(10);
     }
 
-    public static function sendEmailToShop($subject, $body){
+    public static function sendEmailToShop($subject, $body)
+    {
         $email = env('EMAIL_SHOP');
 
         $user = (new User([
@@ -407,7 +417,8 @@ class Helper extends Model
         $user->notify(new Notifications($subject, $body));
     }
 
-    public static function addZero($input){
+    public static function addZero($input)
+    {
         $input = $input . "";
 
         if (strlen($input) <= 1) return "0" . $input;
@@ -418,7 +429,7 @@ class Helper extends Model
     public static function randomNumber($length = 6)
     {
         $key = "";
-        for ($i = 0 ; $i < $length; $i++){
+        for ($i = 0; $i < $length; $i++) {
             $key .= random_int(0, 9);
         }
 
@@ -436,7 +447,8 @@ class Helper extends Model
         return $values[2] . "-" . $values['1'] . "-" . $values[0] . " " . $str[1];
     }
 
-    public static function daysBetweenTwoDates($begin, $end){
+    public static function daysBetweenTwoDates($begin, $end)
+    {
 
         $fdate = $begin;
         $tdate = $end;

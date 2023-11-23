@@ -24,6 +24,12 @@ class CategoryProductsController extends Controller
         $this->model = $model;
     }
 
+    public function get(Request $request, $id)
+    {
+        $result = $this->model->findOrFail($id);
+        return response()->json($result);
+    }
+
     public function list(Request $request)
     {
         $results = RestfulAPI::response($this->model, $request);
