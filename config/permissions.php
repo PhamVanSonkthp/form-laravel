@@ -84,16 +84,6 @@ return [
         'system_branches-edit' => 'system_branches_edit',
         'system_branches-delete' => 'system_branches_delete',
 
-        'quotations-list' => 'quotations_list',
-        'quotations-add' => 'quotations_add',
-        'quotations-edit' => 'quotations_edit',
-        'quotations-delete' => 'quotations_delete',
-
-        'calendars-list' => 'calendars_list',
-        'calendars-add' => 'calendars_add',
-        'calendars-edit' => 'calendars_edit',
-        'calendars-delete' => 'calendars_delete',
-
         'orders-list' => 'orders_list',
         'orders-add' => 'orders_add',
         'orders-edit' => 'orders_edit',
@@ -144,6 +134,11 @@ return [
         'shipping_methods-edit' => 'shipping_methods_edit',
         'shipping_methods-delete' => 'shipping_methods_delete',
 
+        'product_comments-list' => 'product_comments_list',
+        'product_comments-add' => 'product_comments_add',
+        'product_comments-edit' => 'product_comments_edit',
+        'product_comments-delete' => 'product_comments_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -162,8 +157,6 @@ return [
         'category_news',
         'categories',
         'system_branches',
-        'quotations',
-        'calendars',
         'orders',
         'vouchers',
         'medias',
@@ -174,6 +167,7 @@ return [
         'banks_cash_ins',
         'memberships',
         'shipping_methods',
+        'product_comments',
     ],
 
     'table_module_name'=>[
@@ -193,8 +187,6 @@ return [
         'Danh mục tin tức',
         'Danh mục sản phẩm',
         'Danh sách cửa hàng',
-        'Các câu danh ngôn',
-        'Quản lý lịch',
         'Quản lý đơn hàng',
         'Quản lý mã giảm giá',
         'Quản lý file',
@@ -205,6 +197,7 @@ return [
         'Quản lý ngân hàng nạp tiền',
         'Quản lý hạng thành viên',
         'Quản lý phương thức thanh toán',
+        'Quản lý bình luận sản phẩm',
     ],
 
     'module_children'=>[

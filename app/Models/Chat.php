@@ -11,19 +11,34 @@ class Chat extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
+
     protected $guarded = [];
+
+    // begin
 
     public function user(){
         return $this->hasOne(User::class , 'id', 'user_id');
     }
 
-    public function images(){
-        return $this->hasMany(ChatImage::class , 'chat_id' , 'id');
+    public function images()
+    {
+        return Helper::images($this);
     }
+
+
+    // end
 
     public function getTableName()
     {
         return Helper::getTableName($this);
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['image_path_avatar'] = $this->avatar();
+        $array['path_images'] = $this->images;
+        return $array;
     }
 
     public function avatar($size = "100x100")

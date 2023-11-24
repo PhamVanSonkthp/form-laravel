@@ -460,4 +460,9 @@ class Helper extends Model
         return $days;
     }
 
+    public static function getUUID()
+    {
+        return Str::uuid();
+    }
+
 }

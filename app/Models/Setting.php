@@ -60,6 +60,10 @@ class Setting extends Model implements Auditable
             'about_contact' => $request->about_contact,
             'address_contact' => $request->address_contact,
             'email_contact' => $request->email_contact,
+            'pusher_app_id' => $request->pusher_app_id,
+            'pusher_app_key' => $request->pusher_app_key,
+            'pusher_app_secret' => $request->pusher_app_secret,
+            'pusher_app_cluster' => $request->pusher_app_cluster,
         ];
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -79,6 +83,10 @@ class Setting extends Model implements Auditable
             'about_contact' => $request->about_contact,
             'address_contact' => $request->address_contact,
             'email_contact' => $request->email_contact,
+            'pusher_app_id' => $request->pusher_app_id,
+            'pusher_app_key' => $request->pusher_app_key,
+            'pusher_app_secret' => $request->pusher_app_secret,
+            'pusher_app_cluster' => $request->pusher_app_cluster,
         ];
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);

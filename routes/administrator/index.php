@@ -1569,5 +1569,73 @@ Route::prefix('administrator')->group(function () {
         ]);
     });
 
+    Route::prefix('product-comments')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.product_comments.index',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@index',
+            'middleware' => 'can:product_comments-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.product_comments.create',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@create',
+            'middleware' => 'can:product_comments-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.product_comments.store',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@store',
+            'middleware' => 'can:product_comments-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.product_comments.edit',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@edit',
+            'middleware' => 'can:product_comments-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.product_comments.update',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@update',
+            'middleware' => 'can:product_comments-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.product_comments.delete',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@delete',
+            'middleware' => 'can:product_comments-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.product_comments.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@deleteManyByIds',
+            'middleware' => 'can:product_comments-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.product_comments.export',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@export',
+            'middleware' => 'can:product_comments-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.product_comments.audit',
+            'uses'=>'App\Http\Controllers\Admin\ProductCommentController@audit',
+            'middleware'=>'can:product_comments-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.product_comments.import',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@import',
+            'middleware' => 'can:product_comments-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.product_comments.get',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@get',
+            'middleware' => 'can:product_comments-list',
+        ]);
+    });
+
 });
 

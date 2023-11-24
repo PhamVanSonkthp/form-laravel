@@ -24,6 +24,10 @@ class CreateSettingsTable extends Migration
             $table->string('email_contact')->nullable();
             $table->integer('point')->default(1);
             $table->integer('amount')->default(1);
+            $table->string('pusher_app_id')->nullable();
+            $table->string('pusher_app_key')->nullable();
+            $table->string('pusher_app_secret')->nullable();
+            $table->string('pusher_app_cluster')->nullable();
             $table->timestamps();
         });
     }

@@ -96,6 +96,18 @@
                         </li>
                     @endcan
 
+                    @can('product_comments-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/product-comments">
+                                <i class="fa-solid fa-percent"></i>
+                                <span>Bình luận sản phẩm</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
                 </ul>
             </li>
 

@@ -1953,7 +1953,6 @@
 
                         </div>
 
-                        @include('administrator.chat.components.placeholder_images')
                     </div>
 
                 </div>
@@ -2162,7 +2161,7 @@
 
                 user_profile_id = $(this).children(":first").children(":first").data('userid')
 
-                $('tr').css("color", "black")
+                $('td').css("color", "black")
                 $(this).children('td').css("color", "red")
                 let urlRequest = $(this).data('url')
                 urlRequestLoadmore = $(this).data('url')

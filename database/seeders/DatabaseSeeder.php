@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateBankSeeder::class);
         $this->call(CreateMembershipSeeder::class);
         $this->call(CreateAddressSeeder::class);
+        $this->call(CreateProductCommentStatusSeeder::class);
 
     }
 }

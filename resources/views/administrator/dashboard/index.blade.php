@@ -27,18 +27,18 @@
                             </strong>
                         </div>
 
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="d-flex">
 
                                 <div class="flex-grow-1">
-                                    <a href="#">
-                                        <div class="text-center">
+                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 1])}}">
+                                        <div class="text-center" style="font-size: 20px;">
                                             <strong>
                                                 0
                                             </strong>
                                         </div>
 
-                                        <div class="text-center">
+                                        <div class="text-center text-dark">
                                             Chờ xác nhận
                                         </div>
                                     </a>
@@ -46,43 +46,114 @@
                                 </div>
 
                                 <div class="flex-grow-1">
-                                    <div>
-                                        <strong>
-                                            0
-                                        </strong>
-                                    </div>
+                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 2])}}">
+                                        <div class="text-center" style="font-size: 20px;">
+                                            <strong>
+                                                0
+                                            </strong>
+                                        </div>
 
-                                    <div>
-                                        Đang giao
-                                    </div>
+                                        <div class="text-center text-dark">
+                                            Đang giao
+                                        </div>
+                                    </a>
+
                                 </div>
+
                                 <div class="flex-grow-1">
-                                    <div>
-                                        <strong>
-                                            0
-                                        </strong>
-                                    </div>
+                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 3])}}">
+                                        <div class="text-center" style="font-size: 20px;">
+                                            <strong>
+                                                0
+                                            </strong>
+                                        </div>
 
-                                    <div>
-                                        Hủy
-                                    </div>
+                                        <div class="text-center text-dark">
+                                            Hoàn thành
+                                        </div>
+                                    </a>
+
                                 </div>
+
                                 <div class="flex-grow-1">
-                                    <div>
-                                        <strong>
-                                            0
-                                        </strong>
-                                    </div>
+                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 4])}}">
+                                        <div class="text-center" style="font-size: 20px;">
+                                            <strong>
+                                                0
+                                            </strong>
+                                        </div>
 
-                                    <div>
-                                        Hoàn tiền
-                                    </div>
+                                        <div class="text-center text-dark">
+                                            Hủy
+                                        </div>
+                                    </a>
+
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
 
+            </div>
+
+            <div>
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <strong>
+                                Phân tích bán hàng
+                            </strong>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="d-flex">
+
+                                <div class="flex-grow-1">
+                                    <div>
+                                        Doanh số
+                                    </div>
+
+                                    <div>
+
+                                    </div>
+                                </div>
+
+                                <div class="flex-grow-1">
+
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <div>
+                                                Lượt truy cập
+                                            </div>
+
+                                            <div>
+                                                <strong style="font-size: 20px;">
+                                                    0
+                                                </strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-grow-1">
+                                            <div>
+                                                Lượt xem
+                                            </div>
+                                            <div>
+                                                <strong style="font-size: 20px;">
+                                                    0
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>

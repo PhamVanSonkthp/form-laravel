@@ -36,6 +36,14 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateBankCashIns();
         $this->defineGateMemberships();
         $this->defineGateShippingMethods();
+        $this->defineGateProductComments();
+    }
+
+    public function defineGateProductComments(){
+        Gate::define('product_comments-list','App\Policies\ProductCommentPolicy@view');
+        Gate::define('product_comments-add','App\Policies\ProductCommentPolicy@create');
+        Gate::define('product_comments-edit','App\Policies\ProductCommentPolicy@update');
+        Gate::define('product_comments-delete','App\Policies\ProductCommentPolicy@delete');
     }
 
     public function defineGateShippingMethods(){

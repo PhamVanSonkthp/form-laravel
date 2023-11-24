@@ -381,7 +381,7 @@ Route::prefix('ajax/administrator')->group(function () {
                         }
 
                         $queries = ["chat_group_id" => $chatGroupId];
-                        $results = RestfulAPI::response(Chat::class, $request, $queries);
+                        $results = RestfulAPI::response(new Chat(), $request, $queries);
 
                         foreach ($results as $item) {
                             $item->user;
@@ -402,7 +402,7 @@ Route::prefix('ajax/administrator')->group(function () {
 
                     for ($x = 0; $x < $request->total_files; $x++) {
                         if ($request->hasFile('feature_image' . $x)) {
-                            $dataChatImageDetail = StorageImageTrait::storageTraitUploadMultiple( $request->file('feature_image'.$x),  'chat');
+                            $dataChatImageDetail = StorageImageTrait::storageTraitUpload( $request, 'feature_image'.$x,  'chat', $chat->id);
 
                             ChatImage::create([
                                 'image_name' => $dataChatImageDetail['file_name'],
@@ -418,7 +418,7 @@ Route::prefix('ajax/administrator')->group(function () {
                             event(new ChatPusherEvent($request, $item, auth()->id(), $image_link,$chat->images));
                         }
 
-                        Notification::sendNotificationFirebase($item->user_id, $request->contents,null,'Chat',auth()->id(), $request->chat_group_id);
+                        Notification::sendNotificationFirebase($item->user_id,$request->chat_group_id, $request->contents);
 
                         if ($item->user_id == auth()->id()){
                             $item->update([

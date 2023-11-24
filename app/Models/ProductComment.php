@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Facades\Excel;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Quotation extends Model implements Auditable
+class ProductComment extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
@@ -20,7 +20,13 @@ class Quotation extends Model implements Auditable
 
     // begin
 
+    public function productCommentStatus(){
+        return $this->belongsTo(ProductCommentStatus::class);
+    }
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
     // end
 
@@ -56,16 +62,17 @@ class Quotation extends Model implements Auditable
         return $this->hasOne(User::class,'id','created_by_id');
     }
 
-    public function searchByQuery($request, $queries = [])
+    public function searchByQuery($request, $queries = [], $randomRecord = null, $makeHiddens = null, $isCustom = false)
     {
-        return Helper::searchByQuery($this, $request, $queries);
+        return Helper::searchByQuery($this, $request, $queries, $randomRecord, $makeHiddens, $isCustom);
     }
 
     public function storeByQuery($request)
     {
         $dataInsert = [
-            'description' => $request->description,
-            'author' => $request->author,
+            'title' => $request->title,
+            'content' => $request->contents,
+            'slug' => Helper::addSlug($this,'slug', $request->title),
         ];
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -76,8 +83,9 @@ class Quotation extends Model implements Auditable
     public function updateByQuery($request, $id)
     {
         $dataUpdate = [
-            'description' => $request->description,
-            'author' => $request->author,
+            'title' => $request->title,
+            'content' => $request->contents,
+            'slug' => Helper::addSlug($this,'slug', $request->title),
         ];
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);
@@ -86,6 +94,11 @@ class Quotation extends Model implements Auditable
     public function deleteByQuery($request, $id, $forceDelete = false)
     {
         return Helper::deleteByQuery($this, $request, $id, $forceDelete);
+    }
+
+    public function deleteManyByIds($request, $forceDelete = false)
+    {
+        return Helper::deleteManyByIds($this, $request, $forceDelete);
     }
 
     public function findById($id){

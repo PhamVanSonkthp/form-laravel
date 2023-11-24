@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\ParticipantChat;
+use App\Models\Setting;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -42,14 +43,16 @@ class ChatPusherEvent implements ShouldBroadcast
             $item->touch();
         }
 
+        $setting = Setting::first();
+
         $options = array(
-            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'cluster' => $setting->pusher_app_cluster,
             'useTLS' => true
         );
         $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
+            $setting->pusher_app_key,
+            $setting->pusher_app_secret,
+            $setting->pusher_app_id,
             $options
         );
 

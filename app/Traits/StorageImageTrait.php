@@ -13,7 +13,7 @@ trait StorageImageTrait
     public static function storageTraitUpload($request, $fieldName, $folderName, $id)
     {
 
-        if ($request->hasFile($fieldName)) {
+        if ($request->hasFile($fieldName) || is_file($fieldName)) {
             try {
                 $idSenter = 0;
 
@@ -24,7 +24,12 @@ trait StorageImageTrait
                 $folderName = $folderName . "/";
 
                 $folderName = "/assets/" . $folderName . $idSenter . "/" . $id;
-                $file = $request->$fieldName;
+                if (is_file($fieldName)){
+                    $file = $fieldName;
+                }else{
+                    $file = $request->$fieldName;
+                }
+
                 $fileNameOrigin = $file->getClientOriginalName();
                 $fileNameHash = Str::random(20) . '.' . $file->getClientOriginalExtension();
                 $dataUpluadTrait = [
@@ -62,17 +67,4 @@ trait StorageImageTrait
         return null;
     }
 
-//    public static function storageTraitUploadMultiple($file, $folderName)
-//    {
-//
-//        $fileNameOrigin = $file->getClientOriginalName();
-//        $fileNameHash = Str::random(20) . '.' . $file->getClientOriginalExtension();
-//        $filePath = $file->storeAs($folderName . '/' . auth()->id(), $fileNameHash, ['disk' => 'public']);
-//        $dataUpluadTrait = [
-//            'file_name' => $fileNameOrigin,
-//            'file_path' => Storage::url($filePath),
-//        ];
-//
-//        return $dataUpluadTrait;
-//    }
 }

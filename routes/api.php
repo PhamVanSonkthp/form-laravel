@@ -17,6 +17,8 @@ use App\Http\Requests\PusherChatRequest;
 use App\Models\Chat;
 use App\Models\ChatGroup;
 use App\Models\ChatImage;
+use App\Models\Helper;
+use App\Models\Image;
 use App\Models\Notification;
 use App\Models\ParticipantChat;
 use App\Models\RestfulAPI;
@@ -50,6 +52,11 @@ Route::prefix('public')->group(function () {
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'list']);
         Route::get('/{id}', [ProductController::class, 'get']);
+
+        Route::prefix('comments')->group(function () {
+            Route::get('/{id}', [ProductController::class, 'getProductComment']);
+            Route::post('/{id}', [ProductController::class, 'createProductComment']);
+        });
     });
 
     Route::prefix('cart')->group(function () {
@@ -140,59 +147,65 @@ Route::prefix('user')->group(function () {
     Route::prefix('chat')->group(function () {
         Route::group(['middleware' => ['auth:sanctum', 'banned']], function () {
             Route::post('/', function (PusherChatRequest $request) {
-                $chat = Chat::create([
+
+                $request->validate([
+                    'contents' => 'required',
+                    'chat_group_id' => 'required',
+                    'images' => 'nullable',
+                    'images.*' => 'nullable|mimes:jpg,jpeg,png',
+                ]);
+
+                $chatModel = new Chat();
+
+                $chat = $chatModel->create([
                     'content' => $request->contents,
                     'user_id' => auth()->id(),
                     'chat_group_id' => (int)$request->chat_group_id,
                 ]);
 
-                foreach (ParticipantChat::where('chat_group_id', $request->chat_group_id)->get() as $item) {
-                    $item->touch();
-                    if (auth()->id() != $item->user_id) {
-                        event(new ChatPusherEvent($request, $item, auth()->id(), auth()->user()->feature_image_path, $chat->images));
-                    }
-                    Notification::sendNotificationFirebase($item->user_id, $request->contents, null, 'Chat', auth()->id(), $request->chat_group_id);
+                if (is_array($request->images)){
+                    foreach ($request->images as $image) {
 
-                    if ($item->user_id == auth()->id()) {
-                        $item->update([
-                            'is_read' => 1
+                        $item = Image::create([
+                            'uuid' => Helper::getUUID(),
+                            'table' => $chatModel->getTableName(),
+                            'image_path' => "waiting",
+                            'image_name' => "waiting",
+                            'relate_id' => $chat->id,
                         ]);
-                    } else {
-                        $item->update([
-                            'is_read' => 0
-                        ]);
+
+
+                        $dataUploadFeatureImage = StorageImageTrait::storageTraitUpload($request, $image,  'product_comments', $item->id);
+
+                        $dataUpdate = [
+                            'image_path' => $dataUploadFeatureImage['file_path'],
+                            'image_name' => $dataUploadFeatureImage['file_name'],
+                        ];
+
+                        $item->update($dataUpdate);
+
                     }
                 }
 
-                return response()->json($chat);
-            });
+//                foreach (ParticipantChat::where('chat_group_id', $request->chat_group_id)->get() as $item) {
+//                    $item->touch();
+//                    if (auth()->id() != $item->user_id) {
+//                        event(new ChatPusherEvent($request, $item, auth()->id(), auth()->user()->feature_image_path, $chat->images));
+//                    }
+//                    Notification::sendNotificationFirebase($item->user_id, $request->contents, null, 'Chat', auth()->id(), $request->chat_group_id);
+//
+//                    if ($item->user_id == auth()->id()) {
+//                        $item->update([
+//                            'is_read' => 1
+//                        ]);
+//                    } else {
+//                        $item->update([
+//                            'is_read' => 0
+//                        ]);
+//                    }
+//                }
 
-            Route::post('/image', function (PusherChatRequest $request) {
-
-                $chat = Chat::create([
-                    'user_id' => auth()->id(),
-                    'content' => $request->contents,
-                    'chat_group_id' => (int)$request->chat_group_id,
-                ]);
-
-                if ($request->hasFile('feature_images')) {
-                    foreach ($request->file('feature_images') as $fileItem) {
-                        $dataChatImageDetail = StorageImageTrait::storageTraitUploadMultiple($fileItem, 'chat');
-                        ChatImage::create([
-                            'image_name' => $dataChatImageDetail['file_name'],
-                            'image_path' => $dataChatImageDetail['file_path'],
-                            'chat_id' => $chat->id,
-                        ]);
-                    }
-                }
-
-                foreach (ParticipantChat::where('chat_group_id', $request->chat_group_id)->get() as $item) {
-                    $item->touch();
-                    if (auth()->id() != $item->user_id) {
-                        event(new ChatPusherEvent($request, $item, auth()->id(), auth()->user()->feature_image_path, $chat->images));
-                    }
-                    Notification::sendNotificationFirebase($item->user_id, $request->contents, null, 'Chat', auth()->id(), $request->chat_group_id);
-                }
+                $chat->refresh();
 
                 return response()->json($chat);
             });
@@ -200,34 +213,14 @@ Route::prefix('user')->group(function () {
             Route::prefix('participant')->group(function () {
 
                 Route::get('/', function (Request $request) {
-                    $participantChat = ParticipantChat::where('user_id', auth()->id())->first();
 
-                    if (empty($participantChat)) {
-                        return response()->json([
-                            "code" => 404,
-                            "message" => "Không tìm thấy nhóm chat"
-                        ], 404);
-                    }
-
-                    $participantChat->update([
-                        'is_read' => 1
-                    ]);
-                    $limit = $request['limit'] ?? 10;
-                    $page = $request['page'] ?? 1;
-                    $results = Chat::where('chat_group_id', $participantChat->id)->latest('updated_at')->limit($limit)->offset($limit * ($page - 1))->get();
-
-                    //$results = $results->latest('updated_at')->paginate((int)filter_var($request->limit ?? '10', FILTER_SANITIZE_NUMBER_INT))->appends(request()->query());
-
-                    foreach ($results as $item) {
-                        $item->images;
-                    }
-                    return response([
-                            'data' => $results
-                        ]
-                    );
+                    $participantModel = new ParticipantChat();
+                    $queries = ['user_id' => auth()->id()];
+                    $results = RestfulAPI::response($participantModel, $request, $queries);
+                    return response()->json($results);
                 });
 
-                Route::get('/refresh/{id}', function (Request $request, $chatGroupId) {
+                Route::get('/{id}', function (Request $request, $chatGroupId) {
                     if (empty(ParticipantChat::where('user_id', auth()->id())->where('chat_group_id', $chatGroupId)->first())) {
                         return response()->json([
                             "code" => 404,
@@ -241,14 +234,11 @@ Route::prefix('user')->group(function () {
 
                     $item->users = $item->users();
 
-                    foreach ($item->users as $user) {
-                        $user['profile'] = $user->profilePairing($request, $user->id);
-                    }
 
                     $queries = ["chat_group_id" => $item->chatGroup->id];
                     $requestMessage = $request;
                     $requestMessage->limit = 2;
-                    $resultsMessage = RestfulAPI::response(Chat::class, $requestMessage, $queries);
+                    $resultsMessage = RestfulAPI::response(new Chat(), $requestMessage, $queries);
 
                     foreach ($resultsMessage as $message) {
                         $message->images;
@@ -307,17 +297,7 @@ Route::prefix('user')->group(function () {
                     return response()->json($chatGoup);
                 });
 
-                Route::delete('/{id}', function (Request $request, $chatGroupId) {
-                    $participantChat = ParticipantChat::where('user_id', auth()->id())->where('chat_group_id', $chatGroupId)->first();
-                    if (!empty($participantChat)) {
-                        $participantChat->delete();
-                    }
 
-                    return response()->json([
-                        'message' => 'deleted!',
-                        'code' => 200
-                    ]);
-                });
             });
         });
     });

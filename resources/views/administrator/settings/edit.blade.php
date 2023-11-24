@@ -80,6 +80,38 @@
 
                 </div>
 
+                <div class="col-xl-6">
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div>
+                                <h2>
+                                    Chat (Pusher)
+                                </h2>
+                            </div>
+
+                            <div>
+                                @include('administrator.components.input_text', ['label' => 'PUSHER_APP_ID' , 'name' => 'pusher_app_id'])
+                            </div>
+
+                            <div>
+                                @include('administrator.components.input_text', ['label' => 'PUSHER_APP_KEY' , 'name' => 'pusher_app_key'])
+                            </div>
+
+                            <div>
+                                @include('administrator.components.input_text', ['label' => 'PUSHER_APP_SECRET' , 'name' => 'pusher_app_secret'])
+                            </div>
+
+                            <div>
+                                @include('administrator.components.input_text', ['label' => 'PUSHER_APP_CLUSTER' , 'name' => 'pusher_app_cluster'])
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
         </form>

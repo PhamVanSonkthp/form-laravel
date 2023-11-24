@@ -33,7 +33,7 @@ class Image extends Model implements Auditable
     // end
 
     protected $casts = [
-        'id' => 'string'
+
     ];
 
     public function getTableName()
