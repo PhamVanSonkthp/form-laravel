@@ -17,7 +17,9 @@ use App\Models\SingleImage;
 use App\Models\User;
 use App\Models\UserCart;
 use App\Models\UserPoint;
+use App\Models\UserStatus;
 use App\Models\UserTransaction;
+use App\Models\UserType;
 use App\Models\Voucher;
 use App\Models\VoucherUsed;
 use App\Traits\StorageImageTrait;
@@ -29,6 +31,106 @@ use Illuminate\Support\Facades\View;
 // ajax
 Route::prefix('ajax/administrator')->group(function () {
     Route::group(['middleware' => ['auth']], function () {
+
+        Route::prefix('user')->group(function () {
+
+            Route::get('/', function (Request $request) {
+
+                $item = User::find($request->id);
+
+                $userTypes = UserType::all();
+                $userStatuses = UserStatus::all();
+
+                $htmlRow = View::make('administrator.users.modal_edit', compact('item', 'userTypes', 'userStatuses'))->render();
+
+                $item['html'] = $htmlRow;
+
+                return response()->json($item);
+
+            })->name('ajax.administrator.user.get');
+
+            Route::post('/', function (Request $request) {
+
+                $request->validate([
+                    'name' => 'required|string',
+                    'phone' => 'required|string|unique:users',
+                    'password' => 'required|string',
+                    'date_of_birth' => 'date_format:Y-m-d',
+                    'user_type_id' => 'required|numeric|min:1|max:3',
+                ]);
+
+                $data = [
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'email' => $request->email,
+                    'address' => $request->address,
+                    'password' => Formatter::hash($request->password),
+                    'date_of_birth' => $request->date_of_birth,
+                    'firebase_uid' => $request->firebase_uid,
+                    'provider_name' => $request->provider_name,
+                    'user_type_id' => $request->user_type_id,
+                    'user_status_id' => $request->user_status_id,
+                    'gender_id' => $request->gender_id,
+                ];
+
+                $item = User::create($data);
+                $item->refresh();
+
+                $htmlRowAdd = View::make('administrator.users.row_add', compact('item'))->render();
+                $item['html_row_add'] = $htmlRowAdd;
+
+                return response()->json($item);
+
+            })->name('ajax.administrator.user.store');
+
+            Route::put('/', function (Request $request) {
+
+                $item = User::find($request->id);
+
+                $dataUpdate = [];
+
+                if (isset($request->user_status_id)) {
+                    $dataUpdate['user_status_id'] = $request->user_status_id;
+                }
+                if (isset($request->name)) {
+                    $dataUpdate['name'] = $request->name;
+                }
+                if (isset($request->phone)) {
+                    $dataUpdate['phone'] = $request->phone;
+                }
+                if (isset($request->email)) {
+                    $dataUpdate['email'] = $request->email;
+                }
+                if (isset($request->date_of_birth)) {
+                    $dataUpdate['date_of_birth'] = $request->date_of_birth;
+                }
+                if (isset($request->address)) {
+                    $dataUpdate['address'] = $request->address;
+                }
+                if (isset($request->user_status_id)) {
+                    $dataUpdate['user_status_id'] = $request->user_status_id;
+                }
+                if (isset($request->user_type_id)) {
+                    $dataUpdate['user_type_id'] = $request->user_type_id;
+                }
+                if (isset($request->password) && !empty($request->password)) {
+                    $dataUpdate['password'] = $request->password;
+                }
+                if (isset($request->gender_id) && !empty($request->gender_id)) {
+                    $dataUpdate['gender_id'] = $request->gender_id;
+                }
+
+                $item->update($dataUpdate);
+                $item->refresh();
+
+                $htmlRow = View::make('administrator.users.row', ['item' => $item, 'prefixView' => 'users'])->render();
+                $item['html_row'] = $htmlRow;
+
+                return response()->json($item);
+
+            })->name('ajax.administrator.user.update');
+
+        });
 
         Route::prefix('orders')->group(function () {
 

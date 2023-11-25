@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Audit;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserStatus;
 use App\Models\UserType;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
@@ -26,7 +27,9 @@ class UserController extends Controller
         $this->shareBaseModel($model);
         $this->role = $role;
         $userTypes = UserType::all();
+        $userStatuses = UserStatus::all();
         View::share('userTypes', $userTypes);
+        View::share('userStatuses', $userStatuses);
     }
 
     public function index(Request $request)

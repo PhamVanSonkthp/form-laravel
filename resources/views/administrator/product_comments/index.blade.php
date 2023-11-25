@@ -32,6 +32,7 @@
                                     <th>#</th>
                                     <th>Khách hàng</th>
                                     <th>Nội dung</th>
+                                    <th>Số sao</th>
                                     <th>Hình ảnh</th>
                                     <th>Trạng thái</th>
                                     <th>Thời gian tạo</th>
@@ -47,6 +48,7 @@
                                         <td>{{$item->id}}</td>
                                         <td>{{ optional($item->user)->name}}</td>
                                         <td>{{$item->content}}</td>
+                                        <td>{{$item->star}}</td>
                                         <td>
                                             <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
                                         </td>
@@ -54,10 +56,10 @@
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
 
-                                            <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}" title="Sửa"
-                                               class="btn btn-outline-secondary btn-sm edit" title="Edit">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </a>
+{{--                                            <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}" title="Sửa"--}}
+{{--                                               class="btn btn-outline-secondary btn-sm edit" title="Edit">--}}
+{{--                                                <i class="fa-solid fa-pen"></i>--}}
+{{--                                            </a>--}}
 
                                             <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}" title="Xóa"
                                                data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
