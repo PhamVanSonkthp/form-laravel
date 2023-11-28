@@ -43,6 +43,7 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable();
 
             $table->rememberToken();
+            $table->timestamp('last_seen')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

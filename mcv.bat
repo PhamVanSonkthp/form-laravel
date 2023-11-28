@@ -11,6 +11,7 @@ php artisan make:viewedit %table%
 php artisan make:viewindex %table%
 php artisan make:viewheader %table%
 php artisan make:viewsearch %table%
+php artisan make:viewrow %table%
 
 php artisan make:_policy %table%
 

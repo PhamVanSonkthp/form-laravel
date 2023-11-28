@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -30,10 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
      * @var array<int, string>
      */
 
-    protected $guarded = [
-    ];
-
-//    protected $guarded = [];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,6 +53,22 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     ];
 
     // begin
+
+    public function textTimeOnline(){
+        if (Cache::has('user-is-online-' . $this->id)){
+            return "Online";
+        }
+
+        return $this->last_seen;
+    }
+
+    public function textStatusOnline(){
+        if (Cache::has('user-is-online-' . $this->id)){
+            return "Online";
+        }
+
+        return "Offline";
+    }
 
     public static function htmlStatus($input)
     {
@@ -212,6 +226,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         $array['city'] = $this->city;
         $array['district'] = $this->district;
         $array['ward'] = $this->ward;
+        $array['text_status_online'] = $this->textStatusOnline();
         return $array;
     }
 

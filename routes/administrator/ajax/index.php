@@ -384,6 +384,22 @@ Route::prefix('ajax/administrator')->group(function () {
 
         });
 
+        Route::prefix('/product-comments')->group(function () {
+
+            Route::get('/', [
+                'as' => 'ajax.administrator.product_comments.get',
+                'uses' => 'App\Http\Controllers\Ajax\ProductCommentController@get',
+                'middleware' => 'can:products-list',
+            ]);
+
+            Route::put('/update', [
+                'as' => 'ajax.administrator.product_comments.update',
+                'uses' => 'App\Http\Controllers\Ajax\ProductCommentController@update',
+                'middleware' => 'can:products-edit',
+            ]);
+
+        });
+
         Route::prefix('upload-image')->group(function () {
             Route::post('/store', function (Request $request) {
 

@@ -38,6 +38,7 @@
                                     <th>Điểm</th>
                                     <th>Loại</th>
                                     <th>Trạng thái</th>
+                                    <th>Hoạt động gần đây</th>
                                     <th>Ngày sử dụng</th>
                                     <th>Hành động</th>
                                 </tr>

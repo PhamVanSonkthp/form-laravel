@@ -139,6 +139,11 @@ return [
         'product_comments-edit' => 'product_comments_edit',
         'product_comments-delete' => 'product_comments_delete',
 
+        'flash_sales-list' => 'flash_sales_list',
+        'flash_sales-add' => 'flash_sales_add',
+        'flash_sales-edit' => 'flash_sales_edit',
+        'flash_sales-delete' => 'flash_sales_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -168,6 +173,7 @@ return [
         'memberships',
         'shipping_methods',
         'product_comments',
+        'flash_sales',
     ],
 
     'table_module_name'=>[
@@ -198,6 +204,7 @@ return [
         'Quản lý hạng thành viên',
         'Quản lý phương thức thanh toán',
         'Quản lý bình luận sản phẩm',
+        'Quản lý FlashSale',
     ],
 
     'module_children'=>[

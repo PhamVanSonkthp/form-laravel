@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Facades\Excel;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class ProductComment extends Model implements Auditable
+class FlashSale extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
@@ -20,17 +20,7 @@ class ProductComment extends Model implements Auditable
 
     // begin
 
-    public function productCommentStatus(){
-        return $this->belongsTo(ProductCommentStatus::class);
-    }
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-
-    public function product(){
-        return $this->belongsTo(Product::class);
-    }
 
     // end
 

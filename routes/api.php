@@ -109,6 +109,7 @@ Route::prefix('user')->group(function () {
         });
 
         Route::prefix('profile')->group(function () {
+            Route::get('/', [AuthController::class, 'get']);
             Route::post('/', [AuthController::class, 'update']);
             Route::delete('/', [AuthController::class, 'delete']);
         });

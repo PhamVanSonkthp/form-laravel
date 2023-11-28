@@ -24,6 +24,11 @@ class AuthController extends Controller
         $this->plainToken = env('PLAIN_TOKEN', 'infinity_pham_son');
     }
 
+    public function get(Request $request)
+    {
+        return response()->json(auth()->user());
+    }
+
 
     public function register(Request $request)
     {

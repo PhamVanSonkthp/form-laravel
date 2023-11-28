@@ -108,6 +108,18 @@
                         </li>
                     @endcan
 
+                    @can('flash_sales-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/flash-sales">
+                                <i class="fa-solid fa-percent"></i>
+                                <span>FlashSale</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
+
                 </ul>
             </li>
 

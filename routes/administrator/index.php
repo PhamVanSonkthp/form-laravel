@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/admin', 'App\Http\Controllers\Admin\AdminController@loginAdmin')->name('login');
-Route::post('/admin', 'App\Http\Controllers\Admin\AdminController@postLoginAdmin');
+Route::post('/admin', 'App\Http\Controllers\Admin\AdminController@postLoginAdmin')->name('postLoginAdmin');
 
 Route::get('/admin/logout', [
     'as' => 'administrator.logout',
@@ -1634,6 +1634,74 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.product_comments.get',
             'uses' => 'App\Http\Controllers\Admin\ProductCommentController@get',
             'middleware' => 'can:product_comments-list',
+        ]);
+    });
+
+    Route::prefix('flash-sales')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.flash_sales.index',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@index',
+            'middleware' => 'can:flash_sales-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.flash_sales.create',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@create',
+            'middleware' => 'can:flash_sales-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.flash_sales.store',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@store',
+            'middleware' => 'can:flash_sales-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.flash_sales.edit',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@edit',
+            'middleware' => 'can:flash_sales-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.flash_sales.update',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@update',
+            'middleware' => 'can:flash_sales-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.flash_sales.delete',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@delete',
+            'middleware' => 'can:flash_sales-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.flash_sales.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@deleteManyByIds',
+            'middleware' => 'can:flash_sales-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.flash_sales.export',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@export',
+            'middleware' => 'can:flash_sales-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as'=>'administrator.flash_sales.audit',
+            'uses'=>'App\Http\Controllers\Admin\FlashSaleController@audit',
+            'middleware'=>'can:flash_sales-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.flash_sales.import',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@import',
+            'middleware' => 'can:flash_sales-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.flash_sales.get',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@get',
+            'middleware' => 'can:flash_sales-list',
         ]);
     });
 

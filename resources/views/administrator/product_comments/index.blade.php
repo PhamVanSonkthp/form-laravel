@@ -31,6 +31,7 @@
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>#</th>
                                     <th>Khách hàng</th>
+                                    <th>Sản phẩm</th>
                                     <th>Nội dung</th>
                                     <th>Số sao</th>
                                     <th>Hình ảnh</th>
@@ -41,40 +42,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($items as $item)
-                                    <tr>
-                                        <td class="text-center">
-                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
-                                        </td>
-                                        <td>{{$item->id}}</td>
-                                        <td>{{ optional($item->user)->name}}</td>
-                                        <td>{{$item->content}}</td>
-                                        <td>{{$item->star}}</td>
-                                        <td>
-                                            <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
-                                        </td>
-                                        <td>{{ optional($item->productCommentStatus)->name}}</td>
-                                        <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
-                                        <td>
-
-{{--                                            <a href="{{route('administrator.'.$prefixView.'.edit' , ['id'=> $item->id ])}}" title="Sửa"--}}
-{{--                                               class="btn btn-outline-secondary btn-sm edit" title="Edit">--}}
-{{--                                                <i class="fa-solid fa-pen"></i>--}}
-{{--                                            </a>--}}
-
-                                            <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}" title="Xóa"
-                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-danger btn-sm delete action_delete"
-                                               title="Delete">
-                                                <i class="fa-solid fa-x"></i>
-                                            </a>
-
-                                            <a href="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}" title="Lịch sử tác động"
-                                               data-url="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}"
-                                               class="btn btn-outline-info btn-sm action_audit">
-                                                <i class="fa-solid fa-circle-info"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @include('administrator.product_comments.row', ['item' => $item, 'prefixView' => $prefixView])
                                 @endforeach
 
                                 </tbody>
@@ -91,9 +59,81 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="editStatus" tabindex="-1" aria-labelledby="editStatusLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editStatusLabel">Change status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mt-3">
+                        <label class="bold">Status @include('administrator.components.lable_require')</label>
+                        <select name="select_product_comment_status_id" class="form-control select2_init" required>
+                            @foreach(\App\Models\ProductCommentStatus::all() as $itemProductCommentStatus)
+                                <option value="{{$itemProductCommentStatus->id}}">{{$itemProductCommentStatus->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" onclick="onSubmitChangeStatus()" class="btn btn-info">Update now</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js')
+    <script>
 
+        let edited_id;
+
+        function onEditStatus(id, id_status) {
+            edited_id = id
+
+            $('select[name="select_product_comment_status_id"]').val(id_status).change()
+        }
+
+        function onSubmitChangeStatus() {
+            $.ajax({
+                type: "PUT",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                cache: false,
+                data: {
+                    id: edited_id,
+                    product_comment_status_id: $('select[name="select_product_comment_status_id"]').val(),
+                },
+                url: "{{route('ajax.administrator.product_comments.update')}}",
+                beforeSend: function () {
+                    showLoading()
+                },
+                success: function (response) {
+                    hideModal('editStatus')
+                    hideLoading()
+                    $('#container_row_' + edited_id).after(response.html).remove()
+                },
+                error: function (err) {
+                    hideLoading()
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                    console.log(err)
+                },
+            });
+        }
+
+    </script>
 @endsection
 

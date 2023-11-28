@@ -37,6 +37,13 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateMemberships();
         $this->defineGateShippingMethods();
         $this->defineGateProductComments();
+        $this->defineGateFlashSales();
+    }
+    public function defineGateFlashSales(){
+        Gate::define('flash_sales-list','App\Policies\FlashSalePolicy@view');
+        Gate::define('flash_sales-add','App\Policies\FlashSalePolicy@create');
+        Gate::define('flash_sales-edit','App\Policies\FlashSalePolicy@update');
+        Gate::define('flash_sales-delete','App\Policies\FlashSalePolicy@delete');
     }
 
     public function defineGateProductComments(){
