@@ -61,8 +61,25 @@
         @endif
 
     </td>
+
     <td>
-        {{\App\Models\Formatter::formatMoney($item->amount)}}
+        {{ optional($item->shippingMethod)->name}}
+    </td>
+
+    <td>
+        {{ optional($item->paymentMethod)->name}}
+    </td>
+
+    <td>
+        <div>
+            {{\App\Models\Formatter::formatMoney($item->amount)}}
+        </div>
+
+        <div>
+            <i title="Phí vận chuyển">
+                ({{\App\Models\Formatter::formatMoney($item->shipping_fee)}})
+            </i>
+        </div>
     </td>
     <td>
         @if($item->waitingConfirm())

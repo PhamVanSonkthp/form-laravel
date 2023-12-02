@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -73,4 +74,17 @@ class LoginController extends Controller
         return redirect($this->redirectPath());
     }
 
+    // login with phone or username
+
+//    protected function credentials(Request $request)
+//    {
+//        $field = filter_var($request->get($this->username()), FILTER_VALIDATE_EMAIL)
+//            ? $this->username()
+//            : 'username';
+//
+//        return [
+//            $field => $request->get($this->username()),
+//            'password' => $request->password,
+//        ];
+//    }
 }

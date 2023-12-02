@@ -28,6 +28,12 @@ class CreateSettingsTable extends Migration
             $table->string('pusher_app_key')->nullable();
             $table->string('pusher_app_secret')->nullable();
             $table->string('pusher_app_cluster')->nullable();
+
+            $table->boolean('is_login_only_one_device')->default(0);
+            $table->text('privacy_policy_html')->nullable();
+            $table->text('terms_of_use_html')->nullable();
+            $table->bigInteger('default_shipping_fee')->default(0);
+
             $table->timestamps();
         });
     }

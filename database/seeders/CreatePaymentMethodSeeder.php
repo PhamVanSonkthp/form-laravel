@@ -15,7 +15,13 @@ class CreatePaymentMethodSeeder extends Seeder
     public function run()
     {
         PaymentMethod::firstOrCreate([
-            "name" => "Paypal",
+            "name" => "COD",
+            "public_token" => "public_token",
+            "private_token" => "private_token",
+        ]);
+
+        PaymentMethod::firstOrCreate([
+            "name" => "Chuyển khoản",
             "public_token" => "public_token",
             "private_token" => "private_token",
         ]);
@@ -27,15 +33,22 @@ class CreatePaymentMethodSeeder extends Seeder
         ]);
 
         PaymentMethod::firstOrCreate([
+            "name" => "MoMo",
+            "public_token" => "public_token",
+            "private_token" => "private_token",
+        ]);
+
+        PaymentMethod::firstOrCreate([
             "name" => "One Pay",
             "public_token" => "public_token",
             "private_token" => "private_token",
         ]);
 
         PaymentMethod::firstOrCreate([
-            "name" => "MoMo",
+            "name" => "Paypal",
             "public_token" => "public_token",
             "private_token" => "private_token",
         ]);
+
     }
 }

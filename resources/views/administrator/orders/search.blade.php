@@ -11,9 +11,21 @@
 
 <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div>
             @include('administrator.components.search_select2_allow_clear' , ['name' => 'order_status_id' , 'label' => 'Trạng thái đơn hàng', 'select2Items' => \App\Models\OrderStatus::all()])
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div>
+            @include('administrator.components.search_select2_allow_clear' , ['name' => 'shipping_method_id' , 'label' => 'Phương thức vận chuyển', 'select2Items' => \App\Models\ShippingMethod::all()])
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div>
+            @include('administrator.components.search_select2_allow_clear' , ['name' => 'shipping_method_id' , 'label' => 'Phương thức thanh toán', 'select2Items' => \App\Models\PaymentMethod::all()])
         </div>
     </div>
 

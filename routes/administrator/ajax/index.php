@@ -160,9 +160,10 @@ Route::prefix('ajax/administrator')->group(function () {
                     'user_phone' => optional($user)->phone,
                     'user_address' => optional($user)->address,
                     'user_email' => optional($user)->email,
+                    'shipping_fee' => $request->shipping_fee,
                 ]);
 
-                $amount = 0;
+                $amount = $request->shipping_fee ?? 0;
 
                 foreach ($request->product_ids as $index => $product_id) {
 
@@ -261,9 +262,10 @@ Route::prefix('ajax/administrator')->group(function () {
                     'user_phone' => optional($user)->phone,
                     'user_address' => optional($user)->address,
                     'user_email' => optional($user)->email,
+                    'shipping_fee' => $request->shipping_fee ?? 0,
                 ]);
 
-                $amount = 0;
+                $amount = $request->shipping_fee ?? 0;
 
                 foreach ($request->product_ids as $index => $product_id) {
 

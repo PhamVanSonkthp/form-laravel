@@ -64,6 +64,7 @@ class Setting extends Model implements Auditable
             'pusher_app_key' => $request->pusher_app_key,
             'pusher_app_secret' => $request->pusher_app_secret,
             'pusher_app_cluster' => $request->pusher_app_cluster,
+            'is_login_only_one_device' => $request->is_login_only_one_device ?? 0,
         ];
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
@@ -87,6 +88,7 @@ class Setting extends Model implements Auditable
             'pusher_app_key' => $request->pusher_app_key,
             'pusher_app_secret' => $request->pusher_app_secret,
             'pusher_app_cluster' => $request->pusher_app_cluster,
+            'is_login_only_one_device' => $request->is_login_only_one_device ?? 0,
         ];
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);
         return $this->findById($item->id);

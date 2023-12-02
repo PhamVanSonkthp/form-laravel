@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -53,6 +54,11 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     ];
 
     // begin
+
+    public function logoutAllDevices(){
+        DB::table('sessions')->where('user_id', $this->id)->delete();
+        $this->tokens()->delete();
+    }
 
     public function textTimeOnline(){
         if (Cache::has('user-is-online-' . $this->id)){

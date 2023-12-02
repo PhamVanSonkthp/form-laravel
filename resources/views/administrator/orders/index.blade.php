@@ -34,6 +34,8 @@
                                     <th>Khách hàng</th>
                                     <th>Sản phẩm</th>
                                     <th>Voucher</th>
+                                    <th>Phương thức giao hàng</th>
+                                    <th>Phương thức thanh toán</th>
                                     <th>Tổng tiền</th>
                                     <th>Trạng thái</th>
                                     <th>Hành động</th>

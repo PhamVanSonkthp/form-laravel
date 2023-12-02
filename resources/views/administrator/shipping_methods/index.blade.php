@@ -33,6 +33,7 @@
                                     <th>Tiêu đề</th>
                                     <th>Hình ảnh</th>
                                     <th>Mặc định?</th>
+                                    <th>Tài liệu</th>
                                     <th>Thời gian tạo</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -49,6 +50,7 @@
                                             <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
                                         </td>
                                         <td>{{$item->is_default ? "YES" : "NO"}}</td>
+                                        <td>{{$item->doc_link}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
 

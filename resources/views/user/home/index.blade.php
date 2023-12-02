@@ -28,7 +28,13 @@
 @endsection
 
 @section('content')
+    <div>
+        1234
+    </div>
 
+    @if(auth()->check())
+        {{"435435435"}}
+    @endif
 
 @endsection
 

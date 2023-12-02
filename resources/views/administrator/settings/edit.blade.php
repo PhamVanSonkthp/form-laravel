@@ -112,6 +112,85 @@
 
                 </div>
 
+                <div class="col-xl-6">
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div>
+                                <h2>
+                                    Vận chuyển
+                                </h2>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-6">
+                                    @include('administrator.components.require_input_number', ['label' => 'Phí vận chuyển mặc định' , 'name' => 'default_shipping_fee'])
+                                </div>
+
+                            </div>
+
+
+                            @include('administrator.components.button_save')
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xl-6">
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div>
+                                <h2>
+                                    Nâng cao
+                                </h2>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-6">
+                                    @include('administrator.components.require_check_box', ['label' => 'Người dùng chỉ được phép sử dụng trên 1 thiết bị?' , 'name' => 'is_login_only_one_device'])
+                                </div>
+
+                            </div>
+
+
+                            @include('administrator.components.button_save')
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xl-6">
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div>
+                                <h2>
+                                    Chính sách & Điều khoản
+                                </h2>
+                            </div>
+
+                            <div>
+                                @include('administrator.components.require_textarea_description', ['name' => 'privacy_policy_html' , 'label' => 'Chính sách quyền riêng tư'])
+                            </div>
+
+                            <div>
+                                @include('administrator.components.require_textarea_description', ['name' => 'terms_of_use_html' , 'label' => 'Điều khoản sử dụng'])
+                            </div>
+
+
+                            @include('administrator.components.button_save')
+                        </div>
+                    </div>
+
+                </div>
+
+
             </div>
 
         </form>

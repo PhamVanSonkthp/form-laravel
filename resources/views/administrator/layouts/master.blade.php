@@ -111,6 +111,14 @@
             height: 100% !important;
         }
 
+        .table-bordered > thead > tr > th{
+            cursor: pointer;
+        }
+
+        .table-bordered > thead > tr > th:hover{
+            color: #0a58ca;
+        }
+
     </style>
     @yield('css')
 </head>
@@ -371,6 +379,82 @@
         integer: true
     })
 
+    function onSortSearch(key, value) {
+        const searchParams = new URLSearchParams(window.location.search)
+
+        let str = searchParams.get('filter')
+
+        if (empty(str)){
+            str = "[]"
+        }
+
+
+        str = str.replace('[','')
+
+        str = str + "," + key + "=" + value
+
+        str = str.replace(']','')
+
+        let values = str.split(',')
+
+        let filtedValues = [];
+
+        for (let i = 0; i < values.length; i++) {
+            if (values[i].split('=').length > 1){
+
+                let a = values[i].split('=')[0]
+
+                let isHave = false;
+                for (let i = 0; i < filtedValues.length; i++) {
+                    if (filtedValues[i].split('=').length > 1){
+                        let b = filtedValues[i].split('=')[0]
+
+                        if (a == b){
+                            isHave = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isHave){
+                    filtedValues.push(values[i])
+                }
+            }
+        }
+
+        values = filtedValues;
+
+        let newStr = '';
+
+        for (let i = 0; i < values.length; i++) {
+
+            if (values[i].split('=').length > 1){
+                let a = values[i].split('=')[0]
+                let b = values[i].split('=')[1]
+
+
+                if (key == a){
+                    b = value;
+                }
+
+
+                newStr += a+"="+b;
+
+                if (i < values.length - 1){
+                    newStr += ",";
+                }
+            }
+
+
+        }
+
+        newStr = '[' + newStr + ']'
+
+        searchParams.set('filter', newStr)
+
+        window.location.search = searchParams.toString()
+
+    }
 </script>
 
 @yield('js')

@@ -20,6 +20,14 @@ class Order extends Model implements Auditable
 
     // begin
 
+    public function shippingMethod(){
+        return $this->belongsTo(ShippingMethod::class);
+    }
+
+    public function paymentMethod(){
+        return $this->belongsTo(PaymentMethod::class);
+    }
+
     public function voucher(){
         return $this->belongsTo(Voucher::class);
     }

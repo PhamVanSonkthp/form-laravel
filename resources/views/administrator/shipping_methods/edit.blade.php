@@ -21,8 +21,9 @@
                             @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên'])
                             @include('administrator.components.require_check_box' , ['name' => 'is_default' , 'label' => 'Mặc định?'])
 
-                            @include('administrator.components.require_input_text' , ['name' => 'public_key' , 'label' => 'public_key'])
-                            @include('administrator.components.require_input_text' , ['name' => 'private_key' , 'label' => 'private_key'])
+                            @include('administrator.components.input_text' , ['name' => 'public_key' , 'label' => 'public_key'])
+                            @include('administrator.components.input_text' , ['name' => 'private_key' , 'label' => 'private_key'])
+                            @include('administrator.components.input_text' , ['name' => 'doc_link' , 'label' => 'Tài liệu'])
 
                             @if($isSingleImage)
                                 <div class="mt-3 mb-3">

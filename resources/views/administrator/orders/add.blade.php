@@ -119,6 +119,12 @@
                     <div class="card-footer">
 
                         <div class="form-group mt-3">
+                            <label>Phí vận chuyển</label>
+                            <input id="input_shipping_fee" type="text" autocomplete="off" required
+                                   class="form-control number" value="{{optional(\App\Models\Setting::first())->default_shipping_fee ?? 0}}" placeholder="Phí vận chuyển">
+                        </div>
+
+                        <div class="form-group mt-3">
                             <label>Mã giảm giá (Nếu có)</label>
                             <input disabled id="input_voucher" type="text" autocomplete="off" onchange="onApplyVoucher()"
                                    class="form-control " value="" placeholder="Mã giảm giá">
@@ -297,6 +303,7 @@
                     quantities: quantities,
                     user_id: $('select[name="user_id"]').val(),
                     voucher_id: $('#input_voucher').val(),
+                    shipping_fee: $('#input_shipping_fee').val(),
                 },
                 (response) => {
 

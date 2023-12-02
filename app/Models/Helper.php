@@ -9,6 +9,7 @@ use DateTime;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -175,6 +176,33 @@ class Helper extends Model
             }
         }
 
+        if (isset($request->filter) && !empty($request->filter)){
+
+            $filter = $request->filter;
+
+            $filter = str_replace("[", "",$filter);
+            $filter = str_replace("]", "",$filter);
+
+            $values = explode(",",$filter);
+
+            foreach ($values as $value){
+                if (count(explode("=",$value)) > 1){
+                    $key = explode("=",$value)[0];
+                    $val = explode("=",$value)[1];
+
+                    if (in_array($key, $columns) && !empty($val)) {
+                        $query->orderBy($key, $val);
+                    }
+
+                }
+
+            }
+        }
+
+        if ($randomRecord){
+            $query = $query->inRandomOrder();
+        }
+
         if ($isCustom) {
             return $query;
         }
@@ -187,6 +215,35 @@ class Helper extends Model
             }
         }
         return $items;
+    }
+
+    public static function getValueInFilterReuquest($keyRequest){
+
+        $request = \request();
+        if (isset($request->filter) && !empty($request->filter)){
+
+            $filter = $request->filter;
+
+            $filter = str_replace("[", "",$filter);
+            $filter = str_replace("]", "",$filter);
+
+            $values = explode(",",$filter);
+
+            foreach ($values as $value){
+                if (count(explode("=",$value)) > 1){
+                    $key = explode("=",$value)[0];
+                    $val = explode("=",$value)[1];
+
+                    if ($key == $keyRequest){
+                        return $val;
+                    }
+
+                }
+
+            }
+        }
+
+        return "";
     }
 
     public static function searchAllByQuery($object, $request, $queries = [])

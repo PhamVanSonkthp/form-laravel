@@ -161,6 +161,7 @@
 
                     <div class="card-footer">
 
+                        @include('administrator.components.require_input_number', ['label' => 'Phí vận chuyển', 'name' => 'shipping_fee' ])
 
                         <button class="btn btn-primary mt-3" onclick="onCreateOrder()">Lưu</button>
 
@@ -318,6 +319,7 @@
 
             if (product_ids.length == 0) return showToastError("Vui lòng chọn sản phẩm")
 
+
             callAjax(
                 "PUT",
                 "{{route('ajax.administrator.orders.update')}}",
@@ -326,6 +328,7 @@
                     product_ids: product_ids,
                     quantities: quantities,
                     user_id: $('select[name="user_id"]').val(),
+                    shipping_fee: $('input[name="shipping_fee"]').val(),
                 },
                 (response) => {
 

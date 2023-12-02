@@ -28,18 +28,62 @@
                                 <thead>
                                 <tr>
                                     <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
-                                    <th>#</th>
+                                    <th onclick='onSortSearch(`id`, `{{ \App\Models\Helper::getValueInFilterReuquest('id') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('id') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            # {!! \App\Models\Helper::getValueInFilterReuquest('id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
                                     <th>Avatar</th>
-                                    <th>Tên KH</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Email</th>
-                                    <th>Ngày sinh</th>
-                                    <th>Số dư</th>
-                                    <th>Điểm</th>
-                                    <th>Loại</th>
-                                    <th>Trạng thái</th>
-                                    <th>Hoạt động gần đây</th>
-                                    <th>Ngày sử dụng</th>
+                                    <th onclick='onSortSearch(`name`, `{{ \App\Models\Helper::getValueInFilterReuquest('name') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('name') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Tên KH {!! \App\Models\Helper::getValueInFilterReuquest('name') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('name') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`phone`, `{{ \App\Models\Helper::getValueInFilterReuquest('phone') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('phone') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Số điện thoại {!! \App\Models\Helper::getValueInFilterReuquest('phone') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('phone') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`email`, `{{ \App\Models\Helper::getValueInFilterReuquest('email') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Email {!! \App\Models\Helper::getValueInFilterReuquest('email') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`date_of_birth`, `{{ \App\Models\Helper::getValueInFilterReuquest('date_of_birth') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('date_of_birth') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Ngày sinh {!! \App\Models\Helper::getValueInFilterReuquest('date_of_birth') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('date_of_birth') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`amount`, `{{ \App\Models\Helper::getValueInFilterReuquest('amount') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('amount') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Số dư {!! \App\Models\Helper::getValueInFilterReuquest('amount') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('amount') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`point`, `{{ \App\Models\Helper::getValueInFilterReuquest('point') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('point') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Điểm {!! \App\Models\Helper::getValueInFilterReuquest('point') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('point') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`user_type_id`, `{{ \App\Models\Helper::getValueInFilterReuquest('user_type_id') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('user_type_id') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Loại {!! \App\Models\Helper::getValueInFilterReuquest('user_type_id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('user_type_id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`user_status_id`, `{{ \App\Models\Helper::getValueInFilterReuquest('user_status_id') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('user_status_id') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Trạng thái {!! \App\Models\Helper::getValueInFilterReuquest('user_status_id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('user_status_id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`last_seen`, `{{ \App\Models\Helper::getValueInFilterReuquest('last_seen') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('last_seen') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Hoạt động gần đây {!! \App\Models\Helper::getValueInFilterReuquest('last_seen') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('last_seen') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`created_at`, `{{ \App\Models\Helper::getValueInFilterReuquest('created_at') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('created_at') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Ngày sử dụng {!! \App\Models\Helper::getValueInFilterReuquest('created_at') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('created_at') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>

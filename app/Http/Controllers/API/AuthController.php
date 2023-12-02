@@ -7,10 +7,12 @@ use App\Models\Chat;
 use App\Models\ChatGroup;
 use App\Models\Formatter;
 use App\Models\ParticipantChat;
+use App\Models\Setting;
 use App\Models\SingleImage;
 use App\Models\User;
 use App\Traits\StorageImageTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use NextApps\VerificationCode\VerificationCode;
 
@@ -118,6 +120,10 @@ class AuthController extends Controller
         }
         if ($user->user_status_id == 2) {
             return response()->json(['error' => 'Tài khoản của bạn đã bị khóa'], 405);
+        }
+
+        if (optional(Setting::first())->is_login_only_one_device){
+            $user->logoutAllDevices();
         }
 
         $token = $user->createToken($this->plainToken)->plainTextToken;

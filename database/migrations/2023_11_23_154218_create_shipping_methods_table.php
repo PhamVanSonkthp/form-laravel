@@ -19,6 +19,7 @@ class CreateShippingMethodsTable extends Migration
             $table->boolean('is_default')->default(false);
             $table->string('public_key')->nullable();
             $table->string('private_key')->nullable();
+            $table->string('doc_link')->nullable();
             $table->timestamps();
         });
     }
