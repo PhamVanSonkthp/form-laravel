@@ -144,6 +144,16 @@ return [
         'flash_sales-edit' => 'flash_sales_edit',
         'flash_sales-delete' => 'flash_sales_delete',
 
+        'opportunities-list' => 'opportunities_list',
+        'opportunities-add' => 'opportunities_add',
+        'opportunities-edit' => 'opportunities_edit',
+        'opportunities-delete' => 'opportunities_delete',
+
+        'opportunity_categories-list' => 'opportunity_categories_list',
+        'opportunity_categories-add' => 'opportunity_categories_add',
+        'opportunity_categories-edit' => 'opportunity_categories_edit',
+        'opportunity_categories-delete' => 'opportunity_categories_delete',
+
     ],
     'table_module'=>[
         'dashboard',
@@ -174,6 +184,8 @@ return [
         'shipping_methods',
         'product_comments',
         'flash_sales',
+        'opportunities',
+        'opportunity_categories',
     ],
 
     'table_module_name'=>[
@@ -205,6 +217,8 @@ return [
         'Quản lý phương thức thanh toán',
         'Quản lý bình luận sản phẩm',
         'Quản lý FlashSale',
+        'Quản lý Cơ hội',
+        'Quản lý Danh mục cơ hội',
     ],
 
     'module_children'=>[

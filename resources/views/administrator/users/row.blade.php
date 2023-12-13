@@ -3,24 +3,24 @@
         <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
     </td>
     <td>{{$item->id}}</td>
-    <td>
-        <img class="rounded-circle" src="{{$item->avatar()}}" alt="">
-    </td>
+{{--    <td>--}}
+{{--        <img class="rounded-circle" src="{{$item->avatar()}}" alt="">--}}
+{{--    </td>--}}
     <td>{{$item->name}} {!! $item->gender_id == 1 ? '<i class="fa-solid fa-mars" style="color: cornflowerblue;"></i>' : '<i class="fa-solid fa-venus" style="color: deeppink;"></i>' !!}</td>
     <td>{{$item->phone}}</td>
-    <td>{{$item->email}}</td>
-    <td>{{\App\Models\Formatter::getOnlyDate($item->date_of_birth)}}</td>
-    <td>{{\App\Models\Formatter::formatMoney($item->amount)}}</td>
-    <td>{{\App\Models\Formatter::formatNumber($item->point)}}</td>
-    <td>{{ optional($item->userType)->name}}</td>
-    <td>
-        <div id="toucher_status_{{$item->id}}"
-             onclick="onEditStatus('toucher_status_{{$item->id}}','{{$item->id}}','{{ optional($item->status)->id  }}' )"
-             style="cursor: pointer;display: flex;" data-bs-toggle="modal"
-             data-bs-target="#editStatus">
-            {!! \App\Models\UserStatus::htmlStatus( optional($item->status)->name ) !!}
-        </div>
-    </td>
+{{--    <td>{{$item->email}}</td>--}}
+{{--    <td>{{\App\Models\Formatter::getOnlyDate($item->date_of_birth)}}</td>--}}
+{{--    <td>{{\App\Models\Formatter::formatMoney($item->amount)}}</td>--}}
+{{--    <td>{{\App\Models\Formatter::formatNumber($item->point)}}</td>--}}
+{{--    <td>{{ optional($item->userType)->name}}</td>--}}
+{{--    <td>--}}
+{{--        <div id="toucher_status_{{$item->id}}"--}}
+{{--             onclick="onEditStatus('toucher_status_{{$item->id}}','{{$item->id}}','{{ optional($item->status)->id  }}' )"--}}
+{{--             style="cursor: pointer;display: flex;" data-bs-toggle="modal"--}}
+{{--             data-bs-target="#editStatus">--}}
+{{--            {!! \App\Models\UserStatus::htmlStatus( optional($item->status)->name ) !!}--}}
+{{--        </div>--}}
+{{--    </td>--}}
     <td>{{$item->textTimeOnline()}}</td>
     <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
     <td>

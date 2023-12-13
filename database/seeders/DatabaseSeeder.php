@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateMembershipSeeder::class);
         $this->call(CreateAddressSeeder::class);
         $this->call(CreateProductCommentStatusSeeder::class);
+        $this->call(CreateOpportunityStatusSeeder::class);
+        $this->call(CreateUserByFileSeeder::class);
 
     }
 }

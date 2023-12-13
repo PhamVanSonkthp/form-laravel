@@ -42,6 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     protected $hidden = [
         'password',
         'remember_token',
+        'firebase_uid',
     ];
 
     /**
@@ -54,6 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     ];
 
     // begin
+
+
 
     public function logoutAllDevices(){
         DB::table('sessions')->where('user_id', $this->id)->delete();
@@ -214,6 +217,11 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         return $this->belongsTo(RegisterWard::class);
     }
 
+    public function opportunyCategory()
+    {
+        return $this->hasOne(OpportunityCategory::class,'id','opportuny_category_id');
+    }
+
     // end
 
     public function getTableName()
@@ -232,6 +240,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         $array['city'] = $this->city;
         $array['district'] = $this->district;
         $array['ward'] = $this->ward;
+        $array['opportuny_category'] = $this->opportunyCategory;
         $array['text_status_online'] = $this->textStatusOnline();
         return $array;
     }

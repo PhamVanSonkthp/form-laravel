@@ -40,7 +40,14 @@ class CreateUsersTable extends Migration
             $table->bigInteger('city_id')->default(0);
             $table->bigInteger('district_id')->default(0);
             $table->bigInteger('ward_id')->default(0);
+            $table->bigInteger('opportuny_category_id')->default(0);
             $table->string('address')->nullable();
+
+            $table->string('zalo')->nullable();
+            $table->text('business_name')->nullable();
+            $table->text('business_address')->nullable();
+            $table->text('business_field_of_activity')->nullable();
+            $table->text('business_position')->nullable();
 
             $table->rememberToken();
             $table->timestamp('last_seen')->nullable();

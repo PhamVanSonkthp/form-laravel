@@ -22,170 +22,192 @@
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/users">
                         <i class="fa-regular fa-user"></i>
-                        <span>Khách hàng</span>
+                        <span>Thành viên</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
                 </li>
             @endcan
 
-            @can('chats-list')
-                <li class="sidebar-list">
-                    <label style="color: #000000;background-color: #ffc500;"
-                           class="badge badge-light-danger"></label>
-                    <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/chats">
-                        <i class="fa-regular fa-comment"></i>
-                        <span>Chat</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
-
-            <li class="sidebar-list">
-                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                    <i class="fa-solid fa-scale-unbalanced-flip"></i>
-                    <span class="">Bán hàng</span>
-                </a>
-                <ul class="sidebar-submenu" style="display: none;">
-
-                    @can('job_emails-list')
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/categories">
-                                <i class="fa-solid fa-stairs"></i>
-                                <span>Danh mục sản phẩm</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('products-list')
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/products">
-                                <i class="fa-solid fa-shapes"></i>
-                                <span>Sản phẩm</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('orders-list')
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/orders">
-                                <i class="fa-solid fa-file-invoice"></i>
-                                <span>Đơn hàng</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('vouchers-list')
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/vouchers">
-                                <i class="fa-solid fa-percent"></i>
-                                <span>Mã giảm giá</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('product_comments-list')
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/product-comments">
-                                <i class="fa-solid fa-percent"></i>
-                                <span>Bình luận sản phẩm</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                    @can('flash_sales-list')
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/flash-sales">
-                                <i class="fa-solid fa-percent"></i>
-                                <span>FlashSale</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                </ul>
-            </li>
-
-            @can('user_transactions-list')
-                <li class="sidebar-list">
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                        <i class="fa-solid fa-money-bill-transfer"></i>
-                        <span class="">Giao dịch</span>
-                    </a>
-                    <ul class="sidebar-submenu" style="display: none;">
-
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/user-transactions">
-                                <i class="fa-solid fa-money-bill-transfer"></i>
-                                <span>Giao dịch khách</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/user-points">
-                                <i class="fa-regular fa-star"></i>
-                                <span>Điểm</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/banks">
-                                <i class="fa-solid fa-building-columns"></i>
-                                <span>Ngân hàng</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav"
-                                href="/administrator/bank-cash-ins">
-                                <i class="fa-solid fa-wallet"></i>
-                                <span>Ngân hàng nạp tiền</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-            @endcan
-
-            @can('memberships-list')
+            @can('opportunities-list')
                 <li class="sidebar-list">
                     <a
-                        class="sidebar-link sidebar-title link-nav"
-                        href="/administrator/memberships">
-                        <i class="fa-regular fa-star"></i>
-                        <span>Hạng thành viên</span>
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/opportunities">
+                        <i class="fa-regular fa-user"></i>
+                        <span>Cơ hội</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
                 </li>
             @endcan
+
+            @can('opportunity_categories-list')
+                <li class="sidebar-list">
+                    <a
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/opportunity-categories">
+                        <i class="fa-regular fa-user"></i>
+                        <span>Danh mục ngành nghề</span>
+                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                    </a>
+                </li>
+            @endcan
+
+{{--            @can('chats-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <label style="color: #000000;background-color: #ffc500;"--}}
+{{--                           class="badge badge-light-danger"></label>--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/chats">--}}
+{{--                        <i class="fa-regular fa-comment"></i>--}}
+{{--                        <span>Chat</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
+
+{{--            <li class="sidebar-list">--}}
+{{--                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">--}}
+{{--                    <i class="fa-solid fa-scale-unbalanced-flip"></i>--}}
+{{--                    <span class="">Bán hàng</span>--}}
+{{--                </a>--}}
+{{--                <ul class="sidebar-submenu" style="display: none;">--}}
+
+{{--                    @can('job_emails-list')--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/categories">--}}
+{{--                                <i class="fa-solid fa-stairs"></i>--}}
+{{--                                <span>Danh mục sản phẩm</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
+
+{{--                    @can('products-list')--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/products">--}}
+{{--                                <i class="fa-solid fa-shapes"></i>--}}
+{{--                                <span>Sản phẩm</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
+
+{{--                    @can('orders-list')--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/orders">--}}
+{{--                                <i class="fa-solid fa-file-invoice"></i>--}}
+{{--                                <span>Đơn hàng</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
+
+{{--                    @can('vouchers-list')--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/vouchers">--}}
+{{--                                <i class="fa-solid fa-percent"></i>--}}
+{{--                                <span>Mã giảm giá</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
+
+{{--                    @can('product_comments-list')--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/product-comments">--}}
+{{--                                <i class="fa-solid fa-percent"></i>--}}
+{{--                                <span>Bình luận sản phẩm</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
+
+{{--                    @can('flash_sales-list')--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/flash-sales">--}}
+{{--                                <i class="fa-solid fa-percent"></i>--}}
+{{--                                <span>FlashSale</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
+
+{{--                </ul>--}}
+{{--            </li>--}}
+
+{{--            @can('user_transactions-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">--}}
+{{--                        <i class="fa-solid fa-money-bill-transfer"></i>--}}
+{{--                        <span class="">Giao dịch</span>--}}
+{{--                    </a>--}}
+{{--                    <ul class="sidebar-submenu" style="display: none;">--}}
+
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/user-transactions">--}}
+{{--                                <i class="fa-solid fa-money-bill-transfer"></i>--}}
+{{--                                <span>Giao dịch khách</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/user-points">--}}
+{{--                                <i class="fa-regular fa-star"></i>--}}
+{{--                                <span>Điểm</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/banks">--}}
+{{--                                <i class="fa-solid fa-building-columns"></i>--}}
+{{--                                <span>Ngân hàng</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav"--}}
+{{--                                href="/administrator/bank-cash-ins">--}}
+{{--                                <i class="fa-solid fa-wallet"></i>--}}
+{{--                                <span>Ngân hàng nạp tiền</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
+
+{{--            @can('memberships-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav"--}}
+{{--                        href="/administrator/memberships">--}}
+{{--                        <i class="fa-regular fa-star"></i>--}}
+{{--                        <span>Hạng thành viên</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
 
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
@@ -334,16 +356,16 @@
                 </li>
             @endcan
 
-            @can('medias-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/payment-methods">
-                        <i class="fa-regular fa-credit-card"></i>
-                        <span>Quản lý thanh toán</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
+{{--            @can('medias-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/payment-methods">--}}
+{{--                        <i class="fa-regular fa-credit-card"></i>--}}
+{{--                        <span>Quản lý thanh toán</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
 
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
@@ -364,15 +386,15 @@
                         </li>
                     @endcan
 
-                    @can('shipping_methods-list')
-                        <li>
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/shipping-methods">
-                                <span>Phương thức vận chuyển</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
+{{--                    @can('shipping_methods-list')--}}
+{{--                        <li>--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/shipping-methods">--}}
+{{--                                <span>Phương thức vận chuyển</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
 
                 </ul>
             </li>

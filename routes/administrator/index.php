@@ -107,9 +107,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.users.audit',
-            'uses'=>'App\Http\Controllers\Admin\UserController@audit',
-            'middleware'=>'can:users-list',
+            'as' => 'administrator.users.audit',
+            'uses' => 'App\Http\Controllers\Admin\UserController@audit',
+            'middleware' => 'can:users-list',
         ]);
 
         Route::get('/{id}', [
@@ -170,9 +170,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.chats.audit',
-            'uses'=>'App\Http\Controllers\Admin\ChatController@audit',
-            'middleware'=>'can:chats-list',
+            'as' => 'administrator.chats.audit',
+            'uses' => 'App\Http\Controllers\Admin\ChatController@audit',
+            'middleware' => 'can:chats-list',
         ]);
 
         Route::get('/{id}', [
@@ -233,9 +233,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.employees.audit',
-            'uses'=>'App\Http\Controllers\Admin\EmployeeController@audit',
-            'middleware'=>'can:employees-list',
+            'as' => 'administrator.employees.audit',
+            'uses' => 'App\Http\Controllers\Admin\EmployeeController@audit',
+            'middleware' => 'can:employees-list',
         ]);
 
         Route::get('/{id}', [
@@ -296,9 +296,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.roles.audit',
-            'uses'=>'App\Http\Controllers\Admin\RoleController@audit',
-            'middleware'=>'can:roles-list',
+            'as' => 'administrator.roles.audit',
+            'uses' => 'App\Http\Controllers\Admin\RoleController@audit',
+            'middleware' => 'can:roles-list',
         ]);
 
         Route::get('/{id}', [
@@ -374,9 +374,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.sliders.audit',
-            'uses'=>'App\Http\Controllers\Admin\SliderController@audit',
-            'middleware'=>'can:sliders-list',
+            'as' => 'administrator.sliders.audit',
+            'uses' => 'App\Http\Controllers\Admin\SliderController@audit',
+            'middleware' => 'can:sliders-list',
         ]);
 
         Route::get('/{id}', [
@@ -437,9 +437,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.news.audit',
-            'uses'=>'App\Http\Controllers\Admin\NewsController@audit',
-            'middleware'=>'can:news-list',
+            'as' => 'administrator.news.audit',
+            'uses' => 'App\Http\Controllers\Admin\NewsController@audit',
+            'middleware' => 'can:news-list',
         ]);
 
         Route::get('/{id}', [
@@ -482,9 +482,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.job_emails.audit',
-            'uses'=>'App\Http\Controllers\Admin\JobEmailController@audit',
-            'middleware'=>'can:job_emails-list',
+            'as' => 'administrator.job_emails.audit',
+            'uses' => 'App\Http\Controllers\Admin\JobEmailController@audit',
+            'middleware' => 'can:job_emails-list',
         ]);
 
         Route::get('/{id}', [
@@ -545,9 +545,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.job_notifications.audit',
-            'uses'=>'App\Http\Controllers\Admin\JobNotificationController@audit',
-            'middleware'=>'can:job_notifications-list',
+            'as' => 'administrator.job_notifications.audit',
+            'uses' => 'App\Http\Controllers\Admin\JobNotificationController@audit',
+            'middleware' => 'can:job_notifications-list',
         ]);
 
         Route::get('/{id}', [
@@ -608,9 +608,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.categories.audit',
-            'uses'=>'App\Http\Controllers\Admin\CategoryController@audit',
-            'middleware'=>'can:categories-list',
+            'as' => 'administrator.categories.audit',
+            'uses' => 'App\Http\Controllers\Admin\CategoryController@audit',
+            'middleware' => 'can:categories-list',
         ]);
 
         Route::get('/{id}', [
@@ -665,21 +665,21 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/export', [
-            'as'=>'administrator.products.export',
-            'uses'=>'App\Http\Controllers\Admin\ProductController@export',
-            'middleware'=>'can:products-list',
+            'as' => 'administrator.products.export',
+            'uses' => 'App\Http\Controllers\Admin\ProductController@export',
+            'middleware' => 'can:products-list',
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.products.audit',
-            'uses'=>'App\Http\Controllers\Admin\ProductController@audit',
-            'middleware'=>'can:products-list',
+            'as' => 'administrator.products.audit',
+            'uses' => 'App\Http\Controllers\Admin\ProductController@audit',
+            'middleware' => 'can:products-list',
         ]);
 
         Route::post('/import', [
-            'as'=>'administrator.products.import',
-            'uses'=>'App\Http\Controllers\Admin\ProductController@import',
-            'middleware'=>'can:products-add',
+            'as' => 'administrator.products.import',
+            'uses' => 'App\Http\Controllers\Admin\ProductController@import',
+            'middleware' => 'can:products-add',
         ]);
 
         Route::get('/{id}', [
@@ -740,9 +740,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.settings.audit',
-            'uses'=>'App\Http\Controllers\Admin\SettingController@audit',
-            'middleware'=>'can:settings-list',
+            'as' => 'administrator.settings.audit',
+            'uses' => 'App\Http\Controllers\Admin\SettingController@audit',
+            'middleware' => 'can:settings-list',
         ]);
 
         Route::get('/{id}', [
@@ -803,9 +803,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.category_news.audit',
-            'uses'=>'App\Http\Controllers\Admin\CategoryNewController@audit',
-            'middleware'=>'can:category_news-list',
+            'as' => 'administrator.category_news.audit',
+            'uses' => 'App\Http\Controllers\Admin\CategoryNewController@audit',
+            'middleware' => 'can:category_news-list',
         ]);
 
         Route::get('/{id}', [
@@ -866,9 +866,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.system_branches.audit',
-            'uses'=>'App\Http\Controllers\Admin\SystemBranchController@audit',
-            'middleware'=>'can:system_branches-list',
+            'as' => 'administrator.system_branches.audit',
+            'uses' => 'App\Http\Controllers\Admin\SystemBranchController@audit',
+            'middleware' => 'can:system_branches-list',
         ]);
 
         Route::get('/{id}', [
@@ -928,9 +928,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.quotations.audit',
-            'uses'=>'App\Http\Controllers\Admin\QuotationController@audit',
-            'middleware'=>'can:quotations-list',
+            'as' => 'administrator.quotations.audit',
+            'uses' => 'App\Http\Controllers\Admin\QuotationController@audit',
+            'middleware' => 'can:quotations-list',
         ]);
 
         Route::get('/{id}', [
@@ -990,9 +990,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.orders.audit',
-            'uses'=>'App\Http\Controllers\Admin\OrderController@audit',
-            'middleware'=>'can:orders-list',
+            'as' => 'administrator.orders.audit',
+            'uses' => 'App\Http\Controllers\Admin\OrderController@audit',
+            'middleware' => 'can:orders-list',
         ]);
 
         Route::get('/import', [
@@ -1065,9 +1065,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.vouchers.audit',
-            'uses'=>'App\Http\Controllers\Admin\VoucherController@audit',
-            'middleware'=>'can:vouchers-list',
+            'as' => 'administrator.vouchers.audit',
+            'uses' => 'App\Http\Controllers\Admin\VoucherController@audit',
+            'middleware' => 'can:vouchers-list',
         ]);
 
         Route::get('/import', [
@@ -1143,9 +1143,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.payment_methods.audit',
-            'uses'=>'App\Http\Controllers\Admin\PaymentMethodController@audit',
-            'middleware'=>'can:payment_methods-list',
+            'as' => 'administrator.payment_methods.audit',
+            'uses' => 'App\Http\Controllers\Admin\PaymentMethodController@audit',
+            'middleware' => 'can:payment_methods-list',
         ]);
 
         Route::get('/import', [
@@ -1211,9 +1211,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.user_transactions.audit',
-            'uses'=>'App\Http\Controllers\Admin\UserTransactionController@audit',
-            'middleware'=>'can:user_transactions-list',
+            'as' => 'administrator.user_transactions.audit',
+            'uses' => 'App\Http\Controllers\Admin\UserTransactionController@audit',
+            'middleware' => 'can:user_transactions-list',
         ]);
 
         Route::get('/import', [
@@ -1279,9 +1279,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.user_points.audit',
-            'uses'=>'App\Http\Controllers\Admin\UserPointController@audit',
-            'middleware'=>'can:user_points-list',
+            'as' => 'administrator.user_points.audit',
+            'uses' => 'App\Http\Controllers\Admin\UserPointController@audit',
+            'middleware' => 'can:user_points-list',
         ]);
 
         Route::get('/import', [
@@ -1347,9 +1347,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.banks.audit',
-            'uses'=>'App\Http\Controllers\Admin\BankController@audit',
-            'middleware'=>'can:banks-list',
+            'as' => 'administrator.banks.audit',
+            'uses' => 'App\Http\Controllers\Admin\BankController@audit',
+            'middleware' => 'can:banks-list',
         ]);
 
         Route::get('/import', [
@@ -1415,9 +1415,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.bank_cash_ins.audit',
-            'uses'=>'App\Http\Controllers\Admin\BankCashInController@audit',
-            'middleware'=>'can:bank_cash_ins-list',
+            'as' => 'administrator.bank_cash_ins.audit',
+            'uses' => 'App\Http\Controllers\Admin\BankCashInController@audit',
+            'middleware' => 'can:bank_cash_ins-list',
         ]);
 
         Route::get('/import', [
@@ -1483,9 +1483,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.memberships.audit',
-            'uses'=>'App\Http\Controllers\Admin\MembershipController@audit',
-            'middleware'=>'can:memberships-list',
+            'as' => 'administrator.memberships.audit',
+            'uses' => 'App\Http\Controllers\Admin\MembershipController@audit',
+            'middleware' => 'can:memberships-list',
         ]);
 
         Route::get('/import', [
@@ -1551,9 +1551,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.shipping_methods.audit',
-            'uses'=>'App\Http\Controllers\Admin\ShippingMethodController@audit',
-            'middleware'=>'can:shipping_methods-list',
+            'as' => 'administrator.shipping_methods.audit',
+            'uses' => 'App\Http\Controllers\Admin\ShippingMethodController@audit',
+            'middleware' => 'can:shipping_methods-list',
         ]);
 
         Route::get('/import', [
@@ -1619,9 +1619,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.product_comments.audit',
-            'uses'=>'App\Http\Controllers\Admin\ProductCommentController@audit',
-            'middleware'=>'can:product_comments-list',
+            'as' => 'administrator.product_comments.audit',
+            'uses' => 'App\Http\Controllers\Admin\ProductCommentController@audit',
+            'middleware' => 'can:product_comments-list',
         ]);
 
         Route::get('/import', [
@@ -1687,9 +1687,9 @@ Route::prefix('administrator')->group(function () {
         ]);
 
         Route::get('/audit/{id}', [
-            'as'=>'administrator.flash_sales.audit',
-            'uses'=>'App\Http\Controllers\Admin\FlashSaleController@audit',
-            'middleware'=>'can:flash_sales-list',
+            'as' => 'administrator.flash_sales.audit',
+            'uses' => 'App\Http\Controllers\Admin\FlashSaleController@audit',
+            'middleware' => 'can:flash_sales-list',
         ]);
 
         Route::get('/import', [
@@ -1702,6 +1702,142 @@ Route::prefix('administrator')->group(function () {
             'as' => 'administrator.flash_sales.get',
             'uses' => 'App\Http\Controllers\Admin\FlashSaleController@get',
             'middleware' => 'can:flash_sales-list',
+        ]);
+    });
+
+    Route::prefix('opportunities')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.opportunities.index',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@index',
+            'middleware' => 'can:opportunities-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.opportunities.create',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@create',
+            'middleware' => 'can:opportunities-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.opportunities.store',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@store',
+            'middleware' => 'can:opportunities-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.opportunities.edit',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@edit',
+            'middleware' => 'can:opportunities-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.opportunities.update',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@update',
+            'middleware' => 'can:opportunities-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.opportunities.delete',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@delete',
+            'middleware' => 'can:opportunities-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.opportunities.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@deleteManyByIds',
+            'middleware' => 'can:opportunities-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.opportunities.export',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@export',
+            'middleware' => 'can:opportunities-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as' => 'administrator.opportunities.audit',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@audit',
+            'middleware' => 'can:opportunities-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.opportunities.import',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@import',
+            'middleware' => 'can:opportunities-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.opportunities.get',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@get',
+            'middleware' => 'can:opportunities-list',
+        ]);
+    });
+
+    Route::prefix('opportunity-categories')->group(function () {
+        Route::get('/', [
+            'as' => 'administrator.opportunity_categories.index',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@index',
+            'middleware' => 'can:opportunity_categories-list',
+        ]);
+
+        Route::get('/create', [
+            'as' => 'administrator.opportunity_categories.create',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@create',
+            'middleware' => 'can:opportunity_categories-add',
+        ]);
+
+        Route::post('/store', [
+            'as' => 'administrator.opportunity_categories.store',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@store',
+            'middleware' => 'can:opportunity_categories-add',
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as' => 'administrator.opportunity_categories.edit',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@edit',
+            'middleware' => 'can:opportunity_categories-edit',
+        ]);
+
+        Route::put('/update/{id}', [
+            'as' => 'administrator.opportunity_categories.update',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@update',
+            'middleware' => 'can:opportunity_categories-edit',
+        ]);
+
+        Route::delete('/delete/{id}', [
+            'as' => 'administrator.opportunity_categories.delete',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@delete',
+            'middleware' => 'can:opportunity_categories-delete',
+        ]);
+
+        Route::delete('/delete-many', [
+            'as' => 'administrator.opportunity_categories.delete_many',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@deleteManyByIds',
+            'middleware' => 'can:opportunity_categories-delete',
+        ]);
+
+        Route::get('/export', [
+            'as' => 'administrator.opportunity_categories.export',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@export',
+            'middleware' => 'can:opportunity_categories-list',
+        ]);
+
+        Route::get('/audit/{id}', [
+            'as' => 'administrator.opportunity_categories.audit',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@audit',
+            'middleware' => 'can:opportunity_categories-list',
+        ]);
+
+        Route::get('/import', [
+            'as' => 'administrator.opportunity_categories.import',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@import',
+            'middleware' => 'can:opportunity_categories-list',
+        ]);
+
+        Route::get('/{id}', [
+            'as' => 'administrator.opportunity_categories.get',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityCategoryController@get',
+            'middleware' => 'can:opportunity_categories-list',
         ]);
     });
 
