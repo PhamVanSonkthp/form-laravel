@@ -22,7 +22,6 @@ class CreateOpportunitiesTable extends Migration
             $table->bigInteger('opportunity_status_id');
             $table->bigInteger('opportunity_category_id');
             $table->bigInteger('user_id');
-            $table->bigInteger('taken_user_id')->default(0);
             $table->bigInteger('cost');
             $table->bigInteger('discount')->default(0);
             $table->timestamps();

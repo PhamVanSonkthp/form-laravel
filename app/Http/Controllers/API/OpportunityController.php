@@ -8,6 +8,7 @@ use App\Models\Helper;
 use App\Models\Image;
 use App\Models\Opportunity;
 use App\Models\OpportunityCategory;
+use App\Models\OpportunityUser;
 use App\Models\RestfulAPI;
 use App\Models\Slider;
 use App\Traits\StorageImageTrait;
@@ -65,6 +66,16 @@ class OpportunityController extends Controller
             'cost' => Formatter::formatNumberToDatabase($request->cost),
             'user_id' => auth()->id(),
         ]);
+
+        if (is_array(json_decode($request->user_ids))){
+            foreach (json_decode($request->user_ids) as $user_id) {
+                OpportunityUser::firstOrCreate([
+                    'opportunity_id' => $result->id,
+                    'user_id' => $user_id,
+                ]);
+            }
+        }
+
 
         if (is_array($request->images)){
             foreach ($request->images as $image) {

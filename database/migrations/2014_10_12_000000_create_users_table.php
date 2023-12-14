@@ -48,6 +48,7 @@ class CreateUsersTable extends Migration
             $table->text('business_address')->nullable();
             $table->text('business_field_of_activity')->nullable();
             $table->text('business_position')->nullable();
+            $table->text('business_about')->nullable();
 
             $table->rememberToken();
             $table->timestamp('last_seen')->nullable();

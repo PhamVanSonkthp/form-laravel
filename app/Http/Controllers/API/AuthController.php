@@ -238,6 +238,10 @@ class AuthController extends Controller
             $dataUpdate['business_field_of_activity'] = $request->business_field_of_activity;
         }
 
+        if (!empty($request->business_about)) {
+            $dataUpdate['business_about'] = $request->business_about;
+        }
+
         auth()->user()->update($dataUpdate);
 
         if ($request->hasFile('image')){
