@@ -20,6 +20,9 @@ class OpportunityUser extends Model implements Auditable
 
     // begin
 
+    public function user(){
+        return $this->hasOne(User::class,'id','user_id');
+    }
 
 
     // end

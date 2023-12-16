@@ -21,7 +21,7 @@
                 <li class="sidebar-list">
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/users">
-                        <i class="fa-regular fa-user"></i>
+                        <i class="fa-solid fa-users-line"></i>
                         <span>Thành viên</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
@@ -32,7 +32,7 @@
                 <li class="sidebar-list">
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/opportunities">
-                        <i class="fa-regular fa-user"></i>
+                        <i class="fa-solid fa-wand-sparkles"></i>
                         <span>Cơ hội</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
@@ -43,8 +43,8 @@
                 <li class="sidebar-list">
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/opportunity-categories">
-                        <i class="fa-regular fa-user"></i>
-                        <span>Danh mục ngành nghề</span>
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Ngành nghề</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
                 </li>
@@ -296,16 +296,16 @@
                         </li>
                     @endcan
 
-                    @can('sliders-list')
-                        <li>
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/system-branches">
-                                <i class="fa-solid fa-code-branch"></i>
-                                <span>Hệ thống cửa hàng</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
+{{--                    @can('sliders-list')--}}
+{{--                        <li>--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/system-branches">--}}
+{{--                                <i class="fa-solid fa-code-branch"></i>--}}
+{{--                                <span>Hệ thống cửa hàng</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
 
                     @can('logos-list')
                         <li>
@@ -345,16 +345,16 @@
                 </ul>
             </li>
 
-            @can('medias-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/medias">
-                        <i class="fa-regular fa-folder-open"></i>
-                        <span>Quản lý file</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
+{{--            @can('medias-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/medias">--}}
+{{--                        <i class="fa-regular fa-folder-open"></i>--}}
+{{--                        <span>Quản lý file</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
 
 {{--            @can('medias-list')--}}
 {{--                <li class="sidebar-list">--}}
@@ -367,24 +367,24 @@
 {{--                </li>--}}
 {{--            @endcan--}}
 
-            <li class="sidebar-list">
-                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                    <i class="fa-solid fa-gear"></i>
-                    <span class="">Cài đặt</span>
-                    <div class="according-menu"><i class="fa fa-angle-right"></i>
-                    </div>
-                </a>
-                <ul class="sidebar-submenu" style="display: none;">
+{{--            <li class="sidebar-list">--}}
+{{--                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">--}}
+{{--                    <i class="fa-solid fa-gear"></i>--}}
+{{--                    <span class="">Cài đặt</span>--}}
+{{--                    <div class="according-menu"><i class="fa fa-angle-right"></i>--}}
+{{--                    </div>--}}
+{{--                </a>--}}
+{{--                <ul class="sidebar-submenu" style="display: none;">--}}
 
-                    @can('settings-list')
-                        <li>
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/settings/edit/1">
-                                <span>Cài đặt chung</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
+{{--                    @can('settings-list')--}}
+{{--                        <li>--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/settings/edit/1">--}}
+{{--                                <span>Cài đặt chung</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcan--}}
 
 {{--                    @can('shipping_methods-list')--}}
 {{--                        <li>--}}
@@ -396,20 +396,20 @@
 {{--                        </li>--}}
 {{--                    @endcan--}}
 
-                </ul>
-            </li>
+{{--                </ul>--}}
+{{--            </li>--}}
 
-            @can('history_datas-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav"
-                        href="/administrator/history-datas">
-                        <i class="fas fa-solid fa-database"></i>
-                        <span>Lịch sử dữ liệu</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
+{{--            @can('history_datas-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav"--}}
+{{--                        href="/administrator/history-datas">--}}
+{{--                        <i class="fas fa-solid fa-database"></i>--}}
+{{--                        <span>Lịch sử dữ liệu</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
 
         </ul>
     </div>

@@ -24,7 +24,7 @@
 
         <div class="col-md-3">
             <div class="mt-3">
-                <label>Danh mục</label>
+                <label>Ngành nghề</label>
                 <select name="opportunity_category_id" class="form-control select2_init_allow_clear">
                     <option value="">Chọn</option>
                     @foreach(\App\Models\OpportunityCategory::all() as $opportunityCategory)

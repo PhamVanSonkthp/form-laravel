@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default_avatar' => null,
+    'default_avatar' => '/assets/images/avatar.webp',
     'default_size_avatar' => "100x100",
 
     'items_show_in_table' => [

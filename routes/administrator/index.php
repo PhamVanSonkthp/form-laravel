@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', 'App\Http\Controllers\Admin\AdminController@loginAdmin');
+Route::post('/', 'App\Http\Controllers\Admin\AdminController@postLoginAdmin');
+
 Route::get('/admin', 'App\Http\Controllers\Admin\AdminController@loginAdmin')->name('login');
 Route::post('/admin', 'App\Http\Controllers\Admin\AdminController@postLoginAdmin')->name('postLoginAdmin');
 

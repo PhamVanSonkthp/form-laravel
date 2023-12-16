@@ -9,7 +9,12 @@
 @endsection
 
 @section('css')
-
+    <style>
+        .hover:hover {
+            background-color: aliceblue;
+            border-radius: 10px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -17,139 +22,172 @@
     @can('dashboard-list')
         <div class="container-fluid general-widget">
 
+            <div class="card">
 
-            <div>
-                <div class="card">
-                    <div class="card-body">
+                <div class="card-header">
+
+                    <div class="float-start ms-2">
+                        <label>
+                            Lọc theo ngày
+                        </label>
+                        <input id="input_search_datetime" type="date"
+                               class="bg-white form-control open-jquery-date-range" placeholder="--/--/--"
+                               value="{{\Carbon\Carbon::now()->toDateString()}}">
+                    </div>
+
+                    <div class="float-start d-flex ms-2">
                         <div>
-                            <strong>
-                                Danh sách cần làm
-                            </strong>
+                            <label>Lọc theo khách hàng</label>
+                            <select name="user_id" class="form-control select2_init_allow_clear">
+                                <option value="">Chọn</option>
+                                @foreach($users as $user)
+                                    <option
+                                        value="{{$user->id}}" {{request('user_id') == $user->id ? 'selected' : ''}}>{{$user->name}}
+                                        - {{$user->phone}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="float-start d-flex ms-2">
+                        <div style="margin-top: 30px;">
+                            <button class="btn btn-outline-primary ms-2" type="button" onclick="onSearchQuery()"><i
+                                    class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
 
-                        <div class="row mt-3">
-                            <div class="d-flex">
+                    </div>
 
-                                <div class="flex-grow-1">
-                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 1])}}">
-                                        <div class="text-center" style="font-size: 20px;">
-                                            <strong>
-                                                0
-                                            </strong>
-                                        </div>
+                </div>
 
-                                        <div class="text-center text-dark">
-                                            Chờ xác nhận
-                                        </div>
-                                    </a>
+                <div class="card-body">
+                    <div>
+                        <strong>
+                            Tổng quan
+                        </strong>
+                    </div>
 
-                                </div>
+                    <div class="row mt-3">
+                        <div class="d-flex">
 
-                                <div class="flex-grow-1">
-                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 2])}}">
-                                        <div class="text-center" style="font-size: 20px;">
-                                            <strong>
-                                                0
-                                            </strong>
-                                        </div>
+                            <div class="flex-grow-1 hover">
+                                <a
+                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 2])}}">
+                                    <div class="text-center" style="font-size: 20px;">
+                                        <strong>
+                                            {{\App\Models\Formatter::formatNumber($counterOpportunity1)}}
+                                        </strong>
+                                    </div>
 
-                                        <div class="text-center text-dark">
-                                            Đang giao
-                                        </div>
-                                    </a>
-
-                                </div>
-
-                                <div class="flex-grow-1">
-                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 3])}}">
-                                        <div class="text-center" style="font-size: 20px;">
-                                            <strong>
-                                                0
-                                            </strong>
-                                        </div>
-
-                                        <div class="text-center text-dark">
-                                            Hoàn thành
-                                        </div>
-                                    </a>
-
-                                </div>
-
-                                <div class="flex-grow-1">
-                                    <a href="{{route('administrator.orders.index', ['order_status_id' => 4])}}">
-                                        <div class="text-center" style="font-size: 20px;">
-                                            <strong>
-                                                0
-                                            </strong>
-                                        </div>
-
-                                        <div class="text-center text-dark">
-                                            Hủy
-                                        </div>
-                                    </a>
-
-                                </div>
-
+                                    <div class="text-center text-dark">
+                                        Cơ hội đã trao
+                                    </div>
+                                </a>
 
                             </div>
+
+                            <div class="flex-grow-1 hover">
+                                <a
+                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 1])}}">
+                                    <div class="text-center" style="font-size: 20px;">
+                                        <strong>
+                                            {{\App\Models\Formatter::formatNumber($counterOpportunity2)}}
+                                        </strong>
+                                    </div>
+
+                                    <div class="text-center text-dark">
+                                        Cơ hội chưa trao
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="flex-grow-1 hover">
+                                <a
+                                   href="{{route('administrator.opportunities.index')}}">
+                                    <div class="text-center" style="font-size: 20px;">
+                                        <strong>
+                                            {{\App\Models\Formatter::formatNumber($counterOpportunity1 + $counterOpportunity2)}}
+                                        </strong>
+                                    </div>
+
+                                    <div class="text-center text-dark">
+                                        Tổng
+                                    </div>
+                                </a>
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div>
+
                 <div class="card">
                     <div class="card-body">
-                        <div>
-                            <strong>
-                                Phân tích bán hàng
-                            </strong>
-                        </div>
+                        <div class="tab-content" id="top-tabContent">
+                            <div class="tab-pane fade show active" id="top-home" role="tabpanel"
+                                 aria-labelledby="top-home-tab">
+                                <div class="row">
 
-                        <div class="row mt-3">
-                            <div class="d-flex">
+                                    @foreach($opportunities as $opportunity)
+                                        <div class="col-xxl-4 box-col-6 col-lg-6">
+                                            <div class="project-box">
+                                                <span
+                                                    class="badge {{optional($opportunity->status)->id == 2 ? 'badge-secondary' : 'badge-primary'}} ">{{optional($opportunity->status)->name}}</span>
 
-                                <div class="flex-grow-1">
-                                    <div>
-                                        Doanh số
-                                    </div>
+                                                <h6>{{ optional($opportunity->user)->name}}</h6>
+                                                <div class="media"><img class="me-2 rounded-circle"
+                                                                        src="{{ optional($opportunity->user)->avatar()}}"
+                                                                        alt="" data-original-title="" title="">
+                                                    <div class="media-body">
+                                                        <p>{{optional($opportunity->user)->phone}}</p>
+                                                    </div>
+                                                </div>
+                                                <p>{{ $opportunity->name }}</p>
+                                                <div class="row details">
+                                                    <div class="col-6"><span>Ngành nghề</span></div>
+                                                    <div
+                                                        class="col-6 font-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}}">{{ optional($opportunity->category)->name}} </div>
+                                                    <div class="col-6"><span>Số người đang tham gia</span></div>
+                                                    <div
+                                                        class="col-6 font-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}}">
+                                                        5
+                                                    </div>
+                                                </div>
+                                                <div class="customers">
+                                                    <ul>
+                                                        @foreach($opportunity->opportunityUsers as $opportunityUser)
 
-                                    <div>
+                                                            <li class="d-inline-block"><img class="rounded-circle"
+                                                                                            src="{{ optional($opportunityUser->user)->avatar()}}"
+                                                                                            alt=""
+                                                                                            data-original-title=""
+                                                                                            title=""></li>
+                                                        @endforeach
 
-                                    </div>
-                                </div>
-
-                                <div class="flex-grow-1">
-
-                                    <div class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <div>
-                                                Lượt truy cập
-                                            </div>
-
-                                            <div>
-                                                <strong style="font-size: 20px;">
-                                                    0
-                                                </strong>
+                                                        <li class="d-inline-block ms-2">
+                                                            <p class="f-12">+10 More</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="project-status mt-4">
+                                                    <div class="media mb-0">
+                                                        <div class="media-body text-end"><span></span></div>
+                                                    </div>
+                                                    <div class="progress" style="height: 5px">
+                                                        <div
+                                                            class="progress-bar-animated bg-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}} progress-bar-striped"
+                                                            role="progressbar" style="width: 70%" aria-valuenow="10"
+                                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="flex-grow-1">
-                                            <div>
-                                                Lượt xem
-                                            </div>
-                                            <div>
-                                                <strong style="font-size: 20px;">
-                                                    0
-                                                </strong>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endforeach
 
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -164,5 +202,19 @@
 @endsection
 
 @section('js')
+    <script>
+        function onSearchQuery() {
+            addUrlParameterObjects([
+                {name: "search_query", value: $('#input_search_query').val()},
+                {name: "from", value: input_query_from},
+                {name: "to", value: input_query_to},
+                {name: "page", value: 1},
+            ])
+        }
 
+        $('select[name="user_id"]').on('change', function () {
+            addUrlParameter('user_id', this.value)
+        });
+
+    </script>
 @endsection
