@@ -119,6 +119,24 @@ Route::prefix('ajax/administrator')->group(function () {
                 if (isset($request->gender_id) && !empty($request->gender_id)) {
                     $dataUpdate['gender_id'] = $request->gender_id;
                 }
+                if (isset($request->business_field_of_activity) && !empty($request->business_field_of_activity)) {
+                    $dataUpdate['business_field_of_activity'] = $request->business_field_of_activity;
+                }
+                if (isset($request->business_name) && !empty($request->business_name)) {
+                    $dataUpdate['business_name'] = $request->business_name;
+                }
+                if (isset($request->opportuny_category_id) && !empty($request->opportuny_category_id)) {
+                    $dataUpdate['opportuny_category_id'] = $request->opportuny_category_id;
+                }
+                if (isset($request->business_about) && !empty($request->business_about)) {
+                    $dataUpdate['business_about'] = $request->business_about;
+                }
+                if (isset($request->business_position) && !empty($request->business_position)) {
+                    $dataUpdate['business_position'] = $request->business_position;
+                }
+                if (isset($request->business_address) && !empty($request->business_address)) {
+                    $dataUpdate['business_address'] = $request->business_address;
+                }
 
                 $item->update($dataUpdate);
                 $item->refresh();

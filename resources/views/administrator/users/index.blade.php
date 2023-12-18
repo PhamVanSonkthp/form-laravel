@@ -44,6 +44,11 @@
                                             Số điện thoại {!! \App\Models\Helper::getValueInFilterReuquest('phone') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('phone') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
                                         </div>
                                     </th>
+                                    <th>
+                                        <div>
+                                            Ngành nghề
+                                        </div>
+                                    </th>
 {{--                                    <th onclick='onSortSearch(`email`, `{{ \App\Models\Helper::getValueInFilterReuquest('email') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? "desc" : "") }}`)'>--}}
 {{--                                        <div>--}}
 {{--                                            Email {!! \App\Models\Helper::getValueInFilterReuquest('email') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}--}}
@@ -214,6 +219,11 @@
                         user_type_id: $('#select_user_type_id').val(),
                         password: $('#input_password').val(),
                         gender_id: $('#radio_gender').is(':checked') ? 1 : 2,
+                        business_field_of_activity: $('#input_business_field_of_activity').val(),
+                        business_name: $('#input_business_name').val(),
+                        opportuny_category_id: $('#select_opportuny_category_id').val(),
+                        business_about: $('#input_business_about').val(),
+                        business_position: $('#input_business_position').val(),
                     },
                     url: "{{route('ajax.administrator.user.store')}}",
                     beforeSend: function () {
@@ -254,6 +264,12 @@
                         user_type_id: $('#select_user_type_id').val(),
                         password: $('#input_password').val(),
                         gender_id: $('#radio_gender').is(':checked') ? 1 : 2,
+                        business_field_of_activity: $('#input_business_field_of_activity').val(),
+                        business_name: $('#input_business_name').val(),
+                        opportuny_category_id: $('#select_opportuny_category_id').val(),
+                        business_about: $('#input_business_about').val(),
+                        business_position: $('#input_business_position').val(),
+                        business_address: $('#input_business_address').val(),
                     },
                     url: "{{route('ajax.administrator.user.update')}}",
                     beforeSend: function () {

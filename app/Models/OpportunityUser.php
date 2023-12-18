@@ -35,6 +35,7 @@ class OpportunityUser extends Model implements Auditable
     public function toArray()
     {
         $array = parent::toArray();
+        $array['user'] = $this->user;
         $array['image_path_avatar'] = $this->avatar();
         $array['path_images'] = $this->images;
         return $array;

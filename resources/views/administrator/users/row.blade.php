@@ -8,6 +8,7 @@
 {{--    </td>--}}
     <td>{{$item->name}} {!! $item->gender_id == 1 ? '<i class="fa-solid fa-mars" style="color: cornflowerblue;"></i>' : '<i class="fa-solid fa-venus" style="color: deeppink;"></i>' !!}</td>
     <td>{{$item->phone}}</td>
+    <td>{{ optional($item->opportunyCategory)->name}}</td>
 {{--    <td>{{$item->email}}</td>--}}
 {{--    <td>{{\App\Models\Formatter::getOnlyDate($item->date_of_birth)}}</td>--}}
 {{--    <td>{{\App\Models\Formatter::formatMoney($item->amount)}}</td>--}}

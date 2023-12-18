@@ -21,7 +21,7 @@ class OpportunityController extends Controller
     {
         $this->initBaseModel($model);
         $this->isSingleImage = false;
-        $this->isMultipleImages = false;
+        $this->isMultipleImages = true;
         $this->shareBaseModel($model);
     }
 

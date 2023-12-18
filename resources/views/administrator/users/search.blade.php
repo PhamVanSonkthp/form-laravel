@@ -11,10 +11,11 @@
     <div class="row">
         <div class="col-md-3">
             <div class="mt-3">
-                <label>Lọại khách hàng</label>
-                <select name="user_type_id" class="form-control select2_init_allow_clear">
-                    @foreach($userTypes as $userTypeItem)
-                        <option value="{{$userTypeItem->id}}" {{request('user_type_id') == $userTypeItem->id ? 'selected' : ''}}>{{$userTypeItem->name}}</option>
+                <label>Ngành nghề</label>
+                <select name="opportuny_category_id" class="form-control select2_init_allow_clear">
+                    <option>Chọn</option>
+                    @foreach(\App\Models\OpportunityCategory::latest()->get() as $opportunityCategory)
+                        <option value="{{$opportunityCategory->id}}" {{request('opportuny_category_id') == $opportunityCategory->id ? 'selected' : ''}}>{{$opportunityCategory->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -26,8 +27,8 @@
 
 <script>
 
-    $('select[name="user_type_id"]').on('change', function () {
-        addUrlParameter('user_type_id', this.value)
+    $('select[name="opportuny_category_id"]').on('change', function () {
+        addUrlParameter('opportuny_category_id', this.value)
     });
 
 </script>

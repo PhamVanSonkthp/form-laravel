@@ -36,6 +36,10 @@ class Opportunity extends Model implements Auditable
         return $this->hasOne(OpportunityCategory::class,'id','opportunity_category_id');
     }
 
+    public function takenUser(){
+        return $this->hasOne(User::class,'id','taken_user_id');
+    }
+
     // end
 
     public function getTableName()
@@ -49,6 +53,8 @@ class Opportunity extends Model implements Auditable
         $array['status'] = $this->status;
         $array['category'] = $this->category;
         $array['user'] = $this->user;
+        $array['taken_user'] = $this->takenUser;
+        $array['opportunity_users'] = $this->opportunityUsers;
         $array['image_path_avatar'] = $this->avatar();
         $array['path_images'] = $this->images;
         return $array;
