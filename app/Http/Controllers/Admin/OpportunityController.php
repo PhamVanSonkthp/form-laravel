@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\ModelExport;
+use App\Exports\OpportunityExport;
 use App\Http\Controllers\Controller;
 use App\Models\Audit;
 use App\Models\Opportunity;
@@ -44,7 +45,7 @@ class OpportunityController extends Controller
     public function store(Request $request)
     {
         $item = $this->model->storeByQuery($request);
-        return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
+        return redirect()->route('administrator.' . $this->prefixView . '.index');
     }
 
     public function edit($id)
@@ -56,7 +57,7 @@ class OpportunityController extends Controller
     public function update(Request $request, $id)
     {
         $item = $this->model->updateByQuery($request, $id);
-        return redirect()->route('administrator.' . $this->prefixView . '.edit', ['id' => $id]);
+        return redirect()->route('administrator.' . $this->prefixView . '.index');
     }
 
     public function delete(Request $request, $id)
@@ -71,7 +72,7 @@ class OpportunityController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+        return Excel::download(new OpportunityExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 
     public function audit(Request $request, $id)
@@ -84,6 +85,21 @@ class OpportunityController extends Controller
             'message' => 'success',
             'code' => 200,
             'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
+    }
+
+    public function detail(Request $request, $id)
+    {
+        $item = $this->model->findOrFail($id);
+
+
+
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.opportunities.modal_detail', compact('item'))->render(),
         ];
 
         return response()->json($content);

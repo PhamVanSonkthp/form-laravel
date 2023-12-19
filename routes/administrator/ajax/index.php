@@ -5,6 +5,7 @@ use App\Http\Controllers\API\VoucherController;
 use App\Http\Requests\PusherChatRequest;
 use App\Models\Chat;
 use App\Models\ChatImage;
+use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\Image;
 use App\Models\Notification;
@@ -56,7 +57,6 @@ Route::prefix('ajax/administrator')->group(function () {
                     'phone' => 'required|string|unique:users',
                     'password' => 'required|string',
                     'date_of_birth' => 'date_format:Y-m-d',
-                    'user_type_id' => 'required|numeric|min:1|max:3',
                 ]);
 
                 $data = [
@@ -68,16 +68,22 @@ Route::prefix('ajax/administrator')->group(function () {
                     'date_of_birth' => $request->date_of_birth,
                     'firebase_uid' => $request->firebase_uid,
                     'provider_name' => $request->provider_name,
-                    'user_type_id' => $request->user_type_id,
+                    'user_type_id' => $request->user_type_id ?? 1,
                     'user_status_id' => $request->user_status_id,
                     'gender_id' => $request->gender_id,
+                    'business_address' => $request->business_address,
+                    'business_position' => $request->business_position,
+                    'business_about' => $request->business_about,
+                    'opportuny_category_id' => $request->opportuny_category_id,
+                    'business_name' => $request->business_name,
+                    'business_field_of_activity' => $request->business_field_of_activity,
                 ];
 
                 $item = User::create($data);
                 $item->refresh();
 
-                $htmlRowAdd = View::make('administrator.users.row_add', compact('item'))->render();
-                $item['html_row_add'] = $htmlRowAdd;
+                $htmlRow = View::make('administrator.users.row', ['item' => $item, 'prefixView' => 'users'])->render();
+                $item['html_row'] = $htmlRow;
 
                 return response()->json($item);
 

@@ -1763,6 +1763,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:opportunities-list',
         ]);
 
+        Route::get('/detail/{id}', [
+            'as' => 'administrator.opportunities.detail',
+            'uses' => 'App\Http\Controllers\Admin\OpportunityController@detail',
+            'middleware' => 'can:opportunities-list',
+        ]);
+
         Route::get('/import', [
             'as' => 'administrator.opportunities.import',
             'uses' => 'App\Http\Controllers\Admin\OpportunityController@import',

@@ -9,6 +9,7 @@
 <div class="mt-3">
     <label>{{$label}}</label>
     <select name="{{$name}}" class="form-control select2_init">
+        <option>Chọn</option>
         @foreach($select2Items as $select2Item)
             <option value="{{$select2Item->id}}" {{$value == $select2Item->id ? 'selected' : ''}}>{{$select2Item->name ?? $select2Item->title}}</option>
         @endforeach

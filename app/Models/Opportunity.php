@@ -87,12 +87,15 @@ class Opportunity extends Model implements Auditable
     public function storeByQuery($request)
     {
         $dataInsert = [
+            'name' => $request->name,
             'client_name' => $request->client_name,
             'client_phone' => $request->client_phone,
-            'client_note' => $request->client_note,
+            'content' => $request->content,
             'opportunity_status_id' => $request->opportunity_status_id,
             'opportunity_category_id' => $request->opportunity_category_id,
             'user_id' => $request->user_id,
+            'discount' => $request->discount ?? 0,
+            'taken_user_id' => $request->taken_user_id ?? 0,
             'cost' => Formatter::formatNumberToDatabase($request->cost),
         ];
 
@@ -104,12 +107,15 @@ class Opportunity extends Model implements Auditable
     public function updateByQuery($request, $id)
     {
         $dataUpdate = [
+            'name' => $request->name,
             'client_name' => $request->client_name,
             'client_phone' => $request->client_phone,
-            'client_note' => $request->client_note,
+            'content' => $request->content,
             'opportunity_status_id' => $request->opportunity_status_id,
             'opportunity_category_id' => $request->opportunity_category_id,
             'user_id' => $request->user_id,
+            'discount' => $request->discount ?? 0,
+            'taken_user_id' => $request->taken_user_id ?? 0,
             'cost' => Formatter::formatNumberToDatabase($request->cost),
         ];
         $item = Helper::updateByQuery($this, $request, $id, $dataUpdate);

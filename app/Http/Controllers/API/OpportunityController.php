@@ -59,8 +59,10 @@ class OpportunityController extends Controller
 
 
         $result = $this->model->create([
+            'name' => $request->name,
             'client_name' => $request->client_name,
             'client_phone' => $request->client_phone,
+            'content' => $request->client_note,
             'opportunity_status_id' => 1,
             'opportunity_category_id' => $request->opportunity_category_id,
             'cost' => Formatter::formatNumberToDatabase($request->cost),
@@ -110,17 +112,22 @@ class OpportunityController extends Controller
     public function update(Request $request, $id)
     {
 
-        $request->validate([
-            'opportunity_status_id' => 'required|exists:opportunity_statuses,id',
-        ]);
 
         $result = $this->model->where(['id' => $id,'user_id' => auth()->id()])->first();
 
         if (empty($result)) return abort(404);
 
-        $result->update([
-            'opportunity_status_id' => $request->opportunity_status_id
-        ]);
+        $dataUpdate = [];
+
+        if (!empty($request->opportunity_status_id)){
+            $dataUpdate['opportunity_status_id'] = $request->opportunity_status_id;
+        }
+
+        if (!empty($request->taken_user_id)){
+            $dataUpdate['taken_user_id'] = $request->taken_user_id;
+        }
+
+        $result->update($dataUpdate);
 
         $result->refresh();
 

@@ -34,13 +34,15 @@
                                             # {!! \App\Models\Helper::getValueInFilterReuquest('id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
                                         </div>
                                     </th>
+                                    <th>
+                                        Tiêu đề
+                                    </th>
                                     <th onclick='onSortSearch(`client_name`, `{{ \App\Models\Helper::getValueInFilterReuquest('client_name') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('client_name') != "desc" ? "desc" : "") }}`)'>
                                         <div>
                                             Tên khách hàng {!! \App\Models\Helper::getValueInFilterReuquest('client_name') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('client_name') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
                                         </div>
                                     </th>
                                     <th>Số điện thoại</th>
-                                    <th>Ghi chú</th>
                                     <th>Trạng thái</th>
                                     <th>Danh mục</th>
                                     <th>Người chia sẻ</th>
@@ -72,9 +74,73 @@
         </div>
     </div>
 
+    <!--Modal-->
+
+    <div class="modal fade" id="modal_detail" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lịch sử</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="content_modal_detail">
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js')
+    <script>
 
+        function actionDetail(event, url = null, table = null, target_remove = null) {
+            event.preventDefault()
+            let urlRequest = $(this).data('url')
+            let that = $(this)
+
+            if (!urlRequest) {
+                urlRequest = url
+            }
+
+            $.ajax({
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: urlRequest,
+                beforeSend: function () {
+                    showLoading()
+                },
+                success: function (response) {
+                    hideLoading()
+                    $('#content_modal_detail').html(response.html)
+                    showModal('modal_detail')
+                },
+                error: function (err) {
+                    console.log(err)
+                    hideLoading()
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                },
+            })
+
+        }
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.action_detail', actionDetail);
+
+        });
+
+
+    </script>
 @endsection
 

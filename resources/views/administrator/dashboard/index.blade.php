@@ -10,6 +10,9 @@
 
 @section('css')
     <style>
+        .hover{
+            padding: 20px;
+        }
         .hover:hover {
             background-color: aliceblue;
             border-radius: 10px;
@@ -32,12 +35,12 @@
                         </label>
                         <input id="input_search_datetime" type="date"
                                class="bg-white form-control open-jquery-date-range" placeholder="--/--/--"
-                               value="{{\Carbon\Carbon::now()->toDateString()}}">
+                               value="">
                     </div>
 
                     <div class="float-start d-flex ms-2">
                         <div>
-                            <label>Lọc theo khách hàng</label>
+                            <label>Lọc theo thành viên</label>
                             <select name="user_id" class="form-control select2_init_allow_clear">
                                 <option value="">Chọn</option>
                                 @foreach($users as $user)
@@ -67,11 +70,11 @@
                     </div>
 
                     <div class="row mt-3">
-                        <div class="d-flex">
+                        <div class="row">
 
-                            <div class="flex-grow-1 hover">
+                            <div class="col-4 hover">
                                 <a
-                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 2])}}">
+                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 2, 'from'=> request('from'), 'to'=> request('to')])}}">
                                     <div class="text-center" style="font-size: 20px;">
                                         <strong>
                                             {{\App\Models\Formatter::formatNumber($counterOpportunity1)}}
@@ -85,9 +88,9 @@
 
                             </div>
 
-                            <div class="flex-grow-1 hover">
+                            <div class="col-4 hover">
                                 <a
-                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 1])}}">
+                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 1, 'from'=> request('from'), 'to'=> request('to')])}}">
                                     <div class="text-center" style="font-size: 20px;">
                                         <strong>
                                             {{\App\Models\Formatter::formatNumber($counterOpportunity2)}}
@@ -101,9 +104,9 @@
 
                             </div>
 
-                            <div class="flex-grow-1 hover">
+                            <div class="col-4 hover">
                                 <a
-                                   href="{{route('administrator.opportunities.index')}}">
+                                   href="{{route('administrator.opportunities.index',['from'=> request('from'), 'to'=> request('to')])}}">
                                     <div class="text-center" style="font-size: 20px;">
                                         <strong>
                                             {{\App\Models\Formatter::formatNumber($counterOpportunity1 + $counterOpportunity2)}}
@@ -118,6 +121,59 @@
                             </div>
 
                         </div>
+
+                        <div class="row">
+
+                            <div class="col-4 hover">
+                                <a
+                                    href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 2])}}">
+                                    <div class="text-center" style="font-size: 20px;">
+                                        <strong>
+                                            {{\App\Models\Formatter::formatNumber($costOpportunity1)}}
+                                        </strong>
+                                    </div>
+
+                                    <div class="text-center text-dark">
+                                        Giá trị HĐ đã trao
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-4 hover">
+                                <a
+                                    href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 1])}}">
+                                    <div class="text-center" style="font-size: 20px;">
+                                        <strong>
+                                            {{\App\Models\Formatter::formatNumber($costOpportunity2)}}
+                                        </strong>
+                                    </div>
+
+                                    <div class="text-center text-dark">
+                                        Giá trị HĐ chưa trao
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="col-4 hover">
+                                <a
+                                    href="{{route('administrator.opportunities.index')}}">
+                                    <div class="text-center" style="font-size: 20px;">
+                                        <strong>
+                                            {{\App\Models\Formatter::formatNumber($costOpportunity1 + $costOpportunity2)}}
+                                        </strong>
+                                    </div>
+
+                                    <div class="text-center text-dark">
+                                        Tổng giá trị HĐ
+                                    </div>
+                                </a>
+
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -153,7 +209,7 @@
                                                     <div class="col-6"><span>Số người đang tham gia</span></div>
                                                     <div
                                                         class="col-6 font-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}}">
-                                                        5
+                                                        {{$opportunity->opportunityUsers->count() == 0 ? 'Mọi người' : $opportunity->opportunityUsers->count()}}
                                                     </div>
                                                 </div>
                                                 <div class="customers">
@@ -187,6 +243,11 @@
                                         </div>
                                     @endforeach
 
+                                    @if(count($opportunities) == 0)
+                                        <h3 class="text-center">
+                                            Không có dữ liệu
+                                        </h3>
+                                        @endif
                                 </div>
                             </div>
                         </div>

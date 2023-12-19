@@ -11,18 +11,18 @@
                 <div class="col-md-6">
                     <div class="mt-3">
                         <label class="bold">Tên: @include('administrator.components.lable_require')</label>
-                        <input id="input_name" required type="text" class="form-control" autocomplete="off" value="{{$item->name}}">
+                        <input id="input_name" required type="text" class="form-control" autocomplete="off" value="{{optional($item)->name}}">
                     </div>
 
                     <div class="mt-3">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_gender" value="1" {{$item->gender_id == 1 ? 'checked' : ''}}>
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_gender" value="1" {{optional($item)->gender_id == 1 ? 'checked' : ''}}>
                             <label class="form-check-label" for="radio_gender">
                                 <i class="fa-solid fa-mars" style="color: cornflowerblue;"></i>
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_gender_2" value="2" {{$item->gender_id == 2 ? 'checked' : ''}}>
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="radio_gender_2" value="2" {{optional($item)->gender_id == 2 ? 'checked' : ''}}>
                             <label class="form-check-label" for="radio_gender_2">
                                 <i class="fa-solid fa-venus" style="color: deeppink;"></i>
                             </label>
@@ -36,7 +36,7 @@
                         <label class="bold">Số điện
                             thoại (Tên đăng nhập trên app): @include('administrator.components.lable_require')</label>
                         <input id="input_phone" required type="text" class="form-control"
-                               autocomplete="off" value="{{$item->phone}}">
+                               autocomplete="off" value="{{optional($item)->phone}}">
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                     <div class="mt-3">
                         <label class="bold">Chức vụ: @include('administrator.components.lable_require')</label>
                         <input id="input_business_position" required type="text" class="form-control"
-                               autocomplete="off" value="{{$item->business_position}}">
+                               autocomplete="off" value="{{optional($item)->business_position}}">
                     </div>
                 </div>
 
@@ -52,7 +52,7 @@
                     <div class="mt-3">
                         <label class="bold">Tên công ty: @include('administrator.components.lable_require')</label>
                         <input id="input_business_name" required type="text" class="form-control"
-                               autocomplete="off" value="{{$item->business_name}}">
+                               autocomplete="off" value="{{optional($item)->business_name}}">
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                             <option>Chọn</option>
                             @foreach(\App\Models\OpportunityCategory::latest()->get() as $opportunityCategory)
                                 <option
-                                    value="{{$opportunityCategory->id}}" {{$item->opportuny_category_id == $opportunityCategory->id ? 'selected' : ''}}>{{$opportunityCategory->name}}</option>
+                                    value="{{$opportunityCategory->id}}" {{optional($item)->opportuny_category_id == $opportunityCategory->id ? 'selected' : ''}}>{{$opportunityCategory->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -72,7 +72,7 @@
                 <div class="col-md-6">
                     <div class="mt-3">
                         <label class="bold">Danh mục ngành</label>
-                        <input id="input_business_field_of_activity" type="text" class="form-control" autocomplete="off" value="{{$item->business_field_of_activity}}">
+                        <input id="input_business_field_of_activity" type="text" class="form-control" autocomplete="off" value="{{optional($item)->business_field_of_activity}}">
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
                         <label>Sơ lược về công ty</label>
                         <textarea id="input_business_about" style="min-height: 100px;" name="business_about"
                                   class="form-control"
-                                  rows="5">{{$item->business_about}}</textarea>
+                                  rows="5">{{optional($item)->business_about}}</textarea>
                     </div>
                 </div>
 
@@ -97,7 +97,7 @@
                 <div class="col-md-6">
                     <div class="mt-3">
                         <label class="bold">Email</label>
-                        <input id="input_email" type="text" class="form-control" autocomplete="off" value="{{$item->email}}">
+                        <input id="input_email" type="text" class="form-control" autocomplete="off" value="{{optional($item)->email}}">
                     </div>
                 </div>
 
@@ -105,7 +105,7 @@
                     <div class="mt-3">
                         <label class="bold">Ngày sinh:</label>
                         <input id="input_date_of_birth" type="date"
-                               class="bg-white form-control open-jquery-date" placeholder="--/--/--" value="{{\App\Models\Formatter::getOnlyDate($item->date_of_birth)}}">
+                               class="bg-white form-control open-jquery-date" placeholder="--/--/--" value="{{\App\Models\Formatter::getOnlyDate(optional($item)->date_of_birth)}}">
                     </div>
                 </div>
 
@@ -113,7 +113,7 @@
                     <div class="mt-3">
                         <label class="bold">Địa chỉ:</label>
                         <input id="input_address" required type="text" class="form-control"
-                               autocomplete="off" value="{{$item->address}}">
+                               autocomplete="off" value="{{optional($item)->address}}">
                     </div>
                 </div>
 
@@ -121,7 +121,7 @@
                     <div class="mt-3">
                         <label class="bold">Địa chỉ công ty:</label>
                         <input id="input_business_address" required type="text" class="form-control"
-                               autocomplete="off" value="{{$item->business_address}}">
+                               autocomplete="off" value="{{optional($item)->business_address}}">
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@
                         <select id="select_user_status_id" class="form-control select2_init" required>
                             @foreach($userStatuses as $itemUserStatuses)
                                 <option
-                                    value="{{$itemUserStatuses->id}}" {{$item->user_status_id == $itemUserStatuses->id ? 'selected' : ''}}>{{$itemUserStatuses->name}}</option>
+                                    value="{{$itemUserStatuses->id}}" {{optional($item)->user_status_id == $itemUserStatuses->id ? 'selected' : ''}}>{{$itemUserStatuses->name}}</option>
                             @endforeach
                         </select>
                     </div>

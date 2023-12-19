@@ -15,20 +15,25 @@
                 <div class="col-xxl-6">
                     <div class="card">
                         <div class="card-body">
-
                             <input name="user_id" value="{{auth()->id()}}" style="display: none;">
+
+                            @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tiêu đề'])
 
                             @include('administrator.components.require_input_text' , ['name' => 'client_name' , 'label' => 'Tên khách hàng'])
 
                             @include('administrator.components.require_input_text' , ['name' => 'client_phone' , 'label' => 'Số điện thoại'])
 
-                            @include('administrator.components.textarea' , ['name' => 'client_note' , 'label' => 'Lưu ý'])
+                            @include('administrator.components.textarea' , ['name' => 'content' , 'label' => 'Yêu cầu của khách hàng'])
 
-                            @include('administrator.components.select2' , ['name' => 'opportunity_status_id' , 'label' => 'Trạng thái','select2Items' => \App\Models\OpportunityStatus::all()])
+                            @include('administrator.components.require_select2' , ['name' => 'opportunity_status_id' , 'label' => 'Trạng thái','select2Items' => \App\Models\OpportunityStatus::all()])
 
-                            @include('administrator.components.select2' , ['name' => 'opportunity_category_id' , 'label' => 'Ngành nghề','select2Items' => \App\Models\OpportunityCategory::where('parent_id','!=',0)->latest()->get()])
+                            @include('administrator.components.require_select2' , ['name' => 'opportunity_category_id' , 'label' => 'Ngành nghề','select2Items' => \App\Models\OpportunityCategory::latest()->get()])
 
-                            @include('administrator.components.require_input_number' , ['name' => 'cost' , 'label' => 'Giá trị HĐ'])
+                            @include('administrator.components.require_select2' , ['name' => 'user_id' , 'label' => 'Người chia sẻ cơ hội','select2Items' => \App\Models\User::latest()->get(), 'value' => auth()->id()])
+
+                            @include('administrator.components.select2' , ['name' => 'taken_user_id' , 'label' => 'Người nhận cơ hội','select2Items' => \App\Models\User::latest()->get()])
+
+                            @include('administrator.components.require_input_number' , ['name' => 'cost' , 'label' => 'Giá trị hợp đồng'])
 
                             @if($isSingleImage)
                                 <div class="mt-3 mb-3">
@@ -42,7 +47,7 @@
                                 </div>
                             @endif
 
-{{--                            @include('administrator.components.textarea_description', ['name' => 'description' , 'label' => 'Mô tả'])--}}
+                            {{--                            @include('administrator.components.textarea_description', ['name' => 'description' , 'label' => 'Mô tả'])--}}
 
                             @include('administrator.components.button_save')
                         </div>

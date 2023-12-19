@@ -15,9 +15,7 @@
                 <div class="col-xxl-6">
                     <div class="card">
                         <div class="card-body">
-                            @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên (Không chọn ngành sẽ tạo ngành mới. Ví dụ Xây Dựng)'])
-
-                            @include('administrator.components.select2_allow_clear' , ['name' => 'parent_id', 'label' => 'Ngành' , 'select2Items' => \App\Models\OpportunityCategory::where('parent_id', 0)->latest()->get()])
+                            @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Tên ngành nghề'])
 
                             @if($isSingleImage)
                                 <div class="mt-3 mb-3">

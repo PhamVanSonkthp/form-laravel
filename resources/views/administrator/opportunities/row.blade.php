@@ -3,9 +3,9 @@
         <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
     </td>
     <td>{{$item->id}}</td>
+    <td>{{\App\Models\Formatter::getShortDescriptionAttribute($item->name)}}</td>
     <td>{{$item->client_name ?? $item->name}}</td>
     <td>{{$item->client_phone}}</td>
-    <td>{{$item->client_note}}</td>
     <td>{{ optional($item->status)->name}}</td>
     <td>{{ optional($item->category)->name}}</td>
     <td>{{optional($item->user)->name}}</td>
@@ -18,6 +18,12 @@
             <i class="fa-solid fa-pen"></i>
         </a>
 
+        <a href="{{route('administrator.'.$prefixView.'.detail' , ['id'=> $item->id])}}" title="Chi tiết"
+           data-url="{{route('administrator.'.$prefixView.'.detail' , ['id'=> $item->id])}}"
+           class="btn btn-outline-info btn-sm action_detail">
+            <i class="fa-solid fa-circle-info"></i>
+        </a>
+
         <a href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}" title="Xóa"
            data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->id])}}"
            class="btn btn-outline-danger btn-sm delete action_delete"
@@ -25,10 +31,10 @@
             <i class="fa-solid fa-x"></i>
         </a>
 
-        <a href="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}" title="Lịch sử tác động"
-           data-url="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}"
-           class="btn btn-outline-info btn-sm action_audit">
-            <i class="fa-solid fa-circle-info"></i>
-        </a>
+{{--        <a href="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}" title="Lịch sử tác động"--}}
+{{--           data-url="{{route('administrator.'.$prefixView.'.audit' , ['id'=> $item->id])}}"--}}
+{{--           class="btn btn-outline-info btn-sm action_audit">--}}
+{{--            <i class="fa-solid fa-circle-info"></i>--}}
+{{--        </a>--}}
     </td>
 </tr>

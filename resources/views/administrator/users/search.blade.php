@@ -1,7 +1,8 @@
 <div>
     @include('administrator.components.search')
 
-    <a href="{{route('administrator.'.$prefixView.'.create')}}" class="btn btn-outline-success float-end"><i
+    <a onclick="onDetail(0,0,0)" data-bs-toggle="modal"
+       data-bs-target="#editUserModal" class="btn btn-outline-success float-end"><i
             class="fa-solid fa-plus"></i></a>
 
     <a href="{{route('administrator.'.$prefixView.'.export')}}" class="btn btn-outline-primary float-end me-2" data-bs-original-title="" title="Excel"><i class="fa-sharp fa-solid fa-file-excel"></i></a>
