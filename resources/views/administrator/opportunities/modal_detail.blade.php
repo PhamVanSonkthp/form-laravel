@@ -25,49 +25,72 @@
                     {{$item->content}}
                 </div>
             </div>
-            <div class="job-description">
-                <h6>Hình ảnh</h6>
 
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <h5>Hover Effect <span>1</span></h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row my-gallery gallery" id="aniimated-thumbnials" itemscope="" data-pswp-uid="1">
-                            <figure class="col-md-3 col-6 img-hover hover-1" itemprop="associatedMedia" itemscope=""><a href="../assets/images/big-lightgallry/08.jpg" itemprop="contentUrl" data-size="1600x950">
-                                    <div><img src="../assets/images/lightgallry/08.jpg" itemprop="thumbnail" alt="Image description"></div></a>
-                                <figcaption itemprop="caption description">Image caption  1</figcaption>
-                            </figure>
-                            <figure class="col-md-3 col-6 img-hover hover-1" itemprop="associatedMedia" itemscope=""><a href="../assets/images/big-lightgallry/09.jpg" itemprop="contentUrl" data-size="1600x950">
-                                    <div><img src="../assets/images/lightgallry/09.jpg" itemprop="thumbnail" alt="Image description"></div></a>
-                                <figcaption itemprop="caption description">Image caption  2</figcaption>
-                            </figure>
-                            <figure class="col-md-3 col-6 img-hover hover-1" itemprop="associatedMedia" itemscope=""><a href="../assets/images/big-lightgallry/010.jpg" itemprop="contentUrl" data-size="1600x950">
-                                    <div><img src="../assets/images/lightgallry/010.jpg" itemprop="thumbnail" alt="Image description"></div></a>
-                                <figcaption itemprop="caption description">Image caption  3</figcaption>
-                            </figure>
-                            <figure class="col-md-3 col-6 img-hover hover-1" itemprop="associatedMedia" itemscope=""><a href="../assets/images/big-lightgallry/011.jpg" itemprop="contentUrl" data-size="1600x950">
-                                    <div><img src="../assets/images/lightgallry/011.jpg" itemprop="thumbnail" alt="Image description"></div></a>
-                                <figcaption itemprop="caption description">Image caption  4</figcaption>
-                            </figure>
-                        </div>
-                    </div>
+
+            <div class="job-description">
+                <h6>Trạng thái</h6>
+                <div>
+                    {{ optional($item->status)->name}}
                 </div>
             </div>
+
             <div class="job-description">
-                <h6>Perks</h6>
+                <h6>Giá trị hợp đồng</h6>
+                <div>
+                    <strong>
+                        {{ \App\Models\Formatter::formatNumber($item->cost)}} VNĐ
+                    </strong>
+                </div>
+            </div>
+
+            <div class="job-description">
+                <h6>Thông tin liên hệ</h6>
                 <ul>
-                    <li>Competitive pay</li>
-                    <li>Competitive medical, dental, and vision insurance plans</li>
-                    <li>Company-provided 401(k) plan</li>
-                    <li>Paid vacation and sick time</li>
-                    <li>Free snacks and beverages</li>
+                    <li>Họ tên: <strong>{{$item->client_name}}</strong></li>
+                    <li>Số điện thoại: <strong>{{$item->client_phone}}</strong></li>
                 </ul>
             </div>
+
             <div class="job-description">
-                <button class="btn btn-primary" type="button"><span><i class="fa fa-check"></i></span> Save this job</button>
-                <button class="btn btn-primary" type="button"><span><i class="fa fa-share-alt"></i></span> Share</button>
+                <h6>Người nhận cơ hội</h6>
+
+                @if(!empty($item->takenUser))
+                    <ul>
+                        <li>Họ tên: <strong>{{ optional($item->takenUser)->name}}</strong></li>
+                        <li>Số điện thoại: <strong>{{optional($item->takenUser)->phone}}</strong></li>
+                    </ul>
+                @else
+                    <strong>Chưa có người nhận</strong>
+                @endif
+
             </div>
+
+            <div class="job-description">
+                <h6>Hình ảnh dự án</h6>
+
+                <div class="row my-gallery gallery" id="aniimated-thumbnials" itemscope="" data-pswp-uid="1">
+                    @foreach($item->images as $image)
+                        <figure class="col-md-3 col-6 img-hover hover-1" itemprop="associatedMedia" itemscope=""><a target="_blank" href="{{$image->image_path}}" itemprop="contentUrl" data-size="1600x950">
+                                <div><img src="{{$image->image_path}}" itemprop="thumbnail" alt="Image description"></div></a>
+                            <figcaption itemprop="caption description">Image caption  1</figcaption>
+                        </figure>
+                    @endforeach
+                </div>
+            </div>
+{{--            <div class="job-description">--}}
+{{--                <h6>Perks</h6>--}}
+{{--                <ul>--}}
+{{--                    <li>Competitive pay</li>--}}
+{{--                    <li>Competitive medical, dental, and vision insurance plans</li>--}}
+{{--                    <li>Company-provided 401(k) plan</li>--}}
+{{--                    <li>Paid vacation and sick time</li>--}}
+{{--                    <li>Free snacks and beverages</li>--}}
+{{--                </ul>--}}
+{{--            </div>--}}
+{{--            <div class="job-description">--}}
+{{--                <button class="btn btn-primary" type="button"><span><i class="fa fa-check"></i></span> Save this job</button>--}}
+{{--                <button class="btn btn-primary" type="button"><span><i class="fa fa-share-alt"></i></span> Share</button>--}}
+{{--            </div>--}}
         </div>
     </div>
 </div>

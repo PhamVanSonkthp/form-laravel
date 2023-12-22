@@ -19,13 +19,14 @@ class CreateOpportunitiesTable extends Migration
             $table->text('content')->nullable();
             $table->string('client_name');
             $table->string('client_phone');
-            $table->bigInteger('opportunity_status_id');
+            $table->bigInteger('opportunity_status_id')->default(3);
             $table->bigInteger('opportunity_category_id');
             $table->bigInteger('user_id');
             $table->bigInteger('cost');
             $table->bigInteger('discount')->default(0);
             $table->bigInteger('taken_user_id')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

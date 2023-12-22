@@ -94,8 +94,6 @@ class OpportunityController extends Controller
     {
         $item = $this->model->findOrFail($id);
 
-
-
         $content = [
             'message' => 'success',
             'code' => 200,

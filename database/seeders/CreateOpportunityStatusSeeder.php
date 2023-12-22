@@ -21,5 +21,9 @@ class CreateOpportunityStatusSeeder extends Seeder
         OpportunityStatus::firstOrCreate([
             "name" => "Đã thành hợp đồng",
         ]);
+
+        OpportunityStatus::firstOrCreate([
+            "name" => "Chờ duyệt",
+        ]);
     }
 }

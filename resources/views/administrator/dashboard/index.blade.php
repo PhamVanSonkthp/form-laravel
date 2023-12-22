@@ -10,12 +10,36 @@
 
 @section('css')
     <style>
-        .hover{
+        .hover {
             padding: 20px;
         }
+
         .hover:hover {
             background-color: aliceblue;
             border-radius: 10px;
+        }
+
+        .action_detail {
+            cursor: pointer;
+        }
+
+        /*.action_detail:hover{*/
+        /*    -webkit-transform: scale(1.1);*/
+        /*    transform: scale(1.1);*/
+        /*    -webkit-transition: .5s ease-in-out;*/
+        /*    transition: .5s ease-in-out;*/
+        /*}*/
+
+        .action_detail:hover:hover {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+        .action_detail {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            -webkit-transition: .5s ease-in-out;
+            transition: .5s ease-in-out;
         }
     </style>
 @endsection
@@ -74,7 +98,7 @@
 
                             <div class="col-4 hover">
                                 <a
-                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 2, 'from'=> request('from'), 'to'=> request('to')])}}">
+                                    href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 2, 'from'=> request('from'), 'to'=> request('to')])}}">
                                     <div class="text-center" style="font-size: 20px;">
                                         <strong>
                                             {{\App\Models\Formatter::formatNumber($counterOpportunity1)}}
@@ -90,7 +114,7 @@
 
                             <div class="col-4 hover">
                                 <a
-                                   href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 1, 'from'=> request('from'), 'to'=> request('to')])}}">
+                                    href="{{route('administrator.opportunities.index', ['opportunity_status_id' => 1, 'from'=> request('from'), 'to'=> request('to')])}}">
                                     <div class="text-center" style="font-size: 20px;">
                                         <strong>
                                             {{\App\Models\Formatter::formatNumber($counterOpportunity2)}}
@@ -106,7 +130,7 @@
 
                             <div class="col-4 hover">
                                 <a
-                                   href="{{route('administrator.opportunities.index',['from'=> request('from'), 'to'=> request('to')])}}">
+                                    href="{{route('administrator.opportunities.index',['from'=> request('from'), 'to'=> request('to')])}}">
                                     <div class="text-center" style="font-size: 20px;">
                                         <strong>
                                             {{\App\Models\Formatter::formatNumber($counterOpportunity1 + $counterOpportunity2)}}
@@ -188,7 +212,8 @@
                                 <div class="row">
 
                                     @foreach($opportunities as $opportunity)
-                                        <div class="col-xxl-4 box-col-6 col-lg-6">
+                                        <div class="col-xxl-4 box-col-6 col-lg-6 action_detail"
+                                             data-url="{{route('administrator.opportunities.detail' , ['id'=> $opportunity->id])}}">
                                             <div class="project-box">
                                                 <span
                                                     class="badge {{optional($opportunity->status)->id == 2 ? 'badge-secondary' : 'badge-primary'}} ">{{optional($opportunity->status)->name}}</span>
@@ -204,13 +229,14 @@
                                                 <p>{{ $opportunity->name }}</p>
                                                 <div class="row details">
                                                     <div class="col-6"><span>Ngành nghề</span></div>
-                                                    <div
-                                                        class="col-6 font-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}}">{{ optional($opportunity->category)->name}} </div>
+                                                    <div class="col-6 font-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}}">{{ optional($opportunity->category)->name}} </div>
                                                     <div class="col-6"><span>Số người đang tham gia</span></div>
                                                     <div
                                                         class="col-6 font-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}}">
                                                         {{$opportunity->opportunityUsers->count() == 0 ? 'Mọi người' : $opportunity->opportunityUsers->count()}}
                                                     </div>
+                                                    <div class="col-6"><span>Giá trị hợp đồng</span></div>
+                                                    <div class="col-6 font-{{optional($opportunity->status)->id == 2 ? 'secondary' : 'primary'}}">{{ \App\Models\Formatter::formatMoney($opportunity->cost) }} VNĐ </div>
                                                 </div>
                                                 <div class="customers">
                                                     <ul>
@@ -222,10 +248,6 @@
                                                                                             data-original-title=""
                                                                                             title=""></li>
                                                         @endforeach
-
-                                                        <li class="d-inline-block ms-2">
-                                                            <p class="f-12">+10 More</p>
-                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <div class="project-status mt-4">
@@ -247,7 +269,7 @@
                                         <h3 class="text-center">
                                             Không có dữ liệu
                                         </h3>
-                                        @endif
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -259,6 +281,22 @@
     @else
         Bạn không có quyền truy cập Dashboard
     @endcan
+
+    <div class="modal fade" id="modal_detail" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="content_modal_detail">
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 @endsection
 
@@ -278,4 +316,53 @@
         });
 
     </script>
+
+    <script>
+
+        function actionDetail(event, url = null, table = null, target_remove = null) {
+            event.preventDefault()
+            let urlRequest = $(this).data('url')
+            let that = $(this)
+
+            if (!urlRequest) {
+                urlRequest = url
+            }
+
+            $.ajax({
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: urlRequest,
+                beforeSend: function () {
+                    showLoading()
+                },
+                success: function (response) {
+                    hideLoading()
+                    $('#content_modal_detail').html(response.html)
+                    showModal('modal_detail')
+                },
+                error: function (err) {
+                    console.log(err)
+                    hideLoading()
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                },
+            })
+
+        }
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.action_detail', actionDetail);
+
+        });
+
+
+    </script>
+
 @endsection

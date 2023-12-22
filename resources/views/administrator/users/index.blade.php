@@ -33,7 +33,7 @@
                                             # {!! \App\Models\Helper::getValueInFilterReuquest('id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
                                         </div>
                                     </th>
-{{--                                    <th>Avatar</th>--}}
+                                    <th>Avatar</th>
                                     <th onclick='onSortSearch(`name`, `{{ \App\Models\Helper::getValueInFilterReuquest('name') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('name') != "desc" ? "desc" : "") }}`)'>
                                         <div>
                                             Tên {!! \App\Models\Helper::getValueInFilterReuquest('name') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('name') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
@@ -132,6 +132,22 @@
                     </div>
 
                     <button type="submit" id="btn_submit" class="btn btn-info" onclick="onSubmitEdit()">Lưu</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_detail" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="content_modal_detail">
+
 
                 </div>
 
@@ -323,4 +339,53 @@
 
 
     </script>
+
+    <script>
+
+        function actionDetail(event, url = null, table = null, target_remove = null) {
+            event.preventDefault()
+            let urlRequest = $(this).data('url')
+            let that = $(this)
+
+            if (!urlRequest) {
+                urlRequest = url
+            }
+
+            $.ajax({
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: urlRequest,
+                beforeSend: function () {
+                    showLoading()
+                },
+                success: function (response) {
+                    hideLoading()
+                    $('#content_modal_detail').html(response.html)
+                    showModal('modal_detail')
+                },
+                error: function (err) {
+                    console.log(err)
+                    hideLoading()
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                },
+            })
+
+        }
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.action_detail', actionDetail);
+
+        });
+
+
+    </script>
+
 @endsection

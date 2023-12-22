@@ -115,6 +115,12 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:users-list',
         ]);
 
+        Route::get('/detail/{id}', [
+            'as' => 'administrator.users.detail',
+            'uses' => 'App\Http\Controllers\Admin\UserController@detail',
+            'middleware' => 'can:users-list',
+        ]);
+
         Route::get('/{id}', [
             'as' => 'administrator.users.get',
             'uses' => 'App\Http\Controllers\Admin\UserController@get',

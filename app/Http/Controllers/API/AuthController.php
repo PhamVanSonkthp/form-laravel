@@ -187,7 +187,7 @@ class AuthController extends Controller
             ], 400);
         }
         $user->update([
-            'password' => Formatter::hash($request->new_password)
+            'password' => Formatter::hash($request->password)
         ]);
 
         return response($user, 200);

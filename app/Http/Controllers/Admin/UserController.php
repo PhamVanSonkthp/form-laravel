@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
 use App\Models\Audit;
+use App\Models\Opportunity;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserStatus;
@@ -92,6 +93,19 @@ class UserController extends Controller
             'message' => 'success',
             'code' => 200,
             'html' => View::make('administrator.components.modal_audit', compact('items'))->render(),
+        ];
+
+        return response()->json($content);
+    }
+    public function detail(Request $request, $id)
+    {
+        $item = $this->model->findOrFail($id);
+
+        $opportunities = Opportunity::where('user_id', $id)->latest()->get();
+        $content = [
+            'message' => 'success',
+            'code' => 200,
+            'html' => View::make('administrator.users.modal_detail', compact('item','opportunities'))->render(),
         ];
 
         return response()->json($content);

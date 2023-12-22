@@ -56,7 +56,13 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
 
     // begin
 
+    public function takenOpportunities(){
+        return $this->hasMany(Opportunity::class,'id','taken_user_id');
+    }
 
+    public function opportunities(){
+        return $this->hasMany(Opportunity::class,'id','user_id');
+    }
 
     public function logoutAllDevices(){
         DB::table('sessions')->where('user_id', $this->id)->delete();

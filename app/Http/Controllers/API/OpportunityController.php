@@ -33,11 +33,13 @@ class OpportunityController extends Controller
     public function list(Request $request)
     {
 
+        $queries = ['opportunity_status_id', 2];
+
         if (empty($request->opportunity_category_id)){
             $request->request->remove('opportunity_category_id');
         }
 
-        $results = RestfulAPI::response($this->model, $request);
+        $results = RestfulAPI::response($this->model, $request, $queries);
         return response()->json($results);
     }
 
@@ -63,7 +65,6 @@ class OpportunityController extends Controller
             'client_name' => $request->client_name,
             'client_phone' => $request->client_phone,
             'content' => $request->client_note,
-            'opportunity_status_id' => 1,
             'opportunity_category_id' => $request->opportunity_category_id,
             'cost' => Formatter::formatNumberToDatabase($request->cost),
             'user_id' => auth()->id(),
@@ -118,10 +119,6 @@ class OpportunityController extends Controller
         if (empty($result)) return abort(404);
 
         $dataUpdate = [];
-
-        if (!empty($request->opportunity_status_id)){
-            $dataUpdate['opportunity_status_id'] = $request->opportunity_status_id;
-        }
 
         if (!empty($request->taken_user_id)){
             $dataUpdate['taken_user_id'] = $request->taken_user_id;
