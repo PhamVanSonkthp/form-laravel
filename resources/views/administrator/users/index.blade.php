@@ -36,7 +36,7 @@
                                     <th>Avatar</th>
                                     <th onclick='onSortSearch(`name`, `{{ \App\Models\Helper::getValueInFilterReuquest('name') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('name') != "desc" ? "desc" : "") }}`)'>
                                         <div>
-                                            Tên {!! \App\Models\Helper::getValueInFilterReuquest('name') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('name') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                            Tên KH {!! \App\Models\Helper::getValueInFilterReuquest('name') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('name') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
                                         </div>
                                     </th>
                                     <th onclick='onSortSearch(`phone`, `{{ \App\Models\Helper::getValueInFilterReuquest('phone') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('phone') != "desc" ? "desc" : "") }}`)'>
@@ -44,41 +44,36 @@
                                             Số điện thoại {!! \App\Models\Helper::getValueInFilterReuquest('phone') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('phone') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
                                         </div>
                                     </th>
-                                    <th>
+                                    <th onclick='onSortSearch(`email`, `{{ \App\Models\Helper::getValueInFilterReuquest('email') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? "desc" : "") }}`)'>
                                         <div>
-                                            Ngành nghề
+                                            Email {!! \App\Models\Helper::getValueInFilterReuquest('email') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
                                         </div>
                                     </th>
-{{--                                    <th onclick='onSortSearch(`email`, `{{ \App\Models\Helper::getValueInFilterReuquest('email') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? "desc" : "") }}`)'>--}}
-{{--                                        <div>--}}
-{{--                                            Email {!! \App\Models\Helper::getValueInFilterReuquest('email') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('email') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}--}}
-{{--                                        </div>--}}
-{{--                                    </th>--}}
-{{--                                    <th onclick='onSortSearch(`date_of_birth`, `{{ \App\Models\Helper::getValueInFilterReuquest('date_of_birth') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('date_of_birth') != "desc" ? "desc" : "") }}`)'>--}}
-{{--                                        <div>--}}
-{{--                                            Ngày sinh {!! \App\Models\Helper::getValueInFilterReuquest('date_of_birth') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('date_of_birth') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}--}}
-{{--                                        </div>--}}
-{{--                                    </th>--}}
-{{--                                    <th onclick='onSortSearch(`amount`, `{{ \App\Models\Helper::getValueInFilterReuquest('amount') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('amount') != "desc" ? "desc" : "") }}`)'>--}}
-{{--                                        <div>--}}
-{{--                                            Số dư {!! \App\Models\Helper::getValueInFilterReuquest('amount') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('amount') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}--}}
-{{--                                        </div>--}}
-{{--                                    </th>--}}
-{{--                                    <th onclick='onSortSearch(`point`, `{{ \App\Models\Helper::getValueInFilterReuquest('point') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('point') != "desc" ? "desc" : "") }}`)'>--}}
-{{--                                        <div>--}}
-{{--                                            Điểm {!! \App\Models\Helper::getValueInFilterReuquest('point') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('point') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}--}}
-{{--                                        </div>--}}
-{{--                                    </th>--}}
-{{--                                    <th onclick='onSortSearch(`user_type_id`, `{{ \App\Models\Helper::getValueInFilterReuquest('user_type_id') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('user_type_id') != "desc" ? "desc" : "") }}`)'>--}}
-{{--                                        <div>--}}
-{{--                                            Loại {!! \App\Models\Helper::getValueInFilterReuquest('user_type_id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('user_type_id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}--}}
-{{--                                        </div>--}}
-{{--                                    </th>--}}
-{{--                                    <th onclick='onSortSearch(`user_status_id`, `{{ \App\Models\Helper::getValueInFilterReuquest('user_status_id') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('user_status_id') != "desc" ? "desc" : "") }}`)'>--}}
-{{--                                        <div>--}}
-{{--                                            Trạng thái {!! \App\Models\Helper::getValueInFilterReuquest('user_status_id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('user_status_id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}--}}
-{{--                                        </div>--}}
-{{--                                    </th>--}}
+                                    <th onclick='onSortSearch(`date_of_birth`, `{{ \App\Models\Helper::getValueInFilterReuquest('date_of_birth') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('date_of_birth') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Ngày sinh {!! \App\Models\Helper::getValueInFilterReuquest('date_of_birth') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('date_of_birth') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`amount`, `{{ \App\Models\Helper::getValueInFilterReuquest('amount') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('amount') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Số dư {!! \App\Models\Helper::getValueInFilterReuquest('amount') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('amount') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`point`, `{{ \App\Models\Helper::getValueInFilterReuquest('point') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('point') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Điểm {!! \App\Models\Helper::getValueInFilterReuquest('point') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('point') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`user_type_id`, `{{ \App\Models\Helper::getValueInFilterReuquest('user_type_id') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('user_type_id') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Loại {!! \App\Models\Helper::getValueInFilterReuquest('user_type_id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('user_type_id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
+                                    <th onclick='onSortSearch(`user_status_id`, `{{ \App\Models\Helper::getValueInFilterReuquest('user_status_id') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('user_status_id') != "desc" ? "desc" : "") }}`)'>
+                                        <div>
+                                            Trạng thái {!! \App\Models\Helper::getValueInFilterReuquest('user_status_id') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('user_status_id') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
+                                        </div>
+                                    </th>
                                     <th onclick='onSortSearch(`last_seen`, `{{ \App\Models\Helper::getValueInFilterReuquest('last_seen') == "" ? "asc" : (\App\Models\Helper::getValueInFilterReuquest('last_seen') != "desc" ? "desc" : "") }}`)'>
                                         <div>
                                             Hoạt động gần đây {!! \App\Models\Helper::getValueInFilterReuquest('last_seen') == "" ? '<i class="fa-solid fa-sort"></i>' : (\App\Models\Helper::getValueInFilterReuquest('last_seen') != "desc" ? '<i class="fa-solid fa-arrow-up-a-z text-success"></i>' : '<i class="fa-solid fa-arrow-down-z-a text-danger"></i>') !!}
@@ -92,7 +87,7 @@
                                     <th>Hành động</th>
                                 </tr>
                                 </thead>
-                                <tbody id="container_row">
+                                <tbody>
 
                                 @foreach($items as $item)
 
@@ -113,6 +108,35 @@
     <!-- Individual column searching (text inputs) Ends-->
     <!-- Container-fluid Ends-->
 
+    <!-- Modal -->
+    <div class="modal fade" id="editStatus" tabindex="-1" aria-labelledby="editStatusLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editStatusLabel">Change status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mt-3">
+                        <label class="bold">Status @include('administrator.components.lable_require')</label>
+                        <select name="select_user_status_id" class="form-control select2_init" required>
+
+                            @foreach($userStatuses as $itemUserStatuses)
+                                <option value="{{$itemUserStatuses->id}}">{{$itemUserStatuses->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <button type="button" onclick="onSubmitChangeStatus()" class="btn btn-info">Update now</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
@@ -125,29 +149,15 @@
                 </div>
                 <div class="modal-body" id="container_modal_edit">
 
+
+
                 </div>
 
                 <div class="modal-footer justify-content-between">
                     <div>
                     </div>
 
-                    <button type="submit" id="btn_submit" class="btn btn-info" onclick="onSubmitEdit()">Lưu</button>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modal_detail" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Chi tiết</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="content_modal_detail">
-
+                    <button type="submit" id="btn_submit" class="btn btn-info" onclick="onSubmitEdit()">Update</button>
 
                 </div>
 
@@ -162,6 +172,29 @@
 
         let user_id, user_status_id, toucher_id
 
+
+        function onEditStatus(toucher, id, id_status) {
+            toucher_id = toucher
+            user_id = id
+            user_status_id = id_status
+
+            $('select[name="select_user_status_id"]').val(id_status).change()
+        }
+
+        function onAdd() {
+            user_id = 0;
+
+            $('#input_name').val('')
+            $('#input_phone').val('')
+            $('#input_email').val('')
+            $('#input_date_of_birth').val('')
+            $('#input_address').val('')
+            $('#input_password').val('')
+
+            $('#btn_submit').removeClass('btn-info')
+            $('#btn_submit').addClass('btn-success')
+            $('#btn_submit').html('Create')
+        }
 
         function onSubmitEdit() {
             if (user_id == 0) {
@@ -181,11 +214,6 @@
                         user_type_id: $('#select_user_type_id').val(),
                         password: $('#input_password').val(),
                         gender_id: $('#radio_gender').is(':checked') ? 1 : 2,
-                        business_field_of_activity: $('#input_business_field_of_activity').val(),
-                        business_name: $('#input_business_name').val(),
-                        opportuny_category_id: $('#select_opportuny_category_id').val(),
-                        business_about: $('#input_business_about').val(),
-                        business_position: $('#input_business_position').val(),
                     },
                     url: "{{route('ajax.administrator.user.store')}}",
                     beforeSend: function () {
@@ -194,7 +222,7 @@
                     success: function (response) {
                         hideModal('editUserModal')
                         hideLoading()
-                        $('#container_row').prepend(response.html_row)
+                        $('#container_row').prepend(response.html_row_add)
                     },
                     error: function (err) {
                         console.log(err)
@@ -226,12 +254,6 @@
                         user_type_id: $('#select_user_type_id').val(),
                         password: $('#input_password').val(),
                         gender_id: $('#radio_gender').is(':checked') ? 1 : 2,
-                        business_field_of_activity: $('#input_business_field_of_activity').val(),
-                        business_name: $('#input_business_name').val(),
-                        opportuny_category_id: $('#select_opportuny_category_id').val(),
-                        business_about: $('#input_business_about').val(),
-                        business_position: $('#input_business_position').val(),
-                        business_address: $('#input_business_address').val(),
                     },
                     url: "{{route('ajax.administrator.user.update')}}",
                     beforeSend: function () {
@@ -299,6 +321,9 @@
             // $('select[name="select_user_status_id"]').val(id_status).change()
         }
         function onDetail(toucher, id, id_status) {
+            $('#btn_submit').addClass('btn-info')
+            $('#btn_submit').removeClass('btn-success')
+            $('#btn_submit').html('Update')
 
             toucher_id = toucher
             user_id = id
@@ -337,36 +362,27 @@
             $('select[name="select_user_status_id"]').val(id_status).change()
         }
 
-
-    </script>
-
-    <script>
-
-        function actionDetail(event, url = null, table = null, target_remove = null) {
-            event.preventDefault()
-            let urlRequest = $(this).data('url')
-            let that = $(this)
-
-            if (!urlRequest) {
-                urlRequest = url
-            }
-
+        function onSubmitChangeStatus() {
             $.ajax({
-                type: 'GET',
+                type: "PUT",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: urlRequest,
+                cache: false,
+                data: {
+                    id: user_id,
+                    user_status_id: $('select[name="select_user_status_id"]').val(),
+                },
+                url: "{{route('ajax.administrator.user.update')}}",
                 beforeSend: function () {
                     showLoading()
                 },
                 success: function (response) {
+                    hideModal('editStatus')
                     hideLoading()
-                    $('#content_modal_detail').html(response.html)
-                    showModal('modal_detail')
+                    $('#container_row_' + user_id).after(response.html_row).remove()
                 },
                 error: function (err) {
-                    console.log(err)
                     hideLoading()
                     Swal.fire(
                         {
@@ -374,18 +390,10 @@
                             title: err.responseText,
                         }
                     );
+                    console.log(err)
                 },
-            })
-
+            });
         }
 
-        $(document).ready(function () {
-
-            $(document).on('click', '.action_detail', actionDetail);
-
-        });
-
-
     </script>
-
 @endsection

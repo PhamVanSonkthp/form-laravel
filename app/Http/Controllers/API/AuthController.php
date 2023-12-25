@@ -38,13 +38,12 @@ class AuthController extends Controller
             'name' => 'required|string',
             'phone' => 'required|string|unique:users',
             'password' => 'required|string',
-            'date_of_birth' => 'date_format:Y-m-d|nullable',
+            'date_of_birth' => 'date_format:Y-m-d',
             'firebase_uid' => 'required|string',
-//            'city_id' => 'required',
-//            'district_id' => 'required',
-//            'ward_id' => 'required',
-//            'address' => 'required',
-            'opportuny_category_id' => 'required',
+            'city_id' => 'required',
+            'district_id' => 'required',
+            'ward_id' => 'required',
+            'address' => 'required',
         ]);
 
         $user = User::updateOrCreate([
@@ -55,12 +54,10 @@ class AuthController extends Controller
             'password' => Formatter::hash($request->password),
             'date_of_birth' => $request->date_of_birth,
             'firebase_uid' => $request->firebase_uid,
-            'city_id' => $request->city_id ?? 0,
-            'district_id' => $request->district_id ?? 0,
-            'ward_id' => $request->ward_id ?? 0,
+            'city_id' => $request->city_id,
+            'district_id' => $request->district_id,
+            'ward_id' => $request->ward_id,
             'address' => $request->address,
-            'opportuny_category_id' => $request->opportuny_category_id,
-            'business_field_of_activity' => $request->business_field_of_activity,
         ]);
 
         $user->refresh();
@@ -187,7 +184,7 @@ class AuthController extends Controller
             ], 400);
         }
         $user->update([
-            'password' => Formatter::hash($request->password)
+            'password' => Formatter::hash($request->new_password)
         ]);
 
         return response($user, 200);
@@ -196,7 +193,7 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'date_of_birth' => 'date_format:Y-m-d|nullable',
+            'date_of_birth' => 'date_format:Y-m-d',
             'image' => 'nullable|mimes:jpg,jpeg,png',
         ]);
 
@@ -206,40 +203,16 @@ class AuthController extends Controller
             $dataUpdate['name'] = $request->name;
         }
 
-        if (!empty($request->phone)) {
-            $dataUpdate['phone'] = $request->phone;
-        }
-
-        if (!empty($request->email)) {
-            $dataUpdate['email'] = $request->email;
-        }
-
         if (!empty($request->date_of_birth)) {
             $dataUpdate['date_of_birth'] = $request->date_of_birth;
         }
 
+        if (!empty($request->address)) {
+            $dataUpdate['address'] = $request->address;
+        }
+
         if (!empty($request->password)) {
             $dataUpdate['password'] = Formatter::hash($request->password);
-        }
-
-        if (!empty($request->business_position)) {
-            $dataUpdate['business_position'] = $request->business_position;
-        }
-
-        if (!empty($request->business_name)) {
-            $dataUpdate['business_name'] = $request->business_name;
-        }
-
-        if (!empty($request->opportuny_category_id)) {
-            $dataUpdate['opportuny_category_id'] = $request->opportuny_category_id;
-        }
-
-        if (!empty($request->business_field_of_activity)) {
-            $dataUpdate['business_field_of_activity'] = $request->business_field_of_activity;
-        }
-
-        if (!empty($request->business_about)) {
-            $dataUpdate['business_about'] = $request->business_about;
         }
 
         auth()->user()->update($dataUpdate);

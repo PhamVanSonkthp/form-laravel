@@ -56,7 +56,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/jquery-ui.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/order-image.css')}}" >
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="{{asset('/assets/administrator/css/vendors/photoswipe.css')}}">
 
 
     <script src="{{asset('/assets/administrator/js/jquery-3.5.1.min.js')}}"></script>
@@ -120,11 +119,6 @@
             color: #0a58ca;
         }
 
-        .gallery .hover-1 img {
-            max-height: 300px;
-            object-fit: cover;
-        }
-
     </style>
     @yield('css')
 </head>
@@ -177,6 +171,8 @@
             @yield('content')
 
         </div>
+
+        <!-- footer start-->
 
         @include('administrator.components.footer')
     </div>
@@ -238,11 +234,6 @@
 <script src="{{asset('/vendor/ecommerce.js')}}"></script>
 <script src="{{asset('/vendor/product-list-custom.js')}}"></script>
 <script src="{{asset('/vendor/script.js')}}"></script>
-
-<script src="{{asset('/vendor/photoswipe/photoswipe.min.js')}}"></script>
-<script src="{{asset('/vendor/photoswipe/photoswipe-ui-default.min.js')}}"></script>
-<script src="{{asset('/vendor/photoswipe/photoswipe.js')}}"></script>
-
 <script src="{{asset('/vendor/theme-customizer/customizer.js')}}"></script>
 
 <!-- Theme js-->

@@ -5,13 +5,8 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryNewsController;
 use App\Http\Controllers\API\CategoryProductsController;
-use App\Http\Controllers\API\GoalController;
-use App\Http\Controllers\API\MembershipController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\NotificationController;
-use App\Http\Controllers\API\OpportunityCategoryController;
-use App\Http\Controllers\API\OpportunityController;
-use App\Http\Controllers\API\OpportunityStatusController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SliderController;
@@ -54,23 +49,23 @@ Route::prefix('cron')->group(function () {
 
 Route::prefix('public')->group(function () {
 
-//    Route::prefix('products')->group(function () {
-//        Route::get('/', [ProductController::class, 'list']);
-//        Route::get('/{id}', [ProductController::class, 'get']);
-//
-//        Route::prefix('comments')->group(function () {
-//            Route::get('/{id}', [ProductController::class, 'getProductComment']);
-//            Route::post('/{id}', [ProductController::class, 'createProductComment']);
-//        });
-//    });
-//
-//    Route::prefix('cart')->group(function () {
-//        Route::post('/', [CartController::class, 'listNotAuth']);
-//    });
-//
-//    Route::prefix('order')->group(function () {
-//        Route::post('/', [OrderController::class, 'storeNotAuth']);
-//    });
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'list']);
+        Route::get('/{id}', [ProductController::class, 'get']);
+
+        Route::prefix('comments')->group(function () {
+            Route::get('/{id}', [ProductController::class, 'getProductComment']);
+            Route::post('/{id}', [ProductController::class, 'createProductComment']);
+        });
+    });
+
+    Route::prefix('cart')->group(function () {
+        Route::post('/', [CartController::class, 'listNotAuth']);
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::post('/', [OrderController::class, 'storeNotAuth']);
+    });
 
     Route::prefix('news')->group(function () {
         Route::get('/', [NewsController::class, 'list']);
@@ -82,15 +77,15 @@ Route::prefix('public')->group(function () {
         Route::get('/{id}', [CategoryNewsController::class, 'get']);
     });
 
-//    Route::prefix('categories-products')->group(function () {
-//        Route::get('/', [CategoryProductsController::class, 'list']);
-//        Route::get('/{id}', [CategoryProductsController::class, 'get']);
-//    });
-//
-//    Route::prefix('system-branches')->group(function () {
-//        Route::get('/', [SystemBranchController::class, 'list']);
-//        Route::get('/{id}', [SystemBranchController::class, 'get']);
-//    });
+    Route::prefix('categories-products')->group(function () {
+        Route::get('/', [CategoryProductsController::class, 'list']);
+        Route::get('/{id}', [CategoryProductsController::class, 'get']);
+    });
+
+    Route::prefix('system-branches')->group(function () {
+        Route::get('/', [SystemBranchController::class, 'list']);
+        Route::get('/{id}', [SystemBranchController::class, 'get']);
+    });
 
     Route::prefix('sliders')->group(function () {
         Route::get('/', [SliderController::class, 'list']);
@@ -103,29 +98,6 @@ Route::prefix('public')->group(function () {
         Route::post('/check-exist', [AuthController::class, 'checkExist']);
         Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     });
-
-    Route::prefix('opportuny-categories')->group(function () {
-        Route::get('/', [OpportunityCategoryController::class, 'list']);
-    });
-
-    Route::prefix('opportuny-status')->group(function () {
-        Route::get('/', [OpportunityStatusController::class, 'list']);
-    });
-
-    Route::prefix('opportunies')->group(function () {
-        Route::get('/', [OpportunityController::class, 'list']);
-        Route::get('/{id}', [OpportunityController::class, 'get']);
-    });
-
-    Route::prefix('memberships')->group(function () {
-        Route::get('/', [MembershipController::class, 'list']);
-        Route::get('/{id}', [MembershipController::class, 'get']);
-    });
-
-    Route::prefix('goal')->group(function () {
-        Route::get('/', [GoalController::class, 'get']);
-    });
-
 });
 
 Route::prefix('user')->group(function () {
@@ -148,35 +120,28 @@ Route::prefix('user')->group(function () {
             Route::post('/read/{id}', [NotificationController::class, 'read']);
         });
 
-
-        Route::prefix('opportunies')->group(function () {
-            Route::get('/', [OpportunityController::class, 'listByUser']);
-            Route::post('/', [OpportunityController::class, 'create']);
-            Route::put('/{id}', [OpportunityController::class, 'update']);
+        Route::prefix('product-seen-recent')->group(function () {
+            Route::get('/', [ProductController::class, 'productSeenRecent']);
         });
 
-//        Route::prefix('product-seen-recent')->group(function () {
-//            Route::get('/', [ProductController::class, 'productSeenRecent']);
-//        });
-//
-//        Route::prefix('cart')->group(function () {
-//            Route::get('/', [CartController::class, 'list']);
-//            Route::post('/', [CartController::class, 'store']);
-//            Route::put('/{id}', [CartController::class, 'update']);
-//            Route::delete('/{id}', [CartController::class, 'delete']);
-//        });
-//
-//        Route::prefix('order')->group(function () {
-//            Route::get('/', [OrderController::class, 'list']);
-//            Route::post('/', [OrderController::class, 'store']);
-//        });
-//
-//        Route::prefix('voucher')->group(function () {
-//            Route::get('/', [VoucherController::class, 'list']);
-//            Route::post('/', [VoucherController::class, 'store']);
-//            Route::post('/check-with-carts', [VoucherController::class, 'checkWithCarts']);
-//            Route::post('/check-with-products', [VoucherController::class, 'checkWithProducts']);
-//        });
+        Route::prefix('cart')->group(function () {
+            Route::get('/', [CartController::class, 'list']);
+            Route::post('/', [CartController::class, 'store']);
+            Route::put('/{id}', [CartController::class, 'update']);
+            Route::delete('/{id}', [CartController::class, 'delete']);
+        });
+
+        Route::prefix('order')->group(function () {
+            Route::get('/', [OrderController::class, 'list']);
+            Route::post('/', [OrderController::class, 'store']);
+        });
+
+        Route::prefix('voucher')->group(function () {
+            Route::get('/', [VoucherController::class, 'list']);
+            Route::post('/', [VoucherController::class, 'store']);
+            Route::post('/check-with-carts', [VoucherController::class, 'checkWithCarts']);
+            Route::post('/check-with-products', [VoucherController::class, 'checkWithProducts']);
+        });
     });
 
 

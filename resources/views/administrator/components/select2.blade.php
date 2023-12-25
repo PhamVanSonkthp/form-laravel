@@ -6,12 +6,13 @@
     }
 @endphp
 
-<div class="mt-3">
-    <label>{{$label}}</label>
-    <select name="{{$name}}" class="form-control select2_init">
-        <option>Chọn</option>
-        @foreach($select2Items as $select2Item)
-            <option value="{{$select2Item->id}}" {{$value == $select2Item->id ? 'selected' : ''}}>{{$select2Item->name ?? $select2Item->title}}</option>
-        @endforeach
+<div class="form-group mt-3">
+    <label>{{isset($lable) ? $lable : ''}} @include('administrator.components.lable_require')</label>
+    <select class="form-control select2_init{{(isset($can_create) && $can_create) ? '_tag' : ''}} @error('category_id') is-invalid @enderror"
+            name="{{$name}}">
+        {!! $html_category !!}
     </select>
+    @error('category_id')
+    <div class="alert alert-danger">{{$message}}</div>
+    @enderror
 </div>

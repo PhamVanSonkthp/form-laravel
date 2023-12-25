@@ -1,22 +1,20 @@
 <div>
     @include('administrator.components.search')
 
-    <a onclick="onDetail(0,0,0)" data-bs-toggle="modal"
-       data-bs-target="#editUserModal" class="btn btn-outline-success float-end"><i
+    <a href="{{route('administrator.'.$prefixView.'.create')}}" class="btn btn-outline-success float-end"><i
             class="fa-solid fa-plus"></i></a>
 
-    <a href="{{route('administrator.'.$prefixView.'.export')}}" class="btn btn-outline-primary float-end me-2" data-bs-original-title="" title="Excel"><i class="fa-sharp fa-solid fa-file-excel"></i></a>
+    <a href="{{route('administrator.'.$prefixView.'.export')}}" class="btn btn-outline-primary float-end me-2" data-bs-original-title="" title="Excel"><i class="fa-sharp fa-solid fa-file-excel"></i></i></a>
 
     <div class="clearfix"></div>
 
     <div class="row">
         <div class="col-md-3">
             <div class="mt-3">
-                <label>Ngành nghề</label>
-                <select name="opportuny_category_id" class="form-control select2_init_allow_clear">
-                    <option>Chọn</option>
-                    @foreach(\App\Models\OpportunityCategory::latest()->get() as $opportunityCategory)
-                        <option value="{{$opportunityCategory->id}}" {{request('opportuny_category_id') == $opportunityCategory->id ? 'selected' : ''}}>{{$opportunityCategory->name}}</option>
+                <label>Lọại khách hàng</label>
+                <select name="user_type_id" class="form-control select2_init_allow_clear">
+                    @foreach($userTypes as $userTypeItem)
+                        <option value="{{$userTypeItem->id}}" {{request('user_type_id') == $userTypeItem->id ? 'selected' : ''}}>{{$userTypeItem->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -28,8 +26,8 @@
 
 <script>
 
-    $('select[name="opportuny_category_id"]').on('change', function () {
-        addUrlParameter('opportuny_category_id', this.value)
+    $('select[name="user_type_id"]').on('change', function () {
+        addUrlParameter('user_type_id', this.value)
     });
 
 </script>

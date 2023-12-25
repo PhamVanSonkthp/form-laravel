@@ -10,13 +10,13 @@ Route::prefix('/user')->group(function () {
 
 });
 
-//Route::prefix('/')->group(function () {
-//    Route::get('/', [
-//        'as'=>'user.index',
-//        'uses'=>'App\Http\Controllers\User\UserController@index',
-//    ]);
-//
-//});
+Route::prefix('/')->group(function () {
+    Route::get('/', [
+        'as'=>'user.index',
+        'uses'=>'App\Http\Controllers\User\UserController@index',
+    ]);
+
+});
 
 Route::get('redirect/{driver}', 'App\Http\Controllers\Auth\LoginController@redirectToProvider')
     ->name('login.provider')

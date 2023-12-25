@@ -18,12 +18,6 @@
                 var dateStart = instance.formatDate(selectedDates[0], "{{config('_my_config.type_date')}}");
                 var dateEnd = instance.formatDate(selectedDates[1], "{{config('_my_config.type_date')}}");
 
-                if (dateStart != input_query_from || dateEnd != input_query_to){
-                    input_query_from = dateStart
-                    input_query_to = dateEnd
-
-                    onSearchQuery()
-                }
                 input_query_from = dateStart
                 input_query_to = dateEnd
             },

@@ -38,24 +38,7 @@ class PermissionGateAndPolicyAccess{
         $this->defineGateShippingMethods();
         $this->defineGateProductComments();
         $this->defineGateFlashSales();
-        $this->defineGateOpportunities();
-        $this->defineGateOpportunityCategories();
     }
-
-    public function defineGateOpportunityCategories(){
-        Gate::define('opportunity_categories-list','App\Policies\OpportunityCategoryPolicy@view');
-        Gate::define('opportunity_categories-add','App\Policies\OpportunityCategoryPolicy@create');
-        Gate::define('opportunity_categories-edit','App\Policies\OpportunityCategoryPolicy@update');
-        Gate::define('opportunity_categories-delete','App\Policies\OpportunityCategoryPolicy@delete');
-    }
-
-    public function defineGateOpportunities(){
-        Gate::define('opportunities-list','App\Policies\OpportunityPolicy@view');
-        Gate::define('opportunities-add','App\Policies\OpportunityPolicy@create');
-        Gate::define('opportunities-edit','App\Policies\OpportunityPolicy@update');
-        Gate::define('opportunities-delete','App\Policies\OpportunityPolicy@delete');
-    }
-
     public function defineGateFlashSales(){
         Gate::define('flash_sales-list','App\Policies\FlashSalePolicy@view');
         Gate::define('flash_sales-add','App\Policies\FlashSalePolicy@create');

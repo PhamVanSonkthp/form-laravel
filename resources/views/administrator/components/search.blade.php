@@ -1,8 +1,5 @@
 <div>
     <div class="float-start">
-        <label>
-            Số dòng hiển thị
-        </label>
         <select name="limit" class="form-control select2_init">
             @foreach(config('_my_config.items_show_in_table') as $itemShowInTable)
                 <option
@@ -12,28 +9,15 @@
     </div>
 
     <div class="float-start ms-2">
-        <label>
-            Lọc theo khoảng thời gian
-        </label>
         <input id="input_search_datetime" type="date"
                class="bg-white form-control open-jquery-date-range" placeholder="--/--/--">
     </div>
 
-    <div class="float-start ms-2">
-        <div>
-
-            <label>
-                Tìm kiếm
-            </label>
-        </div>
-
-        <div class="d-flex">
-            <input id="input_search_query" type="text" class="form-control" placeholder="ID, tên, sđt, ..."
-                   value="{{request('search_query')}}">
-            <button class="btn btn-outline-primary ms-2" type="button" onclick="onSearchQuery()"><i
-                    class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
-
+    <div class="float-start d-flex ms-2">
+        <input id="input_search_query" type="text" class="form-control" placeholder="search..."
+               value="{{request('search_query')}}">
+        <button class="btn btn-outline-primary ms-2" type="button" onclick="onSearchQuery()"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 
 </div>
