@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ModelExport implements FromCollection, ShouldAutoSize
+class ModelExport implements FromCollection, ShouldAutoSize, WithHeadings
 {
 
     private $request;
@@ -51,9 +51,9 @@ class ModelExport implements FromCollection, ShouldAutoSize
         return collect($items);
     }
 
-//    public function headings(): array
-//    {
-//        return $this->heading;
-//    }
+    public function headings(): array
+    {
+        return $this->heading;
+    }
 
 }
